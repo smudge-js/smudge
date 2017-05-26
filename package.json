@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/jbakse/pbr5/issues"
   },
-  "homepage": "https://github.com/jbakse/pbr5#readme"
+  "homepage": "https://github.com/jbakse/pbr5#readme",
+  "devDependencies": {
+    "source-map-loader": "^0.2.1",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.3.2",
+    "webpack": "^2.5.1"
+    },
+    "scripts": {
+        "start": "webpack --config webpack.config.js"
+    }
 }
