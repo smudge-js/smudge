@@ -1,12 +1,15 @@
 module.exports = {
-	entry: './index.ts',
+	entry: './src/app.ts',
+
 	output: {
 		filename: 'bundle.js',
 		path: __dirname,
 	},
+
     resolve: {
         extensions: [".ts", ".js",]
     },
+
 	module: {
 		rules: [
 			{
@@ -24,5 +27,6 @@ module.exports = {
 			},
 		]
 	},
+	
 	devtool: 'inline-source-map'
 };
