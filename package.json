@@ -17,10 +17,17 @@
   },
   "homepage": "https://github.com/jbakse/pbr5#readme",
   "devDependencies": {
+    "gl-matrix": "^2.3.2",
+    "glslify-loader": "^1.0.2",
+    "raw-loader": "^0.5.1",
+    "script-loader": "^0.7.0",
     "source-map-loader": "^0.2.1",
     "ts-loader": "^2.0.3",
     "typescript": "^2.3.2",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "@types/gl-matrix": "^2.2.34"
   }
 }

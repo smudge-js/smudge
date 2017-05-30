@@ -9,3 +9,15 @@ export function sayHello(who: Person): string {
     console.log(message);
     return message;
 }
+
+
+// import {sayHello} from "./js/hello.ts"
+//
+// let testUser = {
+//     firstName: "TypeScripty",
+//     lastName: "Language"
+// }
+//
+// var p = document.createElement("p");
+// p.innerHTML = sayHello(testUser);
+// document.body.appendChild(p);
