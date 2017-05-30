@@ -18,11 +18,3 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_star
 
 # Read
 https://www.typescriptlang.org/docs/handbook/interfaces.html
-
-
-
-# Log
-
-## May 30, 2017
-- Working towards drawing a shape
-- Added gl-matrix library and @types/gl-matrix
