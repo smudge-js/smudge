@@ -1,8 +1,7 @@
 declare var require: any;
 
+//4x4 matrix function from matrix library
 import {mat4} from 'gl-matrix';
-
-
 
 
 
@@ -16,23 +15,23 @@ function helloGL(): void {
 
     // setup context
     let canvas: HTMLCanvasElement = document.getElementById("gl-canvas") as HTMLCanvasElement;
-    let gl: WebGLRenderingContext = initWebGL(canvas);
+    let gl: WebGLRenderingContext = initWebGL(canvas);  //creates a WebGL context
     if (!gl) {
         console.error("GL could not be initialized.");
         return;
     }
 
     // clear background
-    gl.clearColor(0.7, 0.0, 0.0, 1.0);
-    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(0.0, 0.7, 0.0, 1.0);  //when we clear...
+    gl.enable(gl.DEPTH_TEST);  //use the depth buffer and test things against it //how far from the camera --> greyscale image (not linear, more density up front)
     gl.depthFunc(gl.LEQUAL);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //bitwise or -- optimized :)
 
 
     // build shaders
 
-    var basicVertexShader = require("./glsl/basic_vertex.glsl");
-    var basicFragmentShader = require("./glsl/basic_fragment.glsl");
+    var basicVertexShader = require("./glsl/basic_vertex.glsl"); //projects 3d positions into screen space
+    var basicFragmentShader = require("./glsl/basic_fragment.glsl");  //strings
 
     let vertexShader = gl.createShader(gl.VERTEX_SHADER);
     gl.shaderSource(vertexShader, basicVertexShader);
@@ -63,13 +62,14 @@ function helloGL(): void {
 
     // init vertex buffer
     let squareVerticesBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, squareVerticesBuffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVerticesBuffer); //start working with
 
     var vertices = [
-        1.0, 1.0, 0.0,
+        2.0, 2.0, 0.0,
         -1.0, 1.0, 0.0,
         1.0, -1.0, 0.0,
-        -1.0, -1.0, 0.0
+        -1.0, -1.0, 0.0,
+        -1.5, 0.0, 0.0
     ];
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -106,7 +106,7 @@ function helloGL(): void {
     gl.uniformMatrix4fv(pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
 
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.drawArrays(gl.LINE_STRIP, 0, 5);
 
 }
 
