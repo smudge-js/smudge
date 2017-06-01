@@ -1,5 +1,5 @@
 declare var require: any;
-import { mat4 } from 'gl-matrix';
+import { mat4, vec3 } from 'gl-matrix';
 
 export default class PBR {
 
@@ -9,6 +9,7 @@ export default class PBR {
     private vertexPositionAttribute: GLint;
     private pMatrixUniform: WebGLUniformLocation;
     private mvMatrixUniform: WebGLUniformLocation;
+    private colorUniform: WebGLUniformLocation;
     private shaderProgram: WebGLProgram;
     private unitSquare: WebGLBuffer;
 
@@ -44,8 +45,9 @@ export default class PBR {
         this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
         this.pMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uPMatrix");
         this.mvMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+        this.colorUniform = this.gl.getUniformLocation(this.shaderProgram, "uColor");
 
-         
+
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
 
@@ -53,24 +55,27 @@ export default class PBR {
         this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-        
+
     }
 
 
 
-    rect(x: number, y: number, w: number, h: number): void {
-        console.log(`rect(${x}, ${y}, ${w}, ${h})`);
+    rect(x: number, y: number, w: number, h: number, color?: number[]): void {
+        console.log(`rect(${x}, ${y}, ${w}, ${h}, ${color})`);
         
+        color = color || [1.0, 1.0, 1.0, 1.0];
+
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
         mat4.translate(this.mvMatrix, this.mvMatrix, [x, y, 0.0]);
         mat4.scale(this.mvMatrix, this.mvMatrix, [w, h]);
-        
+
         // config shader
         this.gl.useProgram(this.shaderProgram);
         this.gl.vertexAttribPointer(this.vertexPositionAttribute, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.uniformMatrix4fv(this.pMatrixUniform, false, this.pMatrix);
         this.gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
+        this.gl.uniform4fv(this.colorUniform, color);
 
         // draw
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
