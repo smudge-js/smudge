@@ -16,38 +16,15 @@ function helloGL(): void {
     // setup context
     let canvas: HTMLCanvasElement = document.getElementById("gl-canvas") as HTMLCanvasElement;
     let gl: WebGLRenderingContext = initWebGL(canvas);  //creates a WebGL context
-    if (!gl) {
-        console.error("GL could not be initialized.");
-        return;
-    }
-
-    // clear background
-    gl.clearColor(0.0, 0.7, 0.0, 1.0);  //when we clear...
-    gl.enable(gl.DEPTH_TEST);  //use the depth buffer and test things against it //how far from the camera --> greyscale image (not linear, more density up front)
-    gl.depthFunc(gl.LEQUAL);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //bitwise or -- optimized :)
 
 
+    // best practice for typescript? label every var?
+    let vertSource = require("./glsl/basic_vertex.glsl");
+    let fragSource = require("./glsl/basic_fragment.glsl");
+
+    let shaderProgram: WebGLProgram = buildGLProgram(gl, vertSource, fragSource);
     // build shaders
 
-    var basicVertexShader = require("./glsl/basic_vertex.glsl"); //projects 3d positions into screen space
-    var basicFragmentShader = require("./glsl/basic_fragment.glsl");  //strings
-
-    let vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertexShader, basicVertexShader);
-    gl.compileShader(vertexShader);
-
-    let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragmentShader, basicFragmentShader);
-    gl.compileShader(fragmentShader);
-
-    console.log("vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
-    console.log("fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
-
-    var shaderProgram = gl.createProgram();
-    gl.attachShader(shaderProgram, vertexShader);
-    gl.attachShader(shaderProgram, fragmentShader);
-    gl.linkProgram(shaderProgram);
 
     // if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
     //     alert("Could not initialise shaders");
@@ -84,6 +61,14 @@ function helloGL(): void {
 
     gl.viewport(0, 0, canvas.width, canvas.height);
 
+
+    // clear background
+    gl.clearColor(0.0, 0.7, 0.0, 1.0);  //when we clear...
+    gl.enable(gl.DEPTH_TEST);  //use the depth buffer and test things against it //how far from the camera --> greyscale image (not linear, more density up front)
+    gl.depthFunc(gl.LEQUAL);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //bitwise or -- optimized :)
+
+
     // set up Projection Matrix
     var pMatrix = mat4.create();
     mat4.perspective(pMatrix, 45, canvas.width / canvas.height, 0.1, 100.0);
@@ -106,14 +91,35 @@ function helloGL(): void {
     gl.uniformMatrix4fv(pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
 
-    gl.drawArrays(gl.LINE_STRIP, 0, 5);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 5);
 
 }
 
 
 
 
+function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string): WebGLProgram {
+    // var basicVertexShader = require(vertexPath); //projects 3d positions into screen space
+    // var basicFragmentShader = require(fragmentPath);  //strings
 
+    let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexSource);
+    gl.compileShader(vertexShader);
+
+    let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentSource);
+    gl.compileShader(fragmentShader);
+
+    console.log("vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
+    console.log("fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
+
+    var shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+
+    return shaderProgram;
+}
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
     let gl: WebGLRenderingContext = null;
@@ -123,7 +129,7 @@ function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
 
     // If we don't have a GL context, give up now
     if (!gl) {
-        alert('Unable to initialize WebGL. Your browser may not support it.');
+        console.error('Unable to initialize WebGL. Your browser may not support it.');
     }
 
     return gl;
