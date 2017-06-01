@@ -1,9 +1,7 @@
 declare var require: any;
 import { mat4 } from 'gl-matrix';
 
-
-
-export class PBR {
+export default class PBR {
 
     private gl: WebGLRenderingContext;
     private mvMatrix: mat4;
@@ -36,8 +34,8 @@ export class PBR {
         mat4.identity(this.mvMatrix);
 
         // build shader program
-        let vertSource = require("../glsl/basic_vertex.glsl");
-        let fragSource = require("../glsl/basic_fragment.glsl");
+        const vertSource = require("../glsl/basic_vertex.glsl");
+        const fragSource = require("../glsl/basic_fragment.glsl");
         this.shaderProgram = buildGLProgram(this.gl, vertSource, fragSource);
 
         // configure shader program
@@ -61,18 +59,20 @@ export class PBR {
 
 
     rect(x: number, y: number, w: number, h: number): void {
-        console.log("rect");
+        console.log(`rect(${x}, ${y}, ${w}, ${h})`);
         
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
         mat4.translate(this.mvMatrix, this.mvMatrix, [x, y, 0.0]);
-
-        // draw square
+        mat4.scale(this.mvMatrix, this.mvMatrix, [w, h]);
+        
+        // config shader
         this.gl.useProgram(this.shaderProgram);
         this.gl.vertexAttribPointer(this.vertexPositionAttribute, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.uniformMatrix4fv(this.pMatrixUniform, false, this.pMatrix);
         this.gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
 
+        // draw
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     }
@@ -82,61 +82,24 @@ export class PBR {
 
 
 
-
-
-
-
-// function main(): void {
-
-
-
-
-//     ///////////////////////////////////////////////////////////////
-//     // DRAW FRAME
-
-//     // clear background
-//     gl.clearColor(0.5, 0.5, 0.5, 1.0);
-//     gl.clear(gl.COLOR_BUFFER_BIT);
-
-//     // set camera/cursor position
-//     mat4.identity(this.mvMatrix);
-//     mat4.translate(this.mvMatrix, this.mvMatrix, [0.0, 0.0, 0.0]);
-
-//     // draw square
-//     gl.useProgram(shaderProgram);
-//     gl.vertexAttribPointer(this.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-//     gl.uniformMatrix4fv(this.pMatrixUniform, false, pMatrix);
-//     gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
-
-//     gl.bindBuffer(gl.ARRAY_BUFFER, unitSquare);
-//     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-// }
-
-
-
-
-
-
-
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     console.log("gl", !!gl);
     return gl;
 }
 
 function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string): WebGLProgram {
-    let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
     gl.shaderSource(vertexShader, vertexSource);
     gl.compileShader(vertexShader);
     console.log("vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
 
-    let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     gl.shaderSource(fragmentShader, fragmentSource);
     gl.compileShader(fragmentShader);
     console.log("fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
 
-    let shaderProgram = gl.createProgram();
+    const shaderProgram = gl.createProgram();
     gl.attachShader(shaderProgram, vertexShader);
     gl.attachShader(shaderProgram, fragmentShader);
     gl.linkProgram(shaderProgram);
@@ -145,19 +108,17 @@ function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmen
     return shaderProgram;
 }
 
-
-
 function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
 
     // rect(0, 0, 1, 1);
-    var vertices = [
+    const vertices = [
         1.0, 1.0, 0.0,
         0.0, 1.0, 0.0,
         1.0, 0.0, 0.0,
         0.0, 0.0, 0.0,
     ];
 
-    let buffer = gl.createBuffer();
+    const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
