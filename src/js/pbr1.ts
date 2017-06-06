@@ -11,7 +11,11 @@ export default class PBR {
     private mvMatrixUniform: WebGLUniformLocation;
     private colorUniform: WebGLUniformLocation;
     private shaderProgram: WebGLProgram;
+    private textureShaderProgram: WebGLProgram;
     private unitSquare: WebGLBuffer;
+    private unitSquareUVs: WebGLBuffer;
+
+    private colorBuffer: Framebuffer;
 
     constructor(canvas?: HTMLCanvasElement) {
         ///////////////////////////////////////////////////////////////
@@ -47,11 +51,30 @@ export default class PBR {
         this.mvMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
         this.colorUniform = this.gl.getUniformLocation(this.shaderProgram, "uColor");
 
+        // build texture shader program
+        const textureVertSource = require("../glsl/texture_vertex.glsl");
+        const textureFragSource = require("../glsl/texture_fragment.glsl");
+        this.textureShaderProgram = buildGLProgram(this.gl, textureVertSource, textureFragSource);
+
+        // configure texture shader program
+        this.gl.useProgram(this.textureShaderProgram);
+        this.vertexPositionAttribute = this.gl.getAttribLocation(this.shaderProgram, "aVertexPosition");
+        this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
+        this.pMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uPMatrix");
+        this.mvMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
+
+
 
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
+        this.unitSquareUVs = buildUnitSquareUVs(this.gl);
+        // create color buffer
+        this.colorBuffer = new Framebuffer(this.gl, 512, 512);
 
         // clear
+
+        // this.colorBuffer.bind();
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
@@ -62,7 +85,7 @@ export default class PBR {
 
     rect(x: number, y: number, w: number, h: number, color?: number[]): void {
         console.log(`rect(${x}, ${y}, ${w}, ${h}, ${color})`);
-        
+
         color = color || [1.0, 1.0, 1.0, 1.0];
 
         // set camera/cursor position
@@ -72,19 +95,76 @@ export default class PBR {
 
         // config shader
         this.gl.useProgram(this.shaderProgram);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
+        this.gl.vertexAttribPointer(this.vertexPositionAttribute, 3, this.gl.FLOAT, false, 0, 0);
+
+        // this.gl.bindBuffer(gl.ARRAY_BUFFER, this.unitSquareUVs);
+        // this.gl.vertexAttribPointer(this.vertexUVAttribute, 2, gl.FLOAT, false, 0, 0);
+
+        this.gl.uniformMatrix4fv(this.pMatrixUniform, false, this.pMatrix);
+        this.gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
+        this.gl.uniform4fv(this.colorUniform, color);
+
+        // set buffer
+        // this.colorBuffer.bind();
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        // draw
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    show(): void {
+        let color = [1.0, 0.0, 0.0, 1.0];
+
+        // position rect
+        mat4.identity(this.mvMatrix);
+        mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512]);
+
+        // config shader
+        this.gl.useProgram(this.shaderProgram);
         this.gl.vertexAttribPointer(this.vertexPositionAttribute, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.uniformMatrix4fv(this.pMatrixUniform, false, this.pMatrix);
         this.gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
         this.gl.uniform4fv(this.colorUniform, color);
 
-        // draw
+        // set buffer
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        // draw rect
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
     }
 
 }
 
 
+class Framebuffer {
+
+    private rttFramebuffer: WebGLFramebuffer;
+    private rttTexture: WebGLTexture;
+
+    constructor(readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512) {
+
+        this.rttFramebuffer = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.rttFramebuffer);
+
+        this.rttTexture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, this.rttTexture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
+
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    }
+
+    bind(): void {
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.rttFramebuffer);
+    }
+
+}
 
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
@@ -126,6 +206,21 @@ function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    return buffer;
+}
+
+function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
+    const uvs = [
+        0.0, 0.0,
+        1.0, 0.0,
+        1.0, 1.0,
+        0.0, 1.0
+    ]
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
 
     return buffer;
 }
