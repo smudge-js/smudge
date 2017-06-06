@@ -16,5 +16,5 @@ function draw() {
     pbr.rect(1, 1, 1, 1);
     pbr.rect(1, 3, 510, 1);
 
-    // pbr.show();
+    pbr.show();
 }

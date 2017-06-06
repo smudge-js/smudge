@@ -6,14 +6,9 @@ export default class PBR {
     private gl: WebGLRenderingContext;
     private mvMatrix: mat4;
     private pMatrix: mat4;
-    // private vertexPositionAttribute: GLint;
-    // private pMatrixUniform: WebGLUniformLocation;
-    // private mvMatrixUniform: WebGLUniformLocation;
-    // private colorUniform: WebGLUniformLocation;
 
     private colorProgram: Program;
-    //private shaderProgram: WebGLProgram;
-    //private textureShaderProgram: WebGLProgram;
+    private textureProgram: Program;
 
     private unitSquare: WebGLBuffer;
     private unitSquareUVs: WebGLBuffer;
@@ -42,49 +37,28 @@ export default class PBR {
         mat4.identity(this.mvMatrix);
 
 
-
         // build shader program
-        const vertSource = require("../glsl/basic_vertex.glsl");
-        const fragSource = require("../glsl/basic_fragment.glsl");
-        this.colorProgram = new Program(this.gl, vertSource, fragSource);
-        // this.shaderProgram = buildGLProgram(this.gl, vertSource, fragSource);
+        const basicVert = require("../glsl/basic_vertex.glsl");
+        const basicFrag = require("../glsl/basic_fragment.glsl");
+        this.colorProgram = new Program(this.gl, basicVert, basicFrag);
 
-        // configure shader program
-        // this.gl.useProgram(this.shaderProgram);
-        // this.vertexPositionAttribute = this.gl.getAttribLocation(this.shaderProgram, "aVertexPosition");
-        // this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
-        // this.pMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uPMatrix");
-        // this.mvMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-        // this.colorUniform = this.gl.getUniformLocation(this.shaderProgram, "uColor");
-
-        // // build texture shader program
-        // const textureVertSource = require("../glsl/texture_vertex.glsl");
-        // const textureFragSource = require("../glsl/texture_fragment.glsl");
-        // this.textureShaderProgram = buildGLProgram(this.gl, textureVertSource, textureFragSource);
-        //
-        // // configure texture shader program
-        // this.gl.useProgram(this.textureShaderProgram);
-        // this.vertexPositionAttribute = this.gl.getAttribLocation(this.shaderProgram, "aVertexPosition");
-        // this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
-        // this.pMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uPMatrix");
-        // this.mvMatrixUniform = this.gl.getUniformLocation(this.shaderProgram, "uMVMatrix");
-
+        const textureVert = require("../glsl/texture_vertex.glsl");
+        const textureFrag = require("../glsl/texture_fragment.glsl");
+        this.textureProgram = new Program(this.gl, textureVert, textureFrag);
 
 
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
         this.unitSquareUVs = buildUnitSquareUVs(this.gl);
+
         // create color buffer
         this.colorBuffer = new Framebuffer(this.gl, 512, 512);
 
         // clear
-
-        // this.colorBuffer.bind();
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.colorBuffer.bind();
         this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
-
     }
 
 
@@ -100,49 +74,46 @@ export default class PBR {
         mat4.scale(this.mvMatrix, this.mvMatrix, [w, h]);
 
         // config shader
-        //this.gl.useProgram(this.shaderProgram);
         this.colorProgram.use();
         this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare, 3, this.gl.FLOAT, false, 0, 0);
         this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.colorProgram.setUniformFloats("uColor", color);
 
-        // let uPMatrix = this.gl.getUniformLocation(this.colorProgram.program, "uPMatrix");
-        // let uMVMatrix = this.gl.getUniformLocation(this.colorProgram.program, "uMVMatrix");
-        // let uColor = this.gl.getUniformLocation(this.colorProgram.program, "uColor");
-
-        // this.gl.uniformMatrix4fv(uPMatrix, false, this.pMatrix);
-        // this.gl.uniformMatrix4fv(uMVMatrix, false, this.mvMatrix);
-        // this.gl.uniform4fv(uColor, color);
-
         // set buffer
-        // this.colorBuffer.bind();
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.colorBuffer.bind();
 
         // draw
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     }
 
     show(): void {
-        // let color = [1.0, 0.0, 0.0, 1.0];
-        //
-        // // position rect
-        // mat4.identity(this.mvMatrix);
-        // mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512]);
-        //
-        // // config shader
-        // this.gl.useProgram(this.shaderProgram);
-        // this.gl.vertexAttribPointer(this.vertexPositionAttribute, 3, this.gl.FLOAT, false, 0, 0);
-        // this.gl.uniformMatrix4fv(this.pMatrixUniform, false, this.pMatrix);
-        // this.gl.uniformMatrix4fv(this.mvMatrixUniform, false, this.mvMatrix);
-        // this.gl.uniform4fv(this.colorUniform, color);
-        //
-        // // set buffer
-        // this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        //
-        // // draw rect
-        // this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
-        // this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+        let color = [1.0, 0.0, 0.0, 1.0];
+
+        // position rect
+        mat4.identity(this.mvMatrix);
+        mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512]);
+
+        // config shader
+        this.textureProgram.use();
+        this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare, 3, this.gl.FLOAT, false, 0, 0);
+        this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquareUVs, 2, this.gl.FLOAT, false, 0, 0);
+        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+        this.textureProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
+        this.textureProgram.setUniformInts("uSampler", [0]);
+
+
+        // set texture
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.colorBuffer.bindTexture();
+
+        // set buffer
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        // draw rect
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
     }
 
@@ -172,31 +143,64 @@ class Program {
     }
 
     setUniformFloats(uniform: string, value: Float32Array | number[]) {
-        let location = this.gl.getUniformLocation(this.program, uniform);
+        let loc = this.gl.getUniformLocation(this.program, uniform);
+        if (loc == null) {
+            console.error(`Shader program uniform not found: ${uniform}`);
+            return false;
+        }
+
         if (value.length === 1) {
-            this.gl.uniform1fv(location, value);
+            this.gl.uniform1fv(loc, value);
         }
         else if (value.length === 2) {
-            this.gl.uniform2fv(location, value);
+            this.gl.uniform2fv(loc, value);
         }
         else if (value.length === 3) {
-            this.gl.uniform3fv(location, value);
+            this.gl.uniform3fv(loc, value);
         }
         else if (value.length === 4) {
-            this.gl.uniform4fv(location, value);
+            this.gl.uniform4fv(loc, value);
+        } else {
+            console.error(`Invalid value length for setUniformFloats: ${value.length}`);
+        }
+    }
+
+    setUniformInts(uniform: string, value: Int32Array | number[]) {
+        let loc = this.gl.getUniformLocation(this.program, uniform);
+        if (loc == null) {
+            console.error(`Shader program uniform not found: ${uniform}`);
+            return false;
+        }
+
+        if (value.length === 1) {
+            this.gl.uniform1iv(loc, value);
+        }
+        else if (value.length === 2) {
+            this.gl.uniform2iv(loc, value);
+        }
+        else if (value.length === 3) {
+            this.gl.uniform3iv(loc, value);
+        }
+        else if (value.length === 4) {
+            this.gl.uniform4iv(loc, value);
         } else {
             console.error(`Invalid value length for setUniformFloats: ${value.length}`);
         }
     }
 
     setUniformMatrix(uniform: string, value: Float32Array | number[]) {
-        let location = this.gl.getUniformLocation(this.program, uniform);
+        let loc = this.gl.getUniformLocation(this.program, uniform);
+        if (loc == null) {
+            console.error(`Shader program uniform not found: ${uniform}`);
+            return false;
+        }
+
         if (value.length === 4) {
-            this.gl.uniformMatrix2fv(location, false, value);
+            this.gl.uniformMatrix2fv(loc, false, value);
         } else if (value.length === 9) {
-            this.gl.uniformMatrix3fv(location, false, value);
+            this.gl.uniformMatrix3fv(loc, false, value);
         } else if (value.length === 16) {
-            this.gl.uniformMatrix4fv(location, false, value);
+            this.gl.uniformMatrix4fv(loc, false, value);
         } else {
             console.error(`Invalid value length for setUniformMatrix: ${value.length}`);
         }
@@ -231,6 +235,10 @@ class Framebuffer {
 
     bind(): void {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.rttFramebuffer);
+    }
+
+    bindTexture(): void {
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.rttTexture);
     }
 
 }
@@ -281,10 +289,10 @@ function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
 
 function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
     const uvs = [
-        0.0, 0.0,
-        1.0, 0.0,
         1.0, 1.0,
-        0.0, 1.0
+        0.0, 1.0,
+        1.0, 0.0,
+        0.0, 0.0
     ]
 
     const buffer = gl.createBuffer();

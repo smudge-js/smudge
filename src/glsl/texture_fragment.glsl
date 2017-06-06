@@ -1,6 +1,6 @@
-uniform mediump vec4 uColor;
+precision mediump float;
 
-varying mediump vec2 vTextureCoord
+varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 
 void main(void) {
