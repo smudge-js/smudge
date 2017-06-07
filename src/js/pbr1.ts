@@ -16,12 +16,13 @@ export default class PBR {
     private colorBuffer: Framebuffer;
     private heightBuffer: Framebuffer;
 
-    constructor(canvas?: HTMLCanvasElement) {
+    constructor(readonly canvas?: HTMLCanvasElement) {
         ///////////////////////////////////////////////////////////////
         // GENERAL SETUP
 
         // get context
         canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
+        this.canvas = canvas;
         this.gl = initWebGL(canvas);
 
         // configure context
@@ -111,7 +112,7 @@ export default class PBR {
         this.colorBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
-        this.colorProgram.setUniformFloats("uColor", [height, 0.0, 0.0, 1.0]);
+        this.colorProgram.setUniformFloats("uColor", [height, 0.0, 0.0, height]);
         this.heightBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
@@ -143,7 +144,7 @@ export default class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
         // draw rect
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
+        //this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     }
 
@@ -155,6 +156,18 @@ export default class PBR {
     show_height(): void {
         console.log("show_height");
         this.show(this.heightBuffer);
+    }
+
+    get_albedo(): string {
+        this.show_albedo();
+        let dataURL = this.canvas.toDataURL('image/png');
+        return dataURL;
+    }
+    get_height(): string {
+        this.show_height();
+        console.log(this);
+        let dataURL = this.canvas.toDataURL('image/png');
+        return dataURL;
     }
 
 
@@ -250,8 +263,6 @@ class Program {
 
 }
 
-
-
 class Framebuffer {
 
     private rttFramebuffer: WebGLFramebuffer;
@@ -316,13 +327,12 @@ function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmen
         var info = gl.getProgramInfoLog(shaderProgram);
         throw 'Could not compile WebGL program. \n\n' + info;
     }
-    
+
     return shaderProgram;
 }
 
 function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
 
-    // rect(0, 0, 1, 1);
     const vertices = [
         1.0, 1.0, 0.0,
         0.0, 1.0, 0.0,

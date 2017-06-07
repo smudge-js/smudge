@@ -1,4 +1,7 @@
 # Notes
+create conventions for names of uniforms/attributes passed to shader
+material class?
+
 
 bind back to null / clean up after binds in functions
 
@@ -6,6 +9,8 @@ bind back to null / clean up after binds in functions
 From the root directory:
 `npm install`
 `webpack-dev-server --open`
+
+
 
 ## Links
 https://webpack.js.org/guides/installation/
