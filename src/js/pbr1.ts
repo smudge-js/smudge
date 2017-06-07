@@ -57,19 +57,34 @@ export default class PBR {
         this.heightBuffer = new Framebuffer(this.gl, 512, 512);
 
         // clear
-
         this.colorBuffer.bind();
         this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
 
         this.heightBuffer.bind();
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
     }
 
+    // clear() {
+    //
+    //     this.colorBuffer.bind();
+    //     this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
+    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    //
+    //
+    //     this.heightBuffer.bind();
+    //     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    //
+    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+    //     this.gl.clearColor(1.0, 0.0, 0.0, 1.0);
+    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    //
+    // }
 
 
     rect(x: number, y: number, w: number, h: number, color: number[] = [1.0, 1.0, 1.0, 1.0], height = 1.0): void {
@@ -80,7 +95,7 @@ export default class PBR {
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
         mat4.translate(this.mvMatrix, this.mvMatrix, [x, y, 0.0]);
-        mat4.scale(this.mvMatrix, this.mvMatrix, [w, h]);
+        mat4.scale(this.mvMatrix, this.mvMatrix, [w, h, 1]);
 
         // config shader
         this.colorProgram.use();
@@ -90,14 +105,15 @@ export default class PBR {
         this.colorProgram.setUniformFloats("uColor", color);
 
         // set buffer + draw
+
+
+
         this.colorBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         this.colorProgram.setUniformFloats("uColor", [height, 0.0, 0.0, 1.0]);
         this.heightBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
-
-
 
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
@@ -107,7 +123,8 @@ export default class PBR {
 
         // position rect
         mat4.identity(this.mvMatrix);
-        mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512]);
+
+        mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512, 1]);
 
         // config shader
         this.textureProgram.use();
@@ -116,7 +133,6 @@ export default class PBR {
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.textureProgram.setUniformInts("uSampler", [0]);
-
 
         // set texture
         this.gl.activeTexture(this.gl.TEXTURE0);
@@ -292,6 +308,15 @@ function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmen
     gl.linkProgram(shaderProgram);
     console.log("shaderProgram", gl.getProgramParameter(shaderProgram, gl.LINK_STATUS));
 
+    gl.validateProgram(shaderProgram);
+
+    console.log("shaderProgram.VALIDATE_STATUS", gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS));
+
+    if (!gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS)) {
+        var info = gl.getProgramInfoLog(shaderProgram);
+        throw 'Could not compile WebGL program. \n\n' + info;
+    }
+    
     return shaderProgram;
 }
 

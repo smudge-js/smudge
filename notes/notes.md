@@ -1,5 +1,7 @@
 # Notes
 
+bind back to null / clean up after binds in functions
+
 ## Starting the Project
 From the root directory:
 `npm install`
