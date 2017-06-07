@@ -2,8 +2,59 @@
 create conventions for names of uniforms/attributes passed to shader
 material class?
 
-
 bind back to null / clean up after binds in functions
+
+have drawing operations skip channels if material value is undefined
+add blend mode to materials, can we do this per channel?
+is alpha special?
+
+http://mrdoob.github.io/webgl-blendfunctions/blendfunc.html
+
+
+# Unity PBR Standard (Metallic) Shader Texture Format
+https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
+
+Albedo
+    r albedo.red
+    g albedo.green
+    b albedo.blue
+    a transparency
+
+Metallic
+    r metallic
+    g unused
+    b unused
+    a smoothness
+
+Normal
+    r normal.x
+    g normal.y
+    b normal.z
+    a unused
+
+Height
+    g height
+
+Occlusion
+    g occlusion
+
+Emission
+    r emission.r
+    g emission.g
+    b emission.b
+    a unused
+
+# PBR Material Format
+    (albedo)red     albedo.r
+    (albedo)green   albedo.g
+    (albedo)blue    albedo.b
+    transparency    albedo.a
+    metallic        metallic.r
+    smoothness      metallic.a
+    height          height.rgb
+    emission_red    emission.r
+    emission_green  emission.g
+    emission_blue   emission.b
 
 ## Starting the Project
 From the root directory:

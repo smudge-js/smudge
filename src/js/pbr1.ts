@@ -13,8 +13,10 @@ export default class PBR {
     private unitSquare: WebGLBuffer;
     private unitSquareUVs: WebGLBuffer;
 
-    private colorBuffer: Framebuffer;
+    private albedoBuffer: Framebuffer;
+    private metallicBuffer: Framebuffer;
     private heightBuffer: Framebuffer;
+    private emissionBuffer: Framebuffer;
 
     constructor(readonly canvas?: HTMLCanvasElement) {
         ///////////////////////////////////////////////////////////////
@@ -54,16 +56,18 @@ export default class PBR {
         this.unitSquareUVs = buildUnitSquareUVs(this.gl);
 
         // create pixel buffers
-        this.colorBuffer = new Framebuffer(this.gl, 512, 512);
+        this.albedoBuffer = new Framebuffer(this.gl, 512, 512);
+        this.metallicBuffer = new Framebuffer(this.gl, 512, 512);
         this.heightBuffer = new Framebuffer(this.gl, 512, 512);
+        this.emissionBuffer = new Framebuffer(this.gl, 512, 512);
 
         // clear
-        this.colorBuffer.bind();
-        this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
+        this.albedoBuffer.bind();
+        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.heightBuffer.bind();
-        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -88,8 +92,8 @@ export default class PBR {
     // }
 
 
-    rect(x: number, y: number, w: number, h: number, color: number[] = [1.0, 1.0, 1.0, 1.0], height = 1.0): void {
-        console.log(`rect(${x}, ${y}, ${w}, ${h}, ${color})`);
+    rect(x: number, y: number, w: number, h: number, material = Material.white): void {
+        console.log(`rect(${x}, ${y}, ${w}, ${h}, ${material})`);
 
         // color = color || [1.0, 1.0, 1.0, 1.0];
 
@@ -98,28 +102,35 @@ export default class PBR {
         mat4.translate(this.mvMatrix, this.mvMatrix, [x, y, 0.0]);
         mat4.scale(this.mvMatrix, this.mvMatrix, [w, h, 1]);
 
-        // config shader
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
+
+        // draw albedo
         this.colorProgram.use();
         this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare, 3, this.gl.FLOAT, false, 0, 0);
         this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
-        this.colorProgram.setUniformFloats("uColor", color);
-
-        // set buffer + draw
-
-
-
-        this.colorBuffer.bind();
+        this.colorProgram.setUniformFloats("uColor", [material.red, material.green, material.blue, material.transparency]);
+        this.albedoBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
-        this.colorProgram.setUniformFloats("uColor", [height, 0.0, 0.0, height]);
+        // draw metallic
+        this.colorProgram.setUniformFloats("uColor", [material.metallic, 0.0, 0.0, material.smoothness]);
+        this.metallicBuffer.bind();
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+        // draw height
+        this.colorProgram.setUniformFloats("uColor", [material.height, material.height, material.height, 1.0]);
         this.heightBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
+        // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
-    show(buffer = this.colorBuffer): void {
+    show(buffer = this.albedoBuffer): void {
         let color = [1.0, 0.0, 0.0, 1.0];
 
         // position rect
@@ -150,7 +161,12 @@ export default class PBR {
 
     show_albedo(): void {
         console.log("show_albedo");
-        this.show(this.colorBuffer);
+        this.show(this.albedoBuffer);
+    }
+
+    show_metallic(): void {
+        console.log("show_metallic");
+        this.show(this.metallicBuffer);
     }
 
     show_height(): void {
@@ -163,9 +179,15 @@ export default class PBR {
         let dataURL = this.canvas.toDataURL('image/png');
         return dataURL;
     }
+
+    get_metallic(): string {
+        this.show_metallic();
+        let dataURL = this.canvas.toDataURL('image/png');
+        return dataURL;
+    }
+
     get_height(): string {
         this.show_height();
-        console.log(this);
         let dataURL = this.canvas.toDataURL('image/png');
         return dataURL;
     }
@@ -360,4 +382,28 @@ function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
 
     return buffer;
+}
+
+
+
+export class Material {
+    static white = new Material(1.0, 1.0, 1.0, 1.0);
+
+    constructor(
+        public red = 0,
+        public green = 0,
+        public blue = 0,
+        public transparency = 0,
+        public metallic = 0,
+        public smoothness = 0,
+        public height = 0,
+        public emission_red = 0,
+        public emission_green = 0,
+        public emission_blue = 0
+    ) { };
+
+    toString() {
+        return `Material(rgba ${this.red} ${this.green} ${this.blue} ${this.transparency} ms ${this.metallic} ${this.smoothness} h ${this.height} ergb ${this.emission_red} ${this.emission_green} ${this.emission_blue})`;
+    }
+
 }
