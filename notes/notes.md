@@ -22,3 +22,4 @@ http://typescript.codeplex.com/sourcecontrol/latest#typings/lib.d.ts
 https://basarat.gitbooks.io/typescript/content/docs/getting-started.html
 https://www.gitbook.com/
 http://eloquentjavascript.net/1st_edition/chapter5.html
+http://eloquentjavascript.net/14_event.html

@@ -14,6 +14,7 @@ export default class PBR {
     private unitSquareUVs: WebGLBuffer;
 
     private colorBuffer: Framebuffer;
+    private heightBuffer: Framebuffer;
 
     constructor(canvas?: HTMLCanvasElement) {
         ///////////////////////////////////////////////////////////////
@@ -51,22 +52,30 @@ export default class PBR {
         this.unitSquare = buildUnitSquare(this.gl);
         this.unitSquareUVs = buildUnitSquareUVs(this.gl);
 
-        // create color buffer
+        // create pixel buffers
         this.colorBuffer = new Framebuffer(this.gl, 512, 512);
+        this.heightBuffer = new Framebuffer(this.gl, 512, 512);
 
         // clear
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
         this.colorBuffer.bind();
         this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+
+        this.heightBuffer.bind();
+        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
 
 
-    rect(x: number, y: number, w: number, h: number, color?: number[]): void {
+    rect(x: number, y: number, w: number, h: number, color: number[] = [1.0, 1.0, 1.0, 1.0], height = 1.0): void {
         console.log(`rect(${x}, ${y}, ${w}, ${h}, ${color})`);
 
-        color = color || [1.0, 1.0, 1.0, 1.0];
+        // color = color || [1.0, 1.0, 1.0, 1.0];
 
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
@@ -80,15 +89,20 @@ export default class PBR {
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.colorProgram.setUniformFloats("uColor", color);
 
-        // set buffer
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        // set buffer + draw
         this.colorBuffer.bind();
-
-        // draw
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+        this.colorProgram.setUniformFloats("uColor", [height, 0.0, 0.0, 1.0]);
+        this.heightBuffer.bind();
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
-    show(): void {
+    show(buffer = this.colorBuffer): void {
         let color = [1.0, 0.0, 0.0, 1.0];
 
         // position rect
@@ -106,7 +120,8 @@ export default class PBR {
 
         // set texture
         this.gl.activeTexture(this.gl.TEXTURE0);
-        this.colorBuffer.bindTexture();
+        //this.colorBuffer.bindTexture();
+        buffer.bindTexture();
 
         // set buffer
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -114,8 +129,18 @@ export default class PBR {
         // draw rect
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
-
     }
+
+    show_albedo(): void {
+        console.log("show_albedo");
+        this.show(this.colorBuffer);
+    }
+
+    show_height(): void {
+        console.log("show_height");
+        this.show(this.heightBuffer);
+    }
+
 
 }
 
