@@ -140,15 +140,16 @@ export default class PBR {
         this.textureProgram.setUniformInts("uSampler", [0]);
 
         // set texture
-        this.gl.activeTexture(this.gl.TEXTURE0);
-        buffer.bindTexture();
+        buffer.bindTexture(this.gl.TEXTURE0);
 
         // draw rect to screen
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // clean up
+        this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
     show_albedo(): void {
@@ -307,7 +308,8 @@ class Framebuffer {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.rttFramebuffer);
     }
 
-    bindTexture(): void {
+    bindTexture(textureUnit = this.gl.TEXTURE0): void {
+        this.gl.activeTexture(textureUnit);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.rttTexture);
     }
 

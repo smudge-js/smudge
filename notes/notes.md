@@ -12,18 +12,24 @@ x.clean up the clear in the constructor
 
 x.bind back to null / clean up after binds in functions
 
-x.is alpha special?
+x.RESEARCH.is alpha special?
     .y see: blendFuncSeparate
 
-buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
+x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
 
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
+
+.jsdoc?
+
+.just reorder pbr1.ts for now
+
+.refactor the geo into a class
 
 # Design Ideas / Questions
 
 .have drawing operations skip channels/groups if material value is undefined
     .colorMask
-.add blend mode to material challens/groups, can we do this per channel?
+.add blend mode to material channels/groups, can we do this per channel?
 .add idea of channel group (metallic is group with just metallic, rgb is group with r g b);
 .material constructor that takes objects for named params
 .Do i like the idea of drawing each shape to temp buffer and then using that drawing to write to the real buffers?
