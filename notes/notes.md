@@ -8,8 +8,18 @@ have drawing operations skip channels if material value is undefined
 add blend mode to materials, can we do this per channel?
 is alpha special?
 
-http://mrdoob.github.io/webgl-blendfunctions/blendfunc.html
+material constructor that takes objects for named params
 
+Do i like the idea of drawing each shape to temp buffer and then using that drawing to write to the real buffers?
+
+blendFuncSeparate
+colorMask
+
+i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
+
+create packing class that defines channel -> output texture packing
+
+create functions for copying channels from here to there
 
 # Unity PBR Standard (Metallic) Shader Texture Format
 https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
@@ -45,16 +55,17 @@ Emission
     a unused
 
 # PBR Material Format
-    (albedo)red     albedo.r
-    (albedo)green   albedo.g
-    (albedo)blue    albedo.b
-    transparency    albedo.a
-    metallic        metallic.r
-    smoothness      metallic.a
-    height          height.rgb
-    emission_red    emission.r
-    emission_green  emission.g
-    emission_blue   emission.b
+    named           storage         export packing
+    (albedo)red     albedo.r        albedo.r
+    (albedo)green   albedo.g        albedo.g
+    (albedo)blue    albedo.b        albedo.b
+    transparency    albedo.a        albedo.a
+    metallic        metallic.r      metallic.r
+    smoothness      metallic.a      metallic.a
+    height          height.rgb      height.rgb
+    emission_red    emission.r      emission.r
+    emission_green  emission.g      emission.g
+    emission_blue   emission.b      emission.b
 
 ## Starting the Project
 From the root directory:
@@ -81,3 +92,6 @@ https://basarat.gitbooks.io/typescript/content/docs/getting-started.html
 https://www.gitbook.com/
 http://eloquentjavascript.net/1st_edition/chapter5.html
 http://eloquentjavascript.net/14_event.html
+http://mrdoob.github.io/webgl-blendfunctions/blendfunc.html
+https://webglfundamentals.org/webgl/lessons/webgl-and-alpha.html
+https://limnu.com/webgl-blending-youre-probably-wrong/
