@@ -1,13 +1,15 @@
 # Notes
 
-jsx for ui?
+x.jsx for ui?
+    .nope too big a deal
 
-create conventions for names of uniforms/attributes passed to shader
-material class?
+x.create conventions for names of uniforms/attributes passed to shader material class?
+    .now embodied in the `Material` class
 
-this is a note.
 
-bind back to null / clean up after binds in functions
+clean up the clear in the constructor
+
+x.bind back to null / clean up after binds in functions
 
 have drawing operations skip channels if material value is undefined
 add blend mode to materials, can we do this per channel?
@@ -27,6 +29,8 @@ create packing class that defines channel -> output texture packing
 create functions for copying channels from here to there
 
 material color properties are currently numbers. could they be functions? would functions be per object or per pixel? could they be ranges? per pixel?
+
+buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
 
 # Unity PBR Standard (Metallic) Shader Texture Format
 https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html

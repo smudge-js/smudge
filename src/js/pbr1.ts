@@ -74,9 +74,12 @@ export default class PBR {
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
+
+        // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
 
+        // set up ui buttons, etc.
         bindUI(this);
 
 
@@ -156,15 +159,14 @@ export default class PBR {
 
         // set texture
         this.gl.activeTexture(this.gl.TEXTURE0);
-        //this.colorBuffer.bindTexture();
         buffer.bindTexture();
 
-        // set buffer
+        // draw rect to screen
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-
-        // draw rect
-        //this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.unitSquare);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+        // clean up
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
     }
 
     show_albedo(): void {
@@ -224,6 +226,7 @@ class Program {
         this.gl.enableVertexAttribArray(loc);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
         this.gl.vertexAttribPointer(loc, size, type, normalized, stride, offset);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
     }
 
     setUniformFloats(uniform: string, value: Float32Array | number[]) {
@@ -300,17 +303,20 @@ class Framebuffer {
 
     constructor(readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512) {
 
+        // create framebuffer
         this.rttFramebuffer = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, this.rttFramebuffer);
 
+        // create texture
         this.rttTexture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, this.rttTexture);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
 
+
+        // clean up
         gl.bindTexture(gl.TEXTURE_2D, null);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
@@ -373,7 +379,7 @@ function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
     return buffer;
 }
 
@@ -388,7 +394,7 @@ function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
-
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
     return buffer;
 }
 
