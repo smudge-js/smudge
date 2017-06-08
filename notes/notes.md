@@ -1,5 +1,6 @@
 # Notes
 
+## Clean Up / Refactor
 x.jsx for ui?
     .nope too big a deal
 
@@ -7,30 +8,53 @@ x.create conventions for names of uniforms/attributes passed to shader material 
     .now embodied in the `Material` class
 
 
-clean up the clear in the constructor
+x.clean up the clear in the constructor
 
 x.bind back to null / clean up after binds in functions
 
-have drawing operations skip channels if material value is undefined
-add blend mode to materials, can we do this per channel?
-is alpha special?
-
-material constructor that takes objects for named params
-
-Do i like the idea of drawing each shape to temp buffer and then using that drawing to write to the real buffers?
-
-blendFuncSeparate
-colorMask
-
-i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
-
-create packing class that defines channel -> output texture packing
-
-create functions for copying channels from here to there
-
-material color properties are currently numbers. could they be functions? would functions be per object or per pixel? could they be ranges? per pixel?
+x.is alpha special?
+    .y see: blendFuncSeparate
 
 buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
+
+.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
+
+# Design Ideas / Questions
+
+.have drawing operations skip channels/groups if material value is undefined
+    .colorMask
+.add blend mode to material challens/groups, can we do this per channel?
+.add idea of channel group (metallic is group with just metallic, rgb is group with r g b);
+.material constructor that takes objects for named params
+.Do i like the idea of drawing each shape to temp buffer and then using that drawing to write to the real buffers?
+.expose stencil buffer?! draw stencil, draw normal (fragments stenciled), clear stencil
+
+
+.pseudo language sugar idea: create bit mask values for each channel, create "swizle aliases" like this. rgbm = r | g | b | m
+    .probably a bad idea because gbr wouldn't work unless you did every ordering. and if you did do every ordering, user might expect order to matter.
+
+
+.i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
+    .so split these into their own channelgroups like height, create packer to swizle them into the desired export layout
+        .single channel buffer/texture?
+            .RESEARCH.how does that work with alpha blending?
+                .currently no way to do alpha with height i think. for example i can currently set the height .5, soon should be able to use "add" to build height up, would be nice to maybe set hieght to .5 (alpha .1) to gradually move height towards .5.
+
+.create packing class that defines channel -> output texture packing
+    .make it general so user defined channels can be created, editied, packed, exported
+
+.create functions for copying channels from here to there (blitter) should be able to take source channel, target channel, a tone map range (for hdring), compositing/blend mode
+    .RESEARCH. tonemapping funcitons (is this linear?)
+
+.material color properties are currently numbers.
+    could they be functions? would functions be per object or per pixel?
+    could they be ranges? per object? per pixel?
+    ranges would be good for tinting a grayscale (eg. gray to purple->yellow duotone)
+
+.nine slice scaling?
+    .nine slice doesn't really work well if border width can change.
+    .for a soft/deckle edge effect probably a "blur" edge min/mult/composited with a texture will give a better effect
+
 
 # Unity PBR Standard (Metallic) Shader Texture Format
 https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html

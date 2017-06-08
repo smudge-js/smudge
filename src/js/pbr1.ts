@@ -21,9 +21,6 @@ export default class PBR {
     private emissionBuffer: Framebuffer;
 
     constructor(readonly canvas?: HTMLCanvasElement) {
-        ///////////////////////////////////////////////////////////////
-        // GENERAL SETUP
-
         // get context
         canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
         this.canvas = canvas;
@@ -36,12 +33,10 @@ export default class PBR {
         // create projection matrix
         this.pMatrix = mat4.create();
         mat4.ortho(this.pMatrix, 0, canvas.width, 0, canvas.height, -1, 1);
-        // mat4.perspective(pMatrix, 45, canvas.width / canvas.height, 0.1, 100.0);
 
         // create model view matrix
         this.mvMatrix = mat4.create();
         mat4.identity(this.mvMatrix);
-
 
         // build shader program
         const basicVert = require("../glsl/basic_vertex.glsl");
@@ -52,12 +47,9 @@ export default class PBR {
         const textureFrag = require("../glsl/texture_fragment.glsl");
         this.textureProgram = new Program(this.gl, textureVert, textureFrag);
 
-
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
         this.unitSquareUVs = buildUnitSquareUVs(this.gl);
-
-
 
         // create pixel buffers
         this.albedoBuffer = new Framebuffer(this.gl, 512, 512);
@@ -65,42 +57,32 @@ export default class PBR {
         this.heightBuffer = new Framebuffer(this.gl, 512, 512);
         this.emissionBuffer = new Framebuffer(this.gl, 512, 512);
 
-        // clear
-        this.albedoBuffer.bind();
-        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
-        this.heightBuffer.bind();
-        this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
-
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
 
         // set up ui buttons, etc.
         bindUI(this);
-
-
     }
 
-    // clear() {
-    //
-    //     this.colorBuffer.bind();
-    //     this.gl.clearColor(0.5, 0.5, 0.5, 1.0);
-    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    //
-    //
-    //     this.heightBuffer.bind();
-    //     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    //
-    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-    //     this.gl.clearColor(1.0, 0.0, 0.0, 1.0);
-    //     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    //
-    // }
+    clear(m = Material.clearing) {
+
+        this.albedoBuffer.bind();
+        this.gl.clearColor(m.red, m.green, m.blue, m.transparency);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        this.metallicBuffer.bind();
+        this.gl.clearColor(m.metallic, 0.0, 0.0, m.smoothness);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        this.heightBuffer.bind();
+        this.gl.clearColor(m.height, m.height, m.height, 1.0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        // clean up
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+    }
 
 
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
@@ -401,6 +383,7 @@ function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
 
 
 export class Material {
+    static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
     static white = new Material(1.0, 1.0, 1.0, 1.0);
 
     constructor(
