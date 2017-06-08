@@ -1,5 +1,7 @@
 declare var require: any;
 import { mat4, vec3 } from 'gl-matrix';
+import bindUI from './pbr_ui'
+
 
 export default class PBR {
 
@@ -55,6 +57,8 @@ export default class PBR {
         this.unitSquare = buildUnitSquare(this.gl);
         this.unitSquareUVs = buildUnitSquareUVs(this.gl);
 
+
+
         // create pixel buffers
         this.albedoBuffer = new Framebuffer(this.gl, 512, 512);
         this.metallicBuffer = new Framebuffer(this.gl, 512, 512);
@@ -71,6 +75,10 @@ export default class PBR {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+
+        bindUI(this);
+
 
     }
 

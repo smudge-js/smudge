@@ -1,6 +1,11 @@
 # Notes
+
+jsx for ui?
+
 create conventions for names of uniforms/attributes passed to shader
 material class?
+
+this is a note.
 
 bind back to null / clean up after binds in functions
 
@@ -20,6 +25,8 @@ i'm storing smoothness in metallic.a which matches the export but doesn't work f
 create packing class that defines channel -> output texture packing
 
 create functions for copying channels from here to there
+
+material color properties are currently numbers. could they be functions? would functions be per object or per pixel? could they be ranges? per pixel?
 
 # Unity PBR Standard (Metallic) Shader Texture Format
 https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
