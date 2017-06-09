@@ -18,6 +18,9 @@ x.RESEARCH.is alpha special?
 x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
 
 .refactor the geo into a class
+    x.basics
+    .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
+
 
 .jsdoc?
 
