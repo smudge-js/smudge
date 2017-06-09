@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {% include head.html %}
+
+  <body>
+
+	{% include header.html %}
+
+	<!-- <div class="hero"><img src="{{site.baseurl}}{{site.hero}}"> </div> -->
+
+
+	<ul class="post-list">
+		{% for post in site.posts %}
+			<li>
+				{% if post.poster_image %}
+					<img class="fill" src="{{site.baseurl}}{{post.poster_image}}"/>
+				{% endif %}
+
+				<div class="overlay">
+					<h2>
+						{{ post.title | escape }}
+					</h2>
+
+					<div class="post-meta-line">
+						<div class="text">
+							{% if post.author %}
+								<span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+									Posted by
+									<span itemprop="name" class="name">
+										{{ post.author }}
+									</span>
+									on
+								</span>
+							{% endif %}
+							<time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
+								{{ post.date | date: "%B %-d, %Y" }}
+							</time>
+						</div>
+					</div>
+				</div>
+
+                <a class="post-link" href="{{ post.url | relative_url }}"></a>
+
+
+
+				{% if post.poster_video %}
+					<!-- <video class="fill" src="{{site.baseurl}}{{post.poster_video}}" controls></video> -->
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+
+	{% include footer.html %}
+
+  </body>
+
+</html>

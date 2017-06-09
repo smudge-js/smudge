@@ -22,7 +22,7 @@ x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
     .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
 
 
-.typedoc
+
 
 x.just reorder pbr1.ts for now
 
@@ -65,6 +65,10 @@ x.just reorder pbr1.ts for now
 .nine slice scaling?
     .nine slice doesn't really work well if border width can change.
     .for a soft/deckle edge effect probably a "blur" edge min/mult/composited with a texture will give a better effect
+
+
+## Big
+.typedoc
 
 
 # Unity PBR Standard (Metallic) Shader Texture Format

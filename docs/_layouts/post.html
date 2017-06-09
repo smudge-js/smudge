@@ -1,0 +1,69 @@
+---
+layout: default
+---
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+	<!-- <div class="post-meta">
+		{% if page.author_image %}
+		<img src="{{site.baseurl}}{{page.author_image}}"/>
+		{% endif %}
+
+		<div class="text">
+			{% if page.author %}
+			<span class = "author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+				<span itemprop="name">
+					{{ page.author }}
+				</span>
+			</span>
+			{% endif %}
+			<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+				{{ page.date | date: "%B %-d, %Y" }}
+			</time>
+		</div>
+	</div> -->
+
+	<h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
+
+
+	<div class="post-meta-line">
+
+
+		<div class="text">
+			{% if page.author %}
+			<span class = "author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+				Posted by
+				<span itemprop="name" class="name">
+					{{ page.author }}
+				</span>
+				on
+			</span>
+			{% endif %}
+			<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+				{{ page.date | date: "%B %-d, %Y" }}
+			</time>
+		</div>
+	</div>
+
+
+
+	<div class="post-content" itemprop="articleBody">
+	{{ content }}
+	</div>
+
+	{% if site.disqus.shortname %}
+		{% include disqus_comments.html %}
+	{% endif %}
+</article>
+
+
+<script src="//code.jquery.com/jquery-latest.js"></script>
+<script src="//cdn.rawgit.com/noelboss/featherlight/1.7.1/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(".figures img").each(function(e) {
+        console.log(this);
+        src = $(this).attr("src");
+        $(this).attr("data-featherlight", src);
+    });
+</script>
+
+ <script type="text/javascript" src="//cdn.jsdelivr.net/afterglow/latest/afterglow.min.js"></script>
