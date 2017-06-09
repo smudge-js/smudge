@@ -3,6 +3,8 @@ import { mat4, vec3 } from 'gl-matrix';
 import bindUI from './pbr_ui'
 
 
+
+
 export default class PBR {
 
     private gl: WebGLRenderingContext;
@@ -12,8 +14,7 @@ export default class PBR {
     private colorProgram: Program;
     private textureProgram: Program;
 
-    private unitSquare: WebGLBuffer;
-    private unitSquareUVs: WebGLBuffer;
+    private unitSquare: Geometry;
 
     private albedoBuffer: Framebuffer;
     private metallicBuffer: Framebuffer;
@@ -49,7 +50,7 @@ export default class PBR {
 
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
-        this.unitSquareUVs = buildUnitSquareUVs(this.gl);
+
 
         // create pixel buffers
         this.albedoBuffer = new Framebuffer(this.gl, 512, 512);
@@ -102,7 +103,7 @@ export default class PBR {
 
         // draw albedo
         this.colorProgram.use();
-        this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare, 3, this.gl.FLOAT, false, 0, 0);
+        this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
         this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.colorProgram.setUniformFloats("uColor", [material.red, material.green, material.blue, material.transparency]);
@@ -133,8 +134,8 @@ export default class PBR {
 
         // config shader
         this.textureProgram.use();
-        this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare, 3, this.gl.FLOAT, false, 0, 0);
-        this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquareUVs, 2, this.gl.FLOAT, false, 0, 0);
+        this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
+        this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquare.uvs, 2, this.gl.FLOAT, false, 0, 0);
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.textureProgram.setUniformInts("uSampler", [0]);
@@ -187,6 +188,8 @@ export default class PBR {
 
 
 }
+
+
 
 class Program {
     public program: WebGLProgram;
@@ -315,6 +318,78 @@ class Framebuffer {
 
 }
 
+export class Material {
+    static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+    static white = new Material(1.0, 1.0, 1.0, 1.0);
+
+    constructor(
+        public red = 0,
+        public green = 0,
+        public blue = 0,
+        public transparency = 0,
+        public metallic = 0,
+        public smoothness = 0,
+        public height = 0,
+        public emission_red = 0,
+        public emission_green = 0,
+        public emission_blue = 0
+    ) { };
+
+    toString() {
+        return `Material(rgba ${this.red} ${this.green} ${this.blue} ${this.transparency} ms ${this.metallic} ${this.smoothness} h ${this.height} ergb ${this.emission_red} ${this.emission_green} ${this.emission_blue})`;
+    }
+
+}
+
+
+
+class Geometry {
+    public verticies: WebGLBuffer;
+    public uvs: WebGLBuffer;
+}
+
+function buildUnitSquare(gl: WebGLRenderingContext): Geometry {
+    let geometry = new Geometry();
+
+    geometry.verticies = buildUnitSquareVerticies(gl);
+    geometry.uvs = buildUnitSquareUVs(gl);
+
+    return geometry;
+}
+
+function buildUnitSquareVerticies(gl: WebGLRenderingContext): WebGLBuffer {
+
+    const vertices = [
+        1.0, 1.0, 0.0,
+        0.0, 1.0, 0.0,
+        1.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+    ];
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    return buffer;
+}
+
+function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
+    const uvs = [
+        1.0, 1.0,
+        0.0, 1.0,
+        1.0, 0.0,
+        0.0, 0.0
+    ]
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    return buffer;
+}
+
+
+
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -349,60 +424,4 @@ function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmen
     }
 
     return shaderProgram;
-}
-
-function buildUnitSquare(gl: WebGLRenderingContext): WebGLBuffer {
-
-    const vertices = [
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        1.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-    ];
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    return buffer;
-}
-
-function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
-    const uvs = [
-        1.0, 1.0,
-        0.0, 1.0,
-        1.0, 0.0,
-        0.0, 0.0
-    ]
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    return buffer;
-}
-
-
-
-export class Material {
-    static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-    static white = new Material(1.0, 1.0, 1.0, 1.0);
-
-    constructor(
-        public red = 0,
-        public green = 0,
-        public blue = 0,
-        public transparency = 0,
-        public metallic = 0,
-        public smoothness = 0,
-        public height = 0,
-        public emission_red = 0,
-        public emission_green = 0,
-        public emission_blue = 0
-    ) { };
-
-    toString() {
-        return `Material(rgba ${this.red} ${this.green} ${this.blue} ${this.transparency} ms ${this.metallic} ${this.smoothness} h ${this.height} ergb ${this.emission_red} ${this.emission_green} ${this.emission_blue})`;
-    }
-
 }

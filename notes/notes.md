@@ -17,13 +17,15 @@ x.RESEARCH.is alpha special?
 
 x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
 
-.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
+.refactor the geo into a class
 
 .jsdoc?
 
-.just reorder pbr1.ts for now
+x.just reorder pbr1.ts for now
 
-.refactor the geo into a class
+
+.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
+
 
 # Design Ideas / Questions
 
