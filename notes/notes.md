@@ -22,7 +22,7 @@ x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
     .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
 
 
-.jsdoc?
+.typedoc
 
 x.just reorder pbr1.ts for now
 

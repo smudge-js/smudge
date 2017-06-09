@@ -68,7 +68,7 @@ export default class PBR {
 
     /**
      * Clears buffers using provided material values
-     * @param m 
+     * @param m
      */
     clear(m = Material.clearing) {
 
@@ -91,11 +91,6 @@ export default class PBR {
 
     /**
      * Draws a rectangle using provided material values
-     * @param x 
-     * @param y 
-     * @param w 
-     * @param h 
-     * @param material 
      */
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
         console.log(`rect(${x}, ${y}, ${w}, ${h}, ${material})`);
@@ -137,7 +132,7 @@ export default class PBR {
 
     /**
      * Copies the provided buffer's pixel values to the canvas
-     * @param buffer 
+     * @param buffer
      */
     show(buffer = this.albedoBuffer): void {
         let color = [1.0, 0.0, 0.0, 1.0];
