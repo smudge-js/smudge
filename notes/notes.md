@@ -117,6 +117,26 @@ Emission
     emission_green  emission.g      emission.g
     emission_blue   emission.b      emission.b
 
+
+# PBR Material Format
+    named           storage         export packing
+    albedo.red     albedo.r        albedo.r
+    albedo.green   albedo.g        albedo.g
+    albedo.blue    albedo.b        albedo.b
+    transparency    albedo.a        albedo.a
+    metallic        metallic.r      metallic.r
+    smoothness      metallic.a      metallic.a
+    height          height.rgb      height.rgb
+    emission.red    emission.r      emission.r
+    emission.green  emission.g      emission.g
+    emission.blue   emission.b      emission.b
+    albedo_blendmode
+    metallic_blendmode
+    smoothness_blendmode
+    height_blendmode
+    emission_blendmode
+
+
 ## Starting the Project
 From the root directory:
 `npm install`
