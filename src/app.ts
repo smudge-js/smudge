@@ -1,5 +1,5 @@
 import PBR from './js/pbr1';
-import draw from './js/sketches/demo_grid'
+import draw from './js/sketches/pollock'
 
 var pbr = new PBR();
 

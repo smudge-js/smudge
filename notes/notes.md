@@ -32,6 +32,10 @@ x.just reorder pbr1.ts for now
 
 # Design Ideas / Questions
 
+.transparency own channel
+.add alpha for rgb, m, s, h, ergb, t
+.yeah even transparency gets an alpha
+
 .have drawing operations skip channels/groups if material value is undefined
     .colorMask
 .add blend mode to material channels/groups, can we do this per channel?
