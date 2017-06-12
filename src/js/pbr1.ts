@@ -76,7 +76,7 @@ export default class PBR {
         // create pixel buffers
         this.albedoBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
         this.metallicBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
-        this.heightBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
+        this.heightBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height, 1);
         this.emissionBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
 
         // clean up
@@ -102,7 +102,7 @@ export default class PBR {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.heightBuffer.bind();
-        this.gl.clearColor(m.height, m.height, m.height, 1.0);
+        this.gl.clearColor(m.height, 0.0, 0.0, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         // clean up
@@ -114,7 +114,7 @@ export default class PBR {
      * Draws a rectangle using provided material values
      */
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
-        console.log(`rect(${x}, ${y}, ${w}, ${h}, ${material})`);
+        // console.log(`rect(${x}, ${y}, ${w}, ${h}, ${material})`);
 
 
         this.gl.viewport(0, 0, this.buffer_width, this.buffer_height);
@@ -144,7 +144,7 @@ export default class PBR {
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // draw height
-        this.colorProgram.setUniformFloats("uColor", [material.height, material.height, material.height, 1.0]);
+        this.colorProgram.setUniformFloats("uColor", [material.height, 0.0, 0.0, 1.0]);
         this.heightBuffer.bind();
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
@@ -195,7 +195,7 @@ export default class PBR {
 
     show_albedo(): void {
         console.log("show_albedo");
-        draw(this);
+
         this.show(this.albedoBuffer);
     }
 
@@ -328,7 +328,12 @@ class Framebuffer {
     private rttFramebuffer: WebGLFramebuffer;
     private rttTexture: WebGLTexture;
 
-    constructor(readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512) {
+    constructor(readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512, readonly channels = 4) {
+
+        if ([1, 4].indexOf(this.channels) === -1) {
+            console.error("channels should be 1 or 4");
+            this.channels = 4;
+        }
 
         // create framebuffer
         this.rttFramebuffer = gl.createFramebuffer();
@@ -340,7 +345,13 @@ class Framebuffer {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+        if (channels === 1) {
+            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).R8, width, height, 0, (gl as any).RED, gl.UNSIGNED_BYTE, null);
+        } else {
+            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).RGBA, width, height, 0, (gl as any).RGBA, gl.UNSIGNED_BYTE, null);
+        }
+
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
         gl.generateMipmap(gl.TEXTURE_2D);
 
@@ -434,7 +445,7 @@ function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
 
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl2') as WebGLRenderingContext;
     console.log("gl", !!gl);
     return gl;
 }

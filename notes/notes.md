@@ -30,6 +30,25 @@ x.just reorder pbr1.ts for now
 
 move buffer_width* into Framebuffer
 
+
+i could pass in a matrix to transform/swizle color. This might even work to do a HSB to RGB (look that up)
+e.g.
+r00 -> rgb(white)
+1.0, 0.0, 0.0
+1.0, 0.0, 0.0
+1.0, 0.0, 0.0
+
+rgb -> just blue
+0.0, 0.0, 0.0
+0.0, 0.0, 0.0
+0.0, 0.0, 1.0
+
+rgb -> bgr
+0.0, 0.0, 1.0
+0.0, 1.0, 0.0
+1.0, 0.0, 1.0
+
+
 # Design Ideas / Questions
 
 .opengl is going to fight us on this, but I want to consider a stateless api. No: set up state, draw with state. Yes: draw(params).
