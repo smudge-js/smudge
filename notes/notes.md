@@ -22,53 +22,85 @@ x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
     .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
 
 
-
-
 x.just reorder pbr1.ts for now
 
 
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
 
+move buffer_width* into Framebuffer
+
 # Design Ideas / Questions
 
+.opengl is going to fight us on this, but I want to consider a stateless api. No: set up state, draw with state. Yes: draw(params).
+
+## Discussion/Documentation Point (Transparency)
 .transparency own channel
 .add alpha for rgb, m, s, h, ergb, t
 .yeah even transparency gets an alpha
 
-.have drawing operations skip channels/groups if material value is undefined
-    .colorMask
-.add blend mode to material channels/groups, can we do this per channel?
+## Discussion/Documentation Point (Per Group Controlls)
 .add idea of channel group (metallic is group with just metallic, rgb is group with r g b);
+.add blend mode to material channels/groups, can/shoud we do this per channel?
+.have drawing operations skip channels/groups if material value is undefined
+.colorMask
+
 .material constructor that takes objects for named params
+
+## Discussion/Documentation Point (Texturing)
 .Do i like the idea of drawing each shape to temp buffer and then using that drawing to write to the real buffers?
+
+## Discussion/Documentation Point (Stenciling)
 .expose stencil buffer?! draw stencil, draw normal (fragments stenciled), clear stencil
 
 
 .pseudo language sugar idea: create bit mask values for each channel, create "swizle aliases" like this. rgbm = r | g | b | m
     .probably a bad idea because gbr wouldn't work unless you did every ordering. and if you did do every ordering, user might expect order to matter.
 
-
+## Implementation Point (Data Storage/Packing)
 .i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
     .so split these into their own channelgroups like height, create packer to swizle them into the desired export layout
         .single channel buffer/texture?
             .RESEARCH.how does that work with alpha blending?
                 .currently no way to do alpha with height i think. for example i can currently set the height .5, soon should be able to use "add" to build height up, would be nice to maybe set hieght to .5 (alpha .1) to gradually move height towards .5.
-
 .create packing class that defines channel -> output texture packing
     .make it general so user defined channels can be created, editied, packed, exported
 
+## Implementation/Documenation Point (Channel Blitting)
 .create functions for copying channels from here to there (blitter) should be able to take source channel, target channel, a tone map range (for hdring), compositing/blend mode
     .RESEARCH. tonemapping funcitons (is this linear?)
 
+
+## Implementation/Documenation Point (HDR)
+
+## Discussion/Documentation Point (Funciton/Range Parameters)
 .material color properties are currently numbers.
     could they be functions? would functions be per object or per pixel?
     could they be ranges? per object? per pixel?
     ranges would be good for tinting a grayscale (eg. gray to purple->yellow duotone)
 
+## Discussion Point (Nine Slice)
 .nine slice scaling?
     .nine slice doesn't really work well if border width can change.
     .for a soft/deckle edge effect probably a "blur" edge min/mult/composited with a texture will give a better effect
+
+## UI
+View modes:
+R
+G
+B
+A
+RGB
+RGBA
+M
+S
+H
+ER
+EG
+EB
+ERGB
+
+
 
 
 ## Big

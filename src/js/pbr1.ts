@@ -2,38 +2,59 @@ declare var require: any;
 import { mat4, vec3 } from 'gl-matrix';
 import bindUI from './pbr_ui'
 
-
+import draw from './sketches/test_pattern';
 
 
 export default class PBR {
+    readonly width: number;
+    readonly height: number;
+    readonly canvas_width: number;
+    readonly canvas_height: number;
+    readonly buffer_width: number;
+    readonly buffer_height: number;
 
-    private gl: WebGLRenderingContext;
+    readonly gl: WebGLRenderingContext;
     private mvMatrix: mat4;
     private pMatrix: mat4;
 
-    private colorProgram: Program;
-    private textureProgram: Program;
+    readonly colorProgram: Program;
+    readonly textureProgram: Program;
 
-    private unitSquare: Geometry;
+    readonly unitSquare: Geometry;
 
-    private albedoBuffer: Framebuffer;
-    private metallicBuffer: Framebuffer;
-    private heightBuffer: Framebuffer;
-    private emissionBuffer: Framebuffer;
+    readonly albedoBuffer: Framebuffer;
+    readonly metallicBuffer: Framebuffer;
+    readonly heightBuffer: Framebuffer;
+    readonly emissionBuffer: Framebuffer;
 
-    constructor(readonly canvas?: HTMLCanvasElement) {
-        // get context
+    constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number, readonly super_sampling: number = 8) {
         canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
-        this.canvas = canvas;
+
+        this.width = width || canvas.width;
+        this.height = height || canvas.height;
+        this.canvas_width = width;
+        this.canvas_height = height;
+
+
+        if ([1, 2, 4, 8].indexOf(this.super_sampling) === -1) {
+            console.error("super_sampling should be 1, 2, 4, or 8");
+            this.super_sampling = 1;
+        }
+        this.buffer_width = width * super_sampling;
+        this.buffer_height = height * super_sampling;
+
+        // get context
+        canvas.width = this.canvas_width;
+        canvas.height = this.canvas_height;
         this.gl = initWebGL(canvas);
 
         // configure context
-        this.gl.viewport(0, 0, canvas.width, canvas.height);
+        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
         this.gl.disable(this.gl.DEPTH_TEST);
 
         // create projection matrix
         this.pMatrix = mat4.create();
-        mat4.ortho(this.pMatrix, 0, canvas.width, 0, canvas.height, -1, 1);
+        mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
         // create model view matrix
         this.mvMatrix = mat4.create();
@@ -53,10 +74,10 @@ export default class PBR {
 
 
         // create pixel buffers
-        this.albedoBuffer = new Framebuffer(this.gl, 512, 512);
-        this.metallicBuffer = new Framebuffer(this.gl, 512, 512);
-        this.heightBuffer = new Framebuffer(this.gl, 512, 512);
-        this.emissionBuffer = new Framebuffer(this.gl, 512, 512);
+        this.albedoBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
+        this.metallicBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
+        this.heightBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
+        this.emissionBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
 
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -95,7 +116,8 @@ export default class PBR {
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
         console.log(`rect(${x}, ${y}, ${w}, ${h}, ${material})`);
 
-        // color = color || [1.0, 1.0, 1.0, 1.0];
+
+        this.gl.viewport(0, 0, this.buffer_width, this.buffer_height);
 
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
@@ -128,6 +150,7 @@ export default class PBR {
 
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
 
     /**
@@ -137,10 +160,15 @@ export default class PBR {
     show(buffer = this.albedoBuffer): void {
         let color = [1.0, 0.0, 0.0, 1.0];
 
+        //
+        // this.gl.viewport(0, 0, this.width *2, this.height *2);
+
+
         // position rect
         mat4.identity(this.mvMatrix);
 
-        mat4.scale(this.mvMatrix, this.mvMatrix, [512, 512, 1]);
+        mat4.scale(this.mvMatrix, this.mvMatrix, [this.width, this.height, 1]);
+        // mat4.scale(this.mvMatrix, this.mvMatrix, [4, 4, 1]);
 
         // config shader
         this.textureProgram.use();
@@ -152,6 +180,7 @@ export default class PBR {
 
         // set texture
         buffer.bindTexture(this.gl.TEXTURE0);
+        this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
         // draw rect to screen
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -161,10 +190,12 @@ export default class PBR {
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
     }
 
     show_albedo(): void {
         console.log("show_albedo");
+        draw(this);
         this.show(this.albedoBuffer);
     }
 
@@ -307,10 +338,11 @@ class Framebuffer {
         this.rttTexture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, this.rttTexture);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
-
+        gl.generateMipmap(gl.TEXTURE_2D);
 
         // clean up
         gl.bindTexture(gl.TEXTURE_2D, null);
