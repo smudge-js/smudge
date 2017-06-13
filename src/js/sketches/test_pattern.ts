@@ -26,7 +26,7 @@ export default function draw(pbr: PBR) {
 
 
     pbr.rect(0, 0, pbr.width, pbr.height, clear);
-    console.log("w", pbr.width);
+
 
     pbr.rect(10, 10, 10, 10, red);
     pbr.rect(30.25, 10, 10, 10, red);

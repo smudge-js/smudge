@@ -1,67 +1,87 @@
 # Notes
 
-## Clean Up / Refactor
-x.jsx for ui?
-    .nope too big a deal
+####################################
+## Style Guide
 
-x.create conventions for names of uniforms/attributes passed to shader material class?
-    .now embodied in the `Material` class
+### Dos
+- bind back to null / clean up after binds at end of functions
+- error checking: at the very least make a test and use console_report and console_error this will at least make it easier to go back and put in proper handling.
+### Don'ts
+- not using jsx for interface, too much tooling at this point
 
 
-x.clean up the clear in the constructor
 
-x.bind back to null / clean up after binds in functions
-
-x.RESEARCH.is alpha special?
-    .y see: blendFuncSeparate
-
-x.buffer.bindTexture(); -> add parameter for texture slot? activeTexture()
-
+####################################
+## Todo / Clean Up / Refactor
 .refactor the geo into a class
     x.basics
     .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
 
-
-x.just reorder pbr1.ts for now
-
-
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
+.move buffer_width* into Framebuffer
+    .this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for different oversampling amounts per buffer.
 
-move buffer_width* into Framebuffer
-
-webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
-
-might not work: floating point texture renderbuffer attachment
-might work: user a renderbuffer and then copy to texture. I'd rather right straight to textures so they can be fed into shaders
+.RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
 
 
-i could pass in a matrix to transform/swizle color. This might even work to do a HSB to RGB (look that up)
-e.g.
-r00 -> rgb(white)
-1.0, 0.0, 0.0
-1.0, 0.0, 0.0
-1.0, 0.0, 0.0
-
-rgb -> just blue
-0.0, 0.0, 0.0
-0.0, 0.0, 0.0
-0.0, 0.0, 1.0
-
-rgb -> bgr
-0.0, 0.0, 1.0
-0.0, 1.0, 0.0
-1.0, 0.0, 1.0
 
 
-# Design Ideas / Questions
+.I've got this
+    const gl2 = gl as any;
+    but could probably get rid of that if i uncommented out the ext and gl2 parts of the webgl.d.ts
 
-.opengl is going to fight us on this, but I want to consider a stateless api. No: set up state, draw with state. Yes: draw(params).
+.add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+
+####################################
+## Research Leads
+    other interesting extensions
+        EXT_blend_minmax
+        EXT_frag_depth
+
+####################################
+## Blog Post Ideas
+
+.Floating Point Texture Attachments
+    might not work: floating point texture renderbuffer attachment
+    might work: user a renderbuffer and then copy to texture. I'd rather right straight to textures so they can be fed into shaders
+    try oes extension for floats instead of webgl2?
+    Just a quick post about trying to figure this out. With error messages to make it googleable.
+    finally! https://www.khronos.org/registry/webgl/extensions/EXT_color_buffer_float/
+
+
+####################################
+## Design Ideas / Questions
+
+.Color Matrix Transform
+    i could pass in a matrix to transform/swizle color. This might even work to do a HSB to RGB (look that up)
+    e.g.
+    r00 -> rgb(white)
+    1.0, 0.0, 0.0
+    1.0, 0.0, 0.0
+    1.0, 0.0, 0.0
+
+    rgb -> just blue
+    0.0, 0.0, 0.0
+    0.0, 0.0, 0.0
+    0.0, 0.0, 1.0
+
+    rgb -> bgr
+    0.0, 0.0, 1.0
+    0.0, 1.0, 0.0
+    1.0, 0.0, 1.0
+
+
+.opengl is going to fight us on this, but I want to consider a stateless api. No: set up state, draw with state. Yes: draw(params, params, params).
+    .maybe build libarary in two parts, a pure stateless, harder to use base layer, and an "adapter" layer that sits over that and maintains state.
 
 ## Discussion/Documentation Point (Transparency)
 .transparency own channel
 .add alpha for rgb, m, s, h, ergb, t
 .yeah even transparency gets an alpha
+x.RESEARCH.is alpha special?
+    .y see: blendFuncSeparate
+
 
 ## Discussion/Documentation Point (Per Group Controlls)
 .add idea of channel group (metallic is group with just metallic, rgb is group with r g b);
@@ -94,8 +114,19 @@ rgb -> bgr
 .create functions for copying channels from here to there (blitter) should be able to take source channel, target channel, a tone map range (for hdring), compositing/blend mode
     .RESEARCH. tonemapping funcitons (is this linear?)
 
+## Implementation/Documenation Point (Object Binding)
+.for our OOP wrappers like Framebuffer, Texture, Geometry should we have a common name for the funciton that binds them to the context?
+    .should this `bind` function do more than just bind, and otherwise set things up
+        .e.g. FramebufferInstance.bind() might bind the buffer and set the viewport.
+
 
 ## Implementation/Documenation Point (HDR)
+
+## Implementation/Documenation Point (Shader Conventions)
+x.create conventions for names of uniforms/attributes passed to shader material class?
+    .now partially embodied in the `Material` class
+
+
 
 ## Discussion/Documentation Point (Funciton/Range Parameters)
 .material color properties are currently numbers.
@@ -108,8 +139,15 @@ rgb -> bgr
     .nine slice doesn't really work well if border width can change.
     .for a soft/deckle edge effect probably a "blur" edge min/mult/composited with a texture will give a better effect
 
+## Dithering, Bluenosie, Outside
 
-Dithering, Bluenosie, Outside
+
+
+
+## Big
+.typedoc
+
+
 ## UI
 View modes:
 R
@@ -125,12 +163,6 @@ ER
 EG
 EB
 ERGB
-
-
-
-
-## Big
-.typedoc
 
 
 # Unity PBR Standard (Metallic) Shader Texture Format
