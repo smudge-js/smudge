@@ -29,5 +29,9 @@
   },
   "dependencies": {
     "@types/gl-matrix": "^2.2.34"
+  },
+  "scripts": {
+      "pbr5": "webpack-dev-server --open",
+      "blog": "cd docs && bundle exec jekyll serve --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/"
   }
 }
