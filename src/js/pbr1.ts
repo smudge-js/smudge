@@ -454,8 +454,6 @@ export class Material {
 
 }
 
-
-
 class Geometry {
     public verticies: WebGLBuffer;
     public uvs: WebGLBuffer;

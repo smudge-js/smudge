@@ -6,6 +6,7 @@
 ### Dos
 - bind back to null / clean up after binds at end of functions
 - error checking: at the very least make a test and use console_report and console_error this will at least make it easier to go back and put in proper handling.
+
 ### Don'ts
 - not using jsx for interface, too much tooling at this point
 
@@ -21,16 +22,23 @@ x.move buffer_width* into Framebuffer
     x.basics
     .move set vertex and uv shader attribs into geo class? (using standard naming convention)
     .move drawArrays (drawIndexed) into geo class?
-    
+
 
 .object wrappers
     .add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+        x.Framebuffer
+        .Geo
+        x.Programs
+
+.storage buffer
+    create structure of buffer names, channel names, depth, packing
+    drive code from it instead of hardcoding
 
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
 .needs better app.ts sketch.ts interface. right now you can't have each sketch determine its size, etc.
 
-.I've got this
+.cleanup.i've got this:
     const gl2 = gl as any;
     but could probably get rid of that if i uncommented out the ext and gl2 parts of the webgl.d.ts
 
