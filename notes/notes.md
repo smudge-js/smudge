@@ -13,25 +13,28 @@
 
 ####################################
 ## Todo / Clean Up / Refactor
+
+x.move buffer_width* into Framebuffer
+    x.this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for different oversampling amounts per buffer.
+
 .refactor the geo into a class
     x.basics
     .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
 
+.add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
-.move buffer_width* into Framebuffer
-    .this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for different oversampling amounts per buffer.
-
-.RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
-
-
-
+.needs better app.ts sketch.ts interface. right now you can't have each sketch determine its size, etc.
 
 .I've got this
     const gl2 = gl as any;
     but could probably get rid of that if i uncommented out the ext and gl2 parts of the webgl.d.ts
 
-.add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+.RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
+
+
+
 
 ####################################
 ## Research Leads

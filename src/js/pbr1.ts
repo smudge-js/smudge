@@ -12,8 +12,6 @@ export default class PBR {
     readonly height: number;
     readonly canvas_width: number;
     readonly canvas_height: number;
-    readonly buffer_width: number;
-    readonly buffer_height: number;
 
     readonly gl: WebGLRenderingContext;
     private mvMatrix: mat4;
@@ -42,8 +40,7 @@ export default class PBR {
             console_error("super_sampling should be 1, 2, 4, or 8");
             this.super_sampling = 1;
         }
-        this.buffer_width = width * super_sampling;
-        this.buffer_height = height * super_sampling;
+
 
         // get context
         canvas.width = this.canvas_width;
@@ -76,10 +73,12 @@ export default class PBR {
 
 
         // create pixel buffers
-        this.albedoBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
-        this.metallicBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
-        this.heightBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height, 1);
-        this.emissionBuffer = new Framebuffer(this.gl, this.buffer_width, this.buffer_height);
+        let buffer_width = width * super_sampling;
+        let buffer_height = height * super_sampling;
+        this.albedoBuffer = new Framebuffer("albedoBuffer", this.gl, buffer_width, buffer_height);
+        this.metallicBuffer = new Framebuffer("metallicBuffer", this.gl, buffer_width, buffer_height);
+        this.heightBuffer = new Framebuffer("heightBuffer", this.gl, buffer_width, buffer_height, 1);
+        this.emissionBuffer = new Framebuffer("emissionBuffer", this.gl, buffer_width, buffer_height);
 
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -119,7 +118,6 @@ export default class PBR {
 
 
 
-        this.gl.viewport(0, 0, this.buffer_width, this.buffer_height);
 
         // set camera/cursor position
         mat4.identity(this.mvMatrix);
@@ -138,16 +136,19 @@ export default class PBR {
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
         this.colorProgram.setUniformFloats("uColor", [material.red, material.green, material.blue, material.transparency]);
         this.albedoBuffer.bind();
+        this.gl.viewport(0, 0, this.albedoBuffer.width, this.albedoBuffer.height);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // draw metallic
         this.colorProgram.setUniformFloats("uColor", [material.metallic, 0.0, 0.0, material.smoothness]);
         this.metallicBuffer.bind();
+        this.gl.viewport(0, 0, this.metallicBuffer.width, this.metallicBuffer.height);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // draw height
         this.colorProgram.setUniformFloats("uColor", [material.height, 0.0, 0.0, 1.0]);
         this.heightBuffer.bind();
+        this.gl.viewport(0, 0, this.heightBuffer.width, this.heightBuffer.height);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // clean up
@@ -326,7 +327,7 @@ class Framebuffer {
     private rttFramebuffer: WebGLFramebuffer;
     private rttTexture: WebGLTexture;
 
-    constructor(readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512, readonly channels = 4, readonly depth = 16) {
+    constructor(readonly name= "unnamed", readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512, readonly channels = 4, readonly depth = 16) {
 
         if ([1, 4].indexOf(this.channels) === -1) {
             console_error("channels should be 1 or 4");
@@ -369,7 +370,7 @@ class Framebuffer {
 
         // check status
         let status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-        console_report("Framebuffer", status === gl.FRAMEBUFFER_COMPLETE);
+        console_report(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
         if (status !== gl.FRAMEBUFFER_COMPLETE) {
             console_error("Failed to build Framebuffer: Incomplete or Unsupported");
         }
@@ -379,6 +380,9 @@ class Framebuffer {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
 
+    toString(): string {
+        return `Framebuffer "${this.name}"`;
+    }
     bind(): void {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.rttFramebuffer);
     }
