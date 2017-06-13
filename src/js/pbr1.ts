@@ -62,11 +62,11 @@ export default class PBR {
         // build shader program
         const basicVert = require("../glsl/basic_vertex.glsl");
         const basicFrag = require("../glsl/basic_fragment.glsl");
-        this.colorProgram = new Program(this.gl, basicVert, basicFrag);
+        this.colorProgram = new Program("colorProgram", this.gl, basicVert, basicFrag);
 
         const textureVert = require("../glsl/texture_vertex.glsl");
         const textureFrag = require("../glsl/texture_fragment.glsl");
-        this.textureProgram = new Program(this.gl, textureVert, textureFrag);
+        this.textureProgram = new Program("textureProgram", this.gl, textureVert, textureFrag);
 
         // build geo
         this.unitSquare = buildUnitSquare(this.gl);
@@ -234,8 +234,41 @@ export default class PBR {
 class Program {
     public program: WebGLProgram;
 
-    constructor(readonly gl: WebGLRenderingContext, readonly vertSource: string, readonly fragSource: string) {
-        this.program = buildGLProgram(this.gl, vertSource, fragSource);
+    constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext, readonly vertexSource: string, readonly fragmentSource: string) {
+
+
+
+
+        const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertexShader, vertexSource);
+        gl.compileShader(vertexShader);
+        console_report(this.toString(), "vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
+
+        const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragmentShader, fragmentSource);
+        gl.compileShader(fragmentShader);
+        console_report(this.toString(), "fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
+
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        console_report(this.toString(), "LINK_STATUS", gl.getProgramParameter(program, gl.LINK_STATUS));
+
+        gl.validateProgram(program);
+
+        console_report(this.toString(), "VALIDATE_STATUS", gl.getProgramParameter(program, gl.VALIDATE_STATUS));
+
+        if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+            var info = gl.getProgramInfoLog(program);
+            throw 'Could not compile WebGL program. \n\n' + info;
+        }
+
+        this.program = program;
+
+
+
+
     }
 
     use(): void {
@@ -245,7 +278,7 @@ class Program {
     setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr) {
         let loc = this.gl.getAttribLocation(this.program, attribute);
         if (loc == -1) {
-            console_error(`Shader program attribute not found: ${attribute}`);
+            console_error(this.toString(), `Shader program attribute not found: ${attribute}`);
             return false;
         }
 
@@ -258,7 +291,7 @@ class Program {
     setUniformFloats(uniform: string, value: Float32Array | number[]) {
         let loc = this.gl.getUniformLocation(this.program, uniform);
         if (loc == null) {
-            console_error(`Shader program uniform not found: ${uniform}`);
+            console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
             return false;
         }
 
@@ -274,14 +307,14 @@ class Program {
         else if (value.length === 4) {
             this.gl.uniform4fv(loc, value);
         } else {
-            console_error(`Invalid value length for setUniformFloats: ${value.length}`);
+            console_error(this.toString(), `Invalid value length for setUniformFloats: ${value.length}`);
         }
     }
 
     setUniformInts(uniform: string, value: Int32Array | number[]) {
         let loc = this.gl.getUniformLocation(this.program, uniform);
         if (loc == null) {
-            console_error(`Shader program uniform not found: ${uniform}`);
+            console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
             return false;
         }
 
@@ -297,14 +330,14 @@ class Program {
         else if (value.length === 4) {
             this.gl.uniform4iv(loc, value);
         } else {
-            console_error(`Invalid value length for setUniformFloats: ${value.length}`);
+            console_error(this.toString(), `Invalid value length for setUniformFloats: ${value.length}`);
         }
     }
 
     setUniformMatrix(uniform: string, value: Float32Array | number[]) {
         let loc = this.gl.getUniformLocation(this.program, uniform);
         if (loc == null) {
-            console_error(`Shader program uniform not found: ${uniform}`);
+            console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
             return false;
         }
 
@@ -315,8 +348,12 @@ class Program {
         } else if (value.length === 16) {
             this.gl.uniformMatrix4fv(loc, false, value);
         } else {
-            console_error(`Invalid value length for setUniformMatrix: ${value.length}`);
+            console_error(this.toString(), `Invalid value length for setUniformMatrix: ${value.length}`);
         }
+    }
+
+    toString(): string {
+        return `GLProgram "${this.name}"`;
     }
 
 
@@ -429,77 +466,44 @@ function buildUnitSquare(gl: WebGLRenderingContext): Geometry {
 
     geometry.verticies = buildUnitSquareVerticies(gl);
     geometry.uvs = buildUnitSquareUVs(gl);
-
     return geometry;
+
+    function buildUnitSquareVerticies(gl: WebGLRenderingContext): WebGLBuffer {
+
+        const vertices = [
+            1.0, 1.0, 0.0,
+            0.0, 1.0, 0.0,
+            1.0, 0.0, 0.0,
+            0.0, 0.0, 0.0,
+        ];
+
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        return buffer;
+    }
+
+    function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
+        const uvs = [
+            1.0, 1.0,
+            0.0, 1.0,
+            1.0, 0.0,
+            0.0, 0.0
+        ]
+
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        return buffer;
+    }
 }
-
-function buildUnitSquareVerticies(gl: WebGLRenderingContext): WebGLBuffer {
-
-    const vertices = [
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
-        1.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-    ];
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    return buffer;
-}
-
-function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
-    const uvs = [
-        1.0, 1.0,
-        0.0, 1.0,
-        1.0, 0.0,
-        0.0, 0.0
-    ]
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    return buffer;
-}
-
-
-
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
     const gl = canvas.getContext('webgl2') as WebGLRenderingContext;
-    console_report("Getting webgl2 context", !!gl, gl);
+    console_report("Getting webgl2 context", !!gl);
     var ext = gl.getExtension('EXT_color_buffer_float');
-    console_report("Getting EXT_color_buffer_float", !!ext, ext);
+    console_report("Getting EXT_color_buffer_float", !!ext);
     return gl;
-}
-
-function buildGLProgram(gl: WebGLRenderingContext, vertexSource: string, fragmentSource: string): WebGLProgram {
-    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertexShader, vertexSource);
-    gl.compileShader(vertexShader);
-    console_report("vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
-
-    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragmentShader, fragmentSource);
-    gl.compileShader(fragmentShader);
-    console_report("fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
-
-    const shaderProgram = gl.createProgram();
-    gl.attachShader(shaderProgram, vertexShader);
-    gl.attachShader(shaderProgram, fragmentShader);
-    gl.linkProgram(shaderProgram);
-    console_report("shaderProgram", gl.getProgramParameter(shaderProgram, gl.LINK_STATUS));
-
-    gl.validateProgram(shaderProgram);
-
-    console_report("shaderProgram.VALIDATE_STATUS", gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS));
-
-    if (!gl.getProgramParameter(shaderProgram, gl.VALIDATE_STATUS)) {
-        var info = gl.getProgramInfoLog(shaderProgram);
-        throw 'Could not compile WebGL program. \n\n' + info;
-    }
-
-    return shaderProgram;
 }

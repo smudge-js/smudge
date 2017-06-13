@@ -19,9 +19,12 @@ x.move buffer_width* into Framebuffer
 
 .refactor the geo into a class
     x.basics
-    .move set vertex and uv attribs and drawArrays (drawIndexed) into geo class?
+    .move set vertex and uv shader attribs into geo class? (using standard naming convention)
+    .move drawArrays (drawIndexed) into geo class?
+    
 
-.add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+.object wrappers
+    .add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
 
 .pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
