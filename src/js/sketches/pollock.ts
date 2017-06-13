@@ -5,6 +5,8 @@ export default function draw(pbr: PBR) {
     const clear = new Material(0.5, 0.6, 0.5, 1.0, 0.0, 0.3, 0.0);
     pbr.rect(0, 0, 512, 512, clear);
 
+
+    // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
     const paint1 = new Material(.8, .9, .9, .3, 0.2, 0.99, 0.1);
     const paint2 = new Material(.8, .9, .9, .3, 0.2, 0.99, 0.2);
 
