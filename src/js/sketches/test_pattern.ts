@@ -16,40 +16,56 @@ export default function draw(pbr: PBR) {
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = 1.0;
-    green.metallic = 0.0;
+    green.metallic = 1.0;
     green.smoothness = 1.0;
 
     const blue = new Material(0.0, 0.0, 1.0, 1.0);
     blue.height = 1.0;
     blue.metallic = 1.0;
-    blue.smoothness = 0.0;
+    blue.smoothness = 1.0;
 
 
-    pbr.rect(0, 0, pbr.width, pbr.height, clear);
+    pbr.clear();
 
 
-    pbr.rect(10, 10, 10, 10, red);
-    pbr.rect(30.25, 10, 10, 10, red);
-    pbr.rect(50.5, 10, 10, 10, red);
+    // anti-alias check
+    pbr.rect(10, 10, 10, 10, blue); // clean edges
+    pbr.rect(30.25, 10, 10, 10, red); // .75 left, .25 right
+    pbr.rect(50.5, 10, 10, 10, green); // .5 left/right
 
-    pbr.rect(10, 30, 30, 10, green);
-    pbr.rect(10, 50, 30, 30, blue);
+    // corners
+    pbr.rect(0, 0, 1, 1);
     pbr.rect(1, 1, 1, 1);
-    pbr.rect(1, 3, 510, 1);
+
+    pbr.rect(127, 0, 1, 1);
+    pbr.rect(126, 1, 1, 1);
+
+    pbr.rect(127, 127, 1, 1);
+    pbr.rect(126, 126, 1, 1);
+
+    pbr.rect(0, 127, 1, 1);
+    pbr.rect(1, 126, 1, 1);
 
 
-    pbr.rect(10, 100, 100, 100);
+    // hdr test
+    // draws a red bar and covers it with many layers of very transparent black
+    // in HDR, left side should become pure black
+    // in LDR, left side will get stuck at dark red due to LDR rounding
+    const black_fade = new Material(0.0, 0.0, 0.0, .01);
 
-    pbr.rect(10, 210, 200, 10, red);
-
-    let src_alpha = .01;
-    const black_fade = new Material(0.0, 0.0, 0.0, src_alpha);
-    let t = 1;
-    for (let x = 0; x < 1000; x++) {
-        pbr.rect(10, 210, x / 5, 10, black_fade);
-        t = 0 * src_alpha + t * (1.0 - src_alpha);
+    pbr.rect(10, 30, 100, 10, red);
+    for (let x = 0; x < 400; x++) {
+        pbr.rect(10, 30, x / 4, 10, black_fade);
     }
-    console.log(t, t < .5 / 255);
+
+
+    // test dithering (not implemented)
+    // to hard to see bands as is. need a tone mapper to bring it out.
+    // const green_gradient = new Material(0.0, 0.1, 0.0, 1.0);
+    // for (let x = 0; x < 100; x++) {
+    //     green_gradient.green += .002;
+    //     pbr.rect(10 + x, 50, 1, 10, green_gradient);
+    // }
 
 
 
