@@ -30,6 +30,11 @@ x.just reorder pbr1.ts for now
 
 move buffer_width* into Framebuffer
 
+webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
+
+might not work: floating point texture renderbuffer attachment
+might work: user a renderbuffer and then copy to texture. I'd rather right straight to textures so they can be fed into shaders
+
 
 i could pass in a matrix to transform/swizle color. This might even work to do a HSB to RGB (look that up)
 e.g.
@@ -103,6 +108,8 @@ rgb -> bgr
     .nine slice doesn't really work well if border width can change.
     .for a soft/deckle edge effect probably a "blur" edge min/mult/composited with a texture will give a better effect
 
+
+Dithering, Bluenosie, Outside
 ## UI
 View modes:
 R

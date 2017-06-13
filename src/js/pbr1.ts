@@ -345,15 +345,31 @@ class Framebuffer {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, (gl as any).TEXTURE_BASE_LEVEL, 0);
+        gl.texParameteri(gl.TEXTURE_2D, (gl as any).TEXTURE_MAX_LEVEL, 0);
+
 
         if (channels === 1) {
-            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).R8, width, height, 0, (gl as any).RED, gl.UNSIGNED_BYTE, null);
+            // gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).R8, width, height, 0, (gl as any).RED, gl.UNSIGNED_BYTE, null);
+            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).R16F, width, height, 0, (gl as any).RED, (gl as any).HALF_FLOAT, null);
+
         } else {
-            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).RGBA, width, height, 0, (gl as any).RGBA, gl.UNSIGNED_BYTE, null);
+            // gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).RGBA8, width, height, 0, (gl as any).RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texImage2D(gl.TEXTURE_2D, 0, (gl as any).RGBA16F, width, height, 0, (gl as any).RGBA, (gl as any).HALF_FLOAT, null);
+
         }
 
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
-        gl.generateMipmap(gl.TEXTURE_2D);
+
+        // check
+        let status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+        console.log("Status", status);
+        if (status === gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+            console.error("FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+        }
+        // gl.generateMipmap(gl.TEXTURE_2D);
 
         // clean up
         gl.bindTexture(gl.TEXTURE_2D, null);
@@ -447,6 +463,8 @@ function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
     const gl = canvas.getContext('webgl2') as WebGLRenderingContext;
     console.log("gl", !!gl);
+    var ext = gl.getExtension('EXT_color_buffer_float');
+    console.log("ext", ext);
     return gl;
 }
 

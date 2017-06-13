@@ -24,6 +24,7 @@ export default function draw(pbr: PBR) {
     blue.metallic = 1.0;
     blue.smoothness = 0.0;
 
+
     pbr.rect(0, 0, pbr.width, pbr.height, clear);
     console.log("w", pbr.width);
 
@@ -38,5 +39,19 @@ export default function draw(pbr: PBR) {
 
 
     pbr.rect(10, 100, 100, 100);
+
+    pbr.rect(10, 210, 200, 10, red);
+
+    let src_alpha = .01;
+    const black_fade = new Material(0.0, 0.0, 0.0, src_alpha);
+    let t = 1;
+    for (let x = 0; x < 1000; x++) {
+        pbr.rect(10, 210, x / 5, 10, black_fade);
+        t = 0 * src_alpha + t * (1.0 - src_alpha);
+    }
+    console.log(t, t < .5 / 255);
+
+
+
 
 }
