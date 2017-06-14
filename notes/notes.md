@@ -1,3 +1,9 @@
+# Bugs
+
+network error on download with some pixel content. find a clean repo?
+maybe png data was larger than a data url can hold?
+just move to a proper download library?
+
 # Notes
 
 ####################################
@@ -44,7 +50,7 @@ x.move buffer_width* into Framebuffer
 
 .RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
 
-
+Material.lerp(m1, m2)
 
 
 ####################################
@@ -52,6 +58,7 @@ x.move buffer_width* into Framebuffer
     other interesting extensions
         EXT_blend_minmax
         EXT_frag_depth
+    new github desktop
 
 ####################################
 ## Blog Post Ideas
@@ -102,7 +109,6 @@ x.RESEARCH.is alpha special?
 .add blend mode to material channels/groups, can/shoud we do this per channel?
 .have drawing operations skip channels/groups if material value is undefined
 .colorMask
-
 .material constructor that takes objects for named params
 
 ## Discussion/Documentation Point (Texturing)
@@ -135,6 +141,7 @@ x.RESEARCH.is alpha special?
 
 
 ## Implementation/Documenation Point (HDR)
+## Implementation/Documenation Point (OVERSAMPLING)
 
 ## Implementation/Documenation Point (Shader Conventions)
 x.create conventions for names of uniforms/attributes passed to shader material class?

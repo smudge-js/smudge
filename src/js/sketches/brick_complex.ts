@@ -1,9 +1,8 @@
 // this was from "demo_grid" file. I know what it does, I just don't know what it means. I think syntax is important for me to learn.
 // let mat = i++ % 2 ? odd : even;
 
-
 import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import { Material } from '../pbr1';
 
 export default function draw(pbr: PBR) {
   //setting parameters for canvas
@@ -14,7 +13,7 @@ export default function draw(pbr: PBR) {
   let canvasY = 512;
 
   //set up canvas "material"
-  const clear = new Material(0.7, 0.7, 0.7, 1.0, 1.0, 0.0, 0.5);
+  const clear = new Material(0.7, 0.7, 0.7, 1.0, .1, .3, 0.1);
   pbr.rect(0, 0, canvasX, canvasY, clear);
 
   // let i = 0;
@@ -33,9 +32,9 @@ export default function draw(pbr: PBR) {
 
   // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
   let brickBase = new Material(185 / 255, 110 / 255, 92 / 255, 1.0);
-  brickBase.height = 0.3;
-  brickBase.metallic = 0.0;
-  brickBase.smoothness = 0;
+  brickBase.height = 0.9;
+  brickBase.metallic = 0.2;
+  brickBase.smoothness = 0.2;
 
   let subRect = 10;
   let brickOverlay = new Material(185 / 255, 110 / 255, 92 / 255, 0.3);
@@ -64,16 +63,19 @@ export default function draw(pbr: PBR) {
         pbr.rect(x - brickWidth / 2, y, brickWidth, brickHeight, brickBase);
 
         //draw brick overlays
-        for (let o = 0; o<200; o++){
+        for (let o = 0; o < 200; o++) {
           brickOverlay.red = colorVariation(brickBase.red, 0.075);
           brickOverlay.green = colorVariation(brickBase.green, 0.075);
           brickOverlay.blue = colorVariation(brickBase.blue, 0.075);
-          pbr.rect(random((x - brickWidth / 2), (x - brickWidth / 2) + brickWidth - subRect), random(y, yBounds-subRect), subRect, subRect, brickOverlay);
+          brickOverlay.height = brickBase.height;
+          pbr.rect(random((x - brickWidth / 2), (x - brickWidth / 2) + brickWidth - subRect), random(y, yBounds - subRect), subRect, subRect, brickOverlay);
         }
 
         //draw speckles
         for (let s = 0; s < numSpeckles; s++) {
           specklesWhite.transparency = random(0.3, 0.9);
+          specklesWhite.height = brickBase.height + random(-.5, -.1);
+          specklesDark.height = brickBase.height + random(-.5, -.1);
           pbr.rect(random((x - brickWidth / 2), (x - brickWidth / 2) + brickWidth), random(y, y + brickHeight), 1, 1, specklesWhite);
           pbr.rect(random((x - brickWidth / 2), (x - brickWidth / 2) + brickWidth), random(y, y + brickHeight), 1, 1, specklesDark);
         }
@@ -83,16 +85,19 @@ export default function draw(pbr: PBR) {
         pbr.rect(x, y, brickWidth, brickHeight, brickBase);
 
         //draw brick overlays
-        for (let o = 0; o<600; o++){
+        for (let o = 0; o < 600; o++) {
           brickOverlay.red = colorVariation(brickBase.red, 0.075);
           brickOverlay.green = colorVariation(brickBase.green, 0.075);
           brickOverlay.blue = colorVariation(brickBase.blue, 0.075);
-          pbr.rect(random(x, xBounds-subRect), random(y, yBounds-subRect), subRect, subRect, brickOverlay);
+          brickOverlay.height = brickBase.height;
+          pbr.rect(random(x, xBounds - subRect), random(y, yBounds - subRect), subRect, subRect, brickOverlay);
         }
 
         //draw speckles
         for (let s = 0; s < numSpeckles; s++) {
           specklesWhite.transparency = random(0.3, 0.9);
+          specklesWhite.height = brickBase.height + random(-.5, -.1);
+          specklesDark.height = brickBase.height + random(-.5, -.1);
           pbr.rect(random(x, xBounds), random(y, yBounds), 1, 1, specklesWhite);
           pbr.rect(random(x, xBounds), random(y, yBounds), 1, 1, specklesDark);
         }
@@ -102,7 +107,10 @@ export default function draw(pbr: PBR) {
     }
   }
 
-
+  // pbr.rect(0, 0, 1024, 5);
+  // pbr.rect(0, 1020, 1024, 5);
+  // pbr.rect(0, 0, 5, 1024);
+  // pbr.rect(1020, 0, 5, 1024);
 }
 
 function random(min = 0, max = 1): number {
