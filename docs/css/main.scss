@@ -136,7 +136,8 @@ article {
 .post pre,
 .post ul,
 .post ol,
-.post dl
+.post dl,
+
 {
     // border: 1px solid blue;
     max-width: $content-width;
@@ -148,6 +149,14 @@ article {
 
 
     // background-color: rgba(0, 255, 0, .1);
+}
+
+.post table 
+{
+    max-width: $content-width;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid red;
 }
 
 hr {
@@ -328,4 +337,14 @@ video {
     height: 100%;
     top: 0;
     left: 0;
+}
+
+
+ul
+{
+    font-size: 1.2em;
+    margin-top: 10px;
+    li {
+        margin-top: 0;
+    }
 }

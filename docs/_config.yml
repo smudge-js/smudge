@@ -38,3 +38,5 @@ exclude:
 
 sass:
     sass_dir: ./css
+
+permalink: /posts/:title.html
