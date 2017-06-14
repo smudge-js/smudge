@@ -7,7 +7,10 @@ export default function bindUI(pbr: PBR) {
 
     let download_albedo_button = document.querySelector("#download_albedo") as HTMLAnchorElement;
     download_albedo_button.addEventListener("click", () => {
-        download_albedo_button.href = pbr.get_albedo();
+        let data = pbr.get_albedo();
+        console.log(data);
+
+        download_albedo_button.href = data;
     });
 
     let show_metallic_button = document.querySelector("#show_metallic");

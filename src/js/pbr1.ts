@@ -28,7 +28,7 @@ export default class PBR {
     readonly emissionBuffer: Framebuffer;
 
     constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number, readonly super_sampling: number = 8) {
-        canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
+        this.canvas = canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
 
         this.width = width || canvas.width;
         this.height = height || canvas.height;
