@@ -3,13 +3,13 @@ import {Material} from '../pbr1';
 
 export default function draw(pbr: PBR) {
   // setting parameters for canvas
-  let canvasX = 512;
-  let canvasY = 512;
+  let canvasX = 1024;
+  let canvasY = 1024;
 
   // changeable parameters
-  let brickWidth = 80;
-  let brickHeight = 30;
-  let mortarThickness = 2;
+  let brickWidth = 120;
+  let brickHeight = 40;
+  let mortarThickness = 2.5;
 
   // calculations to make the loop only go as long as bricks fit on canvas
   let bricksPerRow = canvasX / (mortarThickness * 2 + brickWidth);
@@ -75,6 +75,7 @@ export default function draw(pbr: PBR) {
           brickOverlay.red = colorVariation(brickBase.red, 0.075);
           brickOverlay.green = colorVariation(brickBase.green, 0.075);
           brickOverlay.blue = colorVariation(brickBase.blue, 0.075);
+          brickOverlay.height += random(0.01, 0.1);
           pbr.rect(random(xStart, xStart + brickWidth - subRect), random(y, yBounds-subRect), subRect, subRect, brickOverlay);
         }
 

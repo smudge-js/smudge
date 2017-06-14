@@ -9,8 +9,8 @@ export default function draw(pbr: PBR) {
   //must be 512 because defined somewhere else...
   //either let user change it or don't put it in this doc?
   //I made these vars so that we can reference them later in the code without asking why that number
-  let canvasX = 512;
-  let canvasY = 512;
+  let canvasX = 1024;
+  let canvasY = 1024;
 
   //set up canvas "material"
   const clear = new Material(0.7, 0.7, 0.7, 1.0, .1, .3, 0.1);
