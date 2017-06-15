@@ -9,7 +9,6 @@ export default function bindUI(pbr: PBR) {
     download_albedo_button.addEventListener("click", () => {
         let data = pbr.get_albedo();
         console.log(data);
-        
         download_albedo_button.href = data;
     });
 
