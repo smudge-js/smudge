@@ -77,10 +77,15 @@ div.post-meta-line {
 
 .post p.alert {
     border-left: 10px solid #f66;
-    // padding-left: 10px;
-    // position: relative;
-    // left: -10px;
     background: #fee;
+    padding-left: 40px;
+    padding-right: 50px;
+    border-radius: 3px;
+}
+
+.post p.info {
+    border-left: 10px solid #66f;
+    background: #eef;
     padding-left: 40px;
     padding-right: 50px;
     border-radius: 3px;
