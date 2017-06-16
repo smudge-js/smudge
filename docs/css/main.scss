@@ -353,3 +353,52 @@ ul
         margin-top: 0;
     }
 }
+
+blockquote {
+    text-align: left;
+    position: relative;
+    p {
+        
+        font-size: 1.2em;
+    }
+    cite {
+        display: block;
+        font-style: normal;
+        font-size: .6em;
+        line-height: 1;
+
+    }
+    cite:before {
+        content: "— ";
+    }
+}
+
+
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.sixteen-nine {
+     @include aspect-ratio(16, 9);
+     img {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+     }
+}
