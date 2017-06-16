@@ -11,6 +11,8 @@ export default function draw() {
     red.height = .25;
     red.metallic = 1.0;
     red.smoothness = 1.0;
+    red.emission_red = 1.0;
+    
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = .5;

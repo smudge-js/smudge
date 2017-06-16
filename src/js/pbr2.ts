@@ -2,14 +2,14 @@ declare var require: any;
 
 var _ = require('lodash/core');
 import { mat4, vec3 } from 'gl-matrix';
-import bindUI from './pbr_ui'
+import bindUI from './pbr2_ui'
 
 import draw from './sketches/test_pattern';
 
 var console_report = console.log.bind(window.console);
 var console_error = console.error.bind(window.console);
 
-let buffer_layouts = {
+export let buffer_layouts = {
     albedo: {
         super_sampling: 8,
         depth: 16,
@@ -21,21 +21,24 @@ let buffer_layouts = {
         depth: 16,
         channels: 1,
         channel_materials: ["metallic", "metallic", "metallic", "transparency"]
-
     },
     smoothness: {
         super_sampling: 8,
         depth: 16,
         channels: 1,
         channel_materials: ["smoothness", "smoothness", "smoothness", "transparency"]
-
     },
     height: {
         super_sampling: 8,
         depth: 16,
         channels: 1,
         channel_materials: ["height", "height", "height", "transparency"]
-
+    },
+    emission: {
+        super_sampling: 8,
+        depth: 16,
+        channels: 4,
+        channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"]
     }
 }
 
@@ -137,6 +140,7 @@ export default class PBR {
             let buffer = this.buffers[buffer_name];
             buffer.bind();
             
+          
             this.gl.clearColor(
                 (material as any)[buffer_layout.channel_materials[0]],
                 (material as any)[buffer_layout.channel_materials[1]],
@@ -232,7 +236,9 @@ export default class PBR {
      * Copies the provided buffer's pixel values to the canvas
      * @param buffer
      */
-    show(buffer = this.buffers['albedo']): void {
+    show(bufferName = "albedo"): void {
+        let buffer = this.buffers[bufferName];
+
         let color = [1.0, 0.0, 0.0, 1.0];
 
         // position rect
@@ -266,35 +272,35 @@ export default class PBR {
 
     }
 
-    show_albedo(): void {
-        this.show(this.buffers["albedo"]);
-    }
+    // show_albedo(): void {
+    //     this.show(this.buffers["albedo"]);
+    // }
 
-    show_metallic(): void {
-        this.show(this.buffers["metallic"]);
-    }
+    // show_metallic(): void {
+    //     this.show(this.buffers["metallic"]);
+    // }
 
-    show_height(): void {
-        this.show(this.buffers["height"]);
-    }
+    // show_height(): void {
+    //     this.show(this.buffers["height"]);
+    // }
 
-    get_albedo(): string {
-        this.show_albedo();
-        let dataURL = this.canvas.toDataURL('image/png');
-        return dataURL;
-    }
+    // get_albedo(): string {
+    //     this.show_albedo();
+    //     let dataURL = this.canvas.toDataURL('image/png');
+    //     return dataURL;
+    // }
 
-    get_metallic(): string {
-        this.show_metallic();
-        let dataURL = this.canvas.toDataURL('image/png');
-        return dataURL;
-    }
+    // get_metallic(): string {
+    //     this.show_metallic();
+    //     let dataURL = this.canvas.toDataURL('image/png');
+    //     return dataURL;
+    // }
 
-    get_height(): string {
-        this.show_height();
-        let dataURL = this.canvas.toDataURL('image/png');
-        return dataURL;
-    }
+    // get_height(): string {
+    //     this.show_height();
+    //     let dataURL = this.canvas.toDataURL('image/png');
+    //     return dataURL;
+    // }
 
 
 }
@@ -504,7 +510,8 @@ class Framebuffer {
 export class Material {
     static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
     static white = new Material(1.0, 1.0, 1.0, 1.0);
-
+    
+    
     constructor(
         public red = 0,
         public green = 0,
