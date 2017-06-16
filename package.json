@@ -4,7 +4,9 @@
   "description": "Sketching library for Physically Based Rendering",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js"
+    "start": "concurrently --kill-others -p \"[{name}]\" -n \"pbr5,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run pbr5\" \"npm run blog\"",
+    "pbr5": "webpack-dev-server --open",
+    "blog": "cd docs && bundle exec jekyll serve --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/jbakse/pbr5#readme",
   "devDependencies": {
+    "concurrently": "^3.4.0",
     "gl-matrix": "^2.3.2",
     "glslify-loader": "^1.0.2",
     "raw-loader": "^0.5.1",
@@ -29,9 +32,5 @@
   },
   "dependencies": {
     "@types/gl-matrix": "^2.2.34"
-  },
-  "scripts": {
-      "pbr5": "webpack-dev-server --open",
-      "blog": "cd docs && bundle exec jekyll serve --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/"
   }
 }
