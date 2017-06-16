@@ -1,21 +1,19 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import PBR from '../pbr2';
+import {Material} from '../pbr2';
 
+export default function draw() {
 
-
-
-export default function draw(pbr: PBR) {
-
+    let pbr = new PBR(undefined, 128, 128, 8);
 
     const clear = new Material(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 
     const red = new Material(1.0, 0.0, 0.0, 1.0);
-    red.height = 1.0;
+    red.height = .25;
     red.metallic = 1.0;
     red.smoothness = 1.0;
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
-    green.height = 1.0;
+    green.height = .5;
     green.metallic = 1.0;
     green.smoothness = 1.0;
 
@@ -68,6 +66,8 @@ export default function draw(pbr: PBR) {
     // }
 
 
+
+    pbr.show();
 
 
 }

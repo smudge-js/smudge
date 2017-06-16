@@ -1,6 +1,7 @@
 import PBR from './pbr1';
+import PBR2 from './pbr2';
 
-export default function bindUI(pbr: PBR) {
+export default function bindUI(pbr: PBR | PBR2) {
 
     let show_albedo_button = document.querySelector("#show_albedo");
     show_albedo_button.addEventListener("click", () => pbr.show_albedo());

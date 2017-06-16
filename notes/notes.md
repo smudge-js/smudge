@@ -21,6 +21,13 @@ just move to a proper download library?
 ####################################
 ## Todo / Clean Up / Refactor
 
+
+.Made a mess when refactoring buffer drawing loops
+    buffers now dynamically assign color data based on "buffer_layout" and materials. the relationships are not elegant, resulting in some casts to "any" which could+should be cleaned up. A better arrangement might clean it all the way up, but these pages have some power tools that might help if needed.
+    https://basarat.gitbooks.io/typescript/docs/types/index-signatures.html
+    https://basarat.gitbooks.io/typescript/docs/types/moving-types.html
+
+
 x.move buffer_width* into Framebuffer
     x.this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for different oversampling amounts per buffer.
 
