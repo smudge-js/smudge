@@ -139,8 +139,8 @@ export default class PBR {
         _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
             let buffer = this.buffers[buffer_name];
             buffer.bind();
-            
-          
+
+
             this.gl.clearColor(
                 (material as any)[buffer_layout.channel_materials[0]],
                 (material as any)[buffer_layout.channel_materials[1]],
@@ -192,15 +192,27 @@ export default class PBR {
         this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.colorProgram.setUniformMatrix("uMVMatrix", this.mvMatrix);
 
-         _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
+        _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
             let buffer = this.buffers[buffer_name];
-             
+
+            
+
             let colors = [
                 (material as any)[buffer_layout.channel_materials[0]],
                 (material as any)[buffer_layout.channel_materials[1]],
                 (material as any)[buffer_layout.channel_materials[2]],
                 (material as any)[buffer_layout.channel_materials[3]]
             ];
+
+            this.gl.colorMask(
+                colors[0] !== undefined,
+                colors[1] !== undefined,
+                colors[2] !== undefined,
+                colors[3] !== undefined
+            );
+
+            console.log(colors);
+            
 
             this.colorProgram.setUniformFloats("uColor", colors);
             buffer.bind();
@@ -228,6 +240,7 @@ export default class PBR {
         // this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // clean up
+        this.gl.colorMask(true, true, true, true);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
@@ -257,7 +270,7 @@ export default class PBR {
 
         // set texture
         console.log(this.buffers);
-        
+
         buffer.bindTexture(this.gl.TEXTURE0);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
@@ -510,8 +523,9 @@ class Framebuffer {
 export class Material {
     static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
     static white = new Material(1.0, 1.0, 1.0, 1.0);
-    
-    
+    //todo can this return a copy? 
+
+
     constructor(
         public red = 0,
         public green = 0,

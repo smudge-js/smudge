@@ -24,8 +24,12 @@ just move to a proper download library?
 
 .Made a mess when refactoring buffer drawing loops
     buffers now dynamically assign color data based on "buffer_layout" and materials. the relationships are not elegant, resulting in some casts to "any" which could+should be cleaned up. A better arrangement might clean it all the way up, but these pages have some power tools that might help if needed.
+    also part of (solving) the mess how can i use typescript to properly create a dynmaically read property. Perhaps i should use an accessor getChannel(enum) the enum would list the properties that are channel data, preventing people from trying to access a non channel data property as channnel data.
     https://basarat.gitbooks.io/typescript/docs/types/index-signatures.html
     https://basarat.gitbooks.io/typescript/docs/types/moving-types.html
+
+.make a blit channel function that can blit a buffer channel to another buffer channel
+    blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 
 x.move buffer_width* into Framebuffer

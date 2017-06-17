@@ -10,19 +10,19 @@ export default function draw() {
     const red = new Material(1.0, 0.0, 0.0, 1.0);
     red.height = .25;
     red.metallic = 1.0;
-    red.smoothness = 1.0;
+    red.smoothness = .5;
     red.emission_red = 1.0;
     
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = .5;
     green.metallic = 1.0;
-    green.smoothness = 1.0;
+    green.smoothness = .5;
 
     const blue = new Material(0.0, 0.0, 1.0, 1.0);
     blue.height = 1.0;
     blue.metallic = 1.0;
-    blue.smoothness = 1.0;
+    blue.smoothness = .5;
 
 
     pbr.clear();
@@ -57,6 +57,36 @@ export default function draw() {
     for (let x = 0; x < 400; x++) {
         pbr.rect(10, 30, x / 4, 10, black_fade);
     }
+
+
+
+    // channel skip test
+    let makeBlank = function() {
+        return new Material(
+        undefined, undefined, undefined, undefined,
+        undefined, undefined,
+        undefined,
+        undefined, undefined, undefined);
+    }
+
+    let rgbm_mat = makeBlank();
+    rgbm_mat.red = 1.0;
+    rgbm_mat.green = 0.0;
+    rgbm_mat.blue = 0.0;
+    rgbm_mat.metallic = .5;
+    rgbm_mat.transparency = 1.0;
+    pbr.rect(10, 50, 10, 10, rgbm_mat);
+
+
+    let m_mat = makeBlank();
+    m_mat.red = undefined;
+    m_mat.green = 1.0;
+    m_mat.blue = undefined;
+    m_mat.metallic = 1.0;  
+    m_mat.transparency = 1.0;  
+    pbr.rect(12, 52, 10, 10, m_mat);
+    // this rectangle should overwrite the metalic + green values, 
+    // but skip the red and blue values (and all others)
 
 
     // test dithering (not implemented)
