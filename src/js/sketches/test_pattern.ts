@@ -29,11 +29,13 @@ export default function draw() {
 
 
     // anti-alias check
+    console.log("anti-alias");
     pbr.rect(10, 10, 10, 10, blue); // clean edges
     pbr.rect(30.25, 10, 10, 10, red); // .75 left, .25 right
     pbr.rect(50.5, 10, 10, 10, green); // .5 left/right
 
     // corners
+    console.log("corners");
     pbr.rect(0, 0, 1, 1);
     pbr.rect(1, 1, 1, 1);
 
@@ -51,6 +53,7 @@ export default function draw() {
     // draws a red bar and covers it with many layers of very transparent black
     // in HDR, left side should become pure black
     // in LDR, left side will get stuck at dark red due to LDR rounding
+    console.log("hdr");
     const black_fade = new Material(0.0, 0.0, 0.0, .01);
 
     pbr.rect(10, 30, 100, 10, red);
@@ -61,6 +64,7 @@ export default function draw() {
 
 
     // channel skip test
+    console.log("channel skip");
     let makeBlank = function() {
         return new Material(
         undefined, undefined, undefined, undefined,
@@ -87,6 +91,42 @@ export default function draw() {
     pbr.rect(12, 52, 10, 10, m_mat);
     // this rectangle should overwrite the metalic + green values, 
     // but skip the red and blue values (and all others)
+
+
+    // blending test
+    const light_gray = new Material(.6, .6, .6, 1.0);
+    const dark_gray = new Material(.4, .4, .4, 1.0);
+    light_gray.height = .75;
+    dark_gray.height = .25;
+    dark_gray.height_blending = Material.AdditiveBlending;
+
+    pbr.rect(10, 70, 10, 10, light_gray);
+    pbr.rect(30, 70, 10, 10, light_gray);
+    pbr.rect(50, 70, 10, 10, light_gray);
+
+    dark_gray.albedo_blending = Material.NormalBlending;
+    pbr.rect(12, 72, 10, 10, dark_gray);
+
+    dark_gray.albedo_blending = Material.AdditiveBlending;
+    pbr.rect(32, 72, 10, 10, dark_gray);
+
+    dark_gray.albedo_blending = Material.SubtractiveBlending;
+    pbr.rect(52, 72, 10, 10, dark_gray);
+
+
+    pbr.rect(70, 70, 10, 10, light_gray);
+    pbr.rect(90, 70, 10, 10, light_gray);
+    pbr.rect(110, 70, 10, 10, light_gray);
+
+    dark_gray.transparency = .33;
+    dark_gray.albedo_blending = Material.NormalBlending;
+    pbr.rect(72, 72, 10, 10, dark_gray);
+
+    dark_gray.albedo_blending = Material.AdditiveBlending;
+    pbr.rect(92, 72, 10, 10, dark_gray);
+
+    dark_gray.albedo_blending = Material.SubtractiveBlending;
+    pbr.rect(112, 72, 10, 10, dark_gray);
 
 
     // test dithering (not implemented)

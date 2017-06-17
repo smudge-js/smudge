@@ -4,41 +4,107 @@ var _ = require('lodash/core');
 import { mat4, vec3 } from 'gl-matrix';
 import bindUI from './pbr2_ui'
 
+var gl_constants = require('gl-constants');
+
 import draw from './sketches/test_pattern';
 
 var console_report = console.log.bind(window.console);
 var console_error = console.error.bind(window.console);
+
+
+// function blendModes(gl: WebGLRenderingContext) {
+//     // wrapped in a function to get a gl context to pull constants from
+//     // todo: better way?
+
+//     // color(RGBA) = (sourceColor * sFactor) + (destinationColor * dFactor)
+//     const gl2 = gl as any;
+//     return {
+//         // ignore destination completely
+//         overwrite: {
+//             blendEquation: gl.FUNC_ADD,
+//             sFactor: gl.ONE,
+//             dFactor: gl.ZERO
+//         },
+
+//         // standard alpha blending (normal)
+//         blend: {
+//             blendEquation: gl.FUNC_ADD,
+//             sFactor: gl.SRC_ALPHA,
+//             dFactor: gl.ONE_MINUS_SRC_ALPHA
+//         },
+
+//         // per-component multiply (multiply)
+//         multiply: {
+//             blendEquation: gl.FUNC_ADD,
+//             sFactor: gl.DST_COLOR,
+//             dFactor: gl.ZERO
+//         },
+
+//         // per-component add (linear dodge)
+//         add: {
+//             blendEquation: gl.FUNC_ADD,
+//             sFactor: gl.ONE,
+//             dFactor: gl.ONE
+//         },
+
+//         // per-component subtract (subtract)
+//         subtract: {
+//             blendEquation: gl.FUNC_REVERSE_SUBTRACT,
+//             sFactor: gl.ONE,
+//             dFactor: gl.ONE
+//         },
+
+//         // per-component min(darken)
+//         darkest: {
+//             blendEquation: gl2.MIN,
+//             sFactor: gl.ONE,
+//             dFactor: gl.ONE
+//         },
+
+//         // per-component max(lighten)
+//         lightest: {
+//             blendEquation: gl2.MAX,
+//             sFactor: gl.ONE,
+//             dFactor: gl.ONE
+//         }
+//     }
+// };
 
 export let buffer_layouts = {
     albedo: {
         super_sampling: 8,
         depth: 16,
         channels: 4,
-        channel_materials: ["red", "green", "blue", "transparency"]
+        channel_materials: ["red", "green", "blue", "transparency"],
+        blending: "albedo_blending"
     },
     metallic: {
         super_sampling: 8,
         depth: 16,
         channels: 1,
-        channel_materials: ["metallic", "metallic", "metallic", "transparency"]
+        channel_materials: ["metallic", "metallic", "metallic", "transparency"],
+        blending: "metallic_blending"
     },
     smoothness: {
         super_sampling: 8,
         depth: 16,
         channels: 1,
-        channel_materials: ["smoothness", "smoothness", "smoothness", "transparency"]
+        channel_materials: ["smoothness", "smoothness", "smoothness", "transparency"],
+        blending: "smoothness_blending"
     },
     height: {
         super_sampling: 8,
         depth: 16,
         channels: 1,
-        channel_materials: ["height", "height", "height", "transparency"]
+        channel_materials: ["height", "height", "height", "transparency"],
+        blending: "height_blending"
     },
     emission: {
         super_sampling: 8,
         depth: 16,
         channels: 4,
-        channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"]
+        channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],
+        blending: "emission_blending"
     }
 }
 
@@ -182,9 +248,7 @@ export default class PBR {
         mat4.scale(this.mvMatrix, this.mvMatrix, [w, h, 1]);
 
         this.gl.enable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
+      
 
         // set up program
         this.colorProgram.use();
@@ -195,8 +259,17 @@ export default class PBR {
         _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
             let buffer = this.buffers[buffer_name];
 
-            
+            // blending
+            let equation = (material as any)[buffer_layout.blending].equation;
+            let sFactor = (material as any)[buffer_layout.blending].sFactor;
+            let dFactor = (material as any)[buffer_layout.blending].dFactor;
 
+            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+            
+           
+
+            // color
             let colors = [
                 (material as any)[buffer_layout.channel_materials[0]],
                 (material as any)[buffer_layout.channel_materials[1]],
@@ -211,10 +284,8 @@ export default class PBR {
                 colors[3] !== undefined
             );
 
-            console.log(colors);
-            
-
             this.colorProgram.setUniformFloats("uColor", colors);
+
             buffer.bind();
             this.gl.viewport(0, 0, buffer.width, buffer.height);
             this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
@@ -240,6 +311,10 @@ export default class PBR {
         // this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
         // clean up
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
         this.gl.colorMask(true, true, true, true);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
@@ -520,12 +595,44 @@ class Framebuffer {
 
 }
 
+interface BlendSpec {
+    equation: GLenum,
+    sFactor: GLenum,
+    dFactor: GLenum
+}
+
+
+
+
 export class Material {
-    static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-    static white = new Material(1.0, 1.0, 1.0, 1.0);
     //todo can this return a copy? 
 
+    static NormalBlending:BlendSpec = {
+        equation: gl_constants.FUNC_ADD,
+        sFactor: gl_constants.SRC_ALPHA,
+        dFactor: gl_constants.ONE_MINUS_SRC_ALPHA
+    }
 
+    static AdditiveBlending:BlendSpec = {
+        equation: gl_constants.FUNC_ADD,
+        sFactor: gl_constants.SRC_ALPHA,
+        dFactor: gl_constants.ONE
+    }
+
+    static SubtractiveBlending:BlendSpec = {
+        equation: gl_constants.FUNC_REVERSE_SUBTRACT,
+        sFactor: gl_constants.SRC_ALPHA,
+        dFactor: gl_constants.ONE
+    }
+
+    public albedo_blending = Material.NormalBlending;
+    public metallic_blending = Material.NormalBlending;
+    public smoothness_blending = Material.NormalBlending;
+    public height_blending = Material.NormalBlending;
+    public emission_blending = Material.NormalBlending;
+
+    static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+    static white = new Material(1.0, 1.0, 1.0, 1.0);
     constructor(
         public red = 0,
         public green = 0,
