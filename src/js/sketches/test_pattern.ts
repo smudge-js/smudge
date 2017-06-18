@@ -96,8 +96,8 @@ export default function draw() {
     // blending test
     const light_gray = new Material(.6, .6, .6, 1.0);
     const dark_gray = new Material(.4, .4, .4, 1.0);
-    light_gray.height = .75;
-    dark_gray.height = .25;
+    light_gray.height = .5;
+    dark_gray.height = .5;
     dark_gray.height_blending = Material.AdditiveBlending;
 
     pbr.rect(10, 70, 10, 10, light_gray);
@@ -118,7 +118,7 @@ export default function draw() {
     pbr.rect(90, 70, 10, 10, light_gray);
     pbr.rect(110, 70, 10, 10, light_gray);
 
-    dark_gray.transparency = .33;
+    dark_gray.transparency = .5;
     dark_gray.albedo_blending = Material.NormalBlending;
     pbr.rect(72, 72, 10, 10, dark_gray);
 
