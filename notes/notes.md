@@ -21,6 +21,7 @@ just move to a proper download library?
 ####################################
 ## Todo / Clean Up / Refactor
 
+Material.lerp(mat1, mat2, .3);
 
 .Planning blending modes.
     gl.blendFunc

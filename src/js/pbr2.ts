@@ -134,8 +134,8 @@ export default class PBR {
         this.canvas = canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
         this.width = width || canvas.width;
         this.height = height || canvas.height;
-        this.canvas_width = width;
-        this.canvas_height = height;
+        this.canvas_width = this.width;
+        this.canvas_height = this.height;
 
 
         if ([1, 2, 4, 8].indexOf(this.super_sampling) === -1) {
@@ -184,7 +184,7 @@ export default class PBR {
 
         this.buffers = {};
         _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
-            let buffer = new Framebuffer(buffer_name, this.gl, width * buffer_layout.super_sampling, height * buffer_layout.super_sampling, buffer_layout.channels, buffer_layout.depth);
+            let buffer = new Framebuffer(buffer_name, this.gl, this.width * buffer_layout.super_sampling, this.height * buffer_layout.super_sampling, buffer_layout.channels, buffer_layout.depth);
             this.buffers[buffer_name] = buffer;
         });
 
@@ -427,9 +427,9 @@ class Program {
             var info = gl.getProgramInfoLog(program);
             throw 'Could not compile WebGL program. \n\n' + info;
         }
-
-        this.program = program;
-
+        
+            this.program = program;
+        
 
 
 
@@ -565,7 +565,7 @@ class Framebuffer {
 
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-
+        gl.generateMipmap(gl.TEXTURE_2D);
         // attach texture
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
 
