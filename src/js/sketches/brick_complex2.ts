@@ -1,7 +1,11 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import PBR from '../pbr2';
+import { Material } from '../pbr2';
 
-export default function draw(pbr: PBR) {
+export default function draw() {
+
+  let pbr = new PBR(undefined, 1024, 1024, 1);
+
+
   // setting parameters for canvas
   let canvasX = 1024;
   let canvasY = 1024;
@@ -15,12 +19,11 @@ export default function draw(pbr: PBR) {
   let bricksPerRow = canvasX / (mortarThickness * 2 + brickWidth);
   let bricksPerCol = canvasY / (mortarThickness * 2 + brickHeight);
 
-
-
   // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
 
   //set up canvas "material"
   const mortar = new Material(0.7, 0.7, 0.7, 1.0, 1.0, 0.0, 0.1);
+  pbr.clear(mortar);
 
   let mortarTexture = new Material (0.8, 0.8, 0.8, 1.0);
   mortarTexture.height = 0.25;
@@ -92,6 +95,8 @@ export default function draw(pbr: PBR) {
 
     }
   }
+
+   pbr.show();
 
 
 }
