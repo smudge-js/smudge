@@ -2,15 +2,14 @@ declare var require: any;
 
 var _ = require('lodash/core');
 
-import PBR from './pbr2';
-import {buffer_layouts} from './pbr2';
-export default function bindUI(pbr: PBR) {
+import {PBR} from './pbr2';
+import {buffer_layouts} from './buffer_layouts';
 
+
+
+export function bindUI(pbr: PBR) {
     let ui = document.querySelector(".ui");
-    let label = document.createElement("h1");
-    label.textContent = "hi";
-    ui.appendChild(label);
-
+   
     _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
         let showButton = document.createElement("button");
         showButton.textContent = buffer_name;

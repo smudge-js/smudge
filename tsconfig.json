@@ -12,7 +12,12 @@
         "alwaysStrict": true
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "**/sketches/*",
+        "**/tests/*"
+    ],
+    "include":[
+        "src"
     ]
 }
 

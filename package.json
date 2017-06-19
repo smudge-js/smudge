@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@types/gl-matrix": "^2.2.34",
+    "@types/lodash": "^4.14.66",
     "gl-constants": "^1.0.0",
     "lodash": "^4.17.4"
   }

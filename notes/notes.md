@@ -21,8 +21,73 @@ just move to a proper download library?
 ####################################
 ## Todo / Clean Up / Refactor
 
-Material.lerp(mat1, mat2, .3);
+.gen docs
 
+
+.module import packing ("barreling?")
+
+.Material.lerp(mat1, mat2, .3);
+
+
+.make a blit channel function that can blit a buffer channel to another buffer channel
+    blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
+
+.refactor the geo into a class
+    x.basics
+    .move set vertex and uv shader attribs into geo class? (using standard naming convention)
+    .move drawArrays (drawIndexed) into geo class?
+
+
+~.needs better app.ts sketch.ts interface. right now you can't have each sketch determine its size, etc.
+
+x.move buffer_width* into Framebuffer
+    x.this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for x.different oversampling amounts per buffer.
+
+
+.object wrappers
+    .add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
+        x.Framebuffer
+        .Geo
+        x.Programs
+
+x.storage buffer
+    x.create structure of buffer names, channel names, depth, packing
+    x.drive code from it instead of hardcoding
+
+x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
+
+
+
+
+
+####################################
+## Research Leads
+.other interesting extensions
+    EXT_blend_minmax
+    EXT_frag_depth
+
+.RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
+
+.new github desktop 
+
+.is there a way to use gl constants without a gl instance in config objects, etc. without just defining them myself?
+
+
+
+.What is the best way to handle immutability in Typescript/Javascript
+    .e.g. how can i make the BlendMode presets read only, or copy on read? maybe just make them functions that return newly built?
+    intead of 
+    BlendMode.Normal = {}
+    BlendMode.Normal = () => ({});
+    see: https://basarat.gitbooks.io/typescript/content/docs/tips/quickObjectReturn.html
+    three things it could be:
+        mutable
+        immutalbe
+        mutable copy of immutable (unreachable) template -> this would probably work often
+
+
+###################################
+## Blending
 .Planning blending modes.
     gl.blendFunc
     gl.blendFuncSeparate
@@ -37,61 +102,7 @@ Material.lerp(mat1, mat2, .3);
 
     http://photoblogstop.com/photoshop/photoshop-blend-modes-explained
 
-.made a mess gl_constants
-    using imported gl_constants instead of getting them from gl instance.
-    how to use the constants without an instance?
 
-
-.Made a mess when refactoring buffer drawing loops
-    buffers now dynamically assign color data based on "buffer_layout" and materials. the relationships are not elegant, resulting in some casts to "any" which could+should be cleaned up. A better arrangement might clean it all the way up, but these pages have some power tools that might help if needed.
-    also part of (solving) the mess how can i use typescript to properly create a dynmaically read property. Perhaps i should use an accessor getChannel(enum) the enum would list the properties that are channel data, preventing people from trying to access a non channel data property as channnel data.
-    https://basarat.gitbooks.io/typescript/docs/types/index-signatures.html
-    https://basarat.gitbooks.io/typescript/docs/types/moving-types.html
-    https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html
-
-
-.make a blit channel function that can blit a buffer channel to another buffer channel
-    blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
-
-
-x.move buffer_width* into Framebuffer
-    x.this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for different oversampling amounts per buffer.
-
-.refactor the geo into a class
-    x.basics
-    .move set vertex and uv shader attribs into geo class? (using standard naming convention)
-    .move drawArrays (drawIndexed) into geo class?
-
-
-.object wrappers
-    .add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
-        x.Framebuffer
-        .Geo
-        x.Programs
-
-.storage buffer
-    create structure of buffer names, channel names, depth, packing
-    drive code from it instead of hardcoding
-
-.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
-
-.needs better app.ts sketch.ts interface. right now you can't have each sketch determine its size, etc.
-
-.cleanup.i've got this:
-    const gl2 = gl as any;
-    but could probably get rid of that if i uncommented out the ext and gl2 parts of the webgl.d.ts
-
-.RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
-
-Material.lerp(m1, m2)
-
-
-####################################
-## Research Leads
-    other interesting extensions
-        EXT_blend_minmax
-        EXT_frag_depth
-    new github desktop
 
 ####################################
 ## Blog Post Ideas

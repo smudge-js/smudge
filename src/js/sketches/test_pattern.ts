@@ -1,7 +1,9 @@
-import PBR from '../pbr2';
-import {Material} from '../pbr2';
+// import {PBR} from '../pbr2';
+// import {Material, BlendMode} from '../material';
 
-export default function draw() {
+import {PBR, Material, BlendMode} from '../pbr';
+
+export function draw() {
 
     let pbr = new PBR(undefined, 128, 128, 8);
 
@@ -98,19 +100,20 @@ export default function draw() {
     const dark_gray = new Material(.4, .4, .4, 1.0);
     light_gray.height = .5;
     dark_gray.height = .5;
-    dark_gray.height_blending = Material.AdditiveBlending;
+    dark_gray.height_blend_mode = BlendMode.Additive;
 
     pbr.rect(10, 70, 10, 10, light_gray);
     pbr.rect(30, 70, 10, 10, light_gray);
     pbr.rect(50, 70, 10, 10, light_gray);
 
-    dark_gray.albedo_blending = Material.NormalBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Normal;
+    
     pbr.rect(12, 72, 10, 10, dark_gray);
 
-    dark_gray.albedo_blending = Material.AdditiveBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Additive;
     pbr.rect(32, 72, 10, 10, dark_gray);
 
-    dark_gray.albedo_blending = Material.SubtractiveBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Subtractive;
     pbr.rect(52, 72, 10, 10, dark_gray);
 
 
@@ -119,13 +122,13 @@ export default function draw() {
     pbr.rect(110, 70, 10, 10, light_gray);
 
     dark_gray.transparency = .5;
-    dark_gray.albedo_blending = Material.NormalBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Normal;
     pbr.rect(72, 72, 10, 10, dark_gray);
 
-    dark_gray.albedo_blending = Material.AdditiveBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Additive;
     pbr.rect(92, 72, 10, 10, dark_gray);
 
-    dark_gray.albedo_blending = Material.SubtractiveBlending;
+    dark_gray.albedo_blend_mode = BlendMode.Subtractive;
     pbr.rect(112, 72, 10, 10, dark_gray);
 
 
