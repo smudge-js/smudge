@@ -42,169 +42,169 @@ export class PBR {
             this.super_sampling = 1;
         }
 
-        // get context
-        canvas.width = this.canvas_width;
-        canvas.height = this.canvas_height;
-        this.gl = initWebGL(canvas);
+    // get context
+    canvas.width = this.canvas_width;
+    canvas.height = this.canvas_height;
+    this.gl = initWebGL(canvas);
 
-        // configure context
-        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
-        this.gl.disable(this.gl.DEPTH_TEST);
+    // configure context
+    this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
+    this.gl.disable(this.gl.DEPTH_TEST);
 
-        // create projection matrix
-        this.pMatrix = mat4.create();
-        mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
+    // create projection matrix
+    this.pMatrix = mat4.create();
+    mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
-        // build shader programs
-        const basicVert = require("../glsl/basic_vertex.glsl");
-        const basicFrag = require("../glsl/basic_fragment.glsl");
-        this.colorProgram = new Program("colorProgram", this.gl, basicVert, basicFrag);
+    // build shader programs
+    const basicVert = require("../glsl/basic_vertex.glsl");
+    const basicFrag = require("../glsl/basic_fragment.glsl");
+    this.colorProgram = new Program("colorProgram", this.gl, basicVert, basicFrag);
 
-        const textureVert = require("../glsl/texture_vertex.glsl");
-        const textureFrag = require("../glsl/texture_fragment.glsl");
-        this.textureProgram = new Program("textureProgram", this.gl, textureVert, textureFrag);
+    const textureVert = require("../glsl/texture_vertex.glsl");
+    const textureFrag = require("../glsl/texture_fragment.glsl");
+    this.textureProgram = new Program("textureProgram", this.gl, textureVert, textureFrag);
 
-        // build geo
-        this.unitSquare = buildUnitSquare(this.gl);
+    // build geo
+    this.unitSquare = buildUnitSquare(this.gl);
 
-        // build buffers
-        this.buffers = {};
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = new Framebuffer(buffer_name, this.gl, this.width * buffer_layout.super_sampling, this.height * buffer_layout.super_sampling, buffer_layout.channels, buffer_layout.depth);
-            this.buffers[buffer_name] = buffer;
-        });
+    // build buffers
+    this.buffers = {};
+    _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+        let buffer = new Framebuffer(buffer_name, this.gl, this.width * buffer_layout.super_sampling, this.height * buffer_layout.super_sampling, buffer_layout.channels, buffer_layout.depth);
+        this.buffers[buffer_name] = buffer;
+    });
 
-        // clean up
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+    // clean up
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
-        // set up ui buttons, etc.
-        bindUI(this);
-    }
+    // set up ui buttons, etc.
+    bindUI(this);
+}
 
-    /**
-     * Clears buffers using provided material values
-     * @param m
-     */
-    clear(material = Material.clearing): void {
+/**
+ * Clears buffers using provided material values
+ * @param m
+ */
+clear(material = Material.clearing): void {
 
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = this.buffers[buffer_name];
-            buffer.bind();
-
-
-
-            this.gl.clearColor(
-                material[buffer_layout.channel_materials[0]],
-                material[buffer_layout.channel_materials[1]],
-                material[buffer_layout.channel_materials[2]],
-                material[buffer_layout.channel_materials[3]]
-            );
-
-            this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        });
-
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-
-    }
-
-    /**
-     * Draws a rectangle using provided material values
-     */
-    rect(x: number, y: number, w: number, h: number, material = Material.white): void {
-
-        // set camera/cursor position
-        let mvMatrix = mat4.create();
-        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
-        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
+    _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+        let buffer = this.buffers[buffer_name];
+        buffer.bind();
 
 
 
-        // set up program
-        this.colorProgram.use();
-        this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
-        this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
-        this.colorProgram.setUniformMatrix("uMVMatrix", mvMatrix);
+        this.gl.clearColor(
+            material[buffer_layout.channel_materials[0]],
+            material[buffer_layout.channel_materials[1]],
+            material[buffer_layout.channel_materials[2]],
+            material[buffer_layout.channel_materials[3]]
+        );
 
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = this.buffers[buffer_name];
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+    });
 
-            // blending
-            let equation = material[buffer_layout.blend_mode].equation;
-            let sFactor = material[buffer_layout.blend_mode].sFactor;
-            let dFactor = material[buffer_layout.blend_mode].dFactor;
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
-            this.gl.enable(this.gl.BLEND);
-            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+}
 
-            // color
-            let colors = [
-                material[buffer_layout.channel_materials[0]],
-                material[buffer_layout.channel_materials[1]],
-                material[buffer_layout.channel_materials[2]],
-                material[buffer_layout.channel_materials[3]]
-            ];
+/**
+ * Draws a rectangle using provided material values
+ */
+rect(x: number, y: number, w: number, h: number, material = Material.white): void {
 
-            this.gl.colorMask(
-                colors[0] !== undefined,
-                colors[1] !== undefined,
-                colors[2] !== undefined,
-                colors[3] !== undefined
-            );
-
-            this.colorProgram.setUniformFloats("uColor", colors);
-
-            // draw
-            buffer.bind();
-            this.gl.viewport(0, 0, buffer.width, buffer.height);
-            this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
-        });
+    // set camera/cursor position
+    let mvMatrix = mat4.create();
+    mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
+    mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
 
 
-        // clean up
-        this.gl.disable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+    // set up program
+    this.colorProgram.use();
+    this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
+    this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+    this.colorProgram.setUniformMatrix("uMVMatrix", mvMatrix);
 
-        this.gl.colorMask(true, true, true, true);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
-    }
+    _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+        let buffer = this.buffers[buffer_name];
 
-    /**
-     * Copies the provided buffer's pixel values to the canvas
-     * @param buffer
-     */
-    show(bufferName = "albedo"): void {
-        let buffer = this.buffers[bufferName];
+        // blending
+        let equation = material[buffer_layout.blend_mode].equation;
+        let sFactor = material[buffer_layout.blend_mode].sFactor;
+        let dFactor = material[buffer_layout.blend_mode].dFactor;
 
-        // position rect
-        let mvMatrix = mat4.create();
-        mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
 
-        // config shader
-        this.textureProgram.use();
-        this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
-        this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquare.uvs, 2, this.gl.FLOAT, false, 0, 0);
-        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
-        this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
-        this.textureProgram.setUniformInts("uSampler", [0]);
+        // color
+        let colors = [
+            material[buffer_layout.channel_materials[0]],
+            material[buffer_layout.channel_materials[1]],
+            material[buffer_layout.channel_materials[2]],
+            material[buffer_layout.channel_materials[3]]
+        ];
 
-        // set texture
-        buffer.bindTexture(this.gl.TEXTURE0);
-        this.gl.generateMipmap(this.gl.TEXTURE_2D);
+        this.gl.colorMask(
+            colors[0] !== undefined,
+            colors[1] !== undefined,
+            colors[2] !== undefined,
+            colors[3] !== undefined
+        );
 
-        // draw rect to screen
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.colorProgram.setUniformFloats("uColor", colors);
+
+        // draw
+        buffer.bind();
+        this.gl.viewport(0, 0, buffer.width, buffer.height);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    });
 
-        // clean up
-        this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
-    }
+
+    // clean up
+    this.gl.disable(this.gl.BLEND);
+    this.gl.blendEquation(this.gl.FUNC_ADD);
+    this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+    this.gl.colorMask(true, true, true, true);
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+    this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
+}
+
+/**
+ * Copies the provided buffer's pixel values to the canvas
+ * @param buffer
+ */
+show(bufferName = "albedo"): void {
+    let buffer = this.buffers[bufferName];
+
+    // position rect
+    let mvMatrix = mat4.create();
+    mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+
+    // config shader
+    this.textureProgram.use();
+    this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
+    this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquare.uvs, 2, this.gl.FLOAT, false, 0, 0);
+    this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+    this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
+    this.textureProgram.setUniformInts("uSampler", [0]);
+
+    // set texture
+    buffer.bindTexture(this.gl.TEXTURE0);
+    this.gl.generateMipmap(this.gl.TEXTURE_2D);
+
+    // draw rect to screen
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+    this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+    // clean up
+    this.gl.activeTexture(this.gl.TEXTURE0);
+    this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+}
 }
 
 class Program {

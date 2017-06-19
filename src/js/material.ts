@@ -2,8 +2,6 @@ import * as gl_constants from 'gl-constants';
 import {strEnum} from './util';
 
 
-gl_constants.faker = 3;
-
 export interface BlendMode {
     equation: GLenum,
     sFactor: GLenum,
