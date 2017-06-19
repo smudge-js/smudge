@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently --kill-others -p \"[{name}]\" -n \"pbr5,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run pbr5\" \"npm run blog\"",
     "pbr5": "webpack-dev-server --open",
-    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/"
+    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/",
+    "api_doc": "typedoc --theme minimal --out ./api_doc/ src/app.ts"
   },
   "repository": {
     "type": "git",

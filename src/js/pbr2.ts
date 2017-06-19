@@ -114,7 +114,7 @@ export default class PBR {
     readonly canvas_width: number;
     readonly canvas_height: number;
 
-    readonly gl: WebGLRenderingContext;
+    private readonly gl: WebGLRenderingContext;
     private mvMatrix: mat4;
     private pMatrix: mat4;
 

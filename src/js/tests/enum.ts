@@ -5,15 +5,15 @@ let myColor = {
     blue: 0.0
 }
 
-// type ChannelName = "red" | "green" | "blue";
-// const ChannelNames = {
-//     red: <ChannelName>"red",
-//     green: <ChannelName>"green",
-//     blue: <ChannelName>"blue"
-// }
+type ChannelName = "red" | "green" | "blue";
+const ChannelNames = {
+    red: <ChannelName>"red",
+    green: <ChannelName>"green",
+    blue: <ChannelName>"blue"
+}
 
-const ChannelNames = strEnum(['red','green','blue']);
-type ChannelName = keyof typeof ChannelNames;
+// const ChannelNames = strEnum(['red','green','blue']);
+// type ChannelName = keyof typeof ChannelNames;
 
 
 
@@ -31,6 +31,9 @@ function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
     return res;
   }, Object.create(null));
 }
+
+//typedoc src/js/ --theme minimal --exclude "**/+(sketches|tests)/*" --excludeExternals  --excludePrivate  --out ./api_doc/
+//typedoc  --out ./api_doc/ src/
 
 
 
