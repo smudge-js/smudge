@@ -14,7 +14,7 @@ export function draw() {
     red.metallic = 1.0;
     red.smoothness = .5;
     red.emission_red = 1.0;
-    
+
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = .5;
@@ -88,10 +88,10 @@ export function draw() {
     m_mat.red = undefined;
     m_mat.green = 1.0;
     m_mat.blue = undefined;
-    m_mat.metallic = 1.0;  
-    m_mat.transparency = 1.0;  
+    m_mat.metallic = 1.0;
+    m_mat.transparency = 1.0;
     pbr.rect(12, 52, 10, 10, m_mat);
-    // this rectangle should overwrite the metalic + green values, 
+    // this rectangle should overwrite the metalic + green values,
     // but skip the red and blue values (and all others)
 
 
@@ -107,7 +107,7 @@ export function draw() {
     pbr.rect(50, 70, 10, 10, light_gray);
 
     dark_gray.albedo_blend_mode = BlendMode.Normal;
-    
+
     pbr.rect(12, 72, 10, 10, dark_gray);
 
     dark_gray.albedo_blend_mode = BlendMode.Additive;

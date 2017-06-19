@@ -24,11 +24,11 @@ export class PBR {
     private readonly buffers: { [key: string]: Framebuffer };
 
     /**
-     * 
+     *
      * @param canvas Canvas to draw to. If not specified, PBR will look for #gl-canvas.
      * @param width The width of the drawing.
      * @param height The height of the drawing.
-     * @param super_sampling 
+     * @param super_sampling
      */
     constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number, readonly super_sampling: number = 8) {
         this.canvas = canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
@@ -91,7 +91,7 @@ export class PBR {
             let buffer = this.buffers[buffer_name];
             buffer.bind();
 
-           
+
 
             this.gl.clearColor(
                 material[buffer_layout.channel_materials[0]],
@@ -366,7 +366,7 @@ class Framebuffer {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
         gl.generateMipmap(gl.TEXTURE_2D);
-        
+
         // attach texture
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
 
