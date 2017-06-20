@@ -23,8 +23,6 @@ function _draw() {
     paint.height = .002;
     paint.height_blend_mode = BlendMode.Additive;
 
-
-
     for (let line = 0; line < 10; line++) {
         let x = pbr.width * .5;
         let y = pbr.height * .5;

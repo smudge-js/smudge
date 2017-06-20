@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/pollock_2';
+import { draw } from './js/sketches/test_download';
 
 draw();

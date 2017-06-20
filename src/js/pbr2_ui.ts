@@ -2,14 +2,14 @@ declare var require: any;
 
 var _ = require('lodash/core');
 
-import {PBR} from './pbr2';
-import {buffer_layouts} from './buffer_layouts';
+import { PBR } from './pbr2';
+import { buffer_layouts } from './buffer_layouts';
 
 
 
 export function bindUI(pbr: PBR) {
     let ui = document.querySelector(".ui");
-   
+
     _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
         let showButton = document.createElement("button");
         showButton.textContent = buffer_name;
@@ -20,7 +20,7 @@ export function bindUI(pbr: PBR) {
 
         ui.appendChild(showButton);
     });
-    
+
     ui.appendChild(document.createElement("br"));
     ui.appendChild(document.createElement("br"));
 
@@ -35,7 +35,8 @@ export function bindUI(pbr: PBR) {
             pbr.show(buffer_name);
             let dataURL = pbr.canvas.toDataURL('image/png');
             console.log("dis", this);
-            
+            console.log("dataURL length " + dataURL.length);
+
             this.href = dataURL;
         });
 
