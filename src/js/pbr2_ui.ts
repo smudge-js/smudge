@@ -4,7 +4,7 @@ var _ = require('lodash/core');
 
 import { PBR } from './pbr2';
 import { buffer_layouts } from './buffer_layouts';
-
+import { saveAs } from 'file-saver';
 
 
 export function bindUI(pbr: PBR) {
@@ -29,17 +29,22 @@ export function bindUI(pbr: PBR) {
         downloadLink.textContent = `download ${buffer_name}`;
         downloadLink.setAttribute("href", "#");
         downloadLink.setAttribute("class", "download-button");
-        downloadLink.setAttribute("download", `image_${buffer_name}.png`);
+        // downloadLink.setAttribute("download", `image_${buffer_name}.png`);
 
-        downloadLink.addEventListener("click", function download() {
+        var fileName = `image_${buffer_name}.png`;
+
+        downloadLink.addEventListener("click", function download(event) {
+            event.preventDefault();
             pbr.show(buffer_name);
-            let dataURL = pbr.canvas.toDataURL('image/png');
-            console.log("dis", this);
-            console.log("dataURL length " + dataURL.length);
 
-            this.href = dataURL;
+            // let dataURL = pbr.canvas.toDataURL('image/png');
+            // this.href = dataURL;
+
+            pbr.canvas.toBlob((blob) => {
+                console.log(this, fileName, blob);
+                saveAs(blob, fileName);
+            });
         });
-
         ui.appendChild(downloadLink);
     });
 
