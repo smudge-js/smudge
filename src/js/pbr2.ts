@@ -334,9 +334,9 @@ class Framebuffer {
             this.depth = depth = 16;
         }
 
-        const max_size = gl.getParameter(gl.MAX_TEXTURE_SIZE) * .5;
+        const max_size = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE));
         if (width > max_size || height > max_size) {
-            console_error(`Requested texture size larger than MAX_TEXTURE_SIZE/2 (${max_size}). Trying ${max_size}.`);
+            console_error(`Requested texture size (${width}) too big. Trying ${max_size}.`);
             this.width = width = max_size;
             this.height = height = max_size;
         }

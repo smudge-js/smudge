@@ -3,7 +3,7 @@ import { PBR, Material, BlendMode } from '../pbr';
 let pbr: PBR;
 
 export function draw() {
-    pbr = new PBR(undefined, 2048, 2048);
+    pbr = new PBR(undefined, 1024, 1024);
 
     // setInterval(_draw, 10);
     _draw();
@@ -51,5 +51,3 @@ function _draw() {
 function random(min = 0, max = 1) {
     return Math.random() * (max - min) + min;
 }
-
-
