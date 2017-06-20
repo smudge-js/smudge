@@ -16,6 +16,12 @@ export const BlendMode = {
         dFactor: gl_constants.ONE_MINUS_SRC_ALPHA
     },
 
+    REPLACE: <ReadonlyBlendMode>{
+        equation: gl_constants.FUNC_ADD,
+        sFactor: gl_constants.ONE,
+        dFactor: gl_constants.ZERO
+    },
+
     Additive: <ReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
         sFactor: gl_constants.SRC_ALPHA,
@@ -26,7 +32,26 @@ export const BlendMode = {
         equation: gl_constants.FUNC_REVERSE_SUBTRACT,
         sFactor: gl_constants.SRC_ALPHA,
         dFactor: gl_constants.ONE
-    }
+    },
+
+    Darkest: <ReadonlyBlendMode>{
+        equation: gl_constants.MIN,
+        sFactor: gl_constants.SRC_ALPHA,
+        dFactor: gl_constants.ONE
+    },
+
+    Lightest: <ReadonlyBlendMode>{
+        equation: gl_constants.MAX,
+        sFactor: gl_constants.SRC_ALPHA,
+        dFactor: gl_constants.ONE
+    },
+
+    Multiply: <ReadonlyBlendMode>{
+        equation: gl_constants.FUNC_ADD,
+        sFactor: gl_constants.DST_COLOR,
+        dFactor: gl_constants.ZERO
+    },
+
 }
 
 

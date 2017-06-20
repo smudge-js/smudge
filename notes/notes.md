@@ -19,6 +19,18 @@ x.network error on download with some pixel content.
 ### Dont's
 - not using jsx for interface, too much tooling at this point
 
+####################################
+## Todo Talia
+
+- Demo + Test Sketches
+    Blend Modes
+    Example with each blend mode, with alpha at 100% and 50%
+    Probably a couple color combos each.
+
+- Naming + Branding
+- Website + Documentation Design
+
+
 
 
 ####################################
@@ -31,7 +43,7 @@ x.network error on download with some pixel content.
     .move drawArrays (drawIndexed) into geo class?
     .give geo a human name
 
-.more blend modes
+x.more blend modes
 
 .Material.lerp(mat1, mat2, .3);
 
