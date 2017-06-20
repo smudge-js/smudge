@@ -16,9 +16,7 @@
         "**/sketches/*",
         "**/tests/*"
     ],
-    "include":[
+    "include": [
         "src"
     ]
 }
-
-

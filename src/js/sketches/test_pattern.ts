@@ -63,8 +63,6 @@ export function draw() {
         pbr.rect(10, 30, x / 4, 10, black_fade);
     }
 
-
-
     // channel skip test
     console.log("channel skip");
     let makeBlank = function () {

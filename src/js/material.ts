@@ -1,5 +1,5 @@
 import * as gl_constants from 'gl-constants';
-import {strEnum} from './util';
+import { strEnum } from './util';
 
 
 export interface BlendMode {
@@ -10,24 +10,26 @@ export interface BlendMode {
 export type ReadonlyBlendMode = Readonly<BlendMode>;
 
 export const BlendMode = {
-    Normal: <ReadonlyBlendMode> {
+    Normal: <ReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
         sFactor: gl_constants.SRC_ALPHA,
         dFactor: gl_constants.ONE_MINUS_SRC_ALPHA
     },
 
-    Additive: <ReadonlyBlendMode> {
+    Additive: <ReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
         sFactor: gl_constants.SRC_ALPHA,
         dFactor: gl_constants.ONE
     },
 
-    Subtractive: <ReadonlyBlendMode> {
+    Subtractive: <ReadonlyBlendMode>{
         equation: gl_constants.FUNC_REVERSE_SUBTRACT,
         sFactor: gl_constants.SRC_ALPHA,
         dFactor: gl_constants.ONE
     }
 }
+
+
 
 
 export const BlendModeKey = strEnum([
