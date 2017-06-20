@@ -6,6 +6,9 @@ just move to a proper download library?
 
 # Notes
 
+Cloning..
+Object.create(obj)
+
 ####################################
 ## Style Guide
 
@@ -67,7 +70,9 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
     EXT_frag_depth
 
 .RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
+    .this is more urgent now, that the textures being too big is an issue.
 
+    
 .new github desktop 
 
 .is there a way to use gl constants without a gl instance in config objects, etc. without just defining them myself?

@@ -1,11 +1,12 @@
 // import {PBR} from '../pbr2';
 // import {Material, BlendMode} from '../material';
 
-import {PBR, Material, BlendMode} from '../pbr';
+import { PBR, Material, BlendMode } from '../pbr';
+
 
 export function draw() {
 
-    let pbr = new PBR(undefined, 128, 128, 8);
+    let pbr = new PBR(undefined, 128, 128);
 
     const clear = new Material(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
 
@@ -14,7 +15,6 @@ export function draw() {
     red.metallic = 1.0;
     red.smoothness = .5;
     red.emission_red = 1.0;
-
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = .5;
@@ -67,12 +67,12 @@ export function draw() {
 
     // channel skip test
     console.log("channel skip");
-    let makeBlank = function() {
+    let makeBlank = function () {
         return new Material(
-        undefined, undefined, undefined, undefined,
-        undefined, undefined,
-        undefined,
-        undefined, undefined, undefined);
+            undefined, undefined, undefined, undefined,
+            undefined, undefined,
+            undefined,
+            undefined, undefined, undefined);
     }
 
     let rgbm_mat = makeBlank();
