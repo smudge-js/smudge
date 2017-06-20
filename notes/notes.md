@@ -26,6 +26,7 @@ x.network error on download with some pixel content.
     Blend Modes
     Example with each blend mode, with alpha at 100% and 50%
     Probably a couple color combos each.
+    creating materials with 0, 0, 0, with {} and with copy constructor new Material(mymat)
 
 - Naming + Branding
 - Website + Documentation Design
@@ -47,9 +48,26 @@ x.more blend modes
 
 .Material.lerp(mat1, mat2, .3);
 
-.material constructor that takes objects for named params
-    Object.assign(target, ...sources)
-        type material_spec = ?keyof material (or something?)
+x.material constructor that takes objects for named params
+    x.Object.assign(target, ...sources)
+        x.type material_spec = ?keyof material (or something?) -> partial<>
+
+    mat.red = 1
+    mat.setAlbedo(1, 1, 1); ->red, green, blue
+    mat.setAlbedo(1, 1, 1, 1); ->red, green, blue, transparency
+    mat.setAlbedo([1, 1, 1]); ->red, green, blue
+    mat.setAlbedo([1, 1, 1, 1]); ->red, green, blue, transparency
+    mat.setAlbedo([1, 1, 1], 1); ->red, green, blue, transparency
+    mat.setAlbedo([1, 1, 1, .5], 1); ->red, green, blue, transparency(1), warn? (the .5 is extra)
+    mat.setAlbedo(1, 1, 1, 1, BlendMode.Normal); ->red, green, blue, transparency, albedo_blend_mode
+
+    mat.setMetallic(1); m
+    mat.setMetallic(1, 1); m, t
+    mat.setMetallic(1, 1, BlendMode.Normal); m, t, mbm
+    mat.setMetallic([1, .5, .5, .6]); m, t (.5s skipped) // maybe better to error here.
+    
+    
+        
 
 .transform?
 

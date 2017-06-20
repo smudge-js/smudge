@@ -81,7 +81,7 @@ export const ChannelKey = strEnum([
 ])
 export type ChannelKey = keyof typeof ChannelKey;
 
-
+type MaterialConfig = Partial<Material>;
 
 export class Material {
     public albedo_blend_mode = BlendMode.Normal;
@@ -90,18 +90,58 @@ export class Material {
     public height_blend_mode = BlendMode.Normal;
     public emission_blend_mode = BlendMode.Normal;
 
+    public red = 0;
+    public green = 0;
+    public blue = 0;
+    public transparency = 0;
+    public metallic = 0;
+    public smoothness = 0;
+    public height = 0;
+    public emission_red = 0;
+    public emission_green = 0;
+    public emission_blue = 0;
+
+    constructor(config: MaterialConfig);
     constructor(
-        public red = 0,
-        public green = 0,
-        public blue = 0,
-        public transparency = 0,
-        public metallic = 0,
-        public smoothness = 0,
-        public height = 0,
-        public emission_red = 0,
-        public emission_green = 0,
-        public emission_blue = 0
-    ) { };
+        red?: number,
+        green?: number,
+        blue?: number,
+        transparency?: number,
+        metallic?: number,
+        smoothness?: number,
+        height?: number,
+        emission_red?: number,
+        emission_green?: number,
+        emission_blue?: number
+    );
+    constructor(
+        config: number | MaterialConfig = 0,
+        green = 0,
+        blue = 0,
+        transparency = 0,
+        metallic = 0,
+        smoothness = 0,
+        height = 0,
+        emission_red = 0,
+        emission_green = 0,
+        emission_blue = 0
+    ) {
+        if (typeof config === 'number') {
+            this.red = config;
+            this.green = green;
+            this.blue = blue;
+            this.transparency = transparency;
+            this.metallic = metallic;
+            this.smoothness = smoothness;
+            this.height = height;
+            this.emission_red = emission_red;
+            this.emission_green = emission_green;
+            this.emission_blue = emission_blue;
+        } else {
+            Object.assign(this, config);
+        }
+    };
+
 
     toString() {
         return `Material(rgba ${this.red} ${this.green} ${this.blue} ${this.transparency} ms ${this.metallic} ${this.smoothness} h ${this.height} ergb ${this.emission_red} ${this.emission_green} ${this.emission_blue})`;

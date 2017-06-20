@@ -21,10 +21,19 @@ export function draw() {
     green.metallic = 1.0;
     green.smoothness = .5;
 
-    const blue = new Material(0.0, 0.0, 1.0, 1.0);
-    blue.height = 1.0;
-    blue.metallic = 1.0;
-    blue.smoothness = .5;
+
+    const blue = new Material({
+        red: 0,
+        green: 0,
+        blue: 1,
+        transparency: 1,
+        height: .5,
+        metallic: 1.0,
+        smoothness: .5
+    });
+
+
+
 
 
     pbr.clear();

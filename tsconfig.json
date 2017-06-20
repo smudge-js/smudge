@@ -9,7 +9,12 @@
         "noImplicitAny": true,
         "strictNullChecks": false,
         "noImplicitThis": true,
-        "alwaysStrict": true
+        "alwaysStrict": true,
+        "lib": [
+            "es2015",
+            "es2017",
+            "dom"
+        ]
     },
     "exclude": [
         "node_modules",
