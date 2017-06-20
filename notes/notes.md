@@ -1,13 +1,13 @@
 # Bugs
 
-network error on download with some pixel content. find a clean repo?
-maybe png data was larger than a data url can hold?
-just move to a proper download library?
+x.network error on download with some pixel content. 
+    x.find a clean repro? any "noisey" image that doesn't compress well
+        x.maybe png data was larger than a data url can hold? Yes, that was it.
+            x.just move to a proper download library? using file-saver.js now
 
 # Notes
 
-Cloning..
-Object.create(obj)
+
 
 ####################################
 ## Style Guide
@@ -16,7 +16,7 @@ Object.create(obj)
 - bind back to null / clean up after binds at end of functions
 - error checking: at the very least make a test and use console_report and console_error this will at least make it easier to go back and put in proper handling.
 
-### Don'ts
+### Dont's
 - not using jsx for interface, too much tooling at this point
 
 
@@ -24,27 +24,32 @@ Object.create(obj)
 ####################################
 ## Todo / Clean Up / Refactor
 
-.gen docs
-
-
-.module import packing ("barreling?")
-
-.Material.lerp(mat1, mat2, .3);
-
-
-.make a blit channel function that can blit a buffer channel to another buffer channel
-    blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 .refactor the geo into a class
     x.basics
     .move set vertex and uv shader attribs into geo class? (using standard naming convention)
     .move drawArrays (drawIndexed) into geo class?
+    .give geo a human name
+
+.more blend modes
+
+.Material.lerp(mat1, mat2, .3);
+
+.material constructor that takes objects for named params
+    Object.assign(target, ...sources)
+        type material_spec = ?keyof material (or something?)
+
+.transform?
+
+.pack smoothness and metallic!
+    .make a blit channel function that can blit a buffer channel to another buffer channel
+        blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 
-~.needs better app.ts sketch.ts interface. right now you can't have each sketch determine its size, etc.
 
-x.move buffer_width* into Framebuffer
-    x.this is in the PBR1.ts now, but couples much better to Framebuffer. This would also allow for x.different oversampling amounts per buffer.
+.download full texture set at once?
+    .JSZip
+        https://github.com/Stuk/jszip
 
 
 .object wrappers
@@ -59,7 +64,11 @@ x.storage buffer
 
 x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
-
+.gen docs
+    .this is looking like it might need more manual intervention...
+        .typedoc is documenting to many needless files.
+        .documentation is to tied to code, not high level enough.
+        .some types etc are just not clearly presented through genned docs
 
 
 
@@ -78,7 +87,6 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 .is there a way to use gl constants without a gl instance in config objects, etc. without just defining them myself?
 
 
-
 .What is the best way to handle immutability in Typescript/Javascript
     .e.g. how can i make the BlendMode presets read only, or copy on read? maybe just make them functions that return newly built?
     intead of 
@@ -90,6 +98,8 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
         immutalbe
         mutable copy of immutable (unreachable) template -> this would probably work often
 
+.Cloning..
+    Object.create(obj)
 
 ###################################
 ## Blending
@@ -112,12 +122,6 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 ####################################
 ## Blog Post Ideas
 
-.Floating Point Texture Attachments
-    might not work: floating point texture renderbuffer attachment
-    might work: user a renderbuffer and then copy to texture. I'd rather right straight to textures so they can be fed into shaders
-    try oes extension for floats instead of webgl2?
-    Just a quick post about trying to figure this out. With error messages to make it googleable.
-    finally! https://www.khronos.org/registry/webgl/extensions/EXT_color_buffer_float/
 
 .Print
     Finally, while digital screens cannot recreate qualities like smoothness and metallicness and height, it is somewhat possible to recreate these qualities in printed material using methods like selective gloss coating, foil stamping, and embossing. It might be interesting to use this system to create images wiht print in mind.
@@ -174,10 +178,9 @@ x.RESEARCH.is alpha special?
 
 
 ## Discussion/Documentation Point (Per Group Controlls)
-.add idea of channel group (metallic is group with just metallic, rgb is group with r g b);
-.add blend mode to material channels/groups, can/shoud we do this per channel?
-.have drawing operations skip channels/groups if material value is undefined
-.colorMask
+x.add idea of channel group (channel groups are pretty much just the channels that share a buffer) (metallic is group with just metallic, rgb is group with r g b);
+x.add blend mode to material channels/groups, can/shoud we do this per channel?
+x.have drawing operations skip channels/groups if material value is undefined x.colorMask
 .material constructor that takes objects for named params
 
 ## Discussion/Documentation Point (Texturing)
@@ -187,15 +190,17 @@ x.RESEARCH.is alpha special?
 .expose stencil buffer?! draw stencil, draw normal (fragments stenciled), clear stencil
 
 
+## bad sugar idea
 .pseudo language sugar idea: create bit mask values for each channel, create "swizle aliases" like this. rgbm = r | g | b | m
     .probably a bad idea because gbr wouldn't work unless you did every ordering. and if you did do every ordering, user might expect order to matter.
 
 ## Implementation Point (Data Storage/Packing)
-.i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
-    .so split these into their own channelgroups like height, create packer to swizle them into the desired export layout
-        .single channel buffer/texture?
-            .RESEARCH.how does that work with alpha blending?
-                .currently no way to do alpha with height i think. for example i can currently set the height .5, soon should be able to use "add" to build height up, would be nice to maybe set hieght to .5 (alpha .1) to gradually move height towards .5.
+x.i'm storing smoothness in metallic.a which matches the export but doesn't work for previewing well at all
+    x.so split these into their own channelgroups like height, create packer to swizle them into the desired export layout
+        x.single channel buffer/texture?
+.RESEARCH.how does that work with alpha blending?
+    all channels use Transparency for their alpha, probably needs to be seperate
+    and transparency probably needs ITS OWN alpha...
 .create packing class that defines channel -> output texture packing
     .make it general so user defined channels can be created, editied, packed, exported
 
@@ -210,10 +215,13 @@ x.RESEARCH.is alpha special?
 
 
 ## Implementation/Documenation Point (HDR)
+    working with half-floats
+
 ## Implementation/Documenation Point (OVERSAMPLING)
+    using large textures now. this is more memory and fill intensive, use built in MSAA with renderbuffers?
 
 ## Implementation/Documenation Point (Shader Conventions)
-x.create conventions for names of uniforms/attributes passed to shader material class?
+.create conventions for names of uniforms/attributes passed to shader material class?
     .now partially embodied in the `Material` class
 
 
