@@ -7,6 +7,10 @@ x.network error on download with some pixel content.
 
 # Notes
 
+Color Library 
+chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
+Qix-/color - constructor without new. no hsl/v constructor?
+
 
 
 ####################################
@@ -46,7 +50,7 @@ x.network error on download with some pixel content.
 
 x.more blend modes
 
-.Material.lerp(mat1, mat2, .3);
+.Material.lerp(mat1, mat2, .3); //lerp in color space?
 
 x.material constructor that takes objects for named params
     x.Object.assign(target, ...sources)

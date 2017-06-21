@@ -105,7 +105,6 @@ export class PBR {
      * Draws a rectangle using provided material values
      */
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
-
         // set camera/cursor position
         let mvMatrix = mat4.create();
         mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
@@ -166,6 +165,7 @@ export class PBR {
         this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
 
+
     /**
      * Copies the provided buffer's pixel values to the canvas
      * @param buffer
@@ -204,6 +204,11 @@ export class PBR {
 class Program {
     public program: WebGLProgram;
 
+    private attribLocations: { [attrib: string]: number } = {};
+
+    private uniformLocations: { [attrib: string]: WebGLUniformLocation } = {};
+
+
     constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext, readonly vertexSource: string, readonly fragmentSource: string) {
 
         const vertexShader = gl.createShader(gl.VERTEX_SHADER);
@@ -237,11 +242,21 @@ class Program {
         this.gl.useProgram(this.program);
     }
 
-    setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
-        let loc = this.gl.getAttribLocation(this.program, attribute);
-        if (loc == -1) {
-            console_error(this.toString(), `Shader program attribute not found: ${attribute}`);
+    getAttribLocation(attribute: string): number {
+        let loc: number;
+        if (this.attribLocations[attribute] !== undefined) {
+            loc = this.attribLocations[attribute];
+        } else {
+            loc = this.gl.getAttribLocation(this.program, attribute);
+            this.attribLocations[attribute] = loc;
+            if (loc == -1) {
+                console_error(this.toString(), `Shader program attribute not found: ${attribute}`);
+            }
         }
+        return loc;
+    }
+    setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
+        const loc = this.getAttribLocation(attribute);
 
         this.gl.enableVertexAttribArray(loc);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
@@ -249,11 +264,21 @@ class Program {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
     }
 
-    setUniformFloats(uniform: string, value: Float32Array | number[]): void {
-        let loc = this.gl.getUniformLocation(this.program, uniform);
-        if (loc == null) {
-            console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
+    getUniformLocation(uniform: string): WebGLUniformLocation {
+        let loc: WebGLUniformLocation;
+        if (this.uniformLocations[uniform] !== undefined) {
+            loc = this.uniformLocations[uniform];
+        } else {
+            loc = this.gl.getUniformLocation(this.program, uniform);
+            this.uniformLocations[uniform] = loc;
+            if (loc == null) {
+                console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
+            }
         }
+        return loc;
+    }
+    setUniformFloats(uniform: string, value: Float32Array | number[]): void {
+        const loc = this.getUniformLocation(uniform);
 
         if (value.length === 1) {
             this.gl.uniform1fv(loc, value);
@@ -272,7 +297,8 @@ class Program {
     }
 
     setUniformInts(uniform: string, value: Int32Array | number[]): void {
-        let loc = this.gl.getUniformLocation(this.program, uniform);
+        const loc = this.getUniformLocation(uniform);
+
         if (loc == null) {
             console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
         }
@@ -294,10 +320,7 @@ class Program {
     }
 
     setUniformMatrix(uniform: string, value: Float32Array | number[]): void {
-        let loc = this.gl.getUniformLocation(this.program, uniform);
-        if (loc == null) {
-            console_error(this.toString(), `Shader program uniform not found: ${uniform}`);
-        }
+        const loc = this.getUniformLocation(uniform);
 
         if (value.length === 4) {
             this.gl.uniformMatrix2fv(loc, false, value);
