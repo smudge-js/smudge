@@ -1,4 +1,4 @@
-import {ChannelKey, BlendModeKey} from './material';
+import { ChannelKey, BlendModeKey } from './material';
 
 interface BufferLayout {
     super_sampling: number;
@@ -11,35 +11,35 @@ export type ReadonlyBufferLayout = Readonly<BufferLayout>;
 
 
 export const buffer_layouts = {
-    albedo: <ReadonlyBufferLayout> {
+    albedo: <ReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 4,
         channel_materials: ["red", "green", "blue", "transparency"],
         blend_mode: "albedo_blend_mode"
     },
-    metallic: <ReadonlyBufferLayout> {
+    metallic: <ReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 1,
         channel_materials: ["metallic", "metallic", "metallic", "transparency"],
         blend_mode: "metallic_blend_mode"
     },
-    smoothness: <ReadonlyBufferLayout> {
+    smoothness: <ReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 1,
         channel_materials: ["smoothness", "smoothness", "smoothness", "transparency"],
         blend_mode: "smoothness_blend_mode"
     },
-    height: <ReadonlyBufferLayout> {
+    height: <ReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 1,
         channel_materials: ["height", "height", "height", "transparency"],
         blend_mode: "height_blend_mode"
     },
-    emission: <ReadonlyBufferLayout> {
+    emission: <ReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 4,
