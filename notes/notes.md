@@ -42,6 +42,15 @@ Qix-/color - constructor without new. no hsl/v constructor?
 ## Todo / Clean Up / Refactor
 
 
+.not fully happy with the relationship between Programs and Geometries
+    .pbr configs materail properties of program
+    .pbr asks geometry to configure geo properties of program + draw
+    .seems reasonable enough, but i'm finding the coupling a little off
+    .the program needs data from geo and from material
+    .three js has a mesh object that contains both geo and material
+    .need a common naming convention for Attribs and Uniforms. Should use Three.js format? Maybe, might make using their shaders possibe. on the other hand their shaders probably won't mean much for our project.
+    .also the model matrix adjustment for unitsquare/cirlce should happen in geo, because not all geo wants that...
+
 .refactor the geo into a class
     x.basics
     .move set vertex and uv shader attribs into geo class? (using standard naming convention)

@@ -5,7 +5,7 @@ import { console_report, console_error } from './util';
 import { bindUI } from './pbr2_ui'
 import { buffer_layouts } from './buffer_layouts';
 import { Material } from './material';
-
+import { Geometry, UnitSquare, UnitCircle } from './geometry';
 
 export class PBR {
 
@@ -21,6 +21,7 @@ export class PBR {
     private readonly textureProgram: Program;
 
     private readonly unitSquare: Geometry;
+    private readonly unitCircle: Geometry;
     private readonly buffers: { [key: string]: Framebuffer };
 
     /**
@@ -59,7 +60,8 @@ export class PBR {
         this.textureProgram = new Program("textureProgram", this.gl, textureVert, textureFrag);
 
         // build geo
-        this.unitSquare = buildUnitSquare(this.gl);
+        this.unitSquare = new UnitSquare(this.gl);
+        this.unitCircle = new UnitCircle(this.gl, 50);
 
         // build buffers
         this.buffers = {};
@@ -101,20 +103,23 @@ export class PBR {
 
     }
 
-    /**
-     * Draws a rectangle using provided material values
-     */
     rect(x: number, y: number, w: number, h: number, material = Material.white): void {
+        this.drawGeometry(this.unitSquare, x, y, w, h, material);
+    }
+
+    ellipse(x: number, y: number, w: number, h: number, material = Material.white): void {
+        this.drawGeometry(this.unitCircle, x, y, w, h, material);
+    }
+
+    drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white): void {
         // set camera/cursor position
         let mvMatrix = mat4.create();
         mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
-
-
         // set up program
         this.colorProgram.use();
-        this.colorProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
+
         this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.colorProgram.setUniformMatrix("uMVMatrix", mvMatrix);
 
@@ -150,8 +155,13 @@ export class PBR {
             // draw
             buffer.bind();
             this.gl.viewport(0, 0, buffer.width, buffer.height);
-            this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+
+            geometry.draw(this.colorProgram);
+
         });
+
+
 
 
 
@@ -164,6 +174,8 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
+
+
 
 
     /**
@@ -179,8 +191,6 @@ export class PBR {
 
         // config shader
         this.textureProgram.use();
-        this.textureProgram.setAttributeValue("aVertexPosition", this.unitSquare.verticies, 3, this.gl.FLOAT, false, 0, 0);
-        this.textureProgram.setAttributeValue("aTextureCoord", this.unitSquare.uvs, 2, this.gl.FLOAT, false, 0, 0);
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
         this.textureProgram.setUniformInts("uSampler", [0]);
@@ -191,7 +201,9 @@ export class PBR {
 
         // draw rect to screen
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+
+        this.unitSquare.draw(this.textureProgram);
+
 
         // clean up
         this.gl.activeTexture(this.gl.TEXTURE0);
@@ -201,7 +213,7 @@ export class PBR {
     }
 }
 
-class Program {
+export class Program {
     public program: WebGLProgram;
 
     private attribLocations: { [attrib: string]: number } = {};
@@ -257,7 +269,9 @@ class Program {
     }
     setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
         const loc = this.getAttribLocation(attribute);
-
+        if (loc === -1) {
+            return;
+        }
         this.gl.enableVertexAttribArray(loc);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
         this.gl.vertexAttribPointer(loc, size, type, normalized, stride, offset);
@@ -425,49 +439,7 @@ class Framebuffer {
 
 }
 
-class Geometry {
-    public verticies: WebGLBuffer;
-    public uvs: WebGLBuffer;
-}
 
-function buildUnitSquare(gl: WebGLRenderingContext): Geometry {
-    let geometry = new Geometry();
-
-    geometry.verticies = buildUnitSquareVerticies(gl);
-    geometry.uvs = buildUnitSquareUVs(gl);
-    return geometry;
-
-    function buildUnitSquareVerticies(gl: WebGLRenderingContext): WebGLBuffer {
-
-        const vertices = [
-            1.0, 1.0, 0.0,
-            0.0, 1.0, 0.0,
-            1.0, 0.0, 0.0,
-            0.0, 0.0, 0.0,
-        ];
-
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-        gl.bindBuffer(gl.ARRAY_BUFFER, null);
-        return buffer;
-    }
-
-    function buildUnitSquareUVs(gl: WebGLRenderingContext): WebGLBuffer {
-        const uvs = [
-            1.0, 1.0,
-            0.0, 1.0,
-            1.0, 0.0,
-            0.0, 0.0
-        ]
-
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
-        gl.bindBuffer(gl.ARRAY_BUFFER, null);
-        return buffer;
-    }
-}
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
     const gl = canvas.getContext('webgl2') as WebGLRenderingContext;

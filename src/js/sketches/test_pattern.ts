@@ -37,6 +37,7 @@ export function draw() {
 
 
     pbr.clear();
+    pbr.ellipse(10, 100, 10, 10, red);
 
 
     // anti-alias check
@@ -145,6 +146,7 @@ export function draw() {
     //     green_gradient.green += .002;
     //     pbr.rect(10 + x, 50, 1, 10, green_gradient);
     // }
+
 
 
 
