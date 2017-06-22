@@ -8,7 +8,7 @@ export function draw() {
 
     let pbr = new PBR(undefined, 128, 128);
 
-    const clear = new Material(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
+    const clear = new Material(1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
 
     const red = new Material(1.0, 0.0, 0.0, 1.0);
     red.height = .25;
@@ -114,7 +114,6 @@ export function draw() {
     pbr.rect(50, 70, 10, 10, light_gray);
 
     dark_gray.albedo_blend_mode = BlendMode.Normal;
-
     pbr.rect(12, 72, 10, 10, dark_gray);
 
     dark_gray.albedo_blend_mode = BlendMode.Additive;
