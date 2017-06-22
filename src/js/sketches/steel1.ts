@@ -8,21 +8,39 @@ export function draw() {
   let pbr = new PBR(undefined, canvasWidth, canvasHeight);
 
   // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
-  const background = new Material(0.8, 0.8, 0.8, 1.0, 0.8, 0.2,0.2);
-  const black = new Material(0, 0, 0, 1, 0.8, 0,0.1);
+  const background = new Material(0.3, 0.3, 0.3, 1.0, 0.2, 0.2,0.1,0.6);
+  const metalLines = new Material(0, 0, 0, 0.1, 0.2, 0 ,0.1,0.6);
+  metalLines.height = 0.3;
+  metalLines.height_blend_mode = BlendMode.Additive;
   // black.albedo_blend_mode = BlendMode.Additive;
 
   pbr.rect(0, 0, canvasWidth, canvasWidth, background); // background
 
-  let linesCount = 1000;
+  let linesCount = 3000;
+  let rectsCount = 3000;
+  let specklesCount = 100000;
   let minLineLength=50;
 
-  for (let g = 0; g<linesCount; g++){
-    let diameter = random(5,15);
-    black.transparency=random(0.05,0.3);
-    pbr.rect(random(-150,150),random(0,canvasHeight),random(minLineLength,canvasWidth+150),1,black);
-
+  for (let r = 0; r<rectsCount; r++){
+    metalLines.height = random(0,0.3);
+    metalLines.transparency = 0;
+    pbr.rect(random(0,canvasWidth),random(0,canvasHeight),random(100,200),random(100,200),metalLines);
   };
+
+  for (let l = 0; l<linesCount; l++){
+    let diameter = random(5,15);
+    metalLines.transparency = 0.05;
+    metalLines.height=random(0.075,0.125);
+    pbr.rect(random(0-canvasWidth,canvasWidth),random(0,canvasHeight),random(minLineLength,canvasWidth),random(1,3),metalLines);
+  };
+
+  for (let s = 0; s<specklesCount; s++){
+    metalLines.transparency = 0.05;
+    metalLines.height=0;
+    pbr.rect(random(0-canvasWidth,canvasWidth),random(0,canvasHeight),random(4,10),random(4,10),metalLines);
+  };
+
+
 
   pbr.show();
 

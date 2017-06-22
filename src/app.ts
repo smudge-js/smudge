@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/speed_test';
+import { draw } from './js/sketches/steel1';
 
 draw();
