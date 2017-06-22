@@ -103,17 +103,18 @@ export class PBR {
 
     }
 
-    rect(x: number, y: number, w: number, h: number, material = Material.white): void {
-        this.drawGeometry(this.unitSquare, x, y, w, h, material);
+    rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+        this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
     }
 
-    ellipse(x: number, y: number, w: number, h: number, material = Material.white): void {
-        this.drawGeometry(this.unitCircle, x, y, w, h, material);
+    ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+        this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
     }
 
-    drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white): void {
+    drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
         // set camera/cursor position
         let mvMatrix = mat4.create();
+        mat4.multiply(mvMatrix, mvMatrix, matrix);
         mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 

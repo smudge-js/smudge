@@ -42,20 +42,20 @@ Qix-/color - constructor without new. no hsl/v constructor?
 ## Todo / Clean Up / Refactor
 
 
-.not fully happy with the relationship between Programs and Geometries
-    .pbr configs materail properties of program
-    .pbr asks geometry to configure geo properties of program + draw
-    .seems reasonable enough, but i'm finding the coupling a little off
-    .the program needs data from geo and from material
-    .three js has a mesh object that contains both geo and material
-    .need a common naming convention for Attribs and Uniforms. Should use Three.js format? Maybe, might make using their shaders possibe. on the other hand their shaders probably won't mean much for our project.
-    .also the model matrix adjustment for unitsquare/cirlce should happen in geo, because not all geo wants that...
 
 .refactor the geo into a class
     x.basics
     .move set vertex and uv shader attribs into geo class? (using standard naming convention)
     .move drawArrays (drawIndexed) into geo class?
     .give geo a human name
+    .not fully happy with the relationship between Programs and Geometries
+        .pbr configs materail properties of program
+        .pbr asks geometry to configure geo properties of program + draw
+        .seems reasonable enough, but i'm finding the coupling a little off
+        .the program needs data from geo and from material
+        .three js has a mesh object that contains both geo and material
+        .need a common naming convention for Attribs and Uniforms. Should use Three.js format? Maybe, might make using their shaders possibe. on the other hand their shaders probably won't mean much for our project.
+        .also the model matrix adjustment for unitsquare/cirlce should happen in geo, because not all geo wants that...
 
 x.more blend modes
 
@@ -65,6 +65,8 @@ x.material constructor that takes objects for named params
     x.Object.assign(target, ...sources)
         x.type material_spec = ?keyof material (or something?) -> partial<>
 
+
+discuss material interface for working with color (albedo and emissive, and sometimes 1channe)
     mat.red = 1
     mat.setAlbedo(1, 1, 1); ->red, green, blue
     mat.setAlbedo(1, 1, 1, 1); ->red, green, blue, transparency
@@ -83,6 +85,12 @@ x.material constructor that takes objects for named params
         
 
 .transform?
+    .intial support for passing in matrix.
+    .DISCUSS. this interface has users using gl-matrix
+        .gl-matrix uses constructors without new, and is basically a namespaced static library, not OOP, so style doesn't match (say material)
+        .it asks for a mat4 which allows for 3d rotations, but thats a bit inconvienent if you are working in 2D (need to specify axis of rotation for example)
+        .can i promot a 3 to 4matrix?
+
 
 .pack smoothness and metallic!
     .make a blit channel function that can blit a buffer channel to another buffer channel

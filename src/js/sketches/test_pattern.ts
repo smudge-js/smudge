@@ -3,7 +3,7 @@
 
 import { PBR, Material, BlendMode } from '../pbr';
 
-
+import { mat4 } from 'gl-matrix';
 export function draw() {
 
     let pbr = new PBR(undefined, 128, 128);
@@ -37,7 +37,7 @@ export function draw() {
 
 
     pbr.clear();
-    pbr.ellipse(10, 100, 10, 10, red);
+
 
 
     // anti-alias check
@@ -139,6 +139,7 @@ export function draw() {
     pbr.rect(112, 72, 10, 10, dark_gray);
 
 
+
     // test dithering (not implemented)
     // to hard to see bands as is. need a tone mapper to bring it out.
     // const green_gradient = new Material(0.0, 0.1, 0.0, 1.0);
@@ -147,6 +148,19 @@ export function draw() {
     //     pbr.rect(10 + x, 50, 1, 10, green_gradient);
     // }
 
+
+    pbr.ellipse(10, 100, 10, 10, red);
+
+    let myMatrix;
+    myMatrix = mat4.create();
+    mat4.translate(myMatrix, myMatrix, [35, 105, 0]);
+    mat4.rotate(myMatrix, myMatrix, Math.PI * .125, [0, 0, 1]);
+    pbr.rect(-5, -5, 10, 10, red, myMatrix);
+
+    myMatrix = mat4.create();
+    mat4.translate(myMatrix, myMatrix, [55, 105, 0]);
+    mat4.rotate(myMatrix, myMatrix, Math.PI * .25, [0, 0, 1]);
+    pbr.rect(-5, -5, 10, 10, red, myMatrix);
 
 
 
