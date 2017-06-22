@@ -49,7 +49,7 @@ function step() {
         start = new Date();
     }
     let now = new Date();
-    let ms = <any>now - <any>start;
+    let ms = <any>now - <any>start + 1;
 
 
     if (frames % 10 === 0) {
