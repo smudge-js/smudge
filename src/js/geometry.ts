@@ -22,8 +22,8 @@ export class UnitSquare implements Geometry {
     }
 
     public draw(program: Program): void {
-        program.setAttributeValue("aVertexPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
-        program.setAttributeValue("aTextureCoord", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
+        program.setAttributeValue("aPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
+        program.setAttributeValue("aUV", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLE_STRIP, 4, this.gl.UNSIGNED_SHORT, 0);
@@ -122,8 +122,8 @@ export class UnitCircle implements Geometry {
     }
 
     public draw(program: Program): void {
-        program.setAttributeValue("aVertexPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
-        program.setAttributeValue("aTextureCoord", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
+        program.setAttributeValue("aPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
+        program.setAttributeValue("aUV", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLE_FAN, this.segments + 2, this.gl.UNSIGNED_SHORT, 0);

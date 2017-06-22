@@ -194,7 +194,12 @@ export class PBR {
         this.textureProgram.use();
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
-        this.textureProgram.setUniformInts("uSampler", [0]);
+
+        const colorMatrix = mat4.create();
+        this.textureProgram.setUniformMatrix("uColorMatrix", colorMatrix);
+        this.textureProgram.setUniformFloats("uColor", [1.0, 1.0, 1.0, 1.0]);
+
+        this.textureProgram.setUniformInts("uColorSampler", [0]);
 
         // set texture
         buffer.bindTexture(this.gl.TEXTURE0);
@@ -212,6 +217,71 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
     }
+
+    // todo, would be nice if this could blit to a destbuffer also
+    blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create()) {
+
+
+        // position rect
+        let mvMatrix = mat4.create();
+        mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+
+        // config shader
+        this.textureProgram.use();
+        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+        this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
+
+        // const colorMatrix = mat4.create();
+        this.textureProgram.setUniformMatrix("uColorMatrix", colorMatrix);
+        this.textureProgram.setUniformFloats("uColor", [1.0, 1.0, 1.0, 1.0]);
+
+        this.textureProgram.setUniformInts("uColorSampler", [0]);
+
+        // set texture
+        sourceBuffer.bindTexture(this.gl.TEXTURE0);
+        this.gl.generateMipmap(this.gl.TEXTURE_2D);
+
+        // draw rect to screen
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        this.unitSquare.draw(this.textureProgram);
+
+
+        // clean up
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+    }
+
+    pack(packing_layout = {}): void {
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.clearColor(0, 0, 0, 0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFunc(this.gl.ONE, this.gl.ONE);
+
+        _.each(packing_layout, (colorMatrix: Float32Array | number[], buffer) => {
+            if (!(colorMatrix instanceof Float32Array)) {
+                while (colorMatrix.length < 16) {
+                    colorMatrix.push(0);
+                }
+            }
+
+            this.blit(this.buffers[buffer], colorMatrix);
+        }
+        );
+
+
+        // clean up
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+    }
+
 }
 
 export class Program {

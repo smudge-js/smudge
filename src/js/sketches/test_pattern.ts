@@ -18,7 +18,7 @@ export function draw() {
 
     const green = new Material(0.0, 1.0, 0.0, 1.0);
     green.height = .5;
-    green.metallic = 1.0;
+    green.metallic = 0;
     green.smoothness = .5;
 
 
@@ -165,6 +165,8 @@ export function draw() {
 
 
     pbr.show();
+
+
 
 
 }

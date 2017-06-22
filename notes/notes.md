@@ -41,13 +41,21 @@ Qix-/color - constructor without new. no hsl/v constructor?
 ####################################
 ## Todo / Clean Up / Refactor
 
+.JUSTIN.you were working on the pack and blit functions.
+    you hardcoded a metallic+smoothness packer for now
+    packings should be put into a config file
+    pbr_ui should iterate config file to generate download buttons for each packing
+    pack and blit may also be useful for showing single channel channels as grays instead of redscale.
+    
 
+.pack smoothness and metallic!
+    .make a blit channel function that can blit a buffer channel to another buffer channel
+        blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 .refactor the geo into a class
     x.basics
     .move set vertex and uv shader attribs into geo class? (using standard naming convention)
     .move drawArrays (drawIndexed) into geo class?
-    .give geo a human name
     .not fully happy with the relationship between Programs and Geometries
         .pbr configs materail properties of program
         .pbr asks geometry to configure geo properties of program + draw
@@ -92,9 +100,6 @@ discuss material interface for working with color (albedo and emissive, and some
         .can i promot a 3 to 4matrix?
 
 
-.pack smoothness and metallic!
-    .make a blit channel function that can blit a buffer channel to another buffer channel
-        blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 
 
@@ -106,7 +111,6 @@ discuss material interface for working with color (albedo and emissive, and some
 .object wrappers
     .add human readable names to object wrappers, to make debug messages much clearer. e.g. Framebuffer.name = "albedo"
         x.Framebuffer
-        .Geo
         x.Programs
 
 x.storage buffer

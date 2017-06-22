@@ -48,4 +48,36 @@ export function bindUI(pbr: PBR) {
         ui.appendChild(downloadLink);
     });
 
+
+    // make pack ms button
+    {
+        let downloadLink = document.createElement("a");
+        downloadLink.textContent = `download m+s`;
+        downloadLink.setAttribute("href", "#");
+        downloadLink.setAttribute("class", "download-button");
+        // downloadLink.setAttribute("download", `image_${buffer_name}.png`);
+
+        var fileName = `image_metallic_smooth.png`;
+
+        downloadLink.addEventListener("click", function download(event) {
+            event.preventDefault();
+            pbr.pack({
+                metallic: [1, 0, 0, 0],
+                smoothness: [0, 0, 0, 1]
+            });
+
+            // let dataURL = pbr.canvas.toDataURL('image/png');
+            // this.href = dataURL;
+
+            pbr.canvas.toBlob((blob) => {
+                console.log(this, fileName, blob);
+                saveAs(blob, fileName);
+            });
+        });
+
+        ui.appendChild(downloadLink);
+    }
+
+
+
 }
