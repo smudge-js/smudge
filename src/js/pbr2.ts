@@ -253,10 +253,12 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
-    pack(packing_layout = {}): void {
+    pack(packing_layout = {}, clear_color = [0, 0, 0, 0]): void {
 
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.clearColor(0, 0, 0, 0);
+        // this.gl.clearColor(0, 0, 0, 0);
+        this.gl.clearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
+
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.gl.enable(this.gl.BLEND);

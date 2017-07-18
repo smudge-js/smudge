@@ -50,3 +50,39 @@ export const buffer_layouts = {
 
 
 
+const export_layouts_unity = {
+    albedo: {
+        clear: [0, 0, 0, 0],
+        layout: {
+            albedo: [1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1]
+        }
+    },
+    metallic_smooth: {
+        clear: [0, 0, 0, 0],
+        layout: {
+            metallic: [1, 0, 0, 0],
+            smoothness: [0, 0, 0, 1]
+        }
+    },
+    height: {
+        clear: [0, 0, 0, 1],
+        layout: {
+            height: [1, 1, 1, 0]
+        }
+    },
+    emission: {
+        clear: [0, 0, 0, 0],
+        layout: {
+            emission: [1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1]
+        }
+    },
+}
+export const export_layouts = export_layouts_unity;
+
+

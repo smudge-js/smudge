@@ -41,16 +41,16 @@ Qix-/color - constructor without new. no hsl/v constructor?
 ####################################
 ## Todo / Clean Up / Refactor
 https://github.com/badges/stability-badges
-.JUSTIN.you were working on the pack and blit functions.
+x.JUSTIN.you were working on the pack and blit functions.
     you hardcoded a metallic+smoothness packer for now
     packings should be put into a config file
     pbr_ui should iterate config file to generate download buttons for each packing
     pack and blit may also be useful for showing single channel channels as grays instead of redscale.
 
 
-.pack smoothness and metallic!
-    .make a blit channel function that can blit a buffer channel to another buffer channel
-        blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
+x.pack smoothness and metallic!
+    x.make a blit channel function that can blit a buffer channel to another buffer channel
+        sort of.blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
 
 .refactor the geo into a class
     x.basics
