@@ -1,13 +1,15 @@
 # Bugs
+contribute better download to p5?
 
-x.network error on download with some pixel content. 
+
+x.network error on download with some pixel content.
     x.find a clean repro? any "noisey" image that doesn't compress well
         x.maybe png data was larger than a data url can hold? Yes, that was it.
             x.just move to a proper download library? using file-saver.js now
 
 # Notes
 
-Color Library 
+Color Library
 chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
 Qix-/color - constructor without new. no hsl/v constructor?
 
@@ -33,6 +35,7 @@ Qix-/color - constructor without new. no hsl/v constructor?
     creating materials with 0, 0, 0, with {} and with copy constructor new Material(mymat)
 
 - Naming + Branding
+- Blog Design
 - Website + Documentation Design
 
 
@@ -88,9 +91,9 @@ discuss material interface for working with color (albedo and emissive, and some
     mat.setMetallic(1, 1); m, t
     mat.setMetallic(1, 1, BlendMode.Normal); m, t, mbm
     mat.setMetallic([1, .5, .5, .6]); m, t (.5s skipped) // maybe better to error here.
-    
-    
-        
+
+
+
 
 .transform?
     .intial support for passing in matrix.
@@ -136,15 +139,15 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 .RESEARCH webgl renderbuffer MSAA (http://www.realtimerendering.com/blog/webgl-2-new-features/)
     .this is more urgent now, that the textures being too big is an issue.
 
-    
-.new github desktop 
+
+.new github desktop
 
 .is there a way to use gl constants without a gl instance in config objects, etc. without just defining them myself?
 
 
 .What is the best way to handle immutability in Typescript/Javascript
     .e.g. how can i make the BlendMode presets read only, or copy on read? maybe just make them functions that return newly built?
-    intead of 
+    intead of
     BlendMode.Normal = {}
     BlendMode.Normal = () => ({});
     see: https://basarat.gitbooks.io/typescript/content/docs/tips/quickObjectReturn.html
@@ -168,7 +171,7 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
         FUNC_REVERSE_SUBTRACT
         gl2.MIN
         gl2.MAX
-    Porter-Duff 
+    Porter-Duff
 
     http://photoblogstop.com/photoshop/photoshop-blend-modes-explained
 
