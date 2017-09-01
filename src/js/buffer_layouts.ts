@@ -10,6 +10,7 @@ interface BufferLayout {
 export type ReadonlyBufferLayout = Readonly<BufferLayout>;
 
 
+
 export const buffer_layouts = {
     albedo: <ReadonlyBufferLayout>{
         super_sampling: 4,
@@ -84,5 +85,3 @@ const export_layouts_unity = {
     },
 }
 export const export_layouts = export_layouts_unity;
-
-

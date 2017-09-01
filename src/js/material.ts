@@ -81,6 +81,7 @@ export const ChannelKey = strEnum([
 ])
 export type ChannelKey = keyof typeof ChannelKey;
 
+
 type MaterialConfig = Partial<Material>;
 
 export class Material {
