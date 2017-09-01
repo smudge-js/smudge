@@ -1,83 +1,34 @@
-# Bugs
-contribute better download to p5?
-
-
-x.network error on download with some pixel content.
-    x.find a clean repro? any "noisey" image that doesn't compress well
-        x.maybe png data was larger than a data url can hold? Yes, that was it.
-            x.just move to a proper download library? using file-saver.js now
-
 # Notes
 
-Color Library
-chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
-Qix-/color - constructor without new. no hsl/v constructor?
 
+####################################
+## Libraries
+
+### Color Library
+- chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
+- Qix-/color - constructor without new. no hsl/v constructor?
 
 
 ####################################
-## Style Guide
+## Style Guide / Code Review Checks
 
 ### Dos
-- bind back to null / clean up after binds at end of functions
-- error checking: at the very least make a test and use console_report and console_error this will at least make it easier to go back and put in proper handling.
-
-### Dont's
-- not using jsx for interface, too much tooling at this point
-
-####################################
-## Todo Talia
-
-- Demo + Test Sketches
-    Blend Modes
-    Example with each blend mode, with alpha at 100% and 50%
-    Probably a couple color combos each.
-    creating materials with 0, 0, 0, with {} and with copy constructor new Material(mymat)
-
-- Naming + Branding
-- Blog Design
-- Website + Documentation Design
-
-
+- WebGL: bind back to null + clean up after binds at end of functions
+- error checking: at the very least make a test and use console_report and console_error
+    .this will make it easier to go back and put in proper handling.
 
 
 ####################################
 ## Todo / Clean Up / Refactor
-https://github.com/badges/stability-badges
-x.JUSTIN.you were working on the pack and blit functions.
-    you hardcoded a metallic+smoothness packer for now
-    packings should be put into a config file
-    pbr_ui should iterate config file to generate download buttons for each packing
-    pack and blit may also be useful for showing single channel channels as grays instead of redscale.
 
 
-x.pack smoothness and metallic!
-    x.make a blit channel function that can blit a buffer channel to another buffer channel
-        sort of.blit(smoothness, red, canvas, alpha) -> copy the red channel of smoothness to the alpha channel of the canvas
-
-.refactor the geo into a class
-    x.basics
-    .move set vertex and uv shader attribs into geo class? (using standard naming convention)
-    .move drawArrays (drawIndexed) into geo class?
-    .not fully happy with the relationship between Programs and Geometries
-        .pbr configs materail properties of program
-        .pbr asks geometry to configure geo properties of program + draw
-        .seems reasonable enough, but i'm finding the coupling a little off
-        .the program needs data from geo and from material
-        .three js has a mesh object that contains both geo and material
-        .need a common naming convention for Attribs and Uniforms. Should use Three.js format? Maybe, might make using their shaders possibe. on the other hand their shaders probably won't mean much for our project.
-        .also the model matrix adjustment for unitsquare/cirlce should happen in geo, because not all geo wants that...
-
-x.more blend modes
-
-.Material.lerp(mat1, mat2, .3); //lerp in color space?
-
-x.material constructor that takes objects for named params
-    x.Object.assign(target, ...sources)
-        x.type material_spec = ?keyof material (or something?) -> partial<>
+### Interface - API
+.Material.lerp(mat1, mat2, .3);
+    //lerp in color space?
+.Needs a line();
 
 
-discuss material interface for working with color (albedo and emissive, and sometimes 1channe)
+.discuss material interface for working with color (albedo and emissive, and sometimes 1channe)
     mat.red = 1
     mat.setAlbedo(1, 1, 1); ->red, green, blue
     mat.setAlbedo(1, 1, 1, 1); ->red, green, blue, transparency
@@ -102,13 +53,32 @@ discuss material interface for working with color (albedo and emissive, and some
         .it asks for a mat4 which allows for 3d rotations, but thats a bit inconvienent if you are working in 2D (need to specify axis of rotation for example)
         .can i promot a 3 to 4matrix?
 
+.Planning blending modes.
+    http://photoblogstop.com/photoshop/photoshop-blend-modes-explained
 
 
 
+### Interface - GUI
+.preview window: show single channel channels as grayscale, not redscale: pack and blit maybe useful
 
 .download full texture set at once?
     .JSZip
         https://github.com/Stuk/jszip
+
+### Internals
+.not fully happy with the relationship between GLPrograms and Geometries
+    currently
+    .pbr2.ts/drawGeometry configs material properties of glprogram
+    .pbr2.ts/drawGeometry asks geometry.ts/Geometery/Subclass to configure geo properties of program + draw
+
+    This seems reasonable enough, but i'm finding the coupling a little off, some considerations
+    .the glprogram needs data from geo and from material
+    .for comparison, three js has a mesh object that contains both geo and material
+    .also the model matrix adjustment for unitsquare/cirlce should happen in the geometry/subclass, because not all geo wants that...
+
+.we should have a common naming convention for glprogram Attribs and Uniforms. Should use Three.js names?      
+    Maybe, might make using their shaders possibe. on the other hand their shaders probably won't mean much for our project.
+    .create a documentation page that has the required and optional attributes and uniforms, their names, and purposes
 
 
 .object wrappers
@@ -116,17 +86,16 @@ discuss material interface for working with color (albedo and emissive, and some
         x.Framebuffer
         x.Programs
 
-x.storage buffer
-    x.create structure of buffer names, channel names, depth, packing
-    x.drive code from it instead of hardcoding
 
-x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pbr
 
-.gen docs
+
+### Docs
+
+.gen docs with typedocs
     .this is looking like it might need more manual intervention...
         .typedoc is documenting to many needless files.
         .documentation is to tied to code, not high level enough.
-        .some types etc are just not clearly presented through genned docs
+        .some types etc are just not clearly presented through generated docs
 
 
 
@@ -142,7 +111,7 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 
 .new github desktop
 
-.is there a way to use gl constants without a gl instance in config objects, etc. without just defining them myself?
+.is there a way to use WebGLRenderingContext gl constants without a gl instance? for example in config objects, etc. without just defining them as literals?
 
 
 .What is the best way to handle immutability in Typescript/Javascript
@@ -161,19 +130,6 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 
 ###################################
 ## Blending
-.Planning blending modes.
-    gl.blendFunc
-    gl.blendFuncSeparate
-    gl.blendColor
-    gl.blendEquation
-        FUNC_ADD
-        FUNC_SUBTRACT
-        FUNC_REVERSE_SUBTRACT
-        gl2.MIN
-        gl2.MAX
-    Porter-Duff
-
-    http://photoblogstop.com/photoshop/photoshop-blend-modes-explained
 
 
 
@@ -206,7 +162,7 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
 ## Design Ideas / Questions
 
 .Color Matrix Transform
-    i could pass in a matrix to transform/swizle color. This might even work to do a HSB to RGB (look that up)
+    i could pass in a matrix to transform/swizzle color. This might even work to do a HSB to RGB (look that up)
     e.g.
     r00 -> rgb(white)
     1.0, 0.0, 0.0
@@ -224,8 +180,11 @@ x.pbr.show* and pbr.get* functions are looking like they belong to pbr_ui not pb
     1.0, 0.0, 1.0
 
 
-.opengl is going to fight us on this, but I want to consider a stateless api. No: set up state, draw with state. Yes: draw(params, params, params).
-    .maybe build libarary in two parts, a pure stateless, harder to use base layer, and an "adapter" layer that sits over that and maintains state.
+.opengl is going to fight us on this, but I want to consider a stateless api.
+    No: set up state, draw with state.
+    Yes: draw(params, params, params).
+
+    .maybe build library in two parts, a pure stateless layer, and an "adapter" layer that sits over that and maintains state to be more like p5.
 
 ## Discussion/Documentation Point (Transparency)
 .transparency own channel

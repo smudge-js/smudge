@@ -16,7 +16,7 @@ export const BlendMode = {
         dFactor: gl_constants.ONE_MINUS_SRC_ALPHA
     },
 
-    REPLACE: <ReadonlyBlendMode>{
+    Replace: <ReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
         sFactor: gl_constants.ONE,
         dFactor: gl_constants.ZERO

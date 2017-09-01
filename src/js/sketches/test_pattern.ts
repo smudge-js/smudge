@@ -32,7 +32,7 @@ export function draw() {
         smoothness: .5
     });
 
-    
+
 
 
 
@@ -78,7 +78,7 @@ export function draw() {
 
     // channel skip test
     console.log("channel skip");
-    let makeBlank = function () {
+    let makeBlank = function() {
         return new Material(
             undefined, undefined, undefined, undefined,
             undefined, undefined,
@@ -168,8 +168,4 @@ export function draw() {
 
 
     pbr.show();
-
-
-
-
 }

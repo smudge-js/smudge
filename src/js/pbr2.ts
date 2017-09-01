@@ -111,7 +111,7 @@ export class PBR {
         this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
     }
 
-    drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+    private drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
         // set camera/cursor position
         let mvMatrix = mat4.create();
         mat4.multiply(mvMatrix, mvMatrix, matrix);
@@ -218,8 +218,12 @@ export class PBR {
 
     }
 
-    // todo, would be nice if this could blit to a destbuffer also
-    blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create()) {
+
+    /**
+    * copies colors  from *sourceBuffer* to the main framebuffer, uses *colorMatrix* to swizzle colors
+    * @todo would be nice if this could blit to a destbuffer also
+    */
+    private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create()) {
 
 
         // position rect
@@ -237,13 +241,12 @@ export class PBR {
 
         this.textureProgram.setUniformInts("uColorSampler", [0]);
 
-        // set texture
+        // set texture from source buffer
         sourceBuffer.bindTexture(this.gl.TEXTURE0);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
         // draw rect to screen
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-
         this.unitSquare.draw(this.textureProgram);
 
 
@@ -253,28 +256,31 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
 
+    /**
+     * clears the framebuffer to *clear_color*, then copies/swizzles colors from the channel buffers according to *packing_layout*
+     * @param buffer
+     */
     pack(packing_layout = {}, clear_color = [0, 0, 0, 0]): void {
 
+        // clear the main framebuffer
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        // this.gl.clearColor(0, 0, 0, 0);
         this.gl.clearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
-
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
+        // set up to additive blending
         this.gl.enable(this.gl.BLEND);
         this.gl.blendEquation(this.gl.FUNC_ADD);
         this.gl.blendFunc(this.gl.ONE, this.gl.ONE);
 
-        _.each(packing_layout, (colorMatrix: Float32Array | number[], buffer) => {
+        // copy colors to framebuffer according to *packing_layout*
+        _.each(packing_layout, (colorMatrix: Float32Array | number[], bufferKey) => {
             if (!(colorMatrix instanceof Float32Array)) {
                 while (colorMatrix.length < 16) {
                     colorMatrix.push(0);
                 }
             }
-
-            this.blit(this.buffers[buffer], colorMatrix);
-        }
-        );
+            this.blit(this.buffers[bufferKey], colorMatrix);
+        });
 
 
         // clean up
