@@ -75,7 +75,7 @@ const export_layouts_unity = {
         }
     },
     emission: {
-        clear: [0, 0, 0, 0],
+        clear: [0, 0, 0, 1],
         layout: {
             emission: [1, 0, 0, 0, // s.r -> d.r
                 0, 1, 0, 0, // s.g -> d.g
