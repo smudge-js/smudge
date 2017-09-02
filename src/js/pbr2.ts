@@ -29,7 +29,7 @@ export class PBR {
 
     private readonly unitSquare: Geometry;
     private readonly unitCircle: Geometry;
-    private readonly buffers: { [key: string]: Framebuffer };
+    public readonly buffers: { [key: string]: Framebuffer };
 
     /**
      *

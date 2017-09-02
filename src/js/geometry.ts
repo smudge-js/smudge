@@ -116,7 +116,7 @@ export class UnitCircle implements Geometry {
         this.indexBuffer = indexBuffer;
 
 
-        console.log(vertices, uvs, indexes, "l");
+
 
 
     }

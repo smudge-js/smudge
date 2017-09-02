@@ -5,10 +5,10 @@ export function draw() {
     let pbr = new PBR(undefined, 512, 512);
     // pbr.clear();
 
-    let blueClear = new Material();
-    blueClear.blue = 1;
-    blueClear.transparency = 0;
-    pbr.clear(blueClear);
+    console.log(Material.white);
+
+    pbr.clear(Material.white);
+
 
     let redPaint = new Material();
     redPaint.red = 1;
@@ -17,7 +17,6 @@ export function draw() {
     redPaint.transparency = 1;
     redPaint.metallic = .5;
 
-    console.log("redPaint", redPaint);
 
 
     let greenPaint = new Material(0, 1, 0, 1);
