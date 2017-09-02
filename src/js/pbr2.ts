@@ -5,7 +5,9 @@ import { console_report, console_error } from './util';
 import { bindUI } from './pbr2_ui'
 import { buffer_layouts } from './buffer_layouts';
 import { Material } from './material';
-import { Geometry, UnitSquare, UnitCircle } from './geometry';
+import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
+
+let getNormals = require('polyline-normals')
 
 export class PBR {
 
@@ -109,6 +111,72 @@ export class PBR {
 
     ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
         this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
+    }
+
+
+
+
+    quad(points: number[][], material = Material.white, matrix = mat4.create()): void {
+        if (points.length !== 4) {
+            console_error("pbr.quad(): points array should have length of 4");
+            return;
+        }
+        let geometry: Geometry = new Quad(this.gl, points);
+        this.drawGeometry(geometry, 0, 0, 1, 1, material, matrix);
+    }
+
+    line(points: number[][], width = 1, material = Material.white, matrix = mat4.create()): void {
+        if (points.length < 2) {
+            console_error("pbr.line(): points array should have length > 1");
+            return;
+        }
+
+        let miter_data = getNormals(points, false);
+        console.log("normals", miter_data);
+
+        let offsets: number[][] = [];
+        _.each(miter_data, (miter_datum) => {
+            let offset = [
+                miter_datum[0][0] * miter_datum[1] * width * .5,
+                miter_datum[0][1] * miter_datum[1] * width * .5,
+            ];
+            offsets.push(offset);
+        });
+
+
+        // center
+        for (let i = 0; i < points.length - 1; i++) {
+            let quad_points: number[][] = [
+                [points[i + 0][0] - offsets[i + 0][0], points[i + 0][1] - offsets[i + 0][1]],
+                [points[i + 1][0] - offsets[i + 1][0], points[i + 1][1] - offsets[i + 1][1]],
+                [points[i + 1][0] + offsets[i + 1][0], points[i + 1][1] + offsets[i + 1][1]],
+                [points[i + 0][0] + offsets[i + 0][0], points[i + 0][1] + offsets[i + 0][1]],
+            ];
+            this.quad(quad_points, material, matrix);
+        }
+
+        // left side
+        // for (let i = 0; i < points.length - 1; i++) {
+        //     let quad_points: number[][] = [
+        //         [points[i + 0][0] - offsets[i + 0][0] * 2, points[i + 0][1] - offsets[i + 0][1] * 2],
+        //         [points[i + 1][0] - offsets[i + 1][0] * 2, points[i + 1][1] - offsets[i + 1][1] * 2],
+        //         [points[i + 1][0] + offsets[i + 1][0] * 0, points[i + 1][1] + offsets[i + 1][1] * 0],
+        //         [points[i + 0][0] + offsets[i + 0][0] * 0, points[i + 0][1] + offsets[i + 0][1] * 0],
+        //     ];
+        //     this.quad(quad_points, material, matrix);
+        // }
+
+        // right side
+        // for (let i = 0; i < points.length - 1; i++) {
+        //     let quad_points: number[][] = [
+        //         [points[i + 0][0] - offsets[i + 0][0] * 0, points[i + 0][1] - offsets[i + 0][1] * 0],
+        //         [points[i + 1][0] - offsets[i + 1][0] * 0, points[i + 1][1] - offsets[i + 1][1] * 0],
+        //         [points[i + 1][0] + offsets[i + 1][0] * 2, points[i + 1][1] + offsets[i + 1][1] * 2],
+        //         [points[i + 0][0] + offsets[i + 0][0] * 2, points[i + 0][1] + offsets[i + 0][1] * 2],
+        //     ];
+        //     this.quad(quad_points, material, matrix);
+        // }
+
     }
 
     private drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {

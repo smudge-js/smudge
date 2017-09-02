@@ -25,14 +25,15 @@
 ### Interface - API
 
 Gregs list:
-    line();
-    line([points], stroke_material(thickness?), matrix);
-    poly()
-    stroke, for ellipse and rect
+    x.line();
+    x.line([points], stroke_material(thickness?), matrix);
+    x.quad()
+    stroke?, for ellipse and rect
 
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
 
-
+lines need a "spread left, spread right, spred center" option
+lines need a "closed" opiton
 check out es6 await on the image download
 
 
@@ -107,7 +108,10 @@ tileable
         x.Framebuffer
         x.Programs
 
-
+.basic geo types?
+    .point currently using "points: Number[][]" for list of points
+    .rect
+    .etc
 
 
 ### Docs

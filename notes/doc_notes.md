@@ -12,6 +12,8 @@
 ## Shapes
 - pbr.rect()
 - pbr.ellipse()
+- pbr.quad()
+- pbr.line()
 
 
 ## Materials
