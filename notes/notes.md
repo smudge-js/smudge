@@ -23,6 +23,26 @@
 
 
 ### Interface - API
+
+Gregs list:
+    line();
+    line([points], stroke_material(thickness?), matrix);
+    poly()
+    stroke, for ellipse and rect
+
+we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
+
+
+check out es6 await on the image download
+
+
+masks
+layers
+images
+typography
+
+tileable
+
 .Material.lerp(mat1, mat2, .3);
     //lerp in color space?
 .Needs a line();
@@ -56,6 +76,7 @@
 .Planning blending modes.
     http://photoblogstop.com/photoshop/photoshop-blend-modes-explained
 
+.load images
 
 
 ### Interface - GUI
