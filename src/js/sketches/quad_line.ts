@@ -2,7 +2,7 @@ import { PBR, Material, BlendMode } from '../pbr';
 import { mat4 } from 'gl-matrix';
 
 export function draw() {
-    let pbr = new PBR(undefined, 512, 512);
+    let pbr = new PBR(undefined, 128, 128);
     pbr.clear();
 
     let redPaint = new Material();
@@ -23,10 +23,11 @@ export function draw() {
         [100, 210],
     ], redPaint);
 
-    let m = mat4.create();
-    mat4.translate(m, m, [55, 55, 0]);
-    mat4.rotateZ(m, m, 3.1415 * .25);
-    mat4.translate(m, m, [-55, -55, 0]);
+    // let m = mat4.create();
+    // mat4.translate(m, m, [55, 55, 0]);
+    // mat4.rotateZ(m, m, 3.1415 * .25);
+    // mat4.translate(m, m, [-55, -55, 0]);
+
 
     pbr.line([
         [10, 10],
@@ -34,7 +35,7 @@ export function draw() {
         [110, 110],
         [10, 110]
 
-    ], 10, greenPaint, m);
+    ], { width: 10, align: 'center', close: true }, greenPaint);
 
     pbr.show();
 }

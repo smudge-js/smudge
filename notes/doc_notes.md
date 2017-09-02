@@ -14,6 +14,7 @@
 - pbr.ellipse()
 - pbr.quad()
 - pbr.line()
+    opts: align, width, close
 
 
 ## Materials
@@ -41,7 +42,7 @@
     - emission_green
     - emission_blue
 
-
+    channel masking (m.red = undefined)
 
 
 ## Blend Modes

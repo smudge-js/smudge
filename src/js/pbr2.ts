@@ -9,6 +9,11 @@ import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
 
 let getNormals = require('polyline-normals')
 
+interface LineOptions {
+    width?: number,
+    align?: 'center' | 'left' | 'right',
+    close?: boolean
+}
 export class PBR {
 
     readonly width: number;
@@ -125,57 +130,64 @@ export class PBR {
         this.drawGeometry(geometry, 0, 0, 1, 1, material, matrix);
     }
 
-    line(points: number[][], width = 1, material = Material.white, matrix = mat4.create()): void {
+    line(points: number[][], _options: number | LineOptions = 1, material = Material.white, matrix = mat4.create()): void {
+        // validate input
         if (points.length < 2) {
             console_error("pbr.line(): points array should have length > 1");
             return;
         }
 
-        let miter_data = getNormals(points, false);
-        console.log("normals", miter_data);
+        // process options
+        let options: LineOptions = {};
+        if (typeof _options == "number") {
+            options = {
+                width: _options
+            };
+        } else {
+            options = _options;
+        }
+        options = _.defaults(options, {
+            width: 1,
+            align: 'center',
+            close: false
+        });
 
+        // get the miter offsets
+        let miter_data = getNormals(points, options.close);
         let offsets: number[][] = [];
         _.each(miter_data, (miter_datum) => {
             let offset = [
-                miter_datum[0][0] * miter_datum[1] * width * .5,
-                miter_datum[0][1] * miter_datum[1] * width * .5,
+                miter_datum[0][0] * miter_datum[1] * options.width,
+                miter_datum[0][1] * miter_datum[1] * options.width,
             ];
             offsets.push(offset);
         });
 
 
+        // calculate alignment center|left|right
+        let offsetBias = [.5, .5];
+        if (options.align == 'left') {
+            offsetBias = [1, 0];
+        }
+        if (options.align == 'right') {
+            offsetBias = [0, 1];
+        }
+
+        if (options.close) {
+            points.push(points[0]);
+            offsets.push(offsets[0]);
+        }
+
         // center
         for (let i = 0; i < points.length - 1; i++) {
             let quad_points: number[][] = [
-                [points[i + 0][0] - offsets[i + 0][0], points[i + 0][1] - offsets[i + 0][1]],
-                [points[i + 1][0] - offsets[i + 1][0], points[i + 1][1] - offsets[i + 1][1]],
-                [points[i + 1][0] + offsets[i + 1][0], points[i + 1][1] + offsets[i + 1][1]],
-                [points[i + 0][0] + offsets[i + 0][0], points[i + 0][1] + offsets[i + 0][1]],
+                [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
+                [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
+                [points[i + 1][0] + offsets[i + 1][0] * offsetBias[1], points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]],
+                [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]]
             ];
             this.quad(quad_points, material, matrix);
         }
-
-        // left side
-        // for (let i = 0; i < points.length - 1; i++) {
-        //     let quad_points: number[][] = [
-        //         [points[i + 0][0] - offsets[i + 0][0] * 2, points[i + 0][1] - offsets[i + 0][1] * 2],
-        //         [points[i + 1][0] - offsets[i + 1][0] * 2, points[i + 1][1] - offsets[i + 1][1] * 2],
-        //         [points[i + 1][0] + offsets[i + 1][0] * 0, points[i + 1][1] + offsets[i + 1][1] * 0],
-        //         [points[i + 0][0] + offsets[i + 0][0] * 0, points[i + 0][1] + offsets[i + 0][1] * 0],
-        //     ];
-        //     this.quad(quad_points, material, matrix);
-        // }
-
-        // right side
-        // for (let i = 0; i < points.length - 1; i++) {
-        //     let quad_points: number[][] = [
-        //         [points[i + 0][0] - offsets[i + 0][0] * 0, points[i + 0][1] - offsets[i + 0][1] * 0],
-        //         [points[i + 1][0] - offsets[i + 1][0] * 0, points[i + 1][1] - offsets[i + 1][1] * 0],
-        //         [points[i + 1][0] + offsets[i + 1][0] * 2, points[i + 1][1] + offsets[i + 1][1] * 2],
-        //         [points[i + 0][0] + offsets[i + 0][0] * 2, points[i + 0][1] + offsets[i + 0][1] * 2],
-        //     ];
-        //     this.quad(quad_points, material, matrix);
-        // }
 
     }
 
