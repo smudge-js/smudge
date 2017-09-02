@@ -6,7 +6,7 @@ import { PBR } from './pbr2';
 import { buffer_layouts, export_layouts } from './buffer_layouts';
 import { saveAs } from 'file-saver';
 
-import { threePreview, threeUpdate } from './three_preview.js';
+import { threePreview, threeUpdate } from './three_preview';
 
 // declare threePreview: any;
 

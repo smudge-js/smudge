@@ -1,6 +1,10 @@
-let cube;
+// let THREE = require('three');
+import * as THREE from 'three';
+import { Framebuffer } from './pbr2'
 
-export function threePreview(buffers) {
+let cube: THREE.Mesh;
+
+export function threePreview(buffers: { [key: string]: Framebuffer }) {
     console.log("three PREVIEW");
     console.log(THREE);
 
@@ -57,12 +61,12 @@ export function threePreview(buffers) {
 
 }
 
-export function threeUpdate(buffers) {
+export function threeUpdate(buffers: { [key: string]: Framebuffer }) {
     console.log("tree");
     console.log(document.getElementById("gl-canvas"));
 
     var material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
-    var texture = new THREE.CanvasTexture(document.getElementById("gl-canvas"));
+    var texture = new THREE.CanvasTexture(document.getElementById("gl-canvas") as HTMLCanvasElement);
     texture.needsUpdate = true;
 
     var loader = new THREE.CubeTextureLoader();
