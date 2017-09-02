@@ -13,11 +13,14 @@ export function draw() {
     clothBase.green = 148/255;
     clothBase.blue = 206/255;
     clothBase.transparency = .5;
+    clothBase.height = .2;
     // clothBase.metallic = 0;
     // clothBase.smoothness = .6;
     // clothBase.height = .3;
 
-    pbr.clear(clothBase);
+    pbr.rect(0, 0, pbr.width,pbr.height, clothBase);
+
+    console.log(clothBase);
 
     let blueStitch = new Material();
     blueStitch.red = 24/255;
@@ -27,6 +30,7 @@ export function draw() {
     blueStitch.metallic = .3;
     blueStitch.smoothness = .6;
     blueStitch.height = .3;
+    blueStitch.height_blend_mode = BlendMode.Additive;
 
     let brownStitch = new Material();
     brownStitch.red = 102/255;
@@ -36,16 +40,42 @@ export function draw() {
     brownStitch.metallic = .3;
     brownStitch.smoothness = .6;
     brownStitch.height = .3;
+    brownStitch.height_blend_mode = BlendMode.Additive;
+    // pbr.line([
+    //     [50, 50],
+    //     [50, 200]
+    // ], 10, blueStitch);
 
-    pbr.line([
-        [50, 50],
-        [50, 200]
-    ], 10, blueStitch);
+    let cCount= 80;
+    let rCount = 80;
 
-    pbr.line([
-        [100, 50],
-        [100, 200]
-    ], 10, brownStitch);
+    let rand = 8;
+    let cSpace = pbr.width/cCount;
+    let rSpace = pbr.height/rCount;
+
+    for(let c=0; c<cCount; c++){
+        pbr.line([
+            [c * cSpace + (Math.random()*rand), 0],
+            [c * cSpace + (Math.random()*rand), pbr.height]
+        ], 2, blueStitch);
+    }
+
+    for(let r=0; r<rCount; r++){
+        pbr.line([
+            [0, r * rSpace + (Math.random()*rand)],
+            [pbr.height, r * rSpace + (Math.random()*rand)]
+        ], 3, brownStitch);
+    }
+    cCount*=.5;
+    cSpace = pbr.width/cCount;
+    blueStitch.smoothness = .8;
+    for(let c=0; c<cCount; c++){
+        pbr.line([
+            [c * cSpace + (Math.random()*rand), 0],
+            [c * cSpace + (Math.random()*rand), pbr.height]
+        ], 2, blueStitch);
+    }
+
     /*
     let redPaint = new Material();
     redPaint.red = 1;

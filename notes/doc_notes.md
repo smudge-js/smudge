@@ -7,6 +7,8 @@
 - Constructor
 - pbr.clear()
 - pbr.show()
+- pbr.width
+- pbr.height
 
 
 ## Shapes

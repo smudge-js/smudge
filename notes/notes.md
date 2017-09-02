@@ -32,6 +32,12 @@ Gregs list:
 
     checker board background for transparency visualization
 
+    pbr.clear() with transparent material not working as expected?
+
+    would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
+
+
+
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
 
 lines need a "spread left, spread right, spred center" option
