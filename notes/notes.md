@@ -30,6 +30,8 @@ Gregs list:
     x.quad()
     stroke?, for ellipse and rect
 
+    checker board background for transparency visualization
+
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
 
 lines need a "spread left, spread right, spred center" option

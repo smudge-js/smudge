@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/quad_line';
+import { draw } from './js/sketches/greg_1';
 
 draw();
