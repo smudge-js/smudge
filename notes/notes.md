@@ -36,6 +36,8 @@ Gregs list:
 
     pbr.clear() with transparent material not working as expected?
 
+    pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
+
     would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
 
     would be nice if live preview remembered which channel you were previewing on refresh
