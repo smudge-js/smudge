@@ -32,8 +32,6 @@ export async function draw() {
         }
         
     }
-    
-
     pbr.show();
 }
 

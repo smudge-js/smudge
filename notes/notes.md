@@ -38,6 +38,10 @@ Gregs list:
 
     would be nice if live preview remembered which channel you were previewing on refresh
 
+    getpixels();
+
+    drawing with some sort of mask based on the current channels? being able to mask your drawing to only draw on things with a height greater than .8 or something. also should be able to soften/blur the mask (your paper+crayon texture idea)
+
 
 
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
