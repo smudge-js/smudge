@@ -21,6 +21,8 @@
 ####################################
 ## Todo / Clean Up / Refactor
 
+why does the three_pbr packing have to have oversamling at 1 for blit to fill the whole thing.
+    higher oversampilng result in clipped blits. why?!
 
 ### Interface - API
 

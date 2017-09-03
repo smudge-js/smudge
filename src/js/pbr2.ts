@@ -318,15 +318,22 @@ export class PBR {
     * copies colors  from *sourceBuffer* to the main framebuffer, uses *colorMatrix* to swizzle colors
     * @todo would be nice if this could blit to a destbuffer also
     */
-    private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create()) {
+    private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), target_buffer: Framebuffer = null) {
 
 
-        // position rect
-        let mvMatrix = mat4.create();
-        mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+        this.textureProgram.use();
+
 
         // config shader
-        this.textureProgram.use();
+        // position rect
+        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+        let mvMatrix = mat4.create();
+        if (target_buffer === null) {
+            mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+        } else {
+            mat4.scale(mvMatrix, mvMatrix, [target_buffer.width, target_buffer.height, 1]);
+        }
+
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
 
@@ -341,7 +348,11 @@ export class PBR {
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
         // draw rect to screen
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        if (target_buffer === null) {
+            this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        } else {
+            target_buffer.bind();
+        }
         this.unitSquare.draw(this.textureProgram);
 
 
@@ -355,10 +366,15 @@ export class PBR {
      * clears the framebuffer to *clear_color*, then copies/swizzles colors from the channel buffers according to *packing_layout*
      * @param buffer
      */
-    pack(packing_layout = {}, clear_color = [0, 0, 0, 0]): void {
+    pack(packing_layout = {}, clear_color = [0, 0, 0, 0], target_buffer: Framebuffer = null): void {
 
-        // clear the main framebuffer
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        if (target_buffer === null) {
+            this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        } else {
+            target_buffer.bind();
+        }
+
+        // clear the buffer
         this.gl.clearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
@@ -374,11 +390,14 @@ export class PBR {
                     colorMatrix.push(0);
                 }
             }
-            this.blit(this.buffers[bufferKey], colorMatrix);
+            // console.log("blit", bufferKey, colorMatrix);
+
+            this.blit(this.buffers[bufferKey], colorMatrix, target_buffer);
         });
 
 
         // clean up
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.disable(this.gl.BLEND);
         this.gl.blendEquation(this.gl.FUNC_ADD);
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);

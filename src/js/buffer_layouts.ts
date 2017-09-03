@@ -48,7 +48,7 @@ export const buffer_layouts = {
         blend_mode: "emission_blend_mode"
     },
     three_pbr: <ReadonlyBufferLayout>{
-        super_sampling: 2,
+        super_sampling: 1,
         depth: 16,
         channels: 4,
         channel_materials: ["smoothness", "smoothness", "metallic", "transparency"],

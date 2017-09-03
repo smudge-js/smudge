@@ -19,7 +19,7 @@ export function bindUI(pbr: PBR) {
 
         showButton.addEventListener("click", () => {
             pbr.show(buffer_name);
-            threeUpdate(pbr);
+            // threeUpdate(pbr);
         });
 
         ui.appendChild(showButton);
@@ -54,7 +54,7 @@ export function bindUI(pbr: PBR) {
     threePreview(pbr);
 
     setTimeout(function () {
-        pbr.show("albedo");
+        // pbr.show("albedo");
         threeUpdate(pbr);
     }, 1);
 }

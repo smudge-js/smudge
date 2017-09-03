@@ -26,7 +26,19 @@ export function threePreview(pbr: PBR) {
     camera.position.z = 1.5;
 
     var ambient = new THREE.AmbientLight(0x888888);
-    scene.add(ambient);
+    // scene.add(ambient);
+    var directional_light_one = new THREE.DirectionalLight(0xFFFFFF);
+    directional_light_one.position.x = -1;
+    directional_light_one.position.y = 1;
+    directional_light_one.position.z = 1;
+    scene.add(directional_light_one);
+
+    var directional_light_two = new THREE.DirectionalLight(0x000022);
+    directional_light_two.position.x = 1;
+    directional_light_two.position.y = 0;
+    directional_light_two.position.z = 1;
+    scene.add(directional_light_two);
+
 
 
     // build cube
@@ -64,7 +76,7 @@ function getThreeTextureForBuffer(pbr: PBR, bufferName: string): THREE.DataTextu
     // let scaled_data = hdr_data.map((x) => x * 255);
     // let ldr_data = Uint8Array.from(scaled_data);
 
-    console.log("hdr_data", hdr_data);
+    // console.log("hdr_data", hdr_data);
     // console.log("ldr_data", ldr_data);
 
     // create texture from ldr data
@@ -89,6 +101,17 @@ export function threeUpdate(pbr: PBR) {
     let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
 
 
+    // pack the three_pbr buffer
+    let layout = {
+        smoothness: [0, -1, 0, 0],
+        metallic: [0, 0, 1, 0],
+    };
+    let clear_color = [0, 1, 0, 1];
+
+
+    pbr.pack(layout, clear_color, pbr.buffers["three_pbr"]);
+    // pbr.show("three_pbr");
+
     ///////////////////////////////////
     ///// Load Maps
 
@@ -97,28 +120,19 @@ export function threeUpdate(pbr: PBR) {
     material.metalnessMap = getThreeTextureForBuffer(pbr, "three_pbr");
     material.roughnessMap = material.metalnessMap;
     material.bumpMap = getThreeTextureForBuffer(pbr, "height");
+    material.emissiveMap = getThreeTextureForBuffer(pbr, "emission");
 
     ///////////////////////////////////
     ///// Environment Map
 
-    // add env map to material
-    // let loader = new THREE.CubeTextureLoader();
-    // loader.setPath('./');
-    // let evnCube = loader.load([
-    //     'kitten.jpg', 'kitten.jpg',
-    //     'kitten.jpg', 'kitten.jpg',
-    //     'kitten.jpg', 'kitten.jpg'
-    // ], () => {
-    //     material.envMap = evnCube;
-    //     material.needsUpdate = true;
-    //     // cube.material = material;
-    // });
-    console.log("three", (THREE as any), (THREE as any).RGBELoader);
+
+
+    // console.log("three", (THREE as any), (THREE as any).RGBELoader);
 
     // let loader = new (THREE as any).RGBELoader();
     let loader = new THREE.TextureLoader();
     let envMap = loader.load("./images/environment_studio.jpg", () => {
-        console.log(envMap);
+        // console.log(envMap);
         envMap.magFilter = THREE.LinearFilter;
         envMap.minFilter = THREE.LinearMipMapLinearFilter;
         envMap.generateMipmaps = true;
@@ -141,6 +155,8 @@ export function threeUpdate(pbr: PBR) {
     material.metalness = 1.0;
     material.color = new THREE.Color(1, 1, 1);
     material.envMapIntensity = 1;
+    material.emissiveIntensity = 1;
+    material.emissive = new THREE.Color(1, 1, 1);
 
     ///// Assign Material
     cube.material = material;
@@ -151,6 +167,22 @@ export function threeUpdate(pbr: PBR) {
     pbr.gl.bindFramebuffer(pbr.gl.FRAMEBUFFER, null);
 
 }
+
+
+// // add cube env map to material
+// let loader = new THREE.CubeTextureLoader();
+// loader.setPath('./');
+// let evnCube = loader.load([
+//     'kitten.jpg', 'kitten.jpg',
+//     'kitten.jpg', 'kitten.jpg',
+//     'kitten.jpg', 'kitten.jpg'
+// ], () => {
+//     material.envMap = evnCube;
+//     material.needsUpdate = true;
+//     // cube.material = material;
+// });
+
+
 
 // EquirectangularReflectionMapping
 
