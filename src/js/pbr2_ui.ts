@@ -6,6 +6,9 @@ import { PBR } from './pbr2';
 import { buffer_layouts, export_layouts } from './buffer_layouts';
 import { saveAs } from 'file-saver';
 
+import { threePreview, threeUpdate } from './three_preview';
+
+// declare threePreview: any;
 
 export function bindUI(pbr: PBR) {
     let ui = document.querySelector(".ui");
@@ -16,9 +19,11 @@ export function bindUI(pbr: PBR) {
 
         showButton.addEventListener("click", () => {
             pbr.show(buffer_name);
+            threeUpdate(pbr.buffers);
         });
 
         ui.appendChild(showButton);
+
     });
 
     ui.appendChild(document.createElement("br"));
@@ -46,5 +51,12 @@ export function bindUI(pbr: PBR) {
         ui.appendChild(downloadLink);
     });
 
+    threePreview(pbr.buffers);
 
+    setTimeout(function () {
+        pbr.show("albedo");
+        threeUpdate(pbr.buffers);
+    }, 1000);
 }
+
+

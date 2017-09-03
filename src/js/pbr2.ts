@@ -29,7 +29,7 @@ export class PBR {
 
     private readonly unitSquare: Geometry;
     private readonly unitCircle: Geometry;
-    private readonly buffers: { [key: string]: Framebuffer };
+    public readonly buffers: { [key: string]: Framebuffer };
 
     /**
      *
@@ -93,7 +93,6 @@ export class PBR {
         _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
             let buffer = this.buffers[buffer_name];
             buffer.bind();
-
 
 
             this.gl.clearColor(
@@ -285,9 +284,20 @@ export class PBR {
         buffer.bindTexture(this.gl.TEXTURE0);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
-        // draw rect to screen
+        // set blending mode
+        // set up to alpha multiply as we show
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ZERO);
+
+        // bind to main color buffer
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
+        // clear the buffer
+        this.gl.clearColor(0, 0, 0, 0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        // draw rect to screen
         this.unitSquare.draw(this.textureProgram);
 
 
@@ -295,6 +305,11 @@ export class PBR {
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
 
     }
 
@@ -513,7 +528,7 @@ export class Program {
 
 }
 
-class Framebuffer {
+export class Framebuffer {
 
     private rttFramebuffer: WebGLFramebuffer;
     private rttTexture: WebGLTexture;

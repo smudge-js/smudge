@@ -2,8 +2,13 @@ import { PBR, Material, BlendMode } from '../pbr';
 import { mat4 } from 'gl-matrix';
 
 export function draw() {
-    let pbr = new PBR(undefined, 128, 128);
-    pbr.clear();
+    let pbr = new PBR(undefined, 512, 512);
+    // pbr.clear();
+
+    console.log(Material.white);
+
+    pbr.clear(Material.white);
+
 
     let redPaint = new Material();
     redPaint.red = 1;
@@ -11,6 +16,8 @@ export function draw() {
     redPaint.blue = 0;
     redPaint.transparency = 1;
     redPaint.metallic = .5;
+
+
 
     let greenPaint = new Material(0, 1, 0, 1);
 
