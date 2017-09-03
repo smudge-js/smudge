@@ -36,6 +36,8 @@ Gregs list:
 
     would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
 
+    would be nice if live preview remembered which channel you were previewing on refresh
+
 
 
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
