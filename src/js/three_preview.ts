@@ -1,9 +1,14 @@
 // let THREE = require('three');
 import * as THREE from 'three';
-import { PBR } from './pbr2'
+import { PBR } from './pbr2';
+
+(window as any).THREE = THREE;
+require('./RGBELoader.js');
+
 
 let cube: THREE.Mesh;
 let renderer: THREE.WebGLRenderer;
+
 
 export function threePreview(pbr: PBR) {
 
@@ -108,9 +113,15 @@ export function threeUpdate(pbr: PBR) {
     //     material.needsUpdate = true;
     //     // cube.material = material;
     // });
+    console.log("three", (THREE as any), (THREE as any).RGBELoader);
 
+    // let loader = new (THREE as any).RGBELoader();
     let loader = new THREE.TextureLoader();
-    let envMap = loader.load("./env.jpg", () => {
+    let envMap = loader.load("./images/environment_studio.jpg", () => {
+        console.log(envMap);
+        envMap.magFilter = THREE.LinearFilter;
+        envMap.minFilter = THREE.LinearMipMapLinearFilter;
+        envMap.generateMipmaps = true;
         envMap.mapping = THREE.EquirectangularReflectionMapping;
         material.envMap = envMap;
         material.needsUpdate = true;
@@ -126,9 +137,9 @@ export function threeUpdate(pbr: PBR) {
     // material.roughnessMap = texture; // green
     // material.metalnessMap = texture; // blue
     //material.bumpMap = texture; // b&w
-    material.roughness = .5;
+    material.roughness = 1.0;
     material.metalness = 1.0;
-    // material.color = new THREE.Color(1, 1, 1);
+    material.color = new THREE.Color(1, 1, 1);
     material.envMapIntensity = 1;
 
     ///// Assign Material
@@ -211,28 +222,29 @@ export function threeUpdate(pbr: PBR) {
 
 
 
-    // // instantiate a loader
-    // var loader = new THREE.TextureLoader();
+// // instantiate a loader
+// var loader = new THREE.TextureLoader();
 
-    // // load a resource
-    // loader.load(
-    //     // resource URL
-    //     './kitten.jpg',
-    //     // Function when resource is loaded
-    //     function (texture) {
-    //         // do something with the texture
-    //         var material = new THREE.MeshBasicMaterial({
-    //             map: texture
-    //         });
+// // load a resource
+// loader.load(
+//     // resource URL
+//     './kitten.jpg',
+//     // Function when resource is loaded
+//     function (texture) {
+//         // do something with the texture
+//         var material = new THREE.MeshBasicMaterial({
+//             map: texture
+//         });
 
-    //         cube.material = material;
-    //     },
-    //     // Function called when download progresses
-    //     function (xhr) {
-    //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    //     },
-    //     // Function called when download errors
-    //     function (xhr) {
-    //         console.log('An error happened');
-    //     }
-    // );
+//         cube.material = material;
+//     },
+//     // Function called when download progresses
+//     function (xhr) {
+//         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+//     },
+//     // Function called when download errors
+//     function (xhr) {
+//         console.log('An error happened');
+//     }
+// );
+
