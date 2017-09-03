@@ -19,7 +19,7 @@ export function bindUI(pbr: PBR) {
 
         showButton.addEventListener("click", () => {
             pbr.show(buffer_name);
-            threeUpdate(pbr.buffers);
+            threeUpdate(pbr);
         });
 
         ui.appendChild(showButton);
@@ -51,12 +51,12 @@ export function bindUI(pbr: PBR) {
         ui.appendChild(downloadLink);
     });
 
-    threePreview(pbr.buffers);
+    threePreview(pbr);
 
     setTimeout(function () {
         pbr.show("albedo");
-        threeUpdate(pbr.buffers);
-    }, 1000);
+        threeUpdate(pbr);
+    }, 1);
 }
 
 

@@ -21,7 +21,7 @@ export class PBR {
     private readonly canvas_width: number;
     private readonly canvas_height: number;
 
-    private readonly gl: WebGLRenderingContext;
+    readonly gl: WebGLRenderingContext;
     private readonly pMatrix: mat4;
 
     private readonly colorProgram: Program;
@@ -528,7 +528,7 @@ export class Program {
 
 }
 
-export class Framebuffer {
+class Framebuffer {
 
     private rttFramebuffer: WebGLFramebuffer;
     private rttTexture: WebGLTexture;
