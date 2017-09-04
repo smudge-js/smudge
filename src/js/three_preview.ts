@@ -2,6 +2,10 @@
 import * as THREE from 'three';
 import { PBR } from './pbr2';
 
+import * as _ from 'lodash';
+
+
+
 (window as any).THREE = THREE;
 require('./RGBELoader.js');
 
@@ -13,6 +17,7 @@ let renderer: THREE.WebGLRenderer;
 export function threePreview(pbr: PBR) {
 
     console.log("Three.js loaded: ", !!THREE);
+
 
     // init Three renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -47,14 +52,75 @@ export function threePreview(pbr: PBR) {
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
+
+    let oldX = 0;
+    let oldY = 0;
+    let isMousePressed = false;
+    renderer.domElement.onmousedown = (e) => {
+        isMousePressed = true;
+    }
+    renderer.domElement.onmouseup = (e) => {
+        isMousePressed = false;
+    }
+
+    renderer.domElement.onmousemove = (e) => {
+        var rect = renderer.domElement.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        // scale mouse position to -1 to 1 range
+        x = (x - 256) / 256;
+        y = (y - 256) / 256;
+        // flip y
+        y *= -1;
+
+        // make the arc ball smaller
+        x *= 2;
+        y *= 2;
+
+        if (isMousePressed) {
+            let oldV = new THREE.Vector3(oldX, oldY, 0);
+            let newV = new THREE.Vector3(x, y, 0);
+
+            // snap outside clicks onto ball
+            if (oldV.length() > 1) {
+                oldV.normalize();
+            }
+            if (newV.length() > 1) {
+                newV.normalize();
+            }
+
+            // find the z position on the ball given the x and y.
+            oldV.z = Math.sqrt(1 - oldV.length() * oldV.length());
+            newV.z = Math.sqrt(1 - newV.length() * newV.length());
+
+            // calculate the angle and axis to rotate
+            let angle = oldV.angleTo(newV);
+            let axis = new THREE.Vector3().crossVectors(oldV, newV);
+
+            // rotate the cube, don't do anything for NaN or 0
+            if (angle) {
+                axis.normalize();
+                cube.matrix.premultiply(new THREE.Matrix4().makeRotationAxis(axis, angle));
+                cube.matrixAutoUpdate = false;
+            }
+        }
+
+        oldX = x;
+        oldY = y;
+    }
+
+
     // Render Loop
     var render = function () {
         requestAnimationFrame(render);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
         renderer.render(scene, camera);
     };
     render();
+
+
+
+
 }
 
 function getThreeTextureForBuffer(pbr: PBR, bufferName: string): THREE.DataTexture {
