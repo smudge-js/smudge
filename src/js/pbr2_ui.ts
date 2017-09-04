@@ -8,37 +8,52 @@ import { saveAs } from 'file-saver';
 
 import { threePreview, threeUpdate } from './three_preview';
 
-// declare threePreview: any;
+import '../css/pbr5_ui.css';
+
 
 export function bindUI(pbr: PBR) {
     let ui = document.querySelector(".ui");
 
-    _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
-        let showButton = document.createElement("button");
-        showButton.textContent = buffer_name;
+    // add channel select tabs/button
+    let channel_buttons_div = document.getElementById("channel-buttons");
 
-        showButton.addEventListener("click", () => {
+    _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
+        let b = document.createElement("button");
+        b.textContent = buffer_name;
+        b.addEventListener("click", (e) => {
+            console.log(e.target);
+
+            // set tab to active
+            let children = channel_buttons_div.childNodes;
+            for (var i = 0; i < children.length; ++i) {
+                (children[i] as HTMLButtonElement).className = '';
+            }
+            (e.target as HTMLButtonElement).className = "active";
+
             pbr.show(buffer_name);
-            // threeUpdate(pbr);
         });
 
-        ui.appendChild(showButton);
-
+        channel_buttons_div.appendChild(b);
     });
 
-    ui.appendChild(document.createElement("br"));
-    ui.appendChild(document.createElement("br"));
 
+
+
+    // add export buttons
+    let export_buttons_div = document.getElementById("export-buttons");
 
     _.forEach(export_layouts, (layout: any, name: string) => {
-        let downloadLink = document.createElement("a");
-        downloadLink.textContent = name;
-        downloadLink.setAttribute("href", "#");
-        downloadLink.setAttribute("class", "download-button");
+        // let downloadLink = document.createElement("a");
+        // downloadLink.textContent = name;
+        // downloadLink.setAttribute("href", "#");
+        // downloadLink.setAttribute("class", "download-button");
+
+        let b = document.createElement("button");
+        b.textContent = name;
 
         var fileName = `${name}.png`;
 
-        downloadLink.addEventListener("click", function download(event) {
+        b.addEventListener("click", function download(event) {
             event.preventDefault();
             pbr.pack(layout.layout, layout.clear);
 
@@ -48,13 +63,14 @@ export function bindUI(pbr: PBR) {
             });
         });
 
-        ui.appendChild(downloadLink);
+        export_buttons_div.appendChild(b);
     });
 
+
+    // set up three
     threePreview(pbr);
 
     setTimeout(function () {
-        // pbr.show("albedo");
         threeUpdate(pbr);
     }, 1);
 }

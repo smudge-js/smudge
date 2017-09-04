@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/greg_4';
+import { draw } from './js/sketches/basic';
 
 draw();

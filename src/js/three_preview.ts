@@ -21,9 +21,10 @@ export function threePreview(pbr: PBR) {
 
     // init Three renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setClearColor("#444444");
+    renderer.setClearColor("#222");
     renderer.setSize(512, 512);
-    document.body.appendChild(renderer.domElement);
+    let t = document.getElementById("three-preview");
+    t.insertBefore(renderer.domElement, t.firstChild);
 
     // set up scene
     var scene = new THREE.Scene();

@@ -1,0 +1,53 @@
+body {
+    background-color: #444;
+    margin: 0;
+}
+
+#panel {
+    border: 10px solid #222;
+    display: inline-block;
+}
+
+#export-buttons,
+#channel-buttons,
+#three-buttons
+{
+    background-color: #222;
+    padding: 5px 0;
+}
+
+canvas {
+    display: block;
+}
+
+button {
+    background-color: #666;
+    color: white;
+    border: none;
+    margin-right: 5px;
+    padding: 6px 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#channel-buttons button {
+    background-color: transparent;
+    outline: none;
+}
+#channel-buttons .active {
+    background-color: #666;
+    outline: none;
+}
+
+
+.label {
+    color: white;
+    font-size: 11px;
+    font-family: system-ui;
+}
+
+#channel-preview {
+    
+    background-image: url('../../images/checkerboard_gray_gray.png');
+    background-size: 16px 16px;
+}

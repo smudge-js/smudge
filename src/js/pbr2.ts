@@ -38,7 +38,7 @@ export class PBR {
      * @param height The height of the drawing.
      */
     constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number) {
-        this.canvas = canvas = canvas || document.getElementById("gl-canvas") as HTMLCanvasElement;
+        this.canvas = canvas = canvas || document.getElementById("channel-canvas") as HTMLCanvasElement;
         this.width = width || canvas.width;
         this.height = height || canvas.height;
         this.canvas_width = this.width;

@@ -1,21 +1,72 @@
 # Notes
 
+# Gregs List
 
-####################################
-## Libraries
+Gregs list:
 
-### Color Library
-- chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
-- Qix-/color - constructor without new. no hsl/v constructor?
+## API
+.stroke?, for ellipse and rect
+
+.would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
+
+.getpixels();
+
+.MAJOR FEATURE drawing with some sort of mask based on the current channels? being able to mask your drawing to only draw on things with a height greater than .8 or something. also should be able to soften/blur the mask (your paper+crayon texture idea)
+    
+.Having an undefined material Material.empty would be nice
+    
+.FEATURE GROUPsome color utils would be nice
+        - setting material color with a hex value would be useful
+        - also being able to tell a material to get x% darker or lighter maybe?
+        - similar, a convenience function to set emission rgb or color rgb to undefined in one call
+
+.Having a seperate transparency for each channel when drawing. color 100% height 20%
+    .Also, blending mode of "off" or "disable"
+    .need a transparency value for transparancy
+    .alpha, transparency, blend, opacity, intesity, strength
+
+.FILTERS Being able to blur a whole channel would be useful, also being able to apply a Levels filter/adjustment
+
+.ability to choose draw from center for ellipse would be handy
+
+## GUI
+.checker board background for transparency visualization
+
+.would be nice if live preview remembered which channel you were previewing on refresh
+
+For the 3d preview UI
+    sliders
+        - metallic
+        - smoothness
+        - height
+        - lighting brighter/darker
+    auto rotate model?
+    zoom in with scroll wheel
+    swap preview model? sphere, cube, dong
+    tiling the material?
 
 
-####################################
-## Style Guide / Code Review Checks
+## BUGS
+.pbr.clear() with transparent material not working as expected?
+    .probably working "correctly", canvas expects premultiplied
+    
+.pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
 
-### Dos
-- WebGL: bind back to null + clean up after binds at end of functions
-- error checking: at the very least make a test and use console_report and console_error
-    .this will make it easier to go back and put in proper handling.
+
+
+
+
+
+
+
+
+
+    
+
+
+
+# meals
+We are trying to figure out what to eat for dinner, not the worst possible way to cook it.
 
 
 ####################################
@@ -26,58 +77,10 @@ why does the three_pbr packing have to have oversamling at 1 for blit to fill th
 
 ### Interface - API
 
-Gregs list:
-    x.line();
-    x.line([points], stroke_material(thickness?), matrix);
-    x.quad()
-    stroke?, for ellipse and rect
 
-    checker board background for transparency visualization
+x. lines need a "spread left, spread right, spred center" option
+x. lines need a "closed" opiton
 
-    pbr.clear() with transparent material not working as expected?
-
-    pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
-
-    would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
-
-    would be nice if live preview remembered which channel you were previewing on refresh
-
-    getpixels();
-
-    drawing with some sort of mask based on the current channels? being able to mask your drawing to only draw on things with a height greater than .8 or something. also should be able to soften/blur the mask (your paper+crayon texture idea)
-
-    Having an undefined material Material.empty would be nice
-
-    some color utils would be nice
-        - setting material color with a hex value would be useful
-        - also being able to tell a material to get x% darker or lighter maybe?
-        - similar, a convenience function to set emission rgb or color rgb to undefined in one call
-
-    Having a seperate transparency for each channel when drawing. color 100% height 20%
-
-    For the 3d preview UI
-        sliders
-            - metallic
-            - smoothness
-            - height
-            - lighting brighter/darker
-        auto rotate model?
-        zoom in with scroll wheel
-        swap preview model? sphere, cube, dong
-        tiling the material?
-
-    Being able to blur a whole channel would be useful, also being able to apply a Levels filter/adjustment
-
-    ability to choose draw from center for ellipse would be handy
-
-
-
-
-we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
-
-lines need a "spread left, spread right, spred center" option
-lines need a "closed" opiton
-check out es6 await on the image download
 
 
 masks
@@ -164,6 +167,24 @@ tileable
         .typedoc is documenting to many needless files.
         .documentation is to tied to code, not high level enough.
         .some types etc are just not clearly presented through generated docs
+
+
+
+####################################
+## Libraries
+
+### Color Library
+- chroma.js - great docs, very full featured, not OOP. consider using it as a backend for a color object? (coffee)
+- Qix-/color - constructor without new. no hsl/v constructor?
+
+
+####################################
+## Style Guide / Code Review Checks
+
+### Dos
+- WebGL: bind back to null + clean up after binds at end of functions
+- error checking: at the very least make a test and use console_report and console_error
+    .this will make it easier to go back and put in proper handling.
 
 
 
