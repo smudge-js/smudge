@@ -21,16 +21,19 @@ export async function draw() {
     pbr.rect(0, 0, pbr.width,pbr.height, baseMat);
 
     let dotMat = new Material();
-    let dotCol = hexToRGB('#ffbe28');
-    dotMat.red = dotCol.r;
-    dotMat.green = dotCol.g;
-    dotMat.blue = dotCol.b;
+    // let dotCol = hexToRGB('#ffbe28');
+    // dotMat.red = dotCol.r;
+    // dotMat.green = dotCol.g;
+    // dotMat.blue = dotCol.b;
+    dotMat.red = undefined;
+    dotMat.green = undefined;
+    dotMat.blue = undefined;
     dotMat.emission_red = undefined;
     dotMat.emission_green = undefined;
     dotMat.emission_blue = undefined;
-    dotMat.transparency = .85;
-    dotMat.metallic = .4;
-    dotMat.smoothness = .7;
+    dotMat.transparency = 1;
+    dotMat.metallic = undefined;
+    dotMat.smoothness = undefined;
     dotMat.height = undefined;
 
     let crackMat = new Material();
@@ -38,6 +41,9 @@ export async function draw() {
     crackMat.red = col.r;
     crackMat.green = col.g;
     crackMat.blue = col.b;
+    // crackMat.red = undefined;
+    // crackMat.green = undefined;
+    // crackMat.blue = undefined;
     crackMat.emission_red = undefined;
     crackMat.emission_green = undefined;
     crackMat.emission_blue = undefined;
@@ -50,89 +56,115 @@ export async function draw() {
     let deepCrackMat = new Material(crackMat);
     deepCrackMat.height = .3;
 
-
     let points:number[][] = [
         [.01,.01],[.01,.99],[.99,.99],[.99,.01]
     ];
+/*
     for(let i=0; i<100; i++){
         let x = rRange(.1, .9);
         let y = rRange(.1, .9);
         points.push([x, y]);
 
-        for(let d=0; d<rRange(20, 100); d++){
-            let tempDot = new Material(dotMat);
-            let col:string = dotColors[Math.floor(rRange(0, dotColors.length))];
-            tempDot.red = hexToRGB(col).r;
-            tempDot.green = hexToRGB(col).g;
-            tempDot.blue = hexToRGB(col).b;
+        //dots
+        // for(let d=0; d<rRange(20, 100); d++){
+        //     let tempDot = new Material(dotMat);
+        //     let col:string = dotColors[Math.floor(rRange(0, dotColors.length))];
+        //     tempDot.red = hexToRGB(col).r;
+        //     tempDot.green = hexToRGB(col).g;
+        //     tempDot.blue = hexToRGB(col).b;
 
-            let range = 60*pScale;
-            let size = rRange(2,8)*pScale;
-            pbr.ellipse(x *pbr.width + rRange(-range, range), y *pbr.height + rRange(-range, range) , size, size, tempDot);
-        }
+        //     let range = 60*pScale;
+        //     let size = rRange(2,8)*pScale;
+        //     pbr.ellipse(x *pbr.width + rRange(-range, range), y *pbr.height + rRange(-range, range) , size, size, tempDot);
+        // }
 
     }
+    */
+
+    //make a bunch of lines, use the points from those for the voronoi
+    let lCount:number = 8;
+    for(let i=0; i<lCount; i++){
+        let vLinePoints:number[][] =  getRiverLines(i/lCount, 0, 0, 1, .25, 10, 0, .1)[0];
+        points = points.concat(vLinePoints);
+    }
+
 
     //make a bunch of dots all around the center points
 
 
     let v = voronoi(points);
     console.log(v.positions);
+    let scaleY=1;
+
     for(let i=0; i<v.cells.length; ++i){
         let linePoints:number[][] = [];
         let cell:number[] = v.cells[i];
         console.log(cell);
 
-        let size = 10;
-        let centerX = points[i][0]*pbr.width - size*.5;
-        let centerY = points[i][1]*pbr.height - size*.5;
+        // let size = 10;
+        // let centerX = points[i][0]*pbr.width - size*.5;
+        // let centerY = points[i][1]*pbr.height *scaleY- size*.5;
 
-        pbr.ellipse(centerX, centerY, size, size, crackMat);
+        // pbr.ellipse(centerX, centerY, size, size, crackMat);
 
         if(cell.indexOf(-1) >=0 ){
             console.log("found infinity");
             //ignore cells on the edge
             continue;
         };
-        linePoints.push([v.positions[cell[0]][0] * pbr.width, v.positions[cell[0]][1] * pbr.height]);
+
+        linePoints.push([v.positions[cell[0]][0] * pbr.width, v.positions[cell[0]][1] * pbr.height *scaleY]);
         for(var j=1; j<cell.length; ++j){
 
             let x = v.positions[cell[j]][0];
             let y = v.positions[cell[j]][1];
 
-            linePoints.push([x * pbr.width, y * pbr.height]);
+            linePoints.push([x * pbr.width, y * pbr.height*scaleY]);
         }
 
+        let col:string = dotColors[Math.floor(rRange(0, dotColors.length))];
+        dotMat.red = hexToRGB(col).r;
+        dotMat.green = hexToRGB(col).g;
+        dotMat.blue = hexToRGB(col).b;
+        dotMat.smoothness = rRange(.2, .9);
         //draw the cell border
         pbr.line(linePoints,
-            {width: 8*pScale,
+            {width: 40*pScale,
+            align: 'right',
+            close: true},
+            dotMat);
+
+        pbr.line(linePoints,
+            {width: 2*pScale,
             align: 'right',
             close: true},
             crackMat);
 
-        pbr.line(linePoints,
-            {width: 7*pScale,
-            align: 'right',
-            close: true},
-            deepCrackMat);
+            //rRange(2, 9)*pScale
+
+        // pbr.line(linePoints,
+        //     {width: 7*pScale,
+        //     align: 'right',
+        //     close: true},
+        //     deepCrackMat);
 
 
         //draw lines in to center
-        for(let n=0; n<linePoints.length; n++){
-            let centerLine:number[][] = [];
-            centerLine.push(linePoints[n]);
-            centerLine.push( [points[i][0]*pbr.width, points[i][1]*pbr.height] );
-            pbr.line(centerLine,
-                {width: 3*pScale,
-                align: 'center',
-                close: false},
-                deepCrackMat);
-        }
+        // for(let n=0; n<linePoints.length; n++){
+        //     let centerLine:number[][] = [];
+        //     centerLine.push(linePoints[n]);
+        //     centerLine.push( [points[i][0]*pbr.width, points[i][1]*pbr.height] );
+        //     pbr.line(centerLine,
+        //         {width: 3*pScale,
+        //         align: 'center',
+        //         close: false},
+        //         deepCrackMat);
+        // }
 
 
     }
-
     pbr.show();
+    // pbr.show('height');
 }
 function drawBark(){
 
@@ -145,16 +177,6 @@ let dotColors:string[] = [
     '#ffb641', '#ffac41', '#ffc67f'
 ];
 
-// let barkColors:string[] = [
-//     '#b2c0a7','#4b5030', '#888773', '#9f9387'
-// ];
-// let mossColors:string[] = [
-//     '#c3cdc4', '#d6d23d', '#567527', '#709625'
-// ];
-// let miscColors:string[] = [
-//     '#650000', '#610167', '#c300b1', '#c1a500', '#ff0000', '#7c2b00', '#85796b', '#8b9563', '#ff8a00', '#355a6c', '#f20866',
-//     '#f9d851', '#89f279', '#79e5ee', '#c073c1'
-// ];
 function getRiverLines(startX:number, startY:number, dirX:number, dirY:number, maxLength:number, pointCount:number, branching=0, meander=.5){
 
     let x = startX;
