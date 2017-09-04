@@ -46,6 +46,31 @@ Gregs list:
 
     drawing with some sort of mask based on the current channels? being able to mask your drawing to only draw on things with a height greater than .8 or something. also should be able to soften/blur the mask (your paper+crayon texture idea)
 
+    Having an undefined material Material.empty would be nice
+
+    some color utils would be nice
+        - setting material color with a hex value would be useful
+        - also being able to tell a material to get x% darker or lighter maybe?
+        - similar, a convenience function to set emission rgb or color rgb to undefined in one call
+
+    Having a seperate transparency for each channel when drawing. color 100% height 20%
+
+    For the 3d preview UI
+        sliders
+            - metallic
+            - smoothness
+            - height
+            - lighting brighter/darker
+        auto rotate model?
+        zoom in with scroll wheel
+        swap preview model? sphere, cube, dong
+        tiling the material?
+
+    Being able to blur a whole channel would be useful, also being able to apply a Levels filter/adjustment
+
+    ability to choose draw from center for ellipse would be handy
+
+
 
 
 we are trying to figure out what to eat for dinner, not the worst possible way to cook it.
