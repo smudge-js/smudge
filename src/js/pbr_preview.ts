@@ -38,7 +38,7 @@ export class PBRPreview {
         directional_light_one.position.z = 1;
         scene.add(directional_light_one);
 
-        var directional_light_two = new THREE.DirectionalLight(0x000022);
+        var directional_light_two = new THREE.DirectionalLight(0x111111);
         directional_light_two.position.x = 1;
         directional_light_two.position.y = 0;
         directional_light_two.position.z = 1;
