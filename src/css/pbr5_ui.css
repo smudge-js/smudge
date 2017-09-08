@@ -28,11 +28,14 @@ button {
     padding: 6px 10px;
     text-transform: uppercase;
     cursor: pointer;
+    border-radius: 15px;
 }
+
 
 #channel-buttons button {
     background-color: transparent;
     outline: none;
+    border-radius: 0;
 }
 #channel-buttons .active {
     background-color: #666;
@@ -46,7 +49,8 @@ button {
     font-family: system-ui;
 }
 
-#channel-preview {
+#channel-preview,
+#three-preview {
     
     background-image: url('../../images/checkerboard_gray_gray.png');
     background-size: 16px 16px;

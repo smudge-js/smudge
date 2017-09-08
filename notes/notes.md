@@ -30,7 +30,7 @@ Gregs list:
 .ability to choose draw from center for ellipse would be handy
 
 ## GUI
-.checker board background for transparency visualization
+x.checker board background for transparency visualization
 
 .would be nice if live preview remembered which channel you were previewing on refresh
 
@@ -159,6 +159,7 @@ tileable
     .rect
     .etc
 
+.consider what to expose on PBR. pbr_preview is accessing PBR's buffers, gl instance, etc. Should things be factored some other way so that isn't needed? Should there at least accessors like "getBuffer(name)"?
 
 ### Docs
 

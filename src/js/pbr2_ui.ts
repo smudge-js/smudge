@@ -6,7 +6,7 @@ import { PBR } from './pbr2';
 import { buffer_layouts, export_layouts } from './buffer_layouts';
 import { saveAs } from 'file-saver';
 
-import { threePreview, threeUpdate } from './three_preview';
+import { PBRPreview } from './pbr_preview';
 
 import '../css/pbr5_ui.css';
 
@@ -68,11 +68,11 @@ export function bindUI(pbr: PBR) {
 
 
     // set up three
-    threePreview(pbr);
+    // threePreview(pbr);
+
+    let pbr_preview = new PBRPreview(pbr, 'pbr-preview');
 
     setTimeout(function () {
-        threeUpdate(pbr);
+        pbr_preview.update();
     }, 1);
 }
-
-

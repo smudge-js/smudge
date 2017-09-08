@@ -547,7 +547,7 @@ export class Program {
 
 }
 
-class Framebuffer {
+export class Framebuffer {
 
     private rttFramebuffer: WebGLFramebuffer;
     private rttTexture: WebGLTexture;

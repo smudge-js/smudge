@@ -4,7 +4,7 @@ import { mat4 } from 'gl-matrix';
 export function draw() {
     let pbr = new PBR(undefined, 512, 512);
 
-    let paper = new Material(.9, .9, .9, .1);
+    let paper = new Material(.9, .9, .9, 1);
     paper.metallic = 0;
     paper.smoothness = .1;
 
