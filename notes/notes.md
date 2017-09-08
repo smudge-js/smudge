@@ -2,8 +2,6 @@
 
 # Gregs List
 
-Gregs list:
-
 ## API
 .stroke?, for ellipse and rect
 
@@ -50,7 +48,7 @@ For the 3d preview UI
 .pbr.clear() with transparent material not working as expected?
     .probably working "correctly", canvas expects premultiplied
     
-.pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
+x.pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
 
 
 

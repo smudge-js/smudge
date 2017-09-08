@@ -151,6 +151,10 @@ export class PBR {
             close: false
         });
 
+        if (points.length === 2) {
+            options.close = false;
+        }
+
         // get the miter offsets
         let miter_data = getNormals(points, options.close);
         let offsets: number[][] = [];

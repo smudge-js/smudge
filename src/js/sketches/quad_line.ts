@@ -44,5 +44,7 @@ export function draw() {
 
     ], { width: 10, align: 'center', close: true }, greenPaint);
 
+
+    pbr.line([[200, 200], [250, 300]], { width: 10, close: true }, greenPaint);
     pbr.show();
 }
