@@ -1,6 +1,6 @@
 import * as gl_constants from 'gl-constants';
 import { strEnum } from './util';
-
+import { Texture } from './pbr2';
 
 export interface BlendMode {
     equation: GLenum,
@@ -81,6 +81,13 @@ export const ChannelKey = strEnum([
 ])
 export type ChannelKey = keyof typeof ChannelKey;
 
+export class TextureInfo {
+    public texture: Texture;
+    public colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,];
+    public colorBias = [0, 0, 0, 0];
+    public uvMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+
+}
 
 type MaterialConfig = Partial<Material>;
 
@@ -101,6 +108,9 @@ export class Material {
     public emission_red = 0;
     public emission_green = 0;
     public emission_blue = 0;
+
+
+    public textureInfo: TextureInfo;
 
     constructor(config: MaterialConfig);
     constructor(

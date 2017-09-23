@@ -46,6 +46,8 @@
 
     channel masking (m.red = undefined)
 
+### Materials - Textures
+
 
 ## Blend Modes
 [Overview]

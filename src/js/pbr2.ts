@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { mat4 } from 'gl-matrix';
+import { mat4, mat3 } from 'gl-matrix';
 
 import { console_report, console_error } from './util';
 import { bindUI } from './pbr2_ui'
@@ -24,8 +24,9 @@ export class PBR {
     readonly gl: WebGLRenderingContext;
     private readonly pMatrix: mat4;
 
-    private readonly colorProgram: Program;
+    private readonly basicProgram: Program;
     private readonly textureProgram: Program;
+    private readonly drawProgram: Program;
 
     private readonly unitSquare: Geometry;
     private readonly unitCircle: Geometry;
@@ -58,13 +59,18 @@ export class PBR {
         mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
         // build shader programs
-        const basicVert = require("../glsl/basic_vertex.glsl");
-        const basicFrag = require("../glsl/basic_fragment.glsl");
-        this.colorProgram = new Program("colorProgram", this.gl, basicVert, basicFrag);
+        const basic_vertex = require("../glsl/basic_vertex.glsl");
+        const basic_fragment = require("../glsl/basic_fragment.glsl");
+        this.basicProgram = new Program("basicProgram", this.gl, basic_vertex, basic_fragment);
 
-        const textureVert = require("../glsl/texture_vertex.glsl");
-        const textureFrag = require("../glsl/texture_fragment.glsl");
-        this.textureProgram = new Program("textureProgram", this.gl, textureVert, textureFrag);
+        const texture_vertex = require("../glsl/texture_vertex.glsl");
+        const texture_fragment = require("../glsl/texture_fragment.glsl");
+        this.textureProgram = new Program("textureProgram", this.gl, texture_vertex, texture_fragment);
+
+        const draw_vertex = require("../glsl/draw_vertex.glsl");
+        const draw_fragment = require("../glsl/draw_fragment.glsl");
+        this.drawProgram = new Program("drawProgram", this.gl, draw_vertex, draw_fragment);
+
 
         // build geo
         this.unitSquare = new UnitSquare(this.gl);
@@ -184,10 +190,10 @@ export class PBR {
         // center
         for (let i = 0; i < points.length - 1; i++) {
             let quad_points: number[][] = [
-                [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
-                [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
+                [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]],
                 [points[i + 1][0] + offsets[i + 1][0] * offsetBias[1], points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]],
-                [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]]
+                [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
+                [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
             ];
             this.quad(quad_points, material, matrix);
         }
@@ -202,10 +208,47 @@ export class PBR {
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
         // set up program
-        this.colorProgram.use();
+        let program: Program;
+        if (!material.textureInfo) {
+            program = this.basicProgram;
+            program.use();
+        } else {
+            program = this.drawProgram;
+            program.use();
 
-        this.colorProgram.setUniformMatrix("uPMatrix", this.pMatrix);
-        this.colorProgram.setUniformMatrix("uMVMatrix", mvMatrix);
+            const colorMatrix = mat4.create();
+            //program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
+            program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
+
+            program.setUniformInts("uSourceSampler", [0]);
+
+            // let uvMatrix = mat3.create();
+            // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
+            // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
+            // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
+            // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
+            // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
+
+            program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
+
+
+            this.gl.activeTexture(this.gl.TEXTURE0);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
+
+
+            program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
+
+
+
+            // this.gl.generateMipmap(this.gl.TEXTURE_2D);
+
+        }
+
+
+
+        program.setUniformMatrix("uMVMatrix", mvMatrix);
+        program.setUniformMatrix("uPMatrix", this.pMatrix);
+
 
         _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
             let buffer = this.buffers[buffer_name];
@@ -234,14 +277,15 @@ export class PBR {
                 colors[3] !== undefined
             );
 
-            this.colorProgram.setUniformFloats("uColor", colors);
+            program.setUniformFloats("uColor", colors);
+            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
 
             // draw
             buffer.bind();
             this.gl.viewport(0, 0, buffer.width, buffer.height);
 
 
-            geometry.draw(this.colorProgram);
+            geometry.draw(program);
 
         });
 
@@ -419,16 +463,25 @@ export class Program {
 
 
     constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext, readonly vertexSource: string, readonly fragmentSource: string) {
+        var error;
 
         const vertexShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertexShader, vertexSource);
         gl.compileShader(vertexShader);
+        error = gl.getShaderInfoLog(vertexShader);
         console_report(this.toString(), "vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
+        if (error) {
+            console.log(error);
+        }
 
         const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(fragmentShader, fragmentSource);
         gl.compileShader(fragmentShader);
+        error = gl.getShaderInfoLog(fragmentShader);
         console_report(this.toString(), "fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
+        if (error) {
+            console.log(error);
+        }
 
         const program = gl.createProgram();
         gl.attachShader(program, vertexShader);
@@ -464,6 +517,7 @@ export class Program {
         }
         return loc;
     }
+
     setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
         const loc = this.getAttribLocation(attribute);
         if (loc === -1) {
@@ -632,6 +686,46 @@ export class Framebuffer {
     bindTexture(textureUnit = this.gl.TEXTURE0): void {
         this.gl.activeTexture(textureUnit);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.rttTexture);
+    }
+
+}
+
+export class Texture {
+    readonly texture: WebGLTexture;
+    private image: HTMLImageElement;
+    public loaded: boolean;
+
+    constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext) {
+        this.texture = gl.createTexture();
+    }
+
+    load(src: string) {
+        return new Promise((resolve, reject) => {
+            this.image = new Image();
+
+            this.image.onload = () => {
+                console.log("image.onload");
+                this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+                this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, true);
+                this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.image);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_LINEAR);
+                this.gl.generateMipmap(this.gl.TEXTURE_2D);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+                this.loaded = true;
+                resolve();
+            };
+
+            this.image.onerror = (error) => {
+                // console.log("image.onerror", error);
+                console_error(`Could not load image: ${src}`);
+                this.loaded = false;
+                resolve(); // image couldn't be found, but carry on anyway
+            };
+
+            // this.image.src = "images/a.png";
+            this.image.src = src;
+        });
     }
 
 }

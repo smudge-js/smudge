@@ -72,7 +72,7 @@ export class PBRPreview {
         let material = this.cube.material as THREE.MeshStandardMaterial;
 
         // pack the three_pbr buffer
-        let three_pbr = new Framebuffer("three_pbr", this.pbr.gl, 128, 128, 4, 16);
+        let three_pbr = new Framebuffer("three_pbr", this.pbr.gl, 1024, 1024, 4, 16);
 
         let clear_color = [0, 1, 0, 1];
         let layout = {

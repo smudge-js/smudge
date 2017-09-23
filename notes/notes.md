@@ -3,7 +3,10 @@
 # Gregs List
 
 ## API
+
+
 .stroke?, for ellipse and rect
+
 
 .would be nice if material downloads had unique names, maybe be able to specify a project name, version, or something?
 
@@ -69,6 +72,55 @@ We are trying to figure out what to eat for dinner, not the worst possible way t
 
 ####################################
 ## Todo / Clean Up / Refactor
+
+### texture_fragment
+
+```
+gl_FragColor = uColorMatrix * texture2D(uColorSampler, vec2( vUV.s, vUV.t)) * uColor;
+```
+
+### proposed
+
+```javascript
+sourceColorMatrix * sourceSample(sourceUV • sourceUVMatrix) + sourceColorBias
+*
+paperColorMatrix * paperSample(paperUV• paperUVMatrix) + paperColorBias
+*
+color
++
+colorBias
+```
+
+
+
+
+
+started to do images
+Made a Texture class, this needs to be cleaned up.
+    x.should take a path to the image
+
+lets try this with
+    .a radial gradiant
+    .transparency
+    .rect
+    .ellipse
+    .line
+
+yes.Do i like the promises route for handling the async image load?
+x.How do I want to pass the texture to the drawGeo, probably don't want to pass the low level webgl handle. 
+    x.Better to send the Texture instance? 
+    x.How are other things passed?
+
+.How do I want to send the other info, like the texture color and transform matrix?
+    x.Created a TextureInfo class to store that
+    .do i like this?
+
+How do I want to handle different textures, transforms, color transforms per layerset?
+
+x.hook up `uColorBias` to new attrib in Material
+    x.nope, just remove `uColorBias` until I find a need for it.
+
+
 
 why does the three_pbr packing have to have oversamling at 1 for blit to fill the whole thing.
     higher oversampilng result in clipped blits. why?!
