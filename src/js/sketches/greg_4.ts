@@ -66,7 +66,7 @@ export async function draw() {
         //store ot her for multiple passes
         // let heightList:number[]=[];
         for(let i=0; i<lCount; i++){
-            vLinePoints =  getRiverLines((i/lCount) * (pbr.width+30*pScale), 0, 0, 1, [15*pScale, 15*pScale], 50, 0, .05)[0];
+            vLinePoints =  getRiverLines((i/lCount) * (pbr.width+30*pScale), 0, 0, 1, [15*pScale, 15*pScale], 50, 0, .1)[0];
             // let vLinePoints:number[][] =  getRiverLines(i/lCount, 0, 0, 1, 80*pScale, 12, 0, .4)[0];
             for(let p=vLinePoints.length-1; p>1; p--){
                 //get the angle to the next point
