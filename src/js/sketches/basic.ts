@@ -2,14 +2,29 @@ import { PBR, Material, BlendMode, Texture, TextureInfo } from '../pbr';
 import { mat4 } from 'gl-matrix';
 
 export async function draw() {
+
     let pbr = new PBR(undefined, 512, 512);
 
 
     let t = new Texture("texture_a", pbr.gl);
     await t.load("images/horizontal_burst_white_transparent.png");
+    // await t.load("images/checkerboard_white_gray.png");
+
+
+    // materials
+    // init by object
+    // init by copy of material
+    // init by parameter list
+    // init by create then configure
+    // init with templates
+
+
+    // color objects
+    // transform matrix objects
 
 
     let paper = new Material(.9, .9, .9, 1);
+
     paper.metallic = 0;
     paper.smoothness = .1;
 
@@ -52,8 +67,12 @@ export async function draw() {
     image_stamp.emission_blue = undefined;
 
 
+    let m = mat4.create();
+    mat4.rotateZ(m, m, -3.14 * .25);
+
+
     pbr.clear(paper);
-    pbr.rect(0, 0, 90, 90, gold_leaf);
+    pbr.rect(0, 0, 90, 90, gold_leaf, m);
     pbr.rect(0, 100, 90, 90, blue_paint);
     pbr.rect(0, 200, 90, 90, green_felt);
     pbr.rect(0, 300, 90, 90, red_light);
@@ -66,14 +85,3 @@ export async function draw() {
 
     pbr.show();
 }
-
-
-//  pbr.show();
-//         await resolveQuickly();
-// function resolveQuickly() {
-//     return new Promise(resolve => {
-//         setTimeout(() => {
-//             resolve();
-//         }, 1);
-//     });
-// }

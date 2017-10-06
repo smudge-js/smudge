@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { mat4, mat3 } from 'gl-matrix';
 
 import { console_report, console_error } from './util';
-import { bindUI } from './pbr2_ui'
+import { bindUI, showUI } from './pbr2_ui'
 import { buffer_layouts } from './buffer_layouts';
 import { Material } from './material';
 import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
@@ -358,7 +358,7 @@ export class PBR {
         this.gl.blendEquation(this.gl.FUNC_ADD);
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
 
-
+        showUI();
     }
 
 
@@ -717,7 +717,7 @@ export class Texture {
             };
 
             this.image.onerror = (error) => {
-                // console.log("image.onerror", error);
+                console.log("image.onerror", error);
                 console_error(`Could not load image: ${src}`);
                 this.loaded = false;
                 resolve(); // image couldn't be found, but carry on anyway

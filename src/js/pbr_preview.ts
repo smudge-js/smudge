@@ -11,7 +11,7 @@ export class PBRPreview {
     private cube: THREE.Mesh;
 
     constructor(private readonly pbr: PBR, targetID: string) {
-
+        console.log("three constructor");
         // init Three renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setClearColor("#000", 0);
@@ -66,6 +66,7 @@ export class PBRPreview {
     }
 
     update() {
+        console.log("update");
 
         // create a new PBR material
         // let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });

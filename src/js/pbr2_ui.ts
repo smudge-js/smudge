@@ -11,6 +11,12 @@ import { PBRPreview } from './pbr_preview';
 import '../css/pbr5_ui.css';
 
 
+let pbr_preview: PBRPreview;
+
+export function showUI() {
+    pbr_preview.update();
+}
+
 export function bindUI(pbr: PBR) {
     let ui = document.querySelector(".ui");
 
@@ -70,7 +76,7 @@ export function bindUI(pbr: PBR) {
     // set up three
     // threePreview(pbr);
 
-    let pbr_preview = new PBRPreview(pbr, 'pbr-preview');
+    pbr_preview = new PBRPreview(pbr, 'pbr-preview');
 
     setTimeout(function () {
         pbr_preview.update();

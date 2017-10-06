@@ -73,6 +73,10 @@ We are trying to figure out what to eat for dinner, not the worst possible way t
 ####################################
 ## Todo / Clean Up / Refactor
 
+
+showUI() is not a clean way to update the PBR preview, how should this be made cleaner?
+
+
 ### texture_fragment
 
 ```
