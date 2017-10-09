@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 import { mat4 } from 'gl-matrix';
 
 let pbr:PBR;
@@ -100,7 +100,7 @@ export function draw() {
 
         let randX = randS + Math.random()*(pbr.width-randS*2);
         let randY = randS + Math.random()*(pbr.height-randS*2);
-        
+
         buttons.push({x:randX, y:randY, s:randS});
     }
     for(let b=0; b<buttons.length; b++){
@@ -161,7 +161,7 @@ function makeButtonIndent(centerX:number, centerY:number, w:number, h:number){
     indentHeightMat.height = .1;
 
     let size = w*3;
-    
+
     for(let i=0; i<5; i++){
         let offsetX = centerX - (size*.5);
         let offsetY = centerY - (size*.5);
@@ -176,7 +176,7 @@ function makeButtonIndent(centerX:number, centerY:number, w:number, h:number){
     // offsetX = centerX - (size*.5);
     // offsetY = centerY - (size*.5);
     // pbr.ellipse(offsetX, offsetY, size, size, indentHeightMat);
-    
+
 }
 
 function makeButton(centerX:number, centerY:number, w:number, h:number){

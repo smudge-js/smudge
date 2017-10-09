@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 import { mat4 } from 'gl-matrix';
 // import * as voronoi from 'voronoi-diagram';
 
@@ -32,7 +32,7 @@ export async function draw() {
 
     pbr.rect(0, 0, pbr.width,pbr.height, copperMat);
 //fad0c0
-    
+
 
     let bumpedUp = new Material(copperMat);
     // col = hexToRGB('#000000');
@@ -51,7 +51,7 @@ export async function draw() {
     bumpedDown.height = .2;
 
     // let scalesMat = new Material();
-    
+
     // scalesMat.red = undefined;
     // scalesMat.green = undefined;
     // scalesMat.blue = undefined;
@@ -74,7 +74,7 @@ export async function draw() {
     // scaleConnectorLight.emission_green = col.g;
     // scaleConnectorLight.emission_blue = col.b;
     // scaleConnectorLight.height = .3;
-        
+
     let lCount:number = 14;
 
     //draw the grid
@@ -83,7 +83,7 @@ export async function draw() {
     let gridSizeX = pbr.height / gridCols;
     let gridSizeY = pbr.width / gridRows;
 
-    
+
     //draw lattice
     for(let c=0; c<=gridCols; c++){
         let curX = c*gridSizeX;

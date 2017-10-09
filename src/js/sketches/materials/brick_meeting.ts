@@ -1,16 +1,20 @@
 // this was from "demo_grid" file. I know what it does, I just don't know what it means. I think syntax is important for me to learn.
 // let mat = i++ % 2 ? odd : even;
 
-import PBR from '../pbr1';
-import { Material } from '../pbr1';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw(pbr: PBR) {
+export async function draw() {
+
+  let canvasX = 1024;
+  let canvasY = 1024;
+
+  let pbr = new PBR(undefined, canvasX, canvasY);
   //setting parameters for canvas
   //must be 512 because defined somewhere else...
   //either let user change it or don't put it in this doc?
   //I made these vars so that we can reference them later in the code without asking why that number
-  let canvasX = 512;
-  let canvasY = 512;
+
 
   //set up canvas "material"
   const clear = new Material(0.7, 0.7, 0.7, 1.0, .1, .3, 0.1);

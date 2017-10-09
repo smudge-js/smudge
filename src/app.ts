@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/api/api_raw';
+import { draw } from './js/sketches/components/basic';
 
 draw();

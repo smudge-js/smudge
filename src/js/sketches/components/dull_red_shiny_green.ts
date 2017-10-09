@@ -1,7 +1,10 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw(pbr: PBR) {
+export async function draw() {
+
+    let pbr = new PBR(undefined, 512, 512);
+
     const clear = new Material(.5, .5, .5, 1.0, 0.0, 0.0, .5);
     const red = new Material(1.0, 0.0, 0.0, .25, 0.0, 0.0, 0.0);
     const green = new Material(0.0, 1.0, 0.0, .25, 0.0, 1.0, 1.0);

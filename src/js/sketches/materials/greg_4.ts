@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 import { mat4 } from 'gl-matrix';
 import * as voronoi from 'voronoi-diagram';
 
@@ -32,10 +32,10 @@ export async function draw() {
 
     pbr.rect(0, 0, pbr.width,pbr.height, copperMat);
 //fad0c0
-    
+
 
     let scalesMat = new Material();
-    
+
     scalesMat.red = undefined;
     scalesMat.green = undefined;
     scalesMat.blue = undefined;
@@ -58,7 +58,7 @@ export async function draw() {
     scaleConnectorLight.emission_green = col.g;
     scaleConnectorLight.emission_blue = col.b;
     scaleConnectorLight.height = .3;
-        
+
     let lCount:number = 14;
     //run 2 passes
     for(let n=0; n<4; n++){
@@ -101,9 +101,9 @@ export async function draw() {
             //     pbr.ellipse(vLinePoints[p][0]-size*.5, vLinePoints[p][1]-size*.5, size, size, scalesMat);
             // }
         }
-        
-        
-        
+
+
+
         lCount*=.33;
     }
 

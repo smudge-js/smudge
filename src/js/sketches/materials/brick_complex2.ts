@@ -1,14 +1,14 @@
-import PBR from '../pbr2';
-import { Material } from '../pbr2';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw() {
-
-  let pbr = new PBR(undefined, 1024, 1024, 1);
+export async function draw() {
 
 
   // setting parameters for canvas
   let canvasX = 1024;
   let canvasY = 1024;
+
+  let pbr = new PBR(undefined, canvasX, canvasY);
 
   // changeable parameters
   let brickWidth = 120;

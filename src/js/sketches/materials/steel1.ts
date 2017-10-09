@@ -1,11 +1,15 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export function draw() {
+export async function draw() {
+
+
 
   let canvasWidth = 2048;
   let canvasHeight = 2048;
 
   let pbr = new PBR(undefined, canvasWidth, canvasHeight);
+
 
   // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
   const background = new Material(0.3, 0.3, 0.3, 1.0, 0.2, 0.2,0.1,0.6);

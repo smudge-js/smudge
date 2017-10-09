@@ -1,9 +1,11 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw(pbr: PBR) {
+export async function draw() {
+
+    let pbr = new PBR(undefined, 512, 512);
+
     const clear = new Material(0.5, 0.6, 0.5, 1.0, 0.0, 0.3, 0.0);
-    pbr.rect(0, 0, 1024, 1024, clear);
 
 
     // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
@@ -28,7 +30,7 @@ export default function draw(pbr: PBR) {
         paint1.height += .01;
         // paint2.height += .01;
 
-    
+
 
         for (let i = 0; i < 10000; i++) {
             x += Math.sin(a) * d;

@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 
 let pbr: PBR;
 

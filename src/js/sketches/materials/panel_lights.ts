@@ -1,9 +1,9 @@
-import PBR from '../pbr2';
-import { Material } from '../pbr2';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw() {
+export async function draw() {
 
-    let pbr = new PBR(undefined, 1024, 1024, 4);
+    let pbr = new PBR(undefined, 1024, 1024);
 
     const metal = new Material(0.5, 0.5, 0.5, 1.0, 0.5, 0.25, 0.5);
     const panel = new Material(0.5, 0.5, 0.5, 1.0, 0.4, 0.25, 0.5);

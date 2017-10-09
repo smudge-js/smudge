@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 import { mat4 } from 'gl-matrix';
 
 let pbr:PBR;
@@ -30,9 +30,9 @@ export async function draw() {
 
             await resolveQuickly();
         }
-        
+
     }
-    
+
 
     pbr.show();
 }
@@ -72,7 +72,7 @@ function drawScrapeRiver(startX:number, startY:number, dirX:number, dirY:number,
     // let branching = .4;
 
     //make a path
-    
+
     // points.push([startX,startY]);
     //create a random line
     let x = startX;
@@ -103,7 +103,7 @@ function drawScrapeRiver(startX:number, startY:number, dirX:number, dirY:number,
     // pbr.line(offsetPoints, scratchWidth, scraperMat);
 
     pbr.line(points, scratchWidth, scraperMat);
-    
+
     // scratchWidth= 3 + Math.random()*9;
     pbr.line(points, scratchWidth*.9, scraperMat);
     pbr.line(points, scratchWidth*.8, scraperMat);
@@ -117,8 +117,8 @@ function drawScrapeRiver(startX:number, startY:number, dirX:number, dirY:number,
         s*=.9;
         pbr.ellipse(centerX-scratchWidth*s, centerY-scratchWidth*s, scratchWidth*(s*2), scratchWidth*(s*2), scraperMat);
     }
-    
-    
+
+
 
     pbr.line(points, scratchWidth*.6, glowingScrapeMat);
     pbr.ellipse(centerX-(scratchWidth*.7), centerY-(scratchWidth*.7), scratchWidth*1.4, scratchWidth*1.4, glowingScrapeMat);

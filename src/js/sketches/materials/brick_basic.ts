@@ -1,15 +1,17 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw(pbr: PBR) {
+export async function draw() {
   //setting parameters for canvas
   //must be 512 because defined somewhere else...
   //either let user change it or don't put it in this doc.
   let canvasX = 512;
   let canvasY = 512;
 
+  let pbr = new PBR(undefined, canvasX, canvasY);
+
   //set up canvas "material"
-  const clear = new Material(0.7, 0.7, 0.7, 1.0, 1.0, 0.0, 0.5);
+  let clear = new Material(0.7, 0.7, 0.7, 1.0, 1.0, 0.0, 0.5);
   pbr.rect(0, 0, canvasX, canvasY, clear);
 
   // let i = 0;

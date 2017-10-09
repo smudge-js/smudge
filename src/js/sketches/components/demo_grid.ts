@@ -1,9 +1,11 @@
-import PBR from '../pbr1';
-import {Material} from '../pbr1';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { mat4 } from 'gl-matrix';
 
-export default function draw(pbr: PBR) {
+export async function draw() {
+
+    let pbr = new PBR(undefined, 512, 512);
     const clear = new Material(0.5, 0.5, 0.5, 1.0, 1.0, 0.0, 0.5);
-    pbr.rect(0, 0, 512, 512, clear);
+
 
     const odd = new Material(0.3, 0.3, 0.3, 1.0);
     odd.height = .4;

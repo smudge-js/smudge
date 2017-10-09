@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../../pbr';
 import { mat4 } from 'gl-matrix';
 // import * as voronoi from 'voronoi-diagram';
 
@@ -45,7 +45,7 @@ export async function draw() {
     pbr.rect(0, 0, pbr.width,pbr.height, copperMat);
 
     // let scalesMat = new Material();
-    
+
     // scalesMat.red = undefined;
     // scalesMat.green = undefined;
     // scalesMat.blue = undefined;
@@ -108,7 +108,7 @@ export async function draw() {
                 filledMat.transparency=cells[c][r];
             }
             pbr.rect(gridSizeX*c, gridSizeY*r, gridSizeX, gridSizeY, filledMat);
-                
+
             // }
         }
     }
