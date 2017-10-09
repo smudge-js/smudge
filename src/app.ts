@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/components/basic';
+import { draw } from './js/sketches/materials/pollock_2';
 
 draw();

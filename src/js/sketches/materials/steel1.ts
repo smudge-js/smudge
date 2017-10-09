@@ -12,8 +12,8 @@ export async function draw() {
 
 
   // new Material(red, green, blue, transparency, metallic, smoothness, height, emission_red, emission_green, emission_blue)
-  const background = new Material(0.3, 0.3, 0.3, 1.0, 0.2, 0.2,0.1,0.6);
-  const metalLines = new Material(0, 0, 0, 0.1, 0.2, 0 ,0.1,0.6);
+  const background = new Material(0.3, 0.3, 0.3, 1.0, 0.2, 0.2, 0.1);
+  const metalLines = new Material(0, 0, 0, 0.1, 0.2, 0, 0.1);
   metalLines.height = 0.3;
   metalLines.height_blend_mode = BlendMode.Additive;
   // black.albedo_blend_mode = BlendMode.Additive;
@@ -23,25 +23,25 @@ export async function draw() {
   let linesCount = 3000;
   let rectsCount = 3000;
   let specklesCount = 100000;
-  let minLineLength=50;
+  let minLineLength = 50;
 
-  for (let r = 0; r<rectsCount; r++){
-    metalLines.height = random(0,0.3);
+  for (let r = 0; r < rectsCount; r++) {
+    metalLines.height = random(0, 0.3);
     metalLines.transparency = 0;
-    pbr.rect(random(0,canvasWidth),random(0,canvasHeight),random(100,200),random(100,200),metalLines);
+    pbr.rect(random(0, canvasWidth), random(0, canvasHeight), random(100, 200), random(100, 200), metalLines);
   };
 
-  for (let l = 0; l<linesCount; l++){
-    let diameter = random(5,15);
+  for (let l = 0; l < linesCount; l++) {
+    let diameter = random(5, 15);
     metalLines.transparency = 0.05;
-    metalLines.height=random(0.075,0.125);
-    pbr.rect(random(0-canvasWidth,canvasWidth),random(0,canvasHeight),random(minLineLength,canvasWidth),random(1,3),metalLines);
+    metalLines.height = random(0.075, 0.125);
+    pbr.rect(random(0 - canvasWidth, canvasWidth), random(0, canvasHeight), random(minLineLength, canvasWidth), random(1, 3), metalLines);
   };
 
-  for (let s = 0; s<specklesCount; s++){
+  for (let s = 0; s < specklesCount; s++) {
     metalLines.transparency = 0.05;
-    metalLines.height=0;
-    pbr.rect(random(0-canvasWidth,canvasWidth),random(0,canvasHeight),random(4,10),random(4,10),metalLines);
+    metalLines.height = 0;
+    pbr.rect(random(0 - canvasWidth, canvasWidth), random(0, canvasHeight), random(4, 10), random(4, 10), metalLines);
   };
 
 
@@ -49,9 +49,9 @@ export async function draw() {
   pbr.show();
 
   function ellipse(xVal: number, yVal: number, width: number, height: number, mat: Material) {
-    for (let x = xVal; x < width+xVal; x++) {
-      for (let y = yVal; y < height+yVal; y++) {
-        let d = dist(x, y, width/2 + xVal, height/2 + yVal);
+    for (let x = xVal; x < width + xVal; x++) {
+      for (let y = yVal; y < height + yVal; y++) {
+        let d = dist(x, y, width / 2 + xVal, height / 2 + yVal);
         let t = map(d, 0, height / 2, 1, 0);
         pbr.rect(x, y, 1, 1, mat);
       }

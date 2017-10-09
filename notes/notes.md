@@ -54,6 +54,10 @@ For the 3d preview UI
 x.pbr.line() bug: if your line is just 2 points and the closed option is true, the line won't draw
 
 
+.one of the maps (metalic? smoothness?) is not always mapping to the full pbr width/height, results in an "off" looking corner of on the pbr preview.
+
+
+
 
 
 
