@@ -11,7 +11,7 @@ export async function draw() {
 
     let red = new Material(1, 0, 0, 1);
 
-    let my_matrix = new Matrix().translate(256, 246).rotate(3.14 * .25);
+    let my_matrix = new Matrix().translate(256, 246).rotate(3.14 * .25).scale(.5);
 
     pbr.rect(-45, -45, 90, 90, red, my_matrix);
 
