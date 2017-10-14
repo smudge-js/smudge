@@ -19,6 +19,6 @@ export async function draw() {
 
     pbr.clear();
 
-    pbr.rect(-50, -50, 100, 100, my_material, my_matrix);
+    // pbr.rect(-50, -50, 100, 100, my_material, my_matrix);
     pbr.show();
 }

@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
 import { mat4, mat3 } from 'gl-matrix';
 
+import { Matrix } from './matrix';
+
+
 import { console_report, console_error } from './util';
 import { bindUI, showUI } from './pbr2_ui'
 import { buffer_layouts } from './buffer_layouts';
@@ -115,18 +118,18 @@ export class PBR {
 
     }
 
-    rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+    rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
     }
 
-    ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+    ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
     }
 
 
 
 
-    quad(points: number[][], material = Material.white, matrix = mat4.create()): void {
+    quad(points: number[][], material = Material.white, matrix = new Matrix()): void {
         if (points.length !== 4) {
             console_error("pbr.quad(): points array should have length of 4");
             return;
@@ -135,7 +138,7 @@ export class PBR {
         this.drawGeometry(geometry, 0, 0, 1, 1, material, matrix);
     }
 
-    line(points: number[][], _options: number | LineOptions = 1, material = Material.white, matrix = mat4.create()): void {
+    line(points: number[][], _options: number | LineOptions = 1, material = Material.white, matrix = new Matrix()): void {
         // validate input
         if (points.length < 2) {
             console_error("pbr.line(): points array should have length > 1");
@@ -200,10 +203,10 @@ export class PBR {
 
     }
 
-    private drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = mat4.create()): void {
+    private drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         // set camera/cursor position
         let mvMatrix = mat4.create();
-        mat4.multiply(mvMatrix, mvMatrix, matrix);
+        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
         mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
