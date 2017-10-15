@@ -73,7 +73,8 @@ export class PBRPreview {
         let material = this.cube.material as THREE.MeshStandardMaterial;
 
         // pack the three_pbr buffer
-        let three_pbr = new Framebuffer("three_pbr", this.pbr.gl, 1024, 1024, 4, 16);
+        // @todo had to reduce oversampling from 4 to 1 on next line, why
+        let three_pbr = new Framebuffer("three_pbr", this.pbr.gl, 1024, 1024, 1, 16);
 
         let clear_color = [0, 1, 0, 1];
         let layout = {

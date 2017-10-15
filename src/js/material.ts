@@ -82,7 +82,7 @@ export const ChannelKey = strEnum([
 export type ChannelKey = keyof typeof ChannelKey;
 
 export class TextureInfo {
-    public texture: Texture;
+    public texture: Texture = undefined;
     public colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,];
     public colorBias = [0, 0, 0, 0];
     public uvMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -161,3 +161,81 @@ export class Material {
     static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
     static white = new Material(1.0, 1.0, 1.0, 1.0);
 }
+
+
+
+export type Gray = number | [number];
+export type GrayA = [number, number];
+export type RGB = [number, number, number];
+export type RGBA = [number, number, number, number];
+export type Color = Gray | GrayA | RGB | RGBA;
+
+export function colorToRGBA(color: Color): RGBA {
+    let rgba: RGBA = [0, 0, 0, 0];
+    if (typeof color === "number") {
+        rgba[0] = color;
+        rgba[1] = color;
+        rgba[2] = color;
+        rgba[3] = 1;
+        return rgba;
+    }
+    if (color.length === 1) {
+        rgba[0] = color[0];
+        rgba[1] = color[0];
+        rgba[2] = color[0];
+        rgba[3] = 1;
+        return rgba;
+    }
+    if (color.length === 2) {
+        rgba[0] = color[0];
+        rgba[1] = color[0];
+        rgba[2] = color[0];
+        rgba[3] = color[1];
+        return rgba;
+    }
+    if (color.length === 3) {
+        rgba[0] = color[0];
+        rgba[1] = color[1];
+        rgba[2] = color[2];
+        rgba[3] = 1;
+        return rgba;
+    }
+    if (color.length === 4) {
+        return color as RGBA;
+    }
+
+
+}
+
+export class MaterialChannel {
+    // color: Color = [1, 1, 1, 1];
+    // blend_mode: BlendMode = BlendMode.Normal;
+    // textureConfig: TextureInfo = new TextureInfo();
+
+    color: Color = undefined;
+    blend_mode: BlendMode = undefined;
+    textureConfig: TextureInfo = undefined;
+
+}
+
+export class Material2 {
+    color: Color = [1, 1, 1, 1];
+    blend_mode: BlendMode = BlendMode.Normal;
+    textureConfig: TextureInfo = new TextureInfo();
+
+    albedo: MaterialChannel = new MaterialChannel();
+    metallic: MaterialChannel = new MaterialChannel();
+    smoothness: MaterialChannel = new MaterialChannel();
+    height: MaterialChannel = new MaterialChannel();
+    emission: MaterialChannel = new MaterialChannel();
+}
+
+// export class MaterialChannelMap {
+//     [name: string]: MaterialChannel;
+// }
+
+// // this is a little trick
+// // _Material2 couldn't have the index signature on it, because it has some
+// // specific properties that don't conform
+// // Merging the index sig in this way works though.
+// export type Material2 = _Material2 & MaterialChannelMap;

@@ -1,3 +1,3 @@
-import { draw } from './js/sketches/dev/matrix';
+import { draw } from './js/sketches/dev/material';
 
 draw();

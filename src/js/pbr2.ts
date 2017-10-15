@@ -7,7 +7,7 @@ import { Matrix } from './matrix';
 import { console_report, console_error } from './util';
 import { bindUI, showUI } from './pbr2_ui'
 import { buffer_layouts } from './buffer_layouts';
-import { Material } from './material';
+import { Material, Material2, MaterialChannel, colorToRGBA, RGBA } from './material';
 import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
 
 let getNormals = require('polyline-normals')
@@ -93,6 +93,14 @@ export class PBR {
         bindUI(this);
     }
 
+    async loadTexture(path: string) {
+        let name = path.split("/").pop();
+        let t = new Texture(name, this.gl);
+        await t.load(path);
+        return t;
+
+    }
+
     /**
      * Clears buffers using provided material values
      * @param m
@@ -120,6 +128,11 @@ export class PBR {
 
     rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
+    }
+
+
+    rect2(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+        this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
     }
 
     ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
@@ -306,6 +319,161 @@ export class PBR {
         this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
 
+
+    private drawGeometry2(geometry: Geometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+        // set camera/cursor position
+        let mvMatrix = mat4.create();
+        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
+        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
+        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
+
+
+        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+            // determine material settings for buffer
+
+            // typescript doesn't allow [] access without a index signature
+            // casting workaround
+            let materialChannel = (<any>material)[buffer_name] as MaterialChannel;
+
+            let color = material.color;
+            let blend_mode = material.blend_mode;
+            let textureConfig = material.textureConfig;
+
+            if (materialChannel !== undefined) {
+                color = materialChannel.color !== undefined ? materialChannel.color : material.color;
+                blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.blend_mode;
+                textureConfig = materialChannel.textureConfig !== undefined ? materialChannel.textureConfig : material.textureConfig;
+            }
+
+            console.log(buffer_name, color, blend_mode, textureConfig);
+
+
+
+
+            // set up program
+            let program: Program;
+            if (!textureConfig || !textureConfig.texture) {
+                console.log("use basicProgram");
+
+                program = this.basicProgram;
+                program.use();
+            } else {
+
+                console.log("use drawProgram");
+
+
+                program = this.drawProgram;
+                program.use();
+
+                program.setUniformMatrix("uSourceColorMatrix", textureConfig.colorMatrix);
+                program.setUniformFloats("uSourceColorBias", textureConfig.colorBias);
+                program.setUniformMatrix("uSourceUVMatrix", textureConfig.uvMatrix);
+                program.setUniformInts("uSourceSampler", [0]);
+
+                this.gl.activeTexture(this.gl.TEXTURE0);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, textureConfig.texture.texture);
+            }
+
+            program.setUniformMatrix("uMVMatrix", mvMatrix);
+            program.setUniformMatrix("uPMatrix", this.pMatrix);
+
+
+            // draw
+
+            let buffer = this.buffers[buffer_name];
+            let equation = blend_mode.equation;
+            let sFactor = blend_mode.sFactor;
+            let dFactor = blend_mode.dFactor;
+
+            this.gl.enable(this.gl.BLEND);
+            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+
+            let colorRGBA = colorToRGBA(color);
+            console.log(colorRGBA);
+
+            program.setUniformFloats("uColor", colorRGBA);
+
+            this.gl.colorMask(
+                colorRGBA[0] !== undefined,
+                colorRGBA[1] !== undefined,
+                colorRGBA[2] !== undefined,
+                colorRGBA[3] !== undefined
+            );
+
+            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
+
+            // draw
+            buffer.bind();
+            this.gl.viewport(0, 0, buffer.width, buffer.height);
+
+
+            geometry.draw(program);
+
+
+        });
+
+
+
+
+
+
+        // program.setUniformMatrix("uMVMatrix", mvMatrix);
+        // program.setUniformMatrix("uPMatrix", this.pMatrix);
+
+
+        // _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+        //     let buffer = this.buffers[buffer_name];
+
+        //     // blending
+        //     let equation = material[buffer_layout.blend_mode].equation;
+        //     let sFactor = material[buffer_layout.blend_mode].sFactor;
+        //     let dFactor = material[buffer_layout.blend_mode].dFactor;
+
+        //     this.gl.enable(this.gl.BLEND);
+        //     this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+        //     this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+
+        //     // color
+        //     let colors = [
+        //         material[buffer_layout.channel_materials[0]],
+        //         material[buffer_layout.channel_materials[1]],
+        //         material[buffer_layout.channel_materials[2]],
+        //         material[buffer_layout.channel_materials[3]]
+        //     ];
+
+        //     this.gl.colorMask(
+        //         colors[0] !== undefined,
+        //         colors[1] !== undefined,
+        //         colors[2] !== undefined,
+        //         colors[3] !== undefined
+        //     );
+
+        //     program.setUniformFloats("uColor", colors);
+        //     // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
+
+        //     // draw
+        //     buffer.bind();
+        //     this.gl.viewport(0, 0, buffer.width, buffer.height);
+
+
+        //     geometry.draw(program);
+
+        // });
+
+
+
+
+
+        // // clean up
+        // this.gl.disable(this.gl.BLEND);
+        // this.gl.blendEquation(this.gl.FUNC_ADD);
+        // this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+        // this.gl.colorMask(true, true, true, true);
+        // this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        // this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
+    }
 
 
 

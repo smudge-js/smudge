@@ -1,3 +1,46 @@
+
+material
+    albedo_blend_mode = BlendMode.Normal;
+    metallic_blend_mode = BlendMode.Normal;
+    smoothness_blend_mode = BlendMode.Normal;
+    height_blend_mode = BlendMode.Normal;
+    emission_blend_mode = BlendMode.Normal;
+
+    red = 0;
+    green = 0;
+    blue = 0;
+    transparency = 0;
+    metallic = 0;
+    smoothness = 0;
+    height = 0;
+    emission_red = 0;
+    emission_green = 0;
+    emission_blue = 0;
+
+    textureInfo: TextureInfo;
+
+material
+    albedo
+        color = gray (a = 1) | [gray] (a = 1) | [gray, a] | [r, g, b] (a = 1), [r, g, b, a]
+        blend_mode = normal, mult, disabled, etc.
+        textureConfig
+            texture
+            colorMatrix
+            colorBias
+            uvMatrix
+
+    metalic
+    smoothness
+    height
+    emission
+
+
+    textureConfig
+    
+
+
+
+
 # Notes
 
 # Gregs List
