@@ -172,6 +172,11 @@ export type Color = Gray | GrayA | RGB | RGBA;
 
 export function colorToRGBA(color: Color): RGBA {
     let rgba: RGBA = [0, 0, 0, 0];
+
+    if (color === undefined) {
+        return undefined;
+    }
+
     if (typeof color === "number") {
         rgba[0] = color;
         rgba[1] = color;
@@ -214,15 +219,25 @@ export class MaterialChannel {
 
     color: Color = undefined;
     blend_mode: BlendMode = undefined;
-    textureConfig: TextureInfo = undefined;
+    texture_config: TextureInfo = new TextureInfo();
+
+
+    constructor(color?: Color, blend_mode?: BlendMode, texture_config?: TextureInfo) {
+        this.color = color;
+        this.blend_mode = blend_mode;
+        if (texture_config) {
+            this.texture_config = texture_config;
+        }
+    };
+
+
 
 }
 
-export class Material2 {
-    color: Color = [1, 1, 1, 1];
-    blend_mode: BlendMode = BlendMode.Normal;
-    textureConfig: TextureInfo = new TextureInfo();
 
+
+export class Material2 {
+    default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Normal, undefined);
     albedo: MaterialChannel = new MaterialChannel();
     metallic: MaterialChannel = new MaterialChannel();
     smoothness: MaterialChannel = new MaterialChannel();

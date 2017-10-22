@@ -20,7 +20,7 @@ export const buffer_layouts = {
         blend_mode: "albedo_blend_mode"
     },
     metallic: <ReadonlyBufferLayout>{
-        super_sampling: 4,
+        super_sampling: 1,
         depth: 16,
         channels: 1,
         channel_materials: ["metallic", "metallic", "metallic", "transparency"],
@@ -42,6 +42,16 @@ export const buffer_layouts = {
     },
     emission: <ReadonlyBufferLayout>{
         super_sampling: 4,
+        depth: 16,
+        channels: 4,
+        channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],
+        blend_mode: "emission_blend_mode"
+    },
+    bugfix: <ReadonlyBufferLayout>{
+        // @todo fix this
+        // for some reason, if the last buffer_layout has a super_sampling > 1 it throws off the
+        // show() drawing size. this is a placeholder fix
+        super_sampling: 1,
         depth: 16,
         channels: 4,
         channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],

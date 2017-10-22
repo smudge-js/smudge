@@ -22,6 +22,8 @@ export class UnitSquare implements Geometry {
     }
 
     public draw(program: Program): void {
+
+
         program.setAttributeValue("aPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
         program.setAttributeValue("aUV", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
 
