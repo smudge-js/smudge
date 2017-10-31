@@ -18,7 +18,7 @@ export async function draw() {
 
 
     let mat2 = new Material2();
-    mat2.color = [0, 1, 0, 1];
+    mat2.default.color = [0, 1, 0, 1];
     mat2.metallic.color = 0;
     mat2.smoothness.color = 0;
     pbr.rect2(0, 30, 500, 10, mat2);

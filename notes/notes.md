@@ -30,11 +30,16 @@ material
             uvMatrix
 
     metalic
+        ...
     smoothness
+        ...
     height
+        ...
     emission
+        ...
 
-
+    color
+    blend_mode
     textureConfig
     
 
