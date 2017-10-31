@@ -10,14 +10,14 @@ body {
 
 #export-buttons,
 #channel-buttons,
-#three-buttons
-{
+#three-buttons {
     background-color: #222;
     padding: 5px 0;
 }
 
 canvas {
     display: block;
+    max-width: 512px;
 }
 
 button {
@@ -31,17 +31,16 @@ button {
     border-radius: 15px;
 }
 
-
 #channel-buttons button {
     background-color: transparent;
     outline: none;
     border-radius: 0;
 }
+
 #channel-buttons .active {
     background-color: #666;
     outline: none;
 }
-
 
 .label {
     color: white;
@@ -51,7 +50,6 @@ button {
 
 #channel-preview,
 #three-preview {
-    
     background-image: url('../../images/checkerboard_gray_gray.png');
     background-size: 16px 16px;
 }

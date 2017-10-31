@@ -16,6 +16,8 @@ export class PBRPreview {
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setClearColor("#000", 0);
         this.renderer.setSize(512, 512);
+        this.renderer.setPixelRatio(2);
+
 
         // inject preview canvas
         let t = document.getElementById("pbr-preview");
@@ -72,23 +74,26 @@ export class PBRPreview {
         // let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
         let material = this.cube.material as THREE.MeshStandardMaterial;
 
-        // pack the three_pbr buffer
-        // @todo had to reduce oversampling from 4 to 1 on next line, why
-        let three_pbr = new Framebuffer("three_pbr", this.pbr.gl, 1024, 1024, 1, 16);
+        // pack the three_pbr_smooth_metallic buffer
+        // @todo had to reduce resolution to 512, why?
+        let three_pbr_smooth_metallic = new Framebuffer("three_pbr_smooth_metallic", this.pbr.gl, 512, 512, 4, 16);
 
-        let clear_color = [0, 1, 0, 1];
+        let clear_color = [.1, 1, 0, 1];
         let layout = {
             smoothness: [0, -1, 0, 0], // negate smoothness.r and pack into g
             metallic: [0, 0, 1, 0], // pack metallic.r into b
         };
 
 
-        this.pbr.pack(layout, clear_color, three_pbr);
+        this.pbr.pack(layout, clear_color, three_pbr_smooth_metallic);
+
+        this.pbr.show(three_pbr_smooth_metallic);
 
         ///////////////////////////////////
         ///// Load Maps
         material.map = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "albedo"));
-        material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(this.pbr, three_pbr);
+        material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(this.pbr, three_pbr_smooth_metallic);
+        // material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "albedo"));
         material.bumpMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "height"));
         material.emissiveMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "emission"));
 

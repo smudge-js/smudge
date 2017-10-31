@@ -17,6 +17,7 @@ interface LineOptions {
     align?: 'center' | 'left' | 'right',
     close?: boolean
 }
+
 export class PBR {
 
     readonly width: number;
@@ -51,6 +52,8 @@ export class PBR {
         // get context
         canvas.width = this.canvas_width;
         canvas.height = this.canvas_height;
+
+
         this.gl = initWebGL(canvas);
 
         // configure context
@@ -59,6 +62,8 @@ export class PBR {
 
         // create projection matrix
         this.pMatrix = mat4.create();
+
+
         mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
         // build shader programs
@@ -82,7 +87,11 @@ export class PBR {
         // build buffers
         this.buffers = {};
         _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = new Framebuffer(buffer_name, this.gl, this.width * buffer_layout.super_sampling, this.height * buffer_layout.super_sampling, buffer_layout.channels, buffer_layout.depth);
+
+            let w = this.width * buffer_layout.super_sampling;
+            let h = this.height * buffer_layout.super_sampling;
+
+            let buffer = new Framebuffer(buffer_name, this.gl, w, h, buffer_layout.channels, buffer_layout.depth);
             this.buffers[buffer_name] = buffer;
         });
 
@@ -103,7 +112,7 @@ export class PBR {
 
     /**
      * Clears buffers using provided material values
-     * @param m
+     * @param material
      */
     clear(material = Material.clearing): void {
 
@@ -335,43 +344,48 @@ export class PBR {
             // casting workaround
             let materialChannel = (<any>material)[buffer_name] as MaterialChannel;
 
-            let color = material.color;
-            let blend_mode = material.blend_mode;
-            let textureConfig = material.textureConfig;
+            console.log("testm", material);
 
-            if (materialChannel !== undefined) {
-                color = materialChannel.color !== undefined ? materialChannel.color : material.color;
-                blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.blend_mode;
-                textureConfig = materialChannel.textureConfig !== undefined ? materialChannel.textureConfig : material.textureConfig;
-            }
+            // let color = material.default.color;
+            // let blend_mode = material.default.blend_mode;
+            // let texture_config = material.default.texture_config;
 
-            console.log(buffer_name, color, blend_mode, textureConfig);
+            // if (materialChannel !== undefined) {
+            //     color = materialChannel.color !== undefined ? materialChannel.color : material.default.color;
+            //     blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.default.blend_mode;
+            //     texture_config = materialChannel.texture_config !== undefined ? materialChannel.texture_config : material.default.texture_config;
+            // }
+
+            // @todo test deepDefaults with textures...
+            let { color, blend_mode, texture_config } = _.defaults(materialChannel, material.default);
+            console.log(buffer_name, color, blend_mode, texture_config);
+
 
 
 
 
             // set up program
             let program: Program;
-            if (!textureConfig || !textureConfig.texture) {
-                console.log("use basicProgram");
+            if (!texture_config || !texture_config.texture) {
+                // console.log("use basicProgram");
 
                 program = this.basicProgram;
                 program.use();
             } else {
 
-                console.log("use drawProgram");
+                // console.log("use drawProgram");
 
 
                 program = this.drawProgram;
                 program.use();
 
-                program.setUniformMatrix("uSourceColorMatrix", textureConfig.colorMatrix);
-                program.setUniformFloats("uSourceColorBias", textureConfig.colorBias);
-                program.setUniformMatrix("uSourceUVMatrix", textureConfig.uvMatrix);
+                program.setUniformMatrix("uSourceColorMatrix", texture_config.colorMatrix);
+                program.setUniformFloats("uSourceColorBias", texture_config.colorBias);
+                program.setUniformMatrix("uSourceUVMatrix", texture_config.uvMatrix);
                 program.setUniformInts("uSourceSampler", [0]);
 
                 this.gl.activeTexture(this.gl.TEXTURE0);
-                this.gl.bindTexture(this.gl.TEXTURE_2D, textureConfig.texture.texture);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, texture_config.texture.texture);
             }
 
             program.setUniformMatrix("uMVMatrix", mvMatrix);
@@ -390,16 +404,20 @@ export class PBR {
             this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
 
             let colorRGBA = colorToRGBA(color);
-            console.log(colorRGBA);
+            // console.log(colorRGBA);
 
-            program.setUniformFloats("uColor", colorRGBA);
-
-            this.gl.colorMask(
-                colorRGBA[0] !== undefined,
-                colorRGBA[1] !== undefined,
-                colorRGBA[2] !== undefined,
-                colorRGBA[3] !== undefined
-            );
+            if (colorRGBA === undefined) {
+                program.setUniformFloats("uColor", [0, 0, 0, 0]);
+                this.gl.colorMask(false, false, false, false);
+            } else {
+                program.setUniformFloats("uColor", colorRGBA);
+                this.gl.colorMask(
+                    colorRGBA[0] !== undefined,
+                    colorRGBA[1] !== undefined,
+                    colorRGBA[2] !== undefined,
+                    colorRGBA[3] !== undefined
+                );
+            }
 
             // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
 
@@ -413,66 +431,14 @@ export class PBR {
 
         });
 
+        //clean up
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
 
-
-
-
-
-        // program.setUniformMatrix("uMVMatrix", mvMatrix);
-        // program.setUniformMatrix("uPMatrix", this.pMatrix);
-
-
-        // _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-        //     let buffer = this.buffers[buffer_name];
-
-        //     // blending
-        //     let equation = material[buffer_layout.blend_mode].equation;
-        //     let sFactor = material[buffer_layout.blend_mode].sFactor;
-        //     let dFactor = material[buffer_layout.blend_mode].dFactor;
-
-        //     this.gl.enable(this.gl.BLEND);
-        //     this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-        //     this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
-
-        //     // color
-        //     let colors = [
-        //         material[buffer_layout.channel_materials[0]],
-        //         material[buffer_layout.channel_materials[1]],
-        //         material[buffer_layout.channel_materials[2]],
-        //         material[buffer_layout.channel_materials[3]]
-        //     ];
-
-        //     this.gl.colorMask(
-        //         colors[0] !== undefined,
-        //         colors[1] !== undefined,
-        //         colors[2] !== undefined,
-        //         colors[3] !== undefined
-        //     );
-
-        //     program.setUniformFloats("uColor", colors);
-        //     // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
-
-        //     // draw
-        //     buffer.bind();
-        //     this.gl.viewport(0, 0, buffer.width, buffer.height);
-
-
-        //     geometry.draw(program);
-
-        // });
-
-
-
-
-
-        // // clean up
-        // this.gl.disable(this.gl.BLEND);
-        // this.gl.blendEquation(this.gl.FUNC_ADD);
-        // this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-        // this.gl.colorMask(true, true, true, true);
-        // this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        // this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
+        this.gl.colorMask(true, true, true, true);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
     }
 
 
@@ -481,12 +447,19 @@ export class PBR {
      * Copies the provided buffer's pixel values to the canvas
      * @param buffer
      */
-    show(bufferName = "albedo"): void {
-        let buffer = this.buffers[bufferName];
+    show(bufferName: Framebuffer | string = "albedo"): void {
+        let buffer;
+        if (typeof bufferName === "string") {
+            buffer = this.buffers[bufferName];
+        } else {
+            buffer = bufferName;
+        }
 
         // position rect
         let mvMatrix = mat4.create();
+
         mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
+        // console.log(mvMatrix, this.pMatrix);
 
         // config shader
         this.textureProgram.use();
@@ -513,7 +486,7 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
         // clear the buffer
-        this.gl.clearColor(0, 0, 0, 0);
+        this.gl.clearColor(0, 0, 0, 1);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         // draw rect to screen
@@ -529,7 +502,8 @@ export class PBR {
         this.gl.blendEquation(this.gl.FUNC_ADD);
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
 
-        showUI();
+        // @todo is this the right strat for updating ui?
+        // showUI();
     }
 
 
@@ -552,6 +526,8 @@ export class PBR {
         } else {
             mat4.scale(mvMatrix, mvMatrix, [target_buffer.width, target_buffer.height, 1]);
         }
+
+
 
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
@@ -587,6 +563,8 @@ export class PBR {
      */
     pack(packing_layout = {}, clear_color = [0, 0, 0, 0], target_buffer: Framebuffer = null): void {
 
+
+
         if (target_buffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         } else {
@@ -594,8 +572,11 @@ export class PBR {
         }
 
         // clear the buffer
+        console.log(clear_color);
+
         this.gl.clearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
 
         // set up to additive blending
         this.gl.enable(this.gl.BLEND);
@@ -609,8 +590,6 @@ export class PBR {
                     colorMatrix.push(0);
                 }
             }
-            // console.log("blit", bufferKey, colorMatrix);
-
             this.blit(this.buffers[bufferKey], colorMatrix, target_buffer);
         });
 
@@ -640,8 +619,8 @@ export class Program {
         gl.shaderSource(vertexShader, vertexSource);
         gl.compileShader(vertexShader);
         error = gl.getShaderInfoLog(vertexShader);
-        console_report(this.toString(), "vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
         if (error) {
+            console_report(this.toString(), "vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
             console.log(error);
         }
 
@@ -649,8 +628,8 @@ export class Program {
         gl.shaderSource(fragmentShader, fragmentSource);
         gl.compileShader(fragmentShader);
         error = gl.getShaderInfoLog(fragmentShader);
-        console_report(this.toString(), "fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
         if (error) {
+            console_report(this.toString(), "fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
             console.log(error);
         }
 
@@ -836,8 +815,8 @@ export class Framebuffer {
         // check status
         console_report(`RTT Memory ${(width * height * channels * depth) / (8 * 1024 * 1024)}MB`);
         let status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-        console_report(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
         if (status !== gl.FRAMEBUFFER_COMPLETE) {
+            console_report(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
             console_error("Failed to build Framebuffer: Incomplete or Unsupported: " + status);
         }
 

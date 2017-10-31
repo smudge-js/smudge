@@ -53,6 +53,8 @@ material
 ## API
 
 
+
+
 .stroke?, for ellipse and rect
 
 
@@ -109,6 +111,8 @@ x.pbr.line() bug: if your line is just 2 points and the closed option is true, t
 
 
 
+
+look into that "bugfix" challen layout and why it is needed. Could it have something to do with "this.gl.viewport"
 
 
 
