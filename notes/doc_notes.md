@@ -1,9 +1,16 @@
 # What Smudge Does
 
+[[ what it does ]]
+
 # Smudge API
 
+## Project Setup
+
+[[ how to include and start with smudge ]]
+
 ## PBR Object
-[Overview]
+[[ Overview]]
+
 - Constructor
 - pbr.clear()
 - pbr.show()
@@ -11,46 +18,78 @@
 - pbr.height
 
 
-## Shapes
+## Drawing Shapes
 - pbr.rect()
 - pbr.ellipse()
 - pbr.quad()
 - pbr.line()
     opts: align, width, close
 
+### Matrices
+using mat4 from gl-matrix;
+
+
 
 ## Materials
-[Overview]
-- Constructor
-- Copy Constructor
-- Defaults
+[[ Overview, Materials capture more properties than basic color ]]
 
-- Blending Options
-    albedo_blend_mode
-    metallic_blend_mode
-    smoothness_blend_mode
-    height_blend_mode
-    emission_blend_mode
+
+### Material Type Overview
+Material
+    .default
+    .albedo
+    .metallic
+    .smoothness
+    .height
+    .emission: MaterialChannel
+        .color: Color = Gray | GrayA | RGB | RGBA
+        .blend_mode: BlendMode
+            .equation: GLenum
+            .sFactor: GLenum
+            .dFactor: GLenum
+        .texture_config: TextureInfo
+            .texture: Texture
+                .texture: WebGLTexture
+                .image: HTMLImageElement
+                .loaded: boolean
+            .colorMatrix: []
+            .colorBias: []
+            .uvMatrix: []
+
+### Creating A Material
+
+[[ constructor ]]
+[[ copy contructor ]]
+[[ default material values ]]
+
+
+### Material Channels
+[[ list, describe, show ]]
+    [[ value inherting ]]
+    [[ channel masking ]]
 
 - Channels
-    - red
-    - green
-    - blue
-    - transparency
+    - default
+    - albedo
     - metallic
     - smoothness
     - height
-    - emission_red
-    - emission_green
-    - emission_blue
-
-    channel masking (m.red = undefined)
-
-### Materials - Textures
+    - emission
 
 
-## Blend Modes
-[Overview]
+
+### Colors
+
+[[ flexible, used for colors (albedo) and values (height) ]]
+[[  Gray | GrayA | RGB | RGBA ]]
+[[ how promotion works ]]
+
+### Blend Modes
+
+[[ What Blend Modes do ]]
+[[ built in blend modes ]]
+[[ custom blendmodes, if you know GL ]]
+
 - Normal
 - Replace
 - Additive
@@ -60,6 +99,24 @@
 - Multiply
 
 
+### Textures + TextureInfo
 
-## Matrices
-using mat4 from gl-matrix;
+- Constructor
+- texture
+- colorMatrix + colorBias
+[[ how to tint + recolor images ]]
+- uvMatrix
+
+
+
+
+
+
+
+
+
+## UI
+
+## Export
+
+

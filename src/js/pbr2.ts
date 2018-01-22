@@ -12,7 +12,7 @@ import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
 
 let getNormals = require('polyline-normals')
 
-interface LineOptions {
+export interface LineOptions {
     width?: number,
     align?: 'center' | 'left' | 'right',
     close?: boolean
@@ -37,7 +37,7 @@ export class PBR {
     public readonly buffers: { [key: string]: Framebuffer };
 
     /**
-     *
+     * Creates the PBR instace.
      * @param canvas Canvas to draw to. If not specified, PBR will look for #gl-canvas.
      * @param width The width of the drawing.
      * @param height The height of the drawing.
