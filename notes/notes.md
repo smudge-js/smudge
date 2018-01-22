@@ -31,9 +31,19 @@ material
             uvMatrix
 
     metalic
+        ...
     smoothness
+        ...
     height
+        ...
     emission
+<<<<<<< HEAD
+=======
+        ...
+
+    color
+    blend_mode
+>>>>>>> origin/master
     textureConfig
     
 
