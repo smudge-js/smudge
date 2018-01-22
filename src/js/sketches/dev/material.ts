@@ -18,11 +18,11 @@ export async function draw() {
 
 
     let mat2 = new Material2();
-    mat2.default.color = [0, 1, 0, 1];
-    mat2.metallic.color = 0;
-    mat2.smoothness.color = 0;
+    mat2.default.color = [.5, 0, 0, 1];
+    mat2.metallic.color = 1;
+    mat2.smoothness.color = .5;
     pbr.rect2(0, 30, 500, 10, mat2);
-
+    pbr.rect2(0, 100, 100, 100, mat2);
     pbr.show();
 }
 
