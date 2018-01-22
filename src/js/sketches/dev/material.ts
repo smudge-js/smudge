@@ -11,18 +11,24 @@ export async function draw() {
     paper.smoothness = .5;
     pbr.clear(paper);
 
-    let mat1 = new Material(1, 0, 0, 1);
-    mat1.metallic = 0;
-    mat1.smoothness = 0;
-    pbr.rect(0, 0, 120, 10, mat1);
+    let red_light = new Material2();
+    red_light.albedo.color = 0;
+    red_light.emission.color = [1, 0, 0, 1];
+    pbr.rect2(10, 10, 10, 10, red_light);
+
+    let matte_spray = new Material2();
+    matte_spray.smoothness.color = .2;
+    pbr.rect2(10, 30, 100, 100, matte_spray);
 
 
-    let mat2 = new Material2();
-    mat2.default.color = [.5, 0, 0, 1];
-    mat2.metallic.color = 1;
-    mat2.smoothness.color = .5;
-    pbr.rect2(0, 30, 500, 10, mat2);
-    pbr.rect2(0, 100, 100, 100, mat2);
+
+    let gold_foil = new Material2();
+    gold_foil.albedo.color = [.4, .4, 0];
+    gold_foil.smoothness.color = .8;
+    gold_foil.height.color = .1;
+    pbr.rect2(10, 140, 100, 100, gold_foil);
+
+
     pbr.show();
 }
 

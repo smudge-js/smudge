@@ -1,4 +1,7 @@
+/** @hidden **/
+/** */
 import { Program } from './pbr2';
+
 
 export interface Geometry {
     positionBuffer: WebGLBuffer;
@@ -9,6 +12,9 @@ export interface Geometry {
     draw(program: Program): void;
 
 }
+
+
+
 
 export class UnitSquare implements Geometry {
     positionBuffer: WebGLBuffer;
@@ -74,7 +80,6 @@ export class UnitSquare implements Geometry {
 
     }
 }
-
 
 
 export class UnitCircle implements Geometry {

@@ -1,4 +1,5 @@
 
+# Possible Material Formats
 material
     albedo_blend_mode = BlendMode.Normal;
     metallic_blend_mode = BlendMode.Normal;
@@ -36,10 +37,13 @@ material
     height
         ...
     emission
+<<<<<<< HEAD
+=======
         ...
 
     color
     blend_mode
+>>>>>>> origin/master
     textureConfig
     
 
@@ -575,3 +579,7 @@ http://mrdoob.github.io/webgl-blendfunctions/blendfunc.html
 https://webglfundamentals.org/webgl/lessons/webgl-and-alpha.html
 https://limnu.com/webgl-blending-youre-probably-wrong/
 http://www.andersriggelsen.dk/glblendfunc.php
+
+
+
+https://blog.cloudflare.com/generating-documentation-for-typescript-projects/

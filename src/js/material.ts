@@ -89,6 +89,9 @@ export class TextureInfo {
 
 }
 
+var a: BlendMode;
+
+
 type MaterialConfig = Partial<Material>;
 
 export class Material {
@@ -169,6 +172,9 @@ export type GrayA = [number, number];
 export type RGB = [number, number, number];
 export type RGBA = [number, number, number, number];
 export type Color = Gray | GrayA | RGB | RGBA;
+
+
+
 
 export function colorToRGBA(color: Color): RGBA {
     let rgba: RGBA = [0, 0, 0, 0];
