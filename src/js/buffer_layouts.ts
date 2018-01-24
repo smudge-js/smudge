@@ -1,53 +1,53 @@
 import { ChannelKey, BlendModeKey } from './material';
 
-interface BufferLayout {
+interface IBufferLayout {
     super_sampling: number;
     depth: number;
     channels: number;
     channel_materials: ChannelKey[];
     blend_mode: BlendModeKey;
 }
-export type ReadonlyBufferLayout = Readonly<BufferLayout>;
+export type IReadonlyBufferLayout = Readonly<IBufferLayout>;
 
 
 
-export const buffer_layouts = {
-    albedo: <ReadonlyBufferLayout>{
+export const bufferLayouts = {
+    albedo: <IReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 4,
         channel_materials: ["red", "green", "blue", "transparency"],
-        blend_mode: "albedo_blend_mode"
+        blend_mode: "albedo_blend_mode",
     },
-    metallic: <ReadonlyBufferLayout>{
+    metallic: <IReadonlyBufferLayout>{
         super_sampling: 1,
         depth: 16,
         channels: 1,
         channel_materials: ["metallic", "metallic", "metallic", "transparency"],
-        blend_mode: "metallic_blend_mode"
+        blend_mode: "metallic_blend_mode",
     },
-    smoothness: <ReadonlyBufferLayout>{
+    smoothness: <IReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,
         channels: 1,
         channel_materials: ["smoothness", "smoothness", "smoothness", "transparency"],
-        blend_mode: "smoothness_blend_mode"
+        blend_mode: "smoothness_blend_mode",
     },
-    height: <ReadonlyBufferLayout>{
+    height: {
         super_sampling: 4,
         depth: 16,
         channels: 1,
         channel_materials: ["height", "height", "height", "transparency"],
-        blend_mode: "height_blend_mode"
-    },
-    emission: <ReadonlyBufferLayout>{
+        blend_mode: "height_blend_mode",
+    } as IReadonlyBufferLayout,
+    emission: {
         super_sampling: 4,
         depth: 16,
         channels: 4,
         channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],
-        blend_mode: "emission_blend_mode"
-    },
-    bugfix: <ReadonlyBufferLayout>{
+        blend_mode: "emission_blend_mode",
+    } as IReadonlyBufferLayout,
+    bugfix: {
         // @todo fix this
         // for some reason, if the last buffer_layout has a super_sampling > 1 it throws off the
         // show() drawing size. this is a placeholder fix
@@ -55,8 +55,8 @@ export const buffer_layouts = {
         depth: 16,
         channels: 4,
         channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],
-        blend_mode: "emission_blend_mode"
-    },
+        blend_mode: "emission_blend_mode",
+    } as IReadonlyBufferLayout,
     // three_pbr: <ReadonlyBufferLayout>{
     //     super_sampling: 1,
     //     depth: 16,
@@ -65,40 +65,3 @@ export const buffer_layouts = {
     //     blend_mode: "emission_blend_mode"
     // },
 };
-
-
-
-const export_layouts_unity = {
-    albedo: {
-        clear: [0, 0, 0, 0],
-        layout: {
-            albedo: [1, 0, 0, 0, // s.r -> d.r
-                0, 1, 0, 0, // s.g -> d.g
-                0, 0, 1, 0, // s.b -> d.b
-                0, 0, 0, 1] // s.a -> d.a
-        }
-    },
-    metallic_smooth: {
-        clear: [0, 0, 0, 0],
-        layout: {
-            metallic: [1, 0, 0, 0], // s.r -> d.r
-            smoothness: [0, 0, 0, 1] // s.r -> d.a
-        }
-    },
-    height: {
-        clear: [0, 0, 0, 1],
-        layout: {
-            height: [1, 1, 1, 0] // s.r -> d.rgb
-        }
-    },
-    emission: {
-        clear: [0, 0, 0, 1],
-        layout: {
-            emission: [1, 0, 0, 0, // s.r -> d.r
-                0, 1, 0, 0, // s.g -> d.g
-                0, 0, 1, 0, // s.b -> d.b
-                0, 0, 0, 1] // s.a -> d.a
-        }
-    },
-}
-export const export_layouts = export_layouts_unity;

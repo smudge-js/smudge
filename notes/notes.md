@@ -1,3 +1,11 @@
+# Hiding things in generated docs
+```
+At top of page
+/** @hidden **/
+/** */
+
+Two comments needed: bottom one annotates the thing underneath it. That lets the top one apply to the whole file.
+```
 
 # Possible Material Formats
 material

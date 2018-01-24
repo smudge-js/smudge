@@ -1,40 +1,44 @@
+/* tslint:disable:max-classes-per-file */
+
 import * as _ from 'lodash';
 import { mat4, mat3 } from 'gl-matrix';
 
 import { Matrix } from './matrix';
 
 
+
 import { console_report, console_error } from './util';
-import { bindUI, showUI } from './pbr2_ui'
-import { buffer_layouts } from './buffer_layouts';
+import { bindUI, showUI } from './pbr2_ui';
+import { bufferLayouts } from './buffer_layouts';
 import { Material, Material2, MaterialChannel, colorToRGBA, RGBA } from './material';
-import { Geometry, UnitSquare, UnitCircle, Quad } from './geometry';
+import { IGeometry, UnitSquare, UnitCircle, Quad } from './geometry';
 
-let getNormals = require('polyline-normals')
+const getNormals = require('polyline-normals');
 
-export interface LineOptions {
-    width?: number,
-    align?: 'center' | 'left' | 'right',
-    close?: boolean
+export interface ILineOptions {
+    width?: number;
+    align?: 'center' | 'left' | 'right';
+    close?: boolean;
 }
 
 export class PBR {
 
-    readonly width: number;
-    readonly height: number;
-    private readonly canvas_width: number;
-    private readonly canvas_height: number;
+    public readonly width: number;
+    public readonly height: number;
+    public readonly gl: WebGLRenderingContext;
+    public readonly buffers: { [key: string]: Framebuffer };
 
-    readonly gl: WebGLRenderingContext;
+    private readonly canvasWidth: number;
+    private readonly canvasHeight: number;
+
     private readonly pMatrix: mat4;
 
     private readonly basicProgram: Program;
     private readonly textureProgram: Program;
     private readonly drawProgram: Program;
 
-    private readonly unitSquare: Geometry;
-    private readonly unitCircle: Geometry;
-    public readonly buffers: { [key: string]: Framebuffer };
+    private readonly unitSquare: IGeometry;
+    private readonly unitCircle: IGeometry;
 
     /**
      * Creates the PBR instace.
@@ -46,18 +50,18 @@ export class PBR {
         this.canvas = canvas = canvas || document.getElementById("channel-canvas") as HTMLCanvasElement;
         this.width = width || canvas.width;
         this.height = height || canvas.height;
-        this.canvas_width = this.width;
-        this.canvas_height = this.height;
+        this.canvasWidth = this.width;
+        this.canvasHeight = this.height;
 
         // get context
-        canvas.width = this.canvas_width;
-        canvas.height = this.canvas_height;
+        canvas.width = this.canvasWidth;
+        canvas.height = this.canvasHeight;
 
 
         this.gl = initWebGL(canvas);
 
         // configure context
-        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
+        this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
         this.gl.disable(this.gl.DEPTH_TEST);
 
         // create projection matrix
@@ -67,17 +71,17 @@ export class PBR {
         mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
         // build shader programs
-        const basic_vertex = require("../glsl/basic_vertex.glsl");
-        const basic_fragment = require("../glsl/basic_fragment.glsl");
-        this.basicProgram = new Program("basicProgram", this.gl, basic_vertex, basic_fragment);
+        const basicVertex = require("../glsl/basic_vertex.glsl");
+        const basicFragment = require("../glsl/basic_fragment.glsl");
+        this.basicProgram = new Program("basicProgram", this.gl, basicVertex, basicFragment);
 
-        const texture_vertex = require("../glsl/texture_vertex.glsl");
-        const texture_fragment = require("../glsl/texture_fragment.glsl");
-        this.textureProgram = new Program("textureProgram", this.gl, texture_vertex, texture_fragment);
+        const textureVertex = require("../glsl/texture_vertex.glsl");
+        const textureFragment = require("../glsl/texture_fragment.glsl");
+        this.textureProgram = new Program("textureProgram", this.gl, textureVertex, textureFragment);
 
-        const draw_vertex = require("../glsl/draw_vertex.glsl");
-        const draw_fragment = require("../glsl/draw_fragment.glsl");
-        this.drawProgram = new Program("drawProgram", this.gl, draw_vertex, draw_fragment);
+        const drawVertex = require("../glsl/draw_vertex.glsl");
+        const drawFragment = require("../glsl/draw_fragment.glsl");
+        this.drawProgram = new Program("drawProgram", this.gl, drawVertex, drawFragment);
 
 
         // build geo
@@ -86,13 +90,13 @@ export class PBR {
 
         // build buffers
         this.buffers = {};
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
+        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
 
-            let w = this.width * buffer_layout.super_sampling;
-            let h = this.height * buffer_layout.super_sampling;
+            const w = this.width * bufferLayout.super_sampling;
+            const h = this.height * bufferLayout.super_sampling;
 
-            let buffer = new Framebuffer(buffer_name, this.gl, w, h, buffer_layout.channels, buffer_layout.depth);
-            this.buffers[buffer_name] = buffer;
+            const buffer = new Framebuffer(bufferName, this.gl, w, h, bufferLayout.channels, bufferLayout.depth);
+            this.buffers[bufferName] = buffer;
         });
 
         // clean up
@@ -102,9 +106,9 @@ export class PBR {
         bindUI(this);
     }
 
-    async loadTexture(path: string) {
-        let name = path.split("/").pop();
-        let t = new Texture(name, this.gl);
+    public async loadTexture(path: string) {
+        const name = path.split("/").pop();
+        const t = new Texture(name, this.gl);
         await t.load(path);
         return t;
 
@@ -114,18 +118,18 @@ export class PBR {
      * Clears buffers using provided material values
      * @param material
      */
-    clear(material = Material.clearing): void {
+    public clear(material = Material.clearing): void {
 
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = this.buffers[buffer_name];
+        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+            const buffer = this.buffers[bufferName];
             buffer.bind();
 
 
             this.gl.clearColor(
-                material[buffer_layout.channel_materials[0]],
-                material[buffer_layout.channel_materials[1]],
-                material[buffer_layout.channel_materials[2]],
-                material[buffer_layout.channel_materials[3]]
+                material[bufferLayout.channel_materials[0]],
+                material[bufferLayout.channel_materials[1]],
+                material[bufferLayout.channel_materials[2]],
+                material[bufferLayout.channel_materials[3]],
             );
 
             this.gl.clear(this.gl.COLOR_BUFFER_BIT);
@@ -135,32 +139,32 @@ export class PBR {
 
     }
 
-    rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
+    public rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
     }
 
 
-    rect2(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+    public rect2(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
     }
 
-    ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
+    public ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
         this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
     }
 
 
 
 
-    quad(points: number[][], material = Material.white, matrix = new Matrix()): void {
+    public quad(points: number[][], material = Material.white, matrix = new Matrix()): void {
         if (points.length !== 4) {
             console_error("pbr.quad(): points array should have length of 4");
             return;
         }
-        let geometry: Geometry = new Quad(this.gl, points);
+        const geometry: IGeometry = new Quad(this.gl, points);
         this.drawGeometry(geometry, 0, 0, 1, 1, material, matrix);
     }
 
-    line(points: number[][], _options: number | LineOptions = 1, material = Material.white, matrix = new Matrix()): void {
+    public line(points: number[][], _options: number | ILineOptions = 1, material = Material.white, matrix = new Matrix()): void {
         // validate input
         if (points.length < 2) {
             console_error("pbr.line(): points array should have length > 1");
@@ -168,31 +172,33 @@ export class PBR {
         }
 
         // process options
-        let options: LineOptions = {};
-        if (typeof _options == "number") {
+        let options: ILineOptions = {};
+        if (typeof _options === "number") {
             options = {
-                width: _options
+                width: _options,
+
             };
         } else {
             options = _options;
         }
-        options = _.defaults(options, {
-            width: 1,
-            align: 'center',
-            close: false
-        });
+        options = _.defaults(options,
+            {
+                width: 1,
+                align: 'center',
+                close: false,
+            });
 
         if (points.length === 2) {
             options.close = false;
         }
 
         // get the miter offsets
-        let miter_data = getNormals(points, options.close);
-        let offsets: number[][] = [];
-        _.each(miter_data, (miter_datum) => {
-            let offset = [
-                miter_datum[0][0] * miter_datum[1] * options.width,
-                miter_datum[0][1] * miter_datum[1] * options.width,
+        const miterData = getNormals(points, options.close);
+        const offsets: number[][] = [];
+        _.each(miterData, (miterDatum) => {
+            const offset = [
+                miterDatum[0][0] * miterDatum[1] * options.width,
+                miterDatum[0][1] * miterDatum[1] * options.width,
             ];
             offsets.push(offset);
         });
@@ -200,10 +206,10 @@ export class PBR {
 
         // calculate alignment center|left|right
         let offsetBias = [.5, .5];
-        if (options.align == 'left') {
+        if (options.align === 'left') {
             offsetBias = [1, 0];
         }
-        if (options.align == 'right') {
+        if (options.align === 'right') {
             offsetBias = [0, 1];
         }
 
@@ -214,240 +220,23 @@ export class PBR {
 
         // center
         for (let i = 0; i < points.length - 1; i++) {
-            let quad_points: number[][] = [
+            const quadPoints: number[][] = [
                 [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]],
                 [points[i + 1][0] + offsets[i + 1][0] * offsetBias[1], points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]],
                 [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
                 [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
             ];
-            this.quad(quad_points, material, matrix);
+            this.quad(quadPoints, material, matrix);
         }
 
     }
-
-    private drawGeometry(geometry: Geometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
-        // set camera/cursor position
-        let mvMatrix = mat4.create();
-        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
-        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
-        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
-
-        // set up program
-        let program: Program;
-        if (!material.textureInfo) {
-            program = this.basicProgram;
-            program.use();
-        } else {
-            program = this.drawProgram;
-            program.use();
-
-            const colorMatrix = mat4.create();
-            //program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
-            program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
-
-            program.setUniformInts("uSourceSampler", [0]);
-
-            // let uvMatrix = mat3.create();
-            // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
-            // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
-            // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
-            // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
-            // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
-
-            program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
-
-
-            this.gl.activeTexture(this.gl.TEXTURE0);
-            this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
-
-
-            program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
-
-
-
-            // this.gl.generateMipmap(this.gl.TEXTURE_2D);
-
-        }
-
-
-
-        program.setUniformMatrix("uMVMatrix", mvMatrix);
-        program.setUniformMatrix("uPMatrix", this.pMatrix);
-
-
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            let buffer = this.buffers[buffer_name];
-
-            // blending
-            let equation = material[buffer_layout.blend_mode].equation;
-            let sFactor = material[buffer_layout.blend_mode].sFactor;
-            let dFactor = material[buffer_layout.blend_mode].dFactor;
-
-            this.gl.enable(this.gl.BLEND);
-            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
-
-            // color
-            let colors = [
-                material[buffer_layout.channel_materials[0]],
-                material[buffer_layout.channel_materials[1]],
-                material[buffer_layout.channel_materials[2]],
-                material[buffer_layout.channel_materials[3]]
-            ];
-
-            this.gl.colorMask(
-                colors[0] !== undefined,
-                colors[1] !== undefined,
-                colors[2] !== undefined,
-                colors[3] !== undefined
-            );
-
-            program.setUniformFloats("uColor", colors);
-            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
-
-            // draw
-            buffer.bind();
-            this.gl.viewport(0, 0, buffer.width, buffer.height);
-
-
-            geometry.draw(program);
-
-        });
-
-
-
-
-
-        // clean up
-        this.gl.disable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-        this.gl.colorMask(true, true, true, true);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
-    }
-
-
-    private drawGeometry2(geometry: Geometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
-        // set camera/cursor position
-        let mvMatrix = mat4.create();
-        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
-        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
-        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
-
-
-        _.forEach(buffer_layouts, (buffer_layout, buffer_name) => {
-            // determine material settings for buffer
-
-            // typescript doesn't allow [] access without a index signature
-            // casting workaround
-            let materialChannel = (<any>material)[buffer_name] as MaterialChannel;
-
-            console.log("testm", material);
-
-            // let color = material.default.color;
-            // let blend_mode = material.default.blend_mode;
-            // let texture_config = material.default.texture_config;
-
-            // if (materialChannel !== undefined) {
-            //     color = materialChannel.color !== undefined ? materialChannel.color : material.default.color;
-            //     blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.default.blend_mode;
-            //     texture_config = materialChannel.texture_config !== undefined ? materialChannel.texture_config : material.default.texture_config;
-            // }
-
-            // @todo test deepDefaults with textures...
-            let { color, blend_mode, texture_config } = _.defaults(materialChannel, material.default);
-            console.log(buffer_name, color, blend_mode, texture_config);
-
-
-
-
-
-            // set up program
-            let program: Program;
-            if (!texture_config || !texture_config.texture) {
-                // console.log("use basicProgram");
-
-                program = this.basicProgram;
-                program.use();
-            } else {
-
-                // console.log("use drawProgram");
-
-
-                program = this.drawProgram;
-                program.use();
-
-                program.setUniformMatrix("uSourceColorMatrix", texture_config.colorMatrix);
-                program.setUniformFloats("uSourceColorBias", texture_config.colorBias);
-                program.setUniformMatrix("uSourceUVMatrix", texture_config.uvMatrix);
-                program.setUniformInts("uSourceSampler", [0]);
-
-                this.gl.activeTexture(this.gl.TEXTURE0);
-                this.gl.bindTexture(this.gl.TEXTURE_2D, texture_config.texture.texture);
-            }
-
-            program.setUniformMatrix("uMVMatrix", mvMatrix);
-            program.setUniformMatrix("uPMatrix", this.pMatrix);
-
-
-            // draw
-
-            let buffer = this.buffers[buffer_name];
-            let equation = blend_mode.equation;
-            let sFactor = blend_mode.sFactor;
-            let dFactor = blend_mode.dFactor;
-
-            this.gl.enable(this.gl.BLEND);
-            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
-
-            let colorRGBA = colorToRGBA(color);
-            // console.log(colorRGBA);
-
-            if (colorRGBA === undefined) {
-                program.setUniformFloats("uColor", [0, 0, 0, 0]);
-                this.gl.colorMask(false, false, false, false);
-            } else {
-                program.setUniformFloats("uColor", colorRGBA);
-                this.gl.colorMask(
-                    colorRGBA[0] !== undefined,
-                    colorRGBA[1] !== undefined,
-                    colorRGBA[2] !== undefined,
-                    colorRGBA[3] !== undefined
-                );
-            }
-
-            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
-
-            // draw
-            buffer.bind();
-            this.gl.viewport(0, 0, buffer.width, buffer.height);
-
-
-            geometry.draw(program);
-
-
-        });
-
-        //clean up
-        this.gl.disable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-        this.gl.colorMask(true, true, true, true);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.viewport(0, 0, this.canvas_width, this.canvas_height);
-    }
-
-
 
     /**
      * Copies the provided buffer's pixel values to the canvas
      * @param buffer
      */
-    show(bufferName: Framebuffer | string = "albedo"): void {
+
+    public show(bufferName: Framebuffer | string = "albedo"): void {
         let buffer;
         if (typeof bufferName === "string") {
             buffer = this.buffers[bufferName];
@@ -456,7 +245,7 @@ export class PBR {
         }
 
         // position rect
-        let mvMatrix = mat4.create();
+        const mvMatrix = mat4.create();
 
         mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
         // console.log(mvMatrix, this.pMatrix);
@@ -506,12 +295,274 @@ export class PBR {
         // showUI();
     }
 
+    public pack(packingLayout = {}, clearColor = [0, 0, 0, 0], targetBuffer: Framebuffer = null): void {
+
+
+
+        if (targetBuffer === null) {
+            this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        } else {
+            targetBuffer.bind();
+        }
+
+        // clear the buffer
+        console.log(clearColor);
+
+        this.gl.clearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+
+        // set up to additive blending
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFunc(this.gl.ONE, this.gl.ONE);
+
+        // copy colors to framebuffer according to *packing_layout*
+        _.each(packingLayout, (colorMatrix: Float32Array | number[], bufferKey) => {
+            if (!(colorMatrix instanceof Float32Array)) {
+                while (colorMatrix.length < 16) {
+                    colorMatrix.push(0);
+                }
+            }
+            this.blit(this.buffers[bufferKey], colorMatrix, targetBuffer);
+        });
+
+
+        // clean up
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+    }
+
+
+    private drawGeometry(geometry: IGeometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
+        // set camera/cursor position
+        const mvMatrix = mat4.create();
+        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
+        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
+        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
+
+        // set up program
+        let program: Program;
+        if (!material.textureInfo) {
+            program = this.basicProgram;
+            program.use();
+        } else {
+            program = this.drawProgram;
+            program.use();
+
+            const colorMatrix = mat4.create();
+            // program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
+            program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
+
+            program.setUniformInts("uSourceSampler", [0]);
+
+            // let uvMatrix = mat3.create();
+            // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
+            // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
+            // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
+            // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
+            // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
+
+            program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
+
+
+            this.gl.activeTexture(this.gl.TEXTURE0);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
+
+
+            program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
+
+
+
+            // this.gl.generateMipmap(this.gl.TEXTURE_2D);
+
+        }
+
+
+
+        program.setUniformMatrix("uMVMatrix", mvMatrix);
+        program.setUniformMatrix("uPMatrix", this.pMatrix);
+
+
+        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+            const buffer = this.buffers[bufferName];
+
+            // blending
+            const equation = material[bufferLayout.blend_mode].equation;
+            const sFactor = material[bufferLayout.blend_mode].sFactor;
+            const dFactor = material[bufferLayout.blend_mode].dFactor;
+
+            this.gl.enable(this.gl.BLEND);
+            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+
+            // color
+            const colors = [
+                material[bufferLayout.channel_materials[0]],
+                material[bufferLayout.channel_materials[1]],
+                material[bufferLayout.channel_materials[2]],
+                material[bufferLayout.channel_materials[3]],
+            ];
+
+            this.gl.colorMask(
+                colors[0] !== undefined,
+                colors[1] !== undefined,
+                colors[2] !== undefined,
+                colors[3] !== undefined,
+            );
+
+            program.setUniformFloats("uColor", colors);
+            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
+
+            // draw
+            buffer.bind();
+            this.gl.viewport(0, 0, buffer.width, buffer.height);
+
+
+            geometry.draw(program);
+
+        });
+
+
+
+
+
+        // clean up
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+        this.gl.colorMask(true, true, true, true);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
+    }
+
+
+    private drawGeometry2(geometry: IGeometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+        // set camera/cursor position
+        const mvMatrix = mat4.create();
+        mat4.multiply(mvMatrix, mvMatrix, matrix.m);
+        mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
+        mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
+
+
+        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+            // determine material settings for buffer
+
+            // typescript doesn't allow [] access without a index signature
+            // casting workaround
+            const materialChannel = (material as any)[bufferName] as MaterialChannel;
+
+            console.log("testm", material);
+
+            // let color = material.default.color;
+            // let blend_mode = material.default.blend_mode;
+            // let texture_config = material.default.texture_config;
+
+            // if (materialChannel !== undefined) {
+            //     color = materialChannel.color !== undefined ? materialChannel.color : material.default.color;
+            //     blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.default.blend_mode;
+            //     texture_config = materialChannel.texture_config !== undefined ? materialChannel.texture_config : material.default.texture_config;
+            // }
+
+            // @todo test deepDefaults with textures...
+            const { color, blend_mode, texture_config } = _.defaults(materialChannel, material.default);
+            console.log(bufferName, color, blend_mode, texture_config);
+
+
+
+
+
+            // set up program
+            let program: Program;
+            if (!texture_config || !texture_config.texture) {
+                // console.log("use basicProgram");
+
+                program = this.basicProgram;
+                program.use();
+            } else {
+
+                // console.log("use drawProgram");
+
+
+                program = this.drawProgram;
+                program.use();
+
+                program.setUniformMatrix("uSourceColorMatrix", texture_config.colorMatrix);
+                program.setUniformFloats("uSourceColorBias", texture_config.colorBias);
+                program.setUniformMatrix("uSourceUVMatrix", texture_config.uvMatrix);
+                program.setUniformInts("uSourceSampler", [0]);
+
+                this.gl.activeTexture(this.gl.TEXTURE0);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, texture_config.texture.texture);
+            }
+
+            program.setUniformMatrix("uMVMatrix", mvMatrix);
+            program.setUniformMatrix("uPMatrix", this.pMatrix);
+
+
+            // draw
+
+            const buffer = this.buffers[bufferName];
+            const equation = blend_mode.equation;
+            const sFactor = blend_mode.sFactor;
+            const dFactor = blend_mode.dFactor;
+
+            this.gl.enable(this.gl.BLEND);
+            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+
+            const colorRGBA = colorToRGBA(color);
+            // console.log(colorRGBA);
+
+            if (colorRGBA === undefined) {
+                program.setUniformFloats("uColor", [0, 0, 0, 0]);
+                this.gl.colorMask(false, false, false, false);
+            } else {
+                program.setUniformFloats("uColor", colorRGBA);
+                this.gl.colorMask(
+                    colorRGBA[0] !== undefined,
+                    colorRGBA[1] !== undefined,
+                    colorRGBA[2] !== undefined,
+                    colorRGBA[3] !== undefined,
+                );
+            }
+
+            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
+
+            // draw
+            buffer.bind();
+            this.gl.viewport(0, 0, buffer.width, buffer.height);
+
+
+            geometry.draw(program);
+
+
+        });
+
+        // clean up
+        this.gl.disable(this.gl.BLEND);
+        this.gl.blendEquation(this.gl.FUNC_ADD);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+        this.gl.colorMask(true, true, true, true);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
+    }
+
+
+
+
+
 
     /**
-    * copies colors  from *sourceBuffer* to the main framebuffer, uses *colorMatrix* to swizzle colors
-    * @todo would be nice if this could blit to a destbuffer also
-    */
-    private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), target_buffer: Framebuffer = null) {
+     * copies colors  from *sourceBuffer* to the main framebuffer, uses *colorMatrix* to swizzle colors
+     * @todo would be nice if this could blit to a destbuffer also
+     */
+    private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), targetBuffer: Framebuffer = null) {
 
 
         this.textureProgram.use();
@@ -520,11 +571,11 @@ export class PBR {
         // config shader
         // position rect
         this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
-        let mvMatrix = mat4.create();
-        if (target_buffer === null) {
+        const mvMatrix = mat4.create();
+        if (targetBuffer === null) {
             mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
         } else {
-            mat4.scale(mvMatrix, mvMatrix, [target_buffer.width, target_buffer.height, 1]);
+            mat4.scale(mvMatrix, mvMatrix, [targetBuffer.width, targetBuffer.height, 1]);
         }
 
 
@@ -543,10 +594,10 @@ export class PBR {
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
         // draw rect to screen
-        if (target_buffer === null) {
+        if (targetBuffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         } else {
-            target_buffer.bind();
+            targetBuffer.bind();
         }
         this.unitSquare.draw(this.textureProgram);
 
@@ -561,46 +612,7 @@ export class PBR {
      * clears the framebuffer to *clear_color*, then copies/swizzles colors from the channel buffers according to *packing_layout*
      * @param buffer
      */
-    pack(packing_layout = {}, clear_color = [0, 0, 0, 0], target_buffer: Framebuffer = null): void {
 
-
-
-        if (target_buffer === null) {
-            this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        } else {
-            target_buffer.bind();
-        }
-
-        // clear the buffer
-        console.log(clear_color);
-
-        this.gl.clearColor(clear_color[0], clear_color[1], clear_color[2], clear_color[3]);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
-
-        // set up to additive blending
-        this.gl.enable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFunc(this.gl.ONE, this.gl.ONE);
-
-        // copy colors to framebuffer according to *packing_layout*
-        _.each(packing_layout, (colorMatrix: Float32Array | number[], bufferKey) => {
-            if (!(colorMatrix instanceof Float32Array)) {
-                while (colorMatrix.length < 16) {
-                    colorMatrix.push(0);
-                }
-            }
-            this.blit(this.buffers[bufferKey], colorMatrix, target_buffer);
-        });
-
-
-        // clean up
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.disable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-    }
 
 }
 
@@ -613,7 +625,7 @@ export class Program {
 
 
     constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext, readonly vertexSource: string, readonly fragmentSource: string) {
-        var error;
+        let error;
 
         const vertexShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertexShader, vertexSource);
@@ -643,32 +655,32 @@ export class Program {
         console_report(this.toString(), "VALIDATE_STATUS", gl.getProgramParameter(program, gl.VALIDATE_STATUS));
 
         if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
-            var info = gl.getProgramInfoLog(program);
-            throw 'Could not compile WebGL program. \n\n' + info;
+            const info = gl.getProgramInfoLog(program);
+            throw new Error("Could not compile WebGL program. \n\n" + info);
         }
 
         this.program = program;
     }
 
-    use(): void {
+    public use(): void {
         this.gl.useProgram(this.program);
     }
 
-    getAttribLocation(attribute: string): number {
+    public getAttribLocation(attribute: string): number {
         let loc: number;
         if (this.attribLocations[attribute] !== undefined) {
             loc = this.attribLocations[attribute];
         } else {
             loc = this.gl.getAttribLocation(this.program, attribute);
             this.attribLocations[attribute] = loc;
-            if (loc == -1) {
+            if (loc === -1) {
                 console_error(this.toString(), `Shader program attribute not found: ${attribute}`);
             }
         }
         return loc;
     }
 
-    setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
+    public setAttributeValue(attribute: string, buffer: WebGLBuffer, size: GLint, type: GLint, normalized: GLboolean, stride: GLsizei, offset: GLintptr): void {
         const loc = this.getAttribLocation(attribute);
         if (loc === -1) {
             return;
@@ -679,7 +691,7 @@ export class Program {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
     }
 
-    getUniformLocation(uniform: string): WebGLUniformLocation {
+    public getUniformLocation(uniform: string): WebGLUniformLocation {
         let loc: WebGLUniformLocation;
         if (this.uniformLocations[uniform] !== undefined) {
             loc = this.uniformLocations[uniform];
@@ -692,26 +704,23 @@ export class Program {
         }
         return loc;
     }
-    setUniformFloats(uniform: string, value: Float32Array | number[]): void {
+    public setUniformFloats(uniform: string, value: Float32Array | number[]): void {
         const loc = this.getUniformLocation(uniform);
 
         if (value.length === 1) {
             this.gl.uniform1fv(loc, value);
-        }
-        else if (value.length === 2) {
+        } else if (value.length === 2) {
             this.gl.uniform2fv(loc, value);
-        }
-        else if (value.length === 3) {
+        } else if (value.length === 3) {
             this.gl.uniform3fv(loc, value);
-        }
-        else if (value.length === 4) {
+        } else if (value.length === 4) {
             this.gl.uniform4fv(loc, value);
         } else {
             console_error(this.toString(), `Invalid value length for setUniformFloats: ${value.length}`);
         }
     }
 
-    setUniformInts(uniform: string, value: Int32Array | number[]): void {
+    public setUniformInts(uniform: string, value: Int32Array | number[]): void {
         const loc = this.getUniformLocation(uniform);
 
         if (loc == null) {
@@ -720,21 +729,18 @@ export class Program {
 
         if (value.length === 1) {
             this.gl.uniform1iv(loc, value);
-        }
-        else if (value.length === 2) {
+        } else if (value.length === 2) {
             this.gl.uniform2iv(loc, value);
-        }
-        else if (value.length === 3) {
+        } else if (value.length === 3) {
             this.gl.uniform3iv(loc, value);
-        }
-        else if (value.length === 4) {
+        } else if (value.length === 4) {
             this.gl.uniform4iv(loc, value);
         } else {
             console_error(this.toString(), `Invalid value length for setUniformFloats: ${value.length}`);
         }
     }
 
-    setUniformMatrix(uniform: string, value: Float32Array | number[]): void {
+    public setUniformMatrix(uniform: string, value: Float32Array | number[]): void {
         const loc = this.getUniformLocation(uniform);
 
         if (value.length === 4) {
@@ -748,7 +754,7 @@ export class Program {
         }
     }
 
-    toString(): string {
+    public toString(): string {
         return `GLProgram "${this.name}"`;
     }
 
@@ -772,11 +778,11 @@ export class Framebuffer {
             this.depth = depth = 16;
         }
 
-        const max_size = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE));
-        if (width > max_size || height > max_size) {
-            console_error(`Requested texture size (${width}) too big. Trying ${max_size}.`);
-            this.width = width = max_size;
-            this.height = height = max_size;
+        const maxSize = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE));
+        if (width > maxSize || height > maxSize) {
+            console_error(`Requested texture size (${width}) too big. Trying ${maxSize}.`);
+            this.width = width = maxSize;
+            this.height = height = maxSize;
         }
 
 
@@ -814,7 +820,7 @@ export class Framebuffer {
 
         // check status
         console_report(`RTT Memory ${(width * height * channels * depth) / (8 * 1024 * 1024)}MB`);
-        let status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+        const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
         if (status !== gl.FRAMEBUFFER_COMPLETE) {
             console_report(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
             console_error("Failed to build Framebuffer: Incomplete or Unsupported: " + status);
@@ -825,15 +831,15 @@ export class Framebuffer {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
 
-    toString(): string {
+    public toString(): string {
         return `Framebuffer "${this.name}"`;
     }
 
-    bind(): void {
+    public bind(): void {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.rttFramebuffer);
     }
 
-    bindTexture(textureUnit = this.gl.TEXTURE0): void {
+    public bindTexture(textureUnit = this.gl.TEXTURE0): void {
         this.gl.activeTexture(textureUnit);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.rttTexture);
     }
@@ -841,15 +847,15 @@ export class Framebuffer {
 }
 
 export class Texture {
-    readonly texture: WebGLTexture;
-    private image: HTMLImageElement;
+    public readonly texture: WebGLTexture;
     public loaded: boolean;
+    private image: HTMLImageElement;
 
     constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext) {
         this.texture = gl.createTexture();
     }
 
-    load(src: string) {
+    public load(src: string) {
         return new Promise((resolve, reject) => {
             this.image = new Image();
 
@@ -883,10 +889,10 @@ export class Texture {
 
 
 function initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    const gl = canvas.getContext('webgl2') as WebGLRenderingContext;
+    const gl = canvas.getContext("webgl2") as WebGLRenderingContext;
     console_report("Getting webgl2 context", !!gl);
     console.log("Max Texture Size", gl.getParameter(gl.MAX_TEXTURE_SIZE));
-    var ext = gl.getExtension('EXT_color_buffer_float');
+    const ext = gl.getExtension("EXT_color_buffer_float");
     console_report("Getting EXT_color_buffer_float", !!ext);
 
     return gl;

@@ -1,9 +1,11 @@
 declare var require: any;
 
-var _ = require('lodash/core');
+const _ = require('lodash/core');
 
 import { PBR } from './pbr2';
-import { buffer_layouts, export_layouts } from './buffer_layouts';
+import { bufferLayouts } from './buffer_layouts';
+import { export_layouts } from './export_layouts';
+
 import { saveAs } from 'file-saver';
 
 import { PBRPreview } from './pbr_preview';
@@ -11,42 +13,46 @@ import { PBRPreview } from './pbr_preview';
 import '../css/pbr5_ui.css';
 
 
-let pbr_preview: PBRPreview;
+let pbrPreview: PBRPreview;
 
 export function showUI() {
-    pbr_preview.update();
+    pbrPreview.update();
 }
 
 export function bindUI(pbr: PBR) {
-    let ui = document.querySelector(".ui");
+    const ui = document.querySelector(".ui");
 
     // add channel select tabs/button
-    let channel_buttons_div = document.getElementById("channel-buttons");
+    const channelButtonsDiv = document.getElementById("channel-buttons");
 
-    _.forEach(buffer_layouts, (buffer_layout: any, buffer_name: string) => {
-        let b = document.createElement("button");
-        b.textContent = buffer_name;
+    _.forEach(bufferLayouts, (bufferLayout: any, bufferName: string) => {
+        const b = document.createElement("button");
+        b.textContent = bufferName;
         b.addEventListener("click", (e) => {
             console.log(e.target);
 
             // set tab to active
-            let children = channel_buttons_div.childNodes;
-            for (var i = 0; i < children.length; ++i) {
+            const children = channelButtonsDiv.childNodes;
+            for (let i = 0; i < children.length; ++i) {
                 (children[i] as HTMLButtonElement).className = '';
             }
+
+            // for (const child of children) {
+            //     (child as HTMLButtonElement).className = '';
+            // }
             (e.target as HTMLButtonElement).className = "active";
 
-            pbr.show(buffer_name);
+            pbr.show(bufferName);
         });
 
-        channel_buttons_div.appendChild(b);
+        channelButtonsDiv.appendChild(b);
     });
 
 
 
 
     // add export buttons
-    let export_buttons_div = document.getElementById("export-buttons");
+    const exportButtonsDiv = document.getElementById("export-buttons");
 
     _.forEach(export_layouts, (layout: any, name: string) => {
         // let downloadLink = document.createElement("a");
@@ -54,10 +60,10 @@ export function bindUI(pbr: PBR) {
         // downloadLink.setAttribute("href", "#");
         // downloadLink.setAttribute("class", "download-button");
 
-        let b = document.createElement("button");
+        const b = document.createElement("button");
         b.textContent = name;
 
-        var fileName = `${name}.png`;
+        const fileName = `${name}.png`;
 
         b.addEventListener("click", function download(event) {
             event.preventDefault();
@@ -69,16 +75,16 @@ export function bindUI(pbr: PBR) {
             });
         });
 
-        export_buttons_div.appendChild(b);
+        exportButtonsDiv.appendChild(b);
     });
 
 
     // set up three
     // threePreview(pbr);
 
-    pbr_preview = new PBRPreview(pbr, 'pbr-preview');
+    pbrPreview = new PBRPreview(pbr, 'pbr-preview');
 
-    setTimeout(function () {
-        pbr_preview.update();
+    setTimeout(() => {
+        pbrPreview.update();
     }, 1);
 }

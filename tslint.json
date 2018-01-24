@@ -1,0 +1,33 @@
+{
+    "extends": "tslint:recommended",
+    "comment.rules": "https://palantir.github.io/tslint/rules/",
+    "rules": {
+        "prefer-const": true,
+        "no-var-keyword": true,
+
+
+        "prefer-for-of": false,
+        "no-consecutive-blank-lines": false,
+        "quotemark": false,
+        "ordered-imports": false,
+        "no-var-requires": false,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-pascal-case",
+            "allow-leading-underscore"
+        ],
+        "object-literal-sort-keys": false,
+        "max-line-length": false,
+        "no-console": false,
+        "only-arrow-functions": [
+            true,
+            "allow-declarations",
+            "allow-named-functions"
+        ],
+        "no-angle-bracket-type-assertion": false,
+        "whitespace": false
+
+    }
+}
