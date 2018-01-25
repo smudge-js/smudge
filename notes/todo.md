@@ -3,6 +3,10 @@
 
 .fix that "Material->texture_config:TextureInfo" property name doesn't match type name
 
+https://github.com/sverweij/dependency-cruiser
+
+
+?switch enums to real enums?
 
 
 ## UI

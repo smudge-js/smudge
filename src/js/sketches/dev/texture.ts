@@ -1,6 +1,6 @@
-import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../index';
 
-import { Matrix } from '../../matrix';
+import { Matrix } from '../../draw/matrix';
 
 export async function draw() {
 

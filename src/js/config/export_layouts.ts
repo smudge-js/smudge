@@ -1,4 +1,4 @@
-
+/** @hidden */
 const export_layouts_unity = {
     albedo: {
         clear: [0, 0, 0, 0],
@@ -32,5 +32,5 @@ const export_layouts_unity = {
         }
     },
 }
-
+/** @hidden */
 export const export_layouts = export_layouts_unity;

@@ -1,32 +1,32 @@
-import { PBR, Material, Material2, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { PBR, Material2, IBlendMode, TextureInfo } from '../../index';
 
-import { Matrix } from '../../matrix';
+import { Matrix } from '../../draw/matrix';
 
 export async function draw() {
 
-    let pbr = new PBR(undefined, 512, 512);
+    const pbr = new PBR(undefined, 512, 512);
 
-    let paper = new Material(.8, .8, .8, 1);
-    paper.metallic = .5;
-    paper.smoothness = .5;
-    pbr.clear(paper);
+    // const paper = new Material2();
+    // paper.albedo.color = [.8, .8, .8];
+    // paper.smoothness.color = .5;
+    // pbr.clear(paper);
 
-    let red_light = new Material2();
-    red_light.albedo.color = 0;
-    red_light.emission.color = [1, 0, 0, 1];
-    pbr.rect2(10, 10, 10, 10, red_light);
+    const redLight = new Material2();
+    redLight.albedo.color = 0;
+    redLight.emission.color = [1, 0, 0, 1];
+    pbr.rect2(10, 10, 10, 10, redLight);
 
-    let matte_spray = new Material2();
-    matte_spray.smoothness.color = .2;
-    pbr.rect2(10, 30, 100, 100, matte_spray);
+    const matteSpray = new Material2();
+    matteSpray.smoothness.color = .2;
+    pbr.rect2(10, 30, 100, 100, matteSpray);
 
 
 
-    let gold_foil = new Material2();
-    gold_foil.albedo.color = [.4, .4, 0];
-    gold_foil.smoothness.color = .8;
-    gold_foil.height.color = .1;
-    pbr.rect2(10, 140, 100, 100, gold_foil);
+    const goldFoil = new Material2();
+    goldFoil.albedo.color = [.4, .4, 0];
+    goldFoil.smoothness.color = .8;
+    goldFoil.height.color = .1;
+    pbr.rect2(10, 140, 100, 100, goldFoil);
 
 
     pbr.show();

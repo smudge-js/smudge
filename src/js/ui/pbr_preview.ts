@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
 import * as THREE from 'three';
 
-import { PBR, Framebuffer } from './pbr2';
+import { PBR } from '../pbr2';
+import { Framebuffer } from '../private/framebuffer';
 
 // (window as any).THREE = THREE;
 
@@ -54,7 +55,7 @@ export class PBRPreview {
         this.cube = new THREE.Mesh(geometry, material);
         scene.add(this.cube);
 
-        let arcball = new ArcBall(this.renderer.domElement, this.cube);
+        const arcball = new ArcBall(this.renderer.domElement, this.cube);
 
 
         // start render loop
@@ -67,19 +68,19 @@ export class PBRPreview {
 
     }
 
-    update() {
+    public update() {
         console.log("update");
 
         // create a new PBR material
         // let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
-        let material = this.cube.material as THREE.MeshStandardMaterial;
+        const material = this.cube.material as THREE.MeshStandardMaterial;
 
         // pack the three_pbr_smooth_metallic buffer
         // @todo had to reduce resolution to 512, why?
-        let three_pbr_smooth_metallic = new Framebuffer("three_pbr_smooth_metallic", this.pbr.gl, 512, 512, 4, 16);
+        const three_pbr_smooth_metallic = new Framebuffer("three_pbr_smooth_metallic", this.pbr.gl, 512, 512, 4, 16);
 
-        let clear_color = [.1, 1, 0, 1];
-        let layout = {
+        const clear_color = [.1, 1, 0, 1];
+        const layout = {
             smoothness: [0, -1, 0, 0], // negate smoothness.r and pack into g
             metallic: [0, 0, 1, 0], // pack metallic.r into b
         };
@@ -100,8 +101,8 @@ export class PBRPreview {
         ///////////////////////////////////
         ///// Environment Map
 
-        let loader = new THREE.TextureLoader();
-        let envMap = loader.load("./images/environment_studio.jpg", () => {
+        const loader = new THREE.TextureLoader();
+        const envMap = loader.load("./images/environment_studio.jpg", () => {
             // console.log(envMap);
             envMap.magFilter = THREE.LinearFilter;
             envMap.minFilter = THREE.LinearMipMapLinearFilter;
@@ -158,7 +159,7 @@ class ArcBall {
         }
 
         targetElement.onmousemove = (e) => {
-            var rect = targetElement.getBoundingClientRect();
+            const rect = targetElement.getBoundingClientRect();
             let x = e.clientX - rect.left;
             let y = e.clientY - rect.top;
 
@@ -179,14 +180,14 @@ class ArcBall {
 
             this.oldX = x;
             this.oldY = y;
-        }
+        };
     }
 
-    drag(x: number, y: number, oldX: number, oldY: number) {
+    public drag(x: number, y: number, oldX: number, oldY: number) {
 
         // 2D -> 3D point
-        let oldV = new THREE.Vector3(this.oldX, this.oldY, 0);
-        let newV = new THREE.Vector3(x, y, 0);
+        const oldV = new THREE.Vector3(this.oldX, this.oldY, 0);
+        const newV = new THREE.Vector3(x, y, 0);
 
         // snap outside clicks onto ball
         if (oldV.length() > 1) {
@@ -201,8 +202,8 @@ class ArcBall {
         newV.z = Math.sqrt(1 - newV.length() * newV.length());
 
         // calculate the angle and axis of rotation
-        let angle = oldV.angleTo(newV);
-        let axis = new THREE.Vector3().crossVectors(oldV, newV);
+        const angle = oldV.angleTo(newV);
+        const axis = new THREE.Vector3().crossVectors(oldV, newV);
 
         // rotate the targetMesh, but don't do anything if angle is NaN or 0
         if (angle) {
@@ -216,10 +217,10 @@ class ArcBall {
 }
 
 function getBuffer(pbr: PBR, bufferName: string): Framebuffer {
-    let buffer = pbr.buffers[bufferName];
+    const buffer = pbr.buffers[bufferName];
     if (!buffer) {
         console.error("Could not find buffer named: " + bufferName);
-        return
+        return;
     }
     return buffer;
 }
@@ -227,12 +228,12 @@ function getBuffer(pbr: PBR, bufferName: string): Framebuffer {
 function getThreeTextureForBuffer(pbr: PBR, buffer: Framebuffer): THREE.DataTexture {
     // get ready to read data out of buffer
 
-    let width = buffer.width;
-    let height = buffer.height;
+    const width = buffer.width;
+    const height = buffer.height;
 
     // read hdr data from hdr buffer
     buffer.bind();
-    let hdr_data = new Float32Array(width * height * 4);
+    const hdr_data = new Float32Array(width * height * 4);
     pbr.gl.readPixels(0, 0, width, height, pbr.gl.RGBA, pbr.gl.FLOAT, hdr_data);
 
     // scale and covert to ldr
@@ -248,9 +249,9 @@ function getThreeTextureForBuffer(pbr: PBR, buffer: Framebuffer): THREE.DataText
     //     THREE.UnsignedByteType
     // );
 
-    let texture = new THREE.DataTexture(hdr_data, width, height,
+    const texture = new THREE.DataTexture(hdr_data, width, height,
         THREE.RGBAFormat,
-        THREE.FloatType
+        THREE.FloatType,
     );
 
 

@@ -1,7 +1,7 @@
 // import {PBR} from '../pbr2';
 // import {Material, BlendMode} from '../material';
 
-import { PBR, Material, BlendMode } from '../../pbr';
+import { PBR, Material, BlendMode } from '../../index';
 
 export function draw() {
 

@@ -1,12 +1,13 @@
 typedoc \
     --out api_doc/ \
     --mode file \
-    --exclude "**/sketches/**/*.ts" \
+    --exclude "**/+(sketches|private|tests)/**/*.ts" \
     --excludeExternals \
     --excludeNotExported \
     --excludePrivate \
     --stripInternal \
     --theme minimal \
+    --json api_doc/docs.json \
     ./src
 
 # --json api_doc/docs.json \

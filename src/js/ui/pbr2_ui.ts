@@ -2,15 +2,15 @@ declare var require: any;
 
 const _ = require('lodash/core');
 
-import { PBR } from './pbr2';
-import { bufferLayouts } from './buffer_layouts';
-import { export_layouts } from './export_layouts';
+import { PBR } from '../pbr2';
+import { bufferLayouts } from '../config/buffer_layouts';
+import { export_layouts } from '../config/export_layouts';
 
 import { saveAs } from 'file-saver';
 
 import { PBRPreview } from './pbr_preview';
 
-import '../css/pbr5_ui.css';
+import '../../css/pbr5_ui.css';
 
 
 let pbrPreview: PBRPreview;

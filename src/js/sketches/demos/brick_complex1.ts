@@ -1,7 +1,7 @@
 // this was from "demo_grid" file. I know what it does, I just don't know what it means. I think syntax is important for me to learn.
 // let mat = i++ % 2 ? odd : even;
 
-import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../index';
 import { mat4 } from 'gl-matrix';
 
 export async function draw() {

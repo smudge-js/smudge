@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../pbr';
+import { PBR, Material, BlendMode, Texture, TextureInfo } from '../../index';
 import { mat4 } from 'gl-matrix';
 
 export async function draw() {
