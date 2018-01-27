@@ -61,9 +61,6 @@ export const BlendMode = {
 };
 
 
-const a = BlendMode.Normal;
-a.equation = gl_constants.FUNC_ADD;
-
 
 
 
