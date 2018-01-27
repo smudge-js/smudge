@@ -79,7 +79,7 @@ export class PBRPreview {
         // @todo had to reduce resolution to 512, why?
         const three_pbr_smooth_metallic = new Framebuffer("three_pbr_smooth_metallic", this.pbr.gl, 512, 512, 4, 16);
 
-        const clear_color = [.1, 1, 0, 1];
+        const clear_color = [1, 1, 0, 1];
         const layout = {
             smoothness: [0, -1, 0, 0], // negate smoothness.r and pack into g
             metallic: [0, 0, 1, 0], // pack metallic.r into b
@@ -88,7 +88,7 @@ export class PBRPreview {
 
         this.pbr.pack(layout, clear_color, three_pbr_smooth_metallic);
 
-        this.pbr.show(three_pbr_smooth_metallic);
+        // this.pbr.show(three_pbr_smooth_metallic);
 
         ///////////////////////////////////
         ///// Load Maps

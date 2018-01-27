@@ -2,17 +2,17 @@
 
 import * as _ from 'lodash';
 import { mat4, mat3 } from 'gl-matrix';
-
-import { Matrix } from './draw/matrix';
+import { saveAs } from 'file-saver';
 
 
 import { Material2, MaterialChannel } from './material/material';
-
-
 import { console_report, console_error } from './util';
 import { bindUI, showUI } from './ui/pbr2_ui';
 import { bufferLayouts } from './config/buffer_layouts';
-import { IGeometry, UnitSquare, UnitCircle, Quad } from './draw/geometry';
+import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
+
+// import { IGeometry, UnitSquare, UnitCircle, Quad } from './draw/geometry';
+// import { Matrix } from './draw/matrix';
 import { colorDescriptionToRGBA } from './material/color';
 import { Framebuffer } from './private/framebuffer';
 import { Program } from './private/program';
@@ -45,6 +45,7 @@ export class PBR {
     private readonly unitSquare: IGeometry;
     private readonly unitCircle: IGeometry;
 
+
     /**
      * Creates the PBR instace.
      * @param canvas Canvas to draw to. If not specified, PBR will look for #gl-canvas.
@@ -52,7 +53,7 @@ export class PBR {
      * @param height The height of the drawing.
      */
     constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number) {
-        this.canvas = canvas = canvas || document.getElementById("channel-canvas") as HTMLCanvasElement;
+        this.canvas = canvas = canvas || document.getElementById("channel-canvas") as HTMLCanvasElement || document.createElement('canvas');
         this.width = width || canvas.width;
         this.height = height || canvas.height;
         this.canvasWidth = this.width;
@@ -108,9 +109,12 @@ export class PBR {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
 
         // set up ui buttons, etc.
-        bindUI(this);
+        // bindUI(this);
     }
 
+    public showUI() {
+        bindUI(this);
+    }
     public async loadTexture(path: string) {
         const name = path.split("/").pop();
         const t = new Texture(name, this.gl);
@@ -243,12 +247,12 @@ export class PBR {
      * @param buffer
      */
 
-    public show(bufferName: Framebuffer | string = "albedo"): void {
+    public show(bufferOrName: Framebuffer | string = "albedo"): void {
         let buffer;
-        if (typeof bufferName === "string") {
-            buffer = this.buffers[bufferName];
+        if (typeof bufferOrName === "string") {
+            buffer = this.buffers[bufferOrName];
         } else {
-            buffer = bufferName;
+            buffer = bufferOrName;
         }
 
         // position rect
@@ -287,7 +291,6 @@ export class PBR {
 
         // draw rect to screen
         this.unitSquare.draw(this.textureProgram);
-
 
         // clean up
         this.gl.activeTexture(this.gl.TEXTURE0);
@@ -348,6 +351,12 @@ export class PBR {
 
     }
 
+    public saveCanvasAs(fileName: string) {
+        this.canvas.toBlob((blob) => {
+            console.log(this, fileName, blob);
+            saveAs(blob, fileName);
+        });
+    }
 
     // // private drawGeometry(geometry: IGeometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
     // //     // set camera/cursor position

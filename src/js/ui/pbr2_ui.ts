@@ -6,7 +6,7 @@ import { PBR } from '../pbr2';
 import { bufferLayouts } from '../config/buffer_layouts';
 import { export_layouts } from '../config/export_layouts';
 
-import { saveAs } from 'file-saver';
+
 
 import { PBRPreview } from './pbr_preview';
 
@@ -20,6 +20,14 @@ export function showUI() {
 }
 
 export function bindUI(pbr: PBR) {
+    const uiHTML = require("html-loader!./ui.html");
+    const smudgeUI = document.createElement('div');
+    smudgeUI.innerHTML = uiHTML;
+    document.body.appendChild(smudgeUI);
+
+
+    document.getElementById("channel-preview").appendChild(pbr.canvas);
+
     const ui = document.querySelector(".ui");
 
     // add channel select tabs/button
@@ -68,11 +76,7 @@ export function bindUI(pbr: PBR) {
         b.addEventListener("click", function download(event) {
             event.preventDefault();
             pbr.pack(layout.layout, layout.clear);
-
-            pbr.canvas.toBlob((blob) => {
-                console.log(this, fileName, blob);
-                saveAs(blob, fileName);
-            });
+            pbr.saveCanvasAs(fileName);
         });
 
         exportButtonsDiv.appendChild(b);
