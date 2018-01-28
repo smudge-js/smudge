@@ -173,13 +173,24 @@ export class MaterialChannel {
 
 
 export class Material2 {
+    public static clearing = new Material2();
+
     public default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Normal, undefined);
     public albedo: MaterialChannel = new MaterialChannel();
     public metallic: MaterialChannel = new MaterialChannel();
     public smoothness: MaterialChannel = new MaterialChannel();
     public height: MaterialChannel = new MaterialChannel();
     public emission: MaterialChannel = new MaterialChannel();
+
+    [key: string]: MaterialChannel;
+
+
 }
+
+Material2.clearing.default.color = 0;
+
+
+
 
 // export class MaterialChannelMap {
 //     [name: string]: MaterialChannel;

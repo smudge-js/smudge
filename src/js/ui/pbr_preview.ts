@@ -1,7 +1,9 @@
+/* tslint:disable:max-classes-per-file */
+
 import * as _ from 'lodash';
 import * as THREE from 'three';
 
-import { PBR } from '../pbr2';
+// import { PBR } from '../pbr2';
 import { Framebuffer } from '../private/framebuffer';
 
 // (window as any).THREE = THREE;
@@ -11,7 +13,7 @@ export class PBRPreview {
     private renderer: THREE.WebGLRenderer;
     private cube: THREE.Mesh;
 
-    constructor(private readonly pbr: PBR, targetID: string) {
+    constructor(targetID: string) {
         console.log("three constructor");
         // init Three renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -21,36 +23,35 @@ export class PBRPreview {
 
 
         // inject preview canvas
-        let t = document.getElementById("pbr-preview");
+        const t = document.getElementById("pbr-preview");
         t.insertBefore(this.renderer.domElement, t.firstChild);
 
         // set up scene
-        var scene = new THREE.Scene();
+        const scene = new THREE.Scene();
 
         // camera
-        var camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
         camera.position.z = 1.5;
 
         // lighting
-        var ambient = new THREE.AmbientLight(0x111111);
+        const ambient = new THREE.AmbientLight(0x111111);
         scene.add(ambient);
 
-        var directional_light_one = new THREE.DirectionalLight(0xFFFFFF);
-        directional_light_one.position.x = -1;
-        directional_light_one.position.y = 1;
-        directional_light_one.position.z = 1;
-        scene.add(directional_light_one);
+        const directionalLightOne = new THREE.DirectionalLight(0xFFFFFF);
+        directionalLightOne.position.x = -1;
+        directionalLightOne.position.y = 1;
+        directionalLightOne.position.z = 1;
+        scene.add(directionalLightOne);
 
-        var directional_light_two = new THREE.DirectionalLight(0x111111);
-        directional_light_two.position.x = 1;
-        directional_light_two.position.y = 0;
-        directional_light_two.position.z = 1;
-        scene.add(directional_light_two);
+        const directionalLightTwo = new THREE.DirectionalLight(0x111111);
+        directionalLightTwo.position.x = 1;
+        directionalLightTwo.position.y = 0;
+        directionalLightTwo.position.z = 1;
+        scene.add(directionalLightTwo);
 
         // cube
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        // var material = new THREE.MeshBasicMaterial({ color: "#FFFFFF" });
-        let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
 
         this.cube = new THREE.Mesh(geometry, material);
         scene.add(this.cube);
@@ -59,7 +60,7 @@ export class PBRPreview {
 
 
         // start render loop
-        var render = () => {
+        const render = () => {
             requestAnimationFrame(render);
             this.renderer.render(scene, camera);
         };
@@ -68,35 +69,23 @@ export class PBRPreview {
 
     }
 
-    public update() {
+    public update(gl: WebGLRenderingContext, albedo: Framebuffer, smoothMetallic: Framebuffer, height: Framebuffer, emission: Framebuffer) {
         console.log("update");
 
         // create a new PBR material
         // let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
         const material = this.cube.material as THREE.MeshStandardMaterial;
 
-        // pack the three_pbr_smooth_metallic buffer
-        // @todo had to reduce resolution to 512, why?
-        const three_pbr_smooth_metallic = new Framebuffer("three_pbr_smooth_metallic", this.pbr.gl, 512, 512, 4, 16);
 
-        const clear_color = [1, 1, 0, 1];
-        const layout = {
-            smoothness: [0, -1, 0, 0], // negate smoothness.r and pack into g
-            metallic: [0, 0, 1, 0], // pack metallic.r into b
-        };
-
-
-        this.pbr.pack(layout, clear_color, three_pbr_smooth_metallic);
 
         // this.pbr.show(three_pbr_smooth_metallic);
 
         ///////////////////////////////////
         ///// Load Maps
-        material.map = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "albedo"));
-        material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(this.pbr, three_pbr_smooth_metallic);
-        // material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "albedo"));
-        material.bumpMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "height"));
-        material.emissiveMap = getThreeTextureForBuffer(this.pbr, getBuffer(this.pbr, "emission"));
+        material.map = getThreeTextureForBuffer(gl, albedo);
+        material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(gl, smoothMetallic);
+        material.bumpMap = getThreeTextureForBuffer(gl, height);
+        material.emissiveMap = getThreeTextureForBuffer(gl, emission);
 
         ///////////////////////////////////
         ///// Environment Map
@@ -134,8 +123,10 @@ export class PBRPreview {
         ///////////////////////////////////
         ///// Clean up
 
-        this.pbr.gl.bindFramebuffer(this.pbr.gl.FRAMEBUFFER, null);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
+
+
 
 
 }
@@ -153,10 +144,10 @@ class ArcBall {
 
         targetElement.onmousedown = (e) => {
             this.isMousePressed = true;
-        }
+        };
         targetElement.onmouseup = (e) => {
             this.isMousePressed = false;
-        }
+        };
 
         targetElement.onmousemove = (e) => {
             const rect = targetElement.getBoundingClientRect();
@@ -212,20 +203,11 @@ class ArcBall {
             this.targetMesh.matrixAutoUpdate = false;
         }
     }
-
-
 }
 
-function getBuffer(pbr: PBR, bufferName: string): Framebuffer {
-    const buffer = pbr.buffers[bufferName];
-    if (!buffer) {
-        console.error("Could not find buffer named: " + bufferName);
-        return;
-    }
-    return buffer;
-}
 
-function getThreeTextureForBuffer(pbr: PBR, buffer: Framebuffer): THREE.DataTexture {
+
+function getThreeTextureForBuffer(gl: WebGLRenderingContext, buffer: Framebuffer): THREE.DataTexture {
     // get ready to read data out of buffer
 
     const width = buffer.width;
@@ -233,8 +215,8 @@ function getThreeTextureForBuffer(pbr: PBR, buffer: Framebuffer): THREE.DataText
 
     // read hdr data from hdr buffer
     buffer.bind();
-    const hdr_data = new Float32Array(width * height * 4);
-    pbr.gl.readPixels(0, 0, width, height, pbr.gl.RGBA, pbr.gl.FLOAT, hdr_data);
+    const hdrData = new Float32Array(width * height * 4);
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.FLOAT, hdrData);
 
     // scale and covert to ldr
     // let scaled_data = hdr_data.map((x) => x * 255);
@@ -249,7 +231,7 @@ function getThreeTextureForBuffer(pbr: PBR, buffer: Framebuffer): THREE.DataText
     //     THREE.UnsignedByteType
     // );
 
-    const texture = new THREE.DataTexture(hdr_data, width, height,
+    const texture = new THREE.DataTexture(hdrData, width, height,
         THREE.RGBAFormat,
         THREE.FloatType,
     );

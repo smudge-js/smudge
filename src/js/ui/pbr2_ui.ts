@@ -11,16 +11,46 @@ import { export_layouts } from '../config/export_layouts';
 import { PBRPreview } from './pbr_preview';
 
 import '../../css/pbr5_ui.css';
+import { Framebuffer } from '../private/framebuffer';
 
 
 let pbrPreview: PBRPreview;
 
-export function showUI() {
-    pbrPreview.update();
+// export function showUI() {
+//     pbrPreview.update();
+// }
+
+export function updatePBR(pbr: PBR) {
+    const albedo: Framebuffer = getBuffer(pbr, "albedo");
+    const height: Framebuffer = getBuffer(pbr, "height");
+    const emission: Framebuffer = getBuffer(pbr, "emission");
+
+    // pack the three_pbr_smooth_metallic buffer
+
+    const smoothMetallic = new Framebuffer("three_pbr_smooth_metallic", pbr.gl, 1024, 1024, 4, 16);
+    const clearColor = [1, 1, 0, 1];
+    const layout = {
+        smoothness: [0, -1, 0, 0], // negate smoothness.r and pack into g
+        metallic: [0, 0, 1, 0], // pack metallic.r into b
+    };
+    pbr.pack(layout, clearColor, smoothMetallic);
+
+
+
+    pbrPreview.update(pbr.gl, albedo, smoothMetallic, height, emission);
+}
+
+function getBuffer(pbr: PBR, bufferName: string): Framebuffer {
+    const buffer = pbr.buffers[bufferName];
+    if (!buffer) {
+        console.error("Could not find buffer named: " + bufferName);
+        return;
+    }
+    return buffer;
 }
 
 export function bindUI(pbr: PBR) {
-    const uiHTML = require("html-loader!./ui.html");
+    const uiHTML = require("./ui.html");
     const smudgeUI = document.createElement('div');
     smudgeUI.innerHTML = uiHTML;
     document.body.appendChild(smudgeUI);
@@ -86,9 +116,10 @@ export function bindUI(pbr: PBR) {
     // set up three
     // threePreview(pbr);
 
-    pbrPreview = new PBRPreview(pbr, 'pbr-preview');
+    pbrPreview = new PBRPreview('pbr-preview');
 
     setTimeout(() => {
-        pbrPreview.update();
+        // pbrPreview.update();
+        updatePBR(pbr);
     }, 1);
 }

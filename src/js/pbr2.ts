@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 
 import { Material2, MaterialChannel } from './material/material';
 import { console_report, console_error } from './util';
-import { bindUI, showUI } from './ui/pbr2_ui';
+// import { bindUI, showUI } from './ui/pbr2_ui';
 import { bufferLayouts } from './config/buffer_layouts';
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
 
@@ -112,49 +112,67 @@ export class PBR {
         // bindUI(this);
     }
 
-    public showUI() {
-        bindUI(this);
-    }
+    // public showUI() {
+    //     bindUI(this);
+    // }
+
+    // @todo probably belongs somewhere else, like in texture.
     public async loadTexture(path: string) {
         const name = path.split("/").pop();
         const t = new Texture(name, this.gl);
         await t.load(path);
         return t;
-
     }
 
     /**
-     * Clears buffers using provided material values
-     * @param material
+     * Clears buffers using provided material color values
+     * Ignores material blend modes and texture settings
+     *
+     *
+     * @param material material to clear to
      */
 
 
-    // public clear(material = Material.clearing): void {
+    public clear(material = Material2.clearing): void {
+        console.log("clear");
 
-    //     _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
-    //         const buffer = this.buffers[bufferName];
-    //         buffer.bind();
+        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+            // find the materialChannel for the current buffer
+            const materialChannel = material[bufferName];
+            const { color } = _.defaults(materialChannel, material.default);
+            const colorRGBA = colorDescriptionToRGBA(color);
+            if (colorRGBA === undefined) {
+                console.log(`Skipping ${bufferName} because color === undefined`);
+                return;
+            }
 
 
-    //         this.gl.clearColor(
-    //             material[bufferLayout.channel_materials[0]],
-    //             material[bufferLayout.channel_materials[1]],
-    //             material[bufferLayout.channel_materials[2]],
-    //             material[bufferLayout.channel_materials[3]],
-    //         );
+            const buffer = this.buffers[bufferName];
+            buffer.bind();
 
-    //         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    //     });
 
-    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+            this.gl.clearColor(
+                colorRGBA[0],
+                colorRGBA[1],
+                colorRGBA[2],
+                colorRGBA[3],
+            );
 
-    // }
+            this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+        });
+
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+    }
 
     // public rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
     //     this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
     // }
 
 
+    /**
+     * Draws a rectangle
+     */
     public rect2(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
     }
@@ -243,10 +261,11 @@ export class PBR {
     // }
 
     /**
-     * Copies the provided buffer's pixel values to the canvas
-     * @param buffer
+     * Copies the provided buffer to the canvas
+     *
+     * @param buffer the buffer or name of buffer to copy
      */
-
+    // @todo this is a pretty ui-centric operation, maybe ui should have a show("bufferName") command that is public, and calls this internally?
     public show(bufferOrName: Framebuffer | string = "albedo"): void {
         let buffer;
         if (typeof bufferOrName === "string") {
@@ -305,14 +324,19 @@ export class PBR {
         // showUI();
     }
     /**
-     * clears the framebuffer to *clear_color*, then copies/swizzles
-     * colors from the channel buffers according to *packing_layout*
-     * @param buffer
+     * clears target to `clear_color`, then copies/swizzles
+     * colors from the channel buffers according to `packing_layout`
+     * targets pbr.canvas or provided `targetBuffer`
+     *
+     * @param targetBuffer the buffer to copy to, defaults to pbr.canvas
+     * @param packingLayout how values should be packed
+     * @param clearColor the intial color value
      */
 
+    // @todo create IPackingLayout
     public pack(packingLayout = {}, clearColor = [0, 0, 0, 0], targetBuffer: Framebuffer = null): void {
 
-
+        console.log("pack", targetBuffer);
 
         if (targetBuffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -321,8 +345,6 @@ export class PBR {
         }
 
         // clear the buffer
-        console.log(clearColor);
-
         this.gl.clearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
@@ -334,11 +356,13 @@ export class PBR {
 
         // copy colors to framebuffer according to *packing_layout*
         _.each(packingLayout, (colorMatrix: Float32Array | number[], bufferKey) => {
+            // @todo can I flip this to if colorMatrix instance of number[], would be clearer
             if (!(colorMatrix instanceof Float32Array)) {
                 while (colorMatrix.length < 16) {
                     colorMatrix.push(0);
                 }
             }
+
             this.blit(this.buffers[bufferKey], colorMatrix, targetBuffer);
         });
 
@@ -351,6 +375,11 @@ export class PBR {
 
     }
 
+    /**
+     * Saves current canvas to as download file.
+     *
+     * @param fileName name of download
+     */
     public saveCanvasAs(fileName: string) {
         this.canvas.toBlob((blob) => {
             console.log(this, fileName, blob);
@@ -461,6 +490,21 @@ export class PBR {
     //     this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
     // }
 
+    /**
+     * Draws unit `geometry` into each pbr.bufferLayout using coresponding `material` materialChannel to configure
+     * Unit geometry is assumed to be normalized to fill rectangle 0,0,1,1 and is scaled and translated to fit target area `x`,`y`,`w`,`h`
+     * Target area is multiplied by `matrix`
+     *
+     *
+     * @param geometry geometry to draw
+     * @param x left of bounding box
+     * @param y bottom of bounding box
+     * @param w width of bounding box
+     * @param h height of bounding box
+     * @param material material to draw with
+     * @param matrix matrix to adjust bounding box
+     */
+
 
     private drawGeometry2(geometry: IGeometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         // set camera/cursor position
@@ -471,97 +515,71 @@ export class PBR {
 
 
         _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
-            // determine material settings for buffer
-
-            // typescript doesn't allow [] access without a index signature
-            // casting workaround
-            const materialChannel = (material as any)[bufferName] as MaterialChannel;
+            // find the materialChannel for the current buffer
+            const materialChannel = material[bufferName];
 
 
-
-            // let color = material.default.color;
-            // let blend_mode = material.default.blend_mode;
-            // let texture_config = material.default.texture_config;
-
-            // if (materialChannel !== undefined) {
-            //     color = materialChannel.color !== undefined ? materialChannel.color : material.default.color;
-            //     blend_mode = materialChannel.blend_mode !== undefined ? materialChannel.blend_mode : material.default.blend_mode;
-            //     texture_config = materialChannel.texture_config !== undefined ? materialChannel.texture_config : material.default.texture_config;
-            // }
-
+            // fall back on material's defaults if needed
             // @todo test deepDefaults with textures...
             const { color, blendMode, textureConfig } = _.defaults(materialChannel, material.default);
-            console.log(bufferName, color, blendMode, textureConfig);
+            const colorRGBA = colorDescriptionToRGBA(color);
+            if (colorRGBA === undefined) {
+                console.log(`Skipping ${bufferName} because color === undefined`);
+                return;
+            }
 
 
-
-
-
-            // set up program
+            // set up shader program
             let program: Program;
             if (!textureConfig || !textureConfig.texture) {
-                // console.log("use basicProgram");
-
                 program = this.basicProgram;
                 program.use();
+
+                program.setUniformMatrix("uMVMatrix", mvMatrix);
+                program.setUniformMatrix("uPMatrix", this.pMatrix);
+                program.setUniformFloats("uColor", colorRGBA);
+
             } else {
-
-                // console.log("use drawProgram");
-
-
                 program = this.drawProgram;
                 program.use();
 
+                program.setUniformMatrix("uMVMatrix", mvMatrix);
+                program.setUniformMatrix("uPMatrix", this.pMatrix);
                 program.setUniformMatrix("uSourceColorMatrix", textureConfig.colorMatrix);
                 program.setUniformFloats("uSourceColorBias", textureConfig.colorBias);
                 program.setUniformMatrix("uSourceUVMatrix", textureConfig.uvMatrix);
                 program.setUniformInts("uSourceSampler", [0]);
+                program.setUniformFloats("uColor", colorRGBA);
+
 
                 this.gl.activeTexture(this.gl.TEXTURE0);
                 this.gl.bindTexture(this.gl.TEXTURE_2D, textureConfig.texture.texture);
             }
 
-            program.setUniformMatrix("uMVMatrix", mvMatrix);
-            program.setUniformMatrix("uPMatrix", this.pMatrix);
 
 
-            // draw
 
-            const buffer = this.buffers[bufferName];
-            const equation = blendMode.equation;
-            const sFactor = blendMode.sFactor;
-            const dFactor = blendMode.dFactor;
+            // config GL state
 
+            // blending
             this.gl.enable(this.gl.BLEND);
-            this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+            this.gl.blendEquationSeparate(blendMode.equation, this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(blendMode.sFactor, blendMode.dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
 
-            const colorRGBA = colorDescriptionToRGBA(color);
-            // console.log(colorRGBA);
+            // color
+            this.gl.colorMask(
+                colorRGBA[0] !== undefined,
+                colorRGBA[1] !== undefined,
+                colorRGBA[2] !== undefined,
+                colorRGBA[3] !== undefined,
+            );
 
-            if (colorRGBA === undefined) {
-                program.setUniformFloats("uColor", [0, 0, 0, 0]);
-                this.gl.colorMask(false, false, false, false);
-            } else {
-                program.setUniformFloats("uColor", colorRGBA);
-                this.gl.colorMask(
-                    colorRGBA[0] !== undefined,
-                    colorRGBA[1] !== undefined,
-                    colorRGBA[2] !== undefined,
-                    colorRGBA[3] !== undefined,
-                );
-            }
 
-            // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
-
-            // draw
+            // draw buffer
+            const buffer = this.buffers[bufferName];
             buffer.bind();
             this.gl.viewport(0, 0, buffer.width, buffer.height);
-
-
             geometry.draw(program);
-
-
         });
 
         // clean up
@@ -579,47 +597,51 @@ export class PBR {
 
 
 
+
     /**
-     * copies colors  from *sourceBuffer* to the main framebuffer, uses *colorMatrix* to swizzle colors
-     * @todo would be nice if this could blit to a destbuffer also
+     * copies `sourceBuffer` to the `targetBuffer`, uses `colorMatrix` to swizzle colors
+     *
      */
+
     private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), targetBuffer: Framebuffer = null) {
-
-
+        console.log("blit", sourceBuffer, targetBuffer);
+        // config shader program
         this.textureProgram.use();
 
-
-        // config shader
-        // position rect
-        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
         const mvMatrix = mat4.create();
+        const pMatrix = mat4.create();
+
         if (targetBuffer === null) {
+            mat4.ortho(pMatrix, 0, this.width, 0, this.height, -1, 1);
             mat4.scale(mvMatrix, mvMatrix, [this.width, this.height, 1]);
         } else {
+            mat4.ortho(pMatrix, 0, targetBuffer.width, 0, targetBuffer.height, -1, 1);
             mat4.scale(mvMatrix, mvMatrix, [targetBuffer.width, targetBuffer.height, 1]);
         }
 
+        console.log(this.pMatrix, mvMatrix);
 
-
-        this.textureProgram.setUniformMatrix("uPMatrix", this.pMatrix);
+        this.textureProgram.setUniformMatrix("uPMatrix", pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);
-
-        // const colorMatrix = mat4.create();
         this.textureProgram.setUniformMatrix("uColorMatrix", colorMatrix);
         this.textureProgram.setUniformFloats("uColor", [1.0, 1.0, 1.0, 1.0]);
-
         this.textureProgram.setUniformInts("uColorSampler", [0]);
 
-        // set texture from source buffer
+        // set texture from sourceBuffer
         sourceBuffer.bindTexture(this.gl.TEXTURE0);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
-        // draw rect to screen
+        // set target Framebuffer
         if (targetBuffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+            this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
         } else {
             targetBuffer.bind();
+            this.gl.viewport(0, 0, targetBuffer.width, targetBuffer.height);
         }
+
+
+        // draw
         this.unitSquare.draw(this.textureProgram);
 
 
@@ -627,11 +649,14 @@ export class PBR {
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+        this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
 
-
-
+    /**
+     * get the a webgl2 rendering context
+     * @param canvas
+     */
     private initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
         const gl = canvas.getContext("webgl2") as WebGLRenderingContext;
         console_report("Getting webgl2 context", !!gl);
