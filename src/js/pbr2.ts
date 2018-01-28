@@ -177,9 +177,9 @@ export class PBR {
         this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
     }
 
-    // public ellipse(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
-    //     this.drawGeometry(this.unitCircle, x, y, w, h, material, matrix);
-    // }
+    public ellipse(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+        this.drawGeometry2(this.unitCircle, x, y, w, h, material, matrix);
+    }
 
 
 
