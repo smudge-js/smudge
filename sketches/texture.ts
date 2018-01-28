@@ -9,6 +9,7 @@ export async function draw() {
 
     // load a texture
     const t = await pbr.loadTexture("images/a.png");
+    const t2 = await pbr.loadTexture("images/a2.png");
 
     // show the ui
     bindUI(pbr);

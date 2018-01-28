@@ -1,4 +1,4 @@
-import { console_report, console_error } from '../util';
+import { consoleTrace, consoleReport, consoleError } from '../logging';
 
 export class Texture {
     public readonly texture: WebGLTexture;
@@ -14,7 +14,7 @@ export class Texture {
             this.image = new Image();
 
             this.image.onload = () => {
-                console.log("image.onload");
+                consoleTrace(`${this} Loaded Succeeded: ${src}`);
                 this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
                 this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, true);
                 this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.image);
@@ -27,8 +27,7 @@ export class Texture {
             };
 
             this.image.onerror = (error) => {
-                console.log("image.onerror", error);
-                console_error(`Could not load image: ${src}`);
+                consoleError(`${this} Loaded Failed: ${src}`, error);
                 this.loaded = false;
                 resolve(); // image couldn't be found, but carry on anyway
             };
@@ -36,6 +35,10 @@ export class Texture {
             // this.image.src = "images/a.png";
             this.image.src = src;
         });
+    }
+
+    public toString(): string {
+        return `Texture "${this.name}"`;
     }
 
 }

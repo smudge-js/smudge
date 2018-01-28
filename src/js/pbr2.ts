@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 
 
 import { Material2, MaterialChannel } from './material/material';
-import { console_report, console_error } from './util';
+import { consoleTrace, consoleReport, consoleError } from './logging';
 // import { bindUI, showUI } from './ui/pbr2_ui';
 import { bufferLayouts } from './config/buffer_layouts';
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
@@ -134,7 +134,7 @@ export class PBR {
 
 
     public clear(material = Material2.clearing): void {
-        console.log("clear");
+        consoleTrace("clear");
 
         _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
             // find the materialChannel for the current buffer
@@ -335,8 +335,8 @@ export class PBR {
 
     // @todo create IPackingLayout
     public pack(packingLayout = {}, clearColor = [0, 0, 0, 0], targetBuffer: Framebuffer = null): void {
-
-        console.log("pack", targetBuffer);
+        const args = Array.prototype.slice.call(arguments);
+        consoleTrace("pack()", ...args);
 
         if (targetBuffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -524,14 +524,17 @@ export class PBR {
             const { color, blendMode, textureConfig } = _.defaults(materialChannel, material.default);
             const colorRGBA = colorDescriptionToRGBA(color);
             if (colorRGBA === undefined) {
-                console.log(`Skipping ${bufferName} because color === undefined`);
+                consoleTrace(`Skipping ${bufferName} because color === undefined`);
                 return;
+            } else {
+                consoleTrace(`Drawing ${bufferName}`);
             }
 
 
             // set up shader program
             let program: Program;
             if (!textureConfig || !textureConfig.texture) {
+
                 program = this.basicProgram;
                 program.use();
 
@@ -543,7 +546,7 @@ export class PBR {
                 program = this.drawProgram;
                 program.use();
 
-                console.log("use drawProgram", textureConfig);
+
 
                 program.setUniformMatrix("uMVMatrix", mvMatrix);
                 program.setUniformMatrix("uPMatrix", this.pMatrix);
@@ -606,7 +609,10 @@ export class PBR {
      */
 
     private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), targetBuffer: Framebuffer = null) {
-        console.log("blit", sourceBuffer, targetBuffer);
+        const args = Array.prototype.slice.call(arguments);
+        consoleTrace("blit()", ...args);
+
+
         // config shader program
         this.textureProgram.use();
 
@@ -661,13 +667,14 @@ export class PBR {
      */
     private initWebGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
         const gl = canvas.getContext("webgl2") as WebGLRenderingContext;
-        console_report("Getting webgl2 context", !!gl);
-        console.log("Max Texture Size", gl.getParameter(gl.MAX_TEXTURE_SIZE));
+        consoleReport("Getting webgl2 context", !!gl);
+        consoleReport("Max Texture Size", gl.getParameter(gl.MAX_TEXTURE_SIZE));
         const ext = gl.getExtension("EXT_color_buffer_float");
-        console_report("Getting EXT_color_buffer_float", !!ext);
+        consoleReport("Getting EXT_color_buffer_float", !!ext);
 
         return gl;
     }
+
 
 
 

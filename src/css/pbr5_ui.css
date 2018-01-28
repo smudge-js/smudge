@@ -18,6 +18,7 @@ body {
 canvas {
     display: block;
     max-width: 512px;
+    max-height: 512px;
 }
 
 button {

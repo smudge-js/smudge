@@ -1,4 +1,4 @@
-import { console_report, console_error } from '../util';
+import { consoleReport, consoleError } from '../logging';
 
 
 export class Framebuffer {
@@ -9,18 +9,18 @@ export class Framebuffer {
     constructor(readonly name = "unnamed", readonly gl: WebGLRenderingContext, readonly width = 512, readonly height = 512, readonly channels = 4, readonly depth = 16) {
 
         if ([1, 4].indexOf(this.channels) === -1) {
-            console_error("channels should be 1 or 4");
+            consoleError("channels should be 1 or 4");
             this.channels = channels = 4;
         }
 
         if ([8, 16].indexOf(this.depth) === -1) {
-            console_error("depth should be 8 or 16");
+            consoleError("depth should be 8 or 16");
             this.depth = depth = 16;
         }
 
         const maxSize = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE));
         if (width > maxSize || height > maxSize) {
-            console_error(`Requested texture size (${width}) too big. Trying ${maxSize}.`);
+            consoleError(`Requested texture size (${width}) too big. Trying ${maxSize}.`);
             this.width = width = maxSize;
             this.height = height = maxSize;
         }
@@ -59,11 +59,11 @@ export class Framebuffer {
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.rttTexture, 0);
 
         // check status
-        console_report(`RTT Memory ${(width * height * channels * depth) / (8 * 1024 * 1024)}MB`);
+        consoleReport(`${this.toString()} Memory ${(width * height * channels * depth) / (8 * 1024 * 1024)}MB`);
         const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
         if (status !== gl.FRAMEBUFFER_COMPLETE) {
-            console_report(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
-            console_error("Failed to build Framebuffer: Incomplete or Unsupported: " + status);
+            consoleReport(this.toString(), status === gl.FRAMEBUFFER_COMPLETE);
+            consoleError("Failed to build Framebuffer: Incomplete or Unsupported: " + status);
         }
 
         // clean up

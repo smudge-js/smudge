@@ -221,7 +221,6 @@ function getThreeTextureForBuffer(gl: WebGLRenderingContext, buffer: Framebuffer
 
 
 
-    console.log("texture", texture, texture.minFilter, THREE.LinearMipMapLinearFilter);
 
     texture.needsUpdate = true;
     return texture;
