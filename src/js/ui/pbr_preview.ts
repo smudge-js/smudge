@@ -2,19 +2,14 @@
 
 import * as _ from 'lodash';
 import * as THREE from 'three';
-
-// import { PBR } from '../pbr2';
 import { Framebuffer } from '../private/framebuffer';
-
-// (window as any).THREE = THREE;
-
 
 export class PBRPreview {
     private renderer: THREE.WebGLRenderer;
     private cube: THREE.Mesh;
 
     constructor(targetID: string) {
-        console.log("three constructor");
+
         // init Three renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setClearColor("#000", 0);
@@ -70,15 +65,11 @@ export class PBRPreview {
     }
 
     public update(gl: WebGLRenderingContext, albedo: Framebuffer, smoothMetallic: Framebuffer, height: Framebuffer, emission: Framebuffer) {
-        console.log("update");
+
 
         // create a new PBR material
-        // let material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
         const material = this.cube.material as THREE.MeshStandardMaterial;
 
-
-
-        // this.pbr.show(three_pbr_smooth_metallic);
 
         ///////////////////////////////////
         ///// Load Maps
@@ -89,7 +80,6 @@ export class PBRPreview {
 
         ///////////////////////////////////
         ///// Environment Map
-
         const loader = new THREE.TextureLoader();
         const envMap = loader.load("./images/environment_studio.jpg", () => {
             // console.log(envMap);
@@ -101,11 +91,8 @@ export class PBRPreview {
             material.needsUpdate = true;
         });
 
-
-
         ///////////////////////////////////
         ///// PBR Settings
-
         material.roughness = 1.0;
         material.metalness = 1.0;
         material.color = new THREE.Color(1, 1, 1);
@@ -115,14 +102,10 @@ export class PBRPreview {
 
         ///////////////////////////////////
         ///// Update Material
-
         material.needsUpdate = true;
-        // cube.material = material;
-
 
         ///////////////////////////////////
         ///// Clean up
-
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
 
@@ -231,11 +214,14 @@ function getThreeTextureForBuffer(gl: WebGLRenderingContext, buffer: Framebuffer
     //     THREE.UnsignedByteType
     // );
 
-    const texture = new THREE.DataTexture(hdrData, width, height,
-        THREE.RGBAFormat,
-        THREE.FloatType,
-    );
+    const texture = new THREE.DataTexture(hdrData, width, height, THREE.RGBAFormat, THREE.FloatType);
+    texture.minFilter = THREE.LinearMipMapLinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.generateMipmaps = true;
 
+
+
+    console.log("texture", texture, texture.minFilter, THREE.LinearMipMapLinearFilter);
 
     texture.needsUpdate = true;
     return texture;
