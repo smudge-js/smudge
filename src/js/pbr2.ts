@@ -174,11 +174,11 @@ export class PBR {
      * Draws a rectangle
      */
     public rect(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
-        this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
+        this.drawGeometery(this.unitSquare, x, y, w, h, material, matrix);
     }
 
     public ellipse(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
-        this.drawGeometry2(this.unitCircle, x, y, w, h, material, matrix);
+        this.drawGeometery(this.unitCircle, x, y, w, h, material, matrix);
     }
 
     public quad(points: number[][], material: Material2, matrix = new Matrix()): void {
@@ -187,7 +187,7 @@ export class PBR {
             return;
         }
         const geometry: IGeometry = new Quad(this.gl, points);
-        this.drawGeometry2(geometry, 0, 0, 1, 1, material, matrix);
+        this.drawGeometery(geometry, 0, 0, 1, 1, material, matrix);
         geometry.delete();
     }
 
@@ -383,49 +383,49 @@ export class PBR {
         });
     }
 
-    // // private drawGeometry(geometry: IGeometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
-    // //     // set camera/cursor position
-    // //     const mvMatrix = mat4.create();
-    // //     mat4.multiply(mvMatrix, mvMatrix, matrix.m);
-    // //     mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
-    // //     mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
+    // private drawGeometry(geometry: IGeometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
+    //     // set camera/cursor position
+    //     const mvMatrix = mat4.create();
+    //     mat4.multiply(mvMatrix, mvMatrix, matrix.m);
+    //     mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
+    //     mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
-    // //     // set up program
-    // //     let program: Program;
-    // //     if (!material.textureInfo) {
-    // //         program = this.basicProgram;
-    // //         program.use();
-    // //     } else {
-    // //         program = this.drawProgram;
-    // //         program.use();
+    //     // set up program
+    //     let program: Program;
+    //     if (!material.textureInfo) {
+    //         program = this.basicProgram;
+    //         program.use();
+    //     } else {
+    //         program = this.drawProgram;
+    //         program.use();
 
-    // //         const colorMatrix = mat4.create();
-    // //         // program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
-    // //         program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
+    //         const colorMatrix = mat4.create();
+    //         // program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
+    //         program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
 
-    // //         program.setUniformInts("uSourceSampler", [0]);
+    //         program.setUniformInts("uSourceSampler", [0]);
 
-    // //         // let uvMatrix = mat3.create();
-    // //         // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
-    // //         // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
-    // //         // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
-    // //         // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
-    // //         // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
+    //         // let uvMatrix = mat3.create();
+    //         // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
+    //         // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
+    //         // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
+    //         // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
+    //         // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
 
-    // //         program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
-
-
-    // //         this.gl.activeTexture(this.gl.TEXTURE0);
-    // //         this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
+    //         program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
 
 
-    // //         program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
+    //         this.gl.activeTexture(this.gl.TEXTURE0);
+    //         this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
+
+
+    //         program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
 
 
 
-    // //         // this.gl.generateMipmap(this.gl.TEXTURE_2D);
+    //         // this.gl.generateMipmap(this.gl.TEXTURE_2D);
 
-    // //     }
+    //     }
 
 
 
@@ -502,7 +502,7 @@ export class PBR {
      */
 
 
-    private drawGeometry2(geometry: IGeometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+    private drawGeometery(geometry: IGeometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         // set camera/cursor position
         const mvMatrix = mat4.create();
         mat4.multiply(mvMatrix, mvMatrix, matrix.m);

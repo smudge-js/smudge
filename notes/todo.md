@@ -1,8 +1,10 @@
 # Next Steps
 
 Restore basic API functions under new Material model.
-check line Options work
-check line texturing works
+
+pbr2 is big, can we pull the shape stuff into /geometery ?
+
+
 
 Should probably make a Point interface/class and probably make a pointList interface/class
     quad would use these, line would use these
