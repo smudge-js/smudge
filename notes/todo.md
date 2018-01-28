@@ -15,6 +15,8 @@ https://github.com/sverweij/dependency-cruiser
 ?switch enums to real enums?
 
 
+so the 3D preview is built right away and if the drawing takes async time (say it waits for an image load) the 3D preview isn't rebuilt
+
 ## UI
 
 - Sketches should not display a UI by default. 

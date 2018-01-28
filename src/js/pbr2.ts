@@ -543,6 +543,8 @@ export class PBR {
                 program = this.drawProgram;
                 program.use();
 
+                console.log("use drawProgram", textureConfig);
+
                 program.setUniformMatrix("uMVMatrix", mvMatrix);
                 program.setUniformMatrix("uPMatrix", this.pMatrix);
                 program.setUniformMatrix("uSourceColorMatrix", textureConfig.colorMatrix);
@@ -619,7 +621,7 @@ export class PBR {
             mat4.scale(mvMatrix, mvMatrix, [targetBuffer.width, targetBuffer.height, 1]);
         }
 
-        console.log(this.pMatrix, mvMatrix);
+        // console.log(this.pMatrix, mvMatrix);
 
         this.textureProgram.setUniformMatrix("uPMatrix", pMatrix);
         this.textureProgram.setUniformMatrix("uMVMatrix", mvMatrix);

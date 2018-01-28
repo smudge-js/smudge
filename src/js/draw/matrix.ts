@@ -1,4 +1,42 @@
-import { mat4 } from 'gl-matrix';
+/* tslint:disable:max-classes-per-file */
+
+import { mat3, mat4 } from 'gl-matrix';
+
+export class UVMatrix {
+    public m: mat3;
+
+    constructor() {
+        this.m = mat3.create();
+    }
+
+    public translate(x = 0, y = 0): UVMatrix {
+        mat3.translate(this.m, this.m, [x, y]);
+        return this;
+    }
+
+
+    public rotate(r = 0): UVMatrix {
+        mat3.rotate(this.m, this.m, r);
+        return this;
+    }
+
+    // scale(2) => x,y * 2
+    // scale(2, 3) => x * 2, y * 3
+
+    public scale(x: number, y?: number): UVMatrix {
+        if (typeof y === 'undefined') {
+            y = x;
+        }
+        mat3.scale(this.m, this.m, [x, y]);
+        return this;
+    }
+
+    public get(): mat3 {
+        return this.m;
+    }
+
+}
+
 export class Matrix {
     public m: mat4;
 
@@ -30,6 +68,12 @@ export class Matrix {
         mat4.scale(this.m, this.m, [x, y, z]);
         return this;
     }
+
+    public get(): mat4 {
+        return this.m;
+    }
+
+
 
 
 }

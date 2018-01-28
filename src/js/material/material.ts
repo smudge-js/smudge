@@ -130,7 +130,7 @@ export const BlendMode = {
 //             this.emission_blue = emission_blue;
 //         } else {
 //             Object.assign(this, config);
-//         }
+//         } p
 //     };
 
 
@@ -149,7 +149,7 @@ export class TextureInfo {
     public texture: Texture = undefined;
     public colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
     public colorBias = [0, 0, 0, 0];
-    public uvMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    public uvMatrix: Float32Array | number[] = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
 }
 
