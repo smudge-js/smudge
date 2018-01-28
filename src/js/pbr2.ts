@@ -173,7 +173,7 @@ export class PBR {
     /**
      * Draws a rectangle
      */
-    public rect2(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+    public rect(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         this.drawGeometry2(this.unitSquare, x, y, w, h, material, matrix);
     }
 

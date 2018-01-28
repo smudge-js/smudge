@@ -14,11 +14,11 @@ export async function draw() {
     const redLight = new Material2();
     redLight.albedo.color = 0;
     redLight.emission.color = [1, 0, 0, 1];
-    pbr.rect2(10, 10, 10, 10, redLight);
+    pbr.rect(10, 10, 10, 10, redLight);
 
     const matteSpray = new Material2();
     matteSpray.smoothness.color = .2;
-    pbr.rect2(10, 30, 100, 100, matteSpray);
+    pbr.rect(10, 30, 100, 100, matteSpray);
 
 
 
@@ -26,7 +26,7 @@ export async function draw() {
     goldFoil.albedo.color = [.4, .4, 0];
     goldFoil.smoothness.color = .8;
     goldFoil.height.color = .1;
-    pbr.rect2(10, 140, 100, 100, goldFoil);
+    pbr.rect(10, 140, 100, 100, goldFoil);
 
 
     pbr.show();

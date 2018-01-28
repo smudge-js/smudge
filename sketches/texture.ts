@@ -24,13 +24,13 @@ export async function draw() {
     const albedoA = new Material2();
     albedoA.albedo.color = 1;
     albedoA.albedo.textureConfig.texture = t;
-    pbr.rect2(0, 0, 200, 200, albedoA);
+    pbr.rect(0, 0, 200, 200, albedoA);
 
     // draw texture to another material prop
     const smoothnessA = new Material2();
     smoothnessA.smoothness.color = 1;
     smoothnessA.smoothness.textureConfig.texture = t;
-    pbr.rect2(200, 0, 200, 200, smoothnessA);
+    pbr.rect(200, 0, 200, 200, smoothnessA);
 
 
     // manipulate texture colors
@@ -44,7 +44,7 @@ export async function draw() {
         0, 0, -1, 0,
         0, 0, 0, 1,
     ];
-    pbr.rect2(0, 200, 200, 200, albedoColorize);
+    pbr.rect(0, 200, 200, 200, albedoColorize);
 
 
     // transform texture
@@ -58,7 +58,7 @@ export async function draw() {
 
 
 
-    pbr.rect2(200, 200, 200, 200, transformA);
+    pbr.rect(200, 200, 200, 200, transformA);
 
 
 

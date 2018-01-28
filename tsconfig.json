@@ -18,10 +18,11 @@
     },
     "exclude": [
         "node_modules",
-        "**/sketches/*",
-        "**/tests/*"
+        "**/js/sketches/*",
+        "**/js/tests/*"
     ],
-    "include": [
-        "src"
-    ]
+    // "include": [
+    //     "src/**/*",
+    //     "sketches/**/*"
+    // ]
 }

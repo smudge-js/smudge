@@ -18,7 +18,7 @@ export async function draw() {
 
     // draw a translated, rotated, scaled rect
     const myMatrix = new Matrix().translate(256, 256).rotate(3.14 * .25).scale(.5);
-    pbr.rect2(-256, -256, 512, 512, red, myMatrix);
+    pbr.rect(-256, -256, 512, 512, red, myMatrix);
 
     // show albedo in ui
     pbr.show();

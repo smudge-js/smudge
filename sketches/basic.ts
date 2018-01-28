@@ -14,7 +14,7 @@ export async function draw() {
     // draw a rect
     const simpleBlue = new Material2();
     simpleBlue.albedo.color = [0, 0, 1];
-    pbr.rect2(0, 0, 200, 200, simpleBlue);
+    pbr.rect(0, 0, 200, 200, simpleBlue);
 
 
 
