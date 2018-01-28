@@ -335,8 +335,7 @@ export class PBR {
 
     // @todo create IPackingLayout
     public pack(packingLayout = {}, clearColor = [0, 0, 0, 0], targetBuffer: Framebuffer = null): void {
-        const args = Array.prototype.slice.call(arguments);
-        consoleTrace("pack()", ...args);
+        consoleTrace("pack()", ...Array.from(arguments));
 
         if (targetBuffer === null) {
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
@@ -609,8 +608,8 @@ export class PBR {
      */
 
     private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), targetBuffer: Framebuffer = null) {
-        const args = Array.prototype.slice.call(arguments);
-        consoleTrace("blit()", ...args);
+
+        consoleTrace("blit()", ...Array.from(arguments));
 
 
         // config shader program

@@ -9,7 +9,6 @@ export async function draw() {
 
     // load a texture
     const t = await pbr.loadTexture("images/a.png");
-    const t2 = await pbr.loadTexture("images/a2.png");
 
     // show the ui
     bindUI(pbr);
@@ -55,7 +54,10 @@ export async function draw() {
 
 
 
-    transformA.albedo.textureConfig.uvMatrix = new UVMatrix().translate(.5, .5).rotate(3.14 * .25).translate(-.5, -.5).scale(2).get();
+    transformA.albedo.textureConfig.uvMatrix = new UVMatrix().translate(.5, .5).rotate(3.14 * .25).scale(2).translate(-.5, -.5).get();
+
+
+
     pbr.rect2(200, 200, 200, 200, transformA);
 
 
