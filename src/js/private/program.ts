@@ -17,7 +17,7 @@ export class Program {
         error = gl.getShaderInfoLog(vertexShader);
         if (error) {
             consoleReport(this.toString(), "vertexShader", gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS));
-            console.log(error);
+            consoleError(error);
         }
 
         const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -26,7 +26,7 @@ export class Program {
         error = gl.getShaderInfoLog(fragmentShader);
         if (error) {
             consoleReport(this.toString(), "fragmentShader", gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS));
-            console.log(error);
+            consoleError(error);
         }
 
         const program = gl.createProgram();
@@ -48,6 +48,13 @@ export class Program {
 
     public use(): void {
         this.gl.useProgram(this.program);
+    }
+
+    public done(): void {
+        // @todo loop through actual attribs and disable them
+        this.gl.disableVertexAttribArray(0);
+        this.gl.disableVertexAttribArray(1);
+
     }
 
     public getAttribLocation(attribute: string): number {

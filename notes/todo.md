@@ -1,9 +1,21 @@
 # Next Steps
 
 Restore basic API functions under new Material model.
+check line Options work
+check line texturing works
 
+Should probably make a Point interface/class and probably make a pointList interface/class
+    quad would use these, line would use these
 
 https://github.com/jbail/lumberjack
+
+
+# How does this work again?
+
+Switching from drawProgram which has to vertexAttribs to basicProgram which has only one was causing an issue. Both vertexAttrib indexes were enabled for drawProgram. basicProgram didn't need the second one, but it was enabled with nothing bound to it. this throws an error.
+
+So, i need a way to clean up when finished using a program.
+
 
 # Todo
 

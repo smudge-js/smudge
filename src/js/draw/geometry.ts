@@ -1,4 +1,5 @@
 import { Program } from "../private/program";
+import { consoleWarn, consoleReport } from "../logging";
 
 /* tslint:disable:max-classes-per-file */
 
@@ -143,22 +144,23 @@ export class UnitCircle implements IGeometry {
 
 }
 
+let q = 0;
 export class Quad implements IGeometry {
     public positionBuffer: WebGLBuffer;
     public uvBuffer: WebGLBuffer;
     public indexBuffer: WebGLBuffer;
 
+    private id = 0;
     constructor(public gl: WebGLRenderingContext, points: number[][]) {
         this.positionBuffer = this.buildVerticies(this.gl, points);
         this.uvBuffer = this.buildUVs(this.gl);
         this.indexBuffer = this.buildIndexBuffer(this.gl);
+        this.id = q++;
     }
 
     public draw(program: Program): void {
         program.setAttributeValue("aPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
         program.setAttributeValue("aUV", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
-
-
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLE_STRIP, 4, this.gl.UNSIGNED_SHORT, 0);

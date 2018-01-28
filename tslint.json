@@ -20,7 +20,7 @@
         ],
         "object-literal-sort-keys": false,
         "max-line-length": false,
-        "no-console": false,
+        "no-console": true,
         "only-arrow-functions": [
             true,
             "allow-declarations",

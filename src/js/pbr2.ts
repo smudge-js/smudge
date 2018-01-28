@@ -191,72 +191,71 @@ export class PBR {
         geometry.delete();
     }
 
-    // public line(points: number[][], _options: number | ILineOptions = 1, material = Material.white, matrix = new Matrix()): void {
-    //     // validate input
-    //     if (points.length < 2) {
-    //         console_error("pbr.line(): points array should have length > 1");
-    //         return;
-    //     }
+    public line(points: number[][], _options: number | ILineOptions = 1, material: Material2, matrix = new Matrix()): void {
+        // validate input
+        if (points.length < 2) {
+            consoleError("pbr.line(): points array should have length > 1");
+            return;
+        }
 
-    //     // process options
-    //     let options: ILineOptions = {};
-    //     if (typeof _options === "number") {
-    //         options = {
-    //             width: _options,
+        // process options
+        let options: ILineOptions = {};
+        if (typeof _options === "number") {
+            options = {
+                width: _options,
+            };
+        } else {
+            options = _options;
+        }
+        options = _.defaults(options,
+            {
+                width: 1,
+                align: 'center',
+                close: false,
+            });
 
-    //         };
-    //     } else {
-    //         options = _options;
-    //     }
-    //     options = _.defaults(options,
-    //         {
-    //             width: 1,
-    //             align: 'center',
-    //             close: false,
-    //         });
+        if (points.length === 2) {
+            options.close = false;
+        }
 
-    //     if (points.length === 2) {
-    //         options.close = false;
-    //     }
-
-    //     // get the miter offsets
-    //     const miterData = getNormals(points, options.close);
-    //     const offsets: number[][] = [];
-    //     _.each(miterData, (miterDatum) => {
-    //         const offset = [
-    //             miterDatum[0][0] * miterDatum[1] * options.width,
-    //             miterDatum[0][1] * miterDatum[1] * options.width,
-    //         ];
-    //         offsets.push(offset);
-    //     });
+        // get the miter offsets
+        const miterData = getNormals(points, options.close);
+        const offsets: number[][] = [];
+        _.each(miterData, (miterDatum) => {
+            const offset = [
+                miterDatum[0][0] * miterDatum[1] * options.width,
+                miterDatum[0][1] * miterDatum[1] * options.width,
+            ];
+            offsets.push(offset);
+        });
 
 
-    //     // calculate alignment center|left|right
-    //     let offsetBias = [.5, .5];
-    //     if (options.align === 'left') {
-    //         offsetBias = [1, 0];
-    //     }
-    //     if (options.align === 'right') {
-    //         offsetBias = [0, 1];
-    //     }
+        // calculate alignment center|left|right
+        let offsetBias = [.5, .5];
+        if (options.align === 'left') {
+            offsetBias = [1, 0];
+        }
+        if (options.align === 'right') {
+            offsetBias = [0, 1];
+        }
 
-    //     if (options.close) {
-    //         points.push(points[0]);
-    //         offsets.push(offsets[0]);
-    //     }
+        if (options.close) {
+            points.push(points[0]);
+            offsets.push(offsets[0]);
+        }
 
-    //     // center
-    //     for (let i = 0; i < points.length - 1; i++) {
-    //         const quadPoints: number[][] = [
-    //             [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]],
-    //             [points[i + 1][0] + offsets[i + 1][0] * offsetBias[1], points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]],
-    //             [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
-    //             [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
-    //         ];
-    //         this.quad(quadPoints, material, matrix);
-    //     }
+        // center
+        for (let i = 0; i < points.length - 1; i++) {
+            const quadPoints: number[][] = [
+                [points[i + 0][0] + offsets[i + 0][0] * offsetBias[1], points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]],
+                [points[i + 1][0] + offsets[i + 1][0] * offsetBias[1], points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]],
+                [points[i + 1][0] - offsets[i + 1][0] * offsetBias[0], points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]],
+                [points[i + 0][0] - offsets[i + 0][0] * offsetBias[0], points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]],
+            ];
+            this.quad(quadPoints, material, matrix);
+        }
 
-    // }
+    }
 
     /**
      * Copies the provided buffer to the canvas
@@ -539,7 +538,10 @@ export class PBR {
                 program.setUniformMatrix("uPMatrix", this.pMatrix);
                 program.setUniformFloats("uColor", colorRGBA);
 
+
+
             } else {
+
                 program = this.drawProgram;
                 program.use();
 
@@ -582,16 +584,20 @@ export class PBR {
             buffer.bind();
             this.gl.viewport(0, 0, buffer.width, buffer.height);
             geometry.draw(program);
+
+            // clean up
+            this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+            program.done();
+            this.gl.disable(this.gl.BLEND);
+            this.gl.blendEquation(this.gl.FUNC_ADD);
+            this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+
+            this.gl.colorMask(true, true, true, true);
+            this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+            this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
+
         });
 
-        // clean up
-        this.gl.disable(this.gl.BLEND);
-        this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-        this.gl.colorMask(true, true, true, true);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
 
