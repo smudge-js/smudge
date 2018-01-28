@@ -8,15 +8,12 @@ export async function draw() {
     // show the ui
     bindUI(pbr);
 
+
     // clear the drawing
-    pbr.clear();
-
-    // draw a rect
-    const simpleBlue = new Material2();
-    simpleBlue.albedo.color = [0, 0, 1];
-    pbr.rect2(0, 0, 200, 200, simpleBlue);
-
-
+    const paper = new Material2();
+    paper.albedo.color = .9;
+    paper.smoothness.color = .3;
+    pbr.clear(paper);
 
     // show albedo in ui
     pbr.show();

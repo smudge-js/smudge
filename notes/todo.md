@@ -3,6 +3,8 @@
 Restore basic API functions under new Material model.
 
 
+https://github.com/jbail/lumberjack
+
 # Todo
 
 .fix that "Material->texture_config:TextureInfo" property name doesn't match type name
