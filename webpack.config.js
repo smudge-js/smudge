@@ -1,5 +1,5 @@
 module.exports = {
-	entry: './sketches/ellipse.ts',
+	entry: './sketches/quad.ts',
 
 	output: {
 		filename: 'bundle.js',

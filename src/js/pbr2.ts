@@ -8,7 +8,7 @@ import { saveAs } from 'file-saver';
 import { Material2, MaterialChannel } from './material/material';
 import { consoleTrace, consoleReport, consoleError } from './logging';
 // import { bindUI, showUI } from './ui/pbr2_ui';
-import { bufferLayouts } from './config/buffer_layouts';
+import { bufferLayouts, IBufferLayout } from './config/buffer_layouts';
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
 
 // import { IGeometry, UnitSquare, UnitCircle, Quad } from './draw/geometry';
@@ -181,17 +181,15 @@ export class PBR {
         this.drawGeometry2(this.unitCircle, x, y, w, h, material, matrix);
     }
 
-
-
-
-    // public quad(points: number[][], material = Material.white, matrix = new Matrix()): void {
-    //     if (points.length !== 4) {
-    //         console_error("pbr.quad(): points array should have length of 4");
-    //         return;
-    //     }
-    //     const geometry: IGeometry = new Quad(this.gl, points);
-    //     this.drawGeometry(geometry, 0, 0, 1, 1, material, matrix);
-    // }
+    public quad(points: number[][], material: Material2, matrix = new Matrix()): void {
+        if (points.length !== 4) {
+            consoleError("pbr.quad(): points array should have length of 4");
+            return;
+        }
+        const geometry: IGeometry = new Quad(this.gl, points);
+        this.drawGeometry2(geometry, 0, 0, 1, 1, material, matrix);
+        geometry.delete();
+    }
 
     // public line(points: number[][], _options: number | ILineOptions = 1, material = Material.white, matrix = new Matrix()): void {
     //     // validate input
@@ -512,8 +510,8 @@ export class PBR {
         mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
-
-        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+        let drawBuffer;
+        _.forEach(bufferLayouts, drawBuffer = (bufferLayout: IBufferLayout, bufferName: string) => {
             // find the materialChannel for the current buffer
             const materialChannel = material[bufferName];
 

@@ -31,7 +31,7 @@
 
 
 /** @hidden */
-interface IBufferLayout {
+export interface IBufferLayout {
     super_sampling: number;
     depth: number;
     channels: number;

@@ -1,4 +1,4 @@
-import { consoleReport, consoleError } from '../logging';
+import { consoleReport, consoleWarn, consoleError } from '../logging';
 
 export class Program {
     public program: WebGLProgram;
@@ -58,7 +58,7 @@ export class Program {
             loc = this.gl.getAttribLocation(this.program, attribute);
             this.attribLocations[attribute] = loc;
             if (loc === -1) {
-                consoleError(this.toString(), `Shader program attribute not found: ${attribute}`);
+                consoleWarn(this.toString(), `Shader program attribute not found: ${attribute}`);
             }
         }
         return loc;

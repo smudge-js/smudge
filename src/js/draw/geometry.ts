@@ -10,6 +10,7 @@ export interface IGeometry {
     indexBuffer: WebGLBuffer;
 
     draw(program: Program): void;
+    delete(): void;
 }
 
 
@@ -32,6 +33,12 @@ export class UnitSquare implements IGeometry {
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLE_STRIP, 4, this.gl.UNSIGNED_SHORT, 0);
+    }
+
+    public delete(): void {
+        this.gl.deleteBuffer(this.positionBuffer);
+        this.gl.deleteBuffer(this.uvBuffer);
+        this.gl.deleteBuffer(this.indexBuffer);
     }
 
     private buildVerticies(gl: WebGLRenderingContext): WebGLBuffer {
@@ -128,6 +135,12 @@ export class UnitCircle implements IGeometry {
         this.gl.drawElements(this.gl.TRIANGLE_FAN, this.segments + 2, this.gl.UNSIGNED_SHORT, 0);
     }
 
+    public delete(): void {
+        this.gl.deleteBuffer(this.positionBuffer);
+        this.gl.deleteBuffer(this.uvBuffer);
+        this.gl.deleteBuffer(this.indexBuffer);
+    }
+
 }
 
 export class Quad implements IGeometry {
@@ -144,8 +157,17 @@ export class Quad implements IGeometry {
     public draw(program: Program): void {
         program.setAttributeValue("aPosition", this.positionBuffer, 3, this.gl.FLOAT, false, 0, 0);
         program.setAttributeValue("aUV", this.uvBuffer, 2, this.gl.FLOAT, false, 0, 0);
+
+
+
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLE_STRIP, 4, this.gl.UNSIGNED_SHORT, 0);
+    }
+
+    public delete(): void {
+        this.gl.deleteBuffer(this.positionBuffer);
+        this.gl.deleteBuffer(this.uvBuffer);
+        this.gl.deleteBuffer(this.indexBuffer);
     }
 
     private buildVerticies(gl: WebGLRenderingContext, points: number[][]): WebGLBuffer {
