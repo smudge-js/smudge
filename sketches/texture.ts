@@ -14,17 +14,18 @@ export async function draw() {
     bindUI(pbr);
 
 
-
     // clear the drawing
     const paper = new Material2();
     paper.albedo.color = .5;
     pbr.clear();
+
 
     // draw textured rect
     const albedoA = new Material2();
     albedoA.albedo.color = 1;
     albedoA.albedo.textureConfig.texture = t;
     pbr.rect(0, 0, 200, 200, albedoA);
+
 
     // draw texture to another material prop
     const smoothnessA = new Material2();
@@ -51,16 +52,8 @@ export async function draw() {
     const transformA = new Material2();
     transformA.albedo.color = 1;
     transformA.albedo.textureConfig.texture = t;
-
-
-
     transformA.albedo.textureConfig.uvMatrix = new UVMatrix().translate(.5, .5).rotate(3.14 * .25).scale(2).translate(-.5, -.5).get();
-
-
-
     pbr.rect(200, 200, 200, 200, transformA);
-
-
 
 
     // show albedo in ui
