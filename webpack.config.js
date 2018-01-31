@@ -1,5 +1,5 @@
 module.exports = {
-	entry: './sketches/line.ts',
+	entry: './sketches/blendMode.ts',
 
 	output: {
 		filename: 'bundle.js',

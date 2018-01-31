@@ -17,7 +17,7 @@ export type IReadonlyBlendMode = Readonly<IBlendMode>;
 
 
 export const BlendMode = {
-    Normal: <IReadonlyBlendMode>{
+    Blend: <IReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
         sFactor: gl_constants.SRC_ALPHA,
         dFactor: gl_constants.ONE_MINUS_SRC_ALPHA,
@@ -175,7 +175,7 @@ export class MaterialChannel {
 export class Material2 {
     public static clearing = new Material2();
 
-    public default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Normal, undefined);
+    public default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Blend, undefined);
     public albedo: MaterialChannel = new MaterialChannel();
     public metallic: MaterialChannel = new MaterialChannel();
     public smoothness: MaterialChannel = new MaterialChannel();
