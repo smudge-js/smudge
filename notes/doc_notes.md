@@ -2,13 +2,43 @@
 
 [[ what it does ]]
 
-# Smudge API
+
+# Concept Topics
 
 ## Project Setup
-
 [[ how to include and start with smudge ]]
 
-# Async/Wait
+## Async/Wait and Peeking at WIP
+
+## States vs Params Discussion
+
+## Discussion/Documentation Point (Transparency)
+.transparency own channel
+.add alpha for rgb, m, s, h, ergb, t
+.yeah even transparency gets an alpha
+x.RESEARCH.is alpha special?
+    .y see: blendFuncSeparate
+
+## Textures, Texture UV and Color Transforms, and Primative Lirary
+
+## Alpha and Alpha
+. sometimes you want to write to alpha
+. sometimes you want to write to alpha with alpha
+. this is hard to explain until you need it
+
+## HDR
+. how its used internally
+. exporting
+
+## Oversampling
+. explain smudge uses large buffers for oversampling, unless we change that?
+
+
+
+# Smudge API
+
+
+
 
 ## PBR Object
 [[ Overview]]
