@@ -144,18 +144,17 @@ export class UnitCircle implements IGeometry {
 
 }
 
-let q = 0;
+
 export class Quad implements IGeometry {
     public positionBuffer: WebGLBuffer;
     public uvBuffer: WebGLBuffer;
     public indexBuffer: WebGLBuffer;
 
     private id = 0;
-    constructor(public gl: WebGLRenderingContext, points: number[][]) {
-        this.positionBuffer = this.buildVerticies(this.gl, points);
-        this.uvBuffer = this.buildUVs(this.gl);
+    constructor(public gl: WebGLRenderingContext, verticies: number[][], uvs?: number[][]) {
+        this.positionBuffer = this.buildVerticies(this.gl, verticies);
+        this.uvBuffer = this.buildUVs(this.gl, uvs);
         this.indexBuffer = this.buildIndexBuffer(this.gl);
-        this.id = q++;
     }
 
     public draw(program: Program): void {
@@ -187,13 +186,23 @@ export class Quad implements IGeometry {
         return buffer;
     }
 
-    private buildUVs(gl: WebGLRenderingContext): WebGLBuffer {
-        const uvs = [
-            0.0, 1.0,
-            0.0, 0.0,
-            1.0, 1.0,
-            1.0, 0.0,
-        ];
+    private buildUVs(gl: WebGLRenderingContext, points: number[][]): WebGLBuffer {
+        let uvs;
+        if (points) {
+            uvs = [
+                points[1][0], points[1][1],
+                points[0][0], points[0][1],
+                points[2][0], points[2][1],
+                points[3][0], points[3][1],
+            ];
+        } else {
+            uvs = [
+                0.0, 1.0,
+                0.0, 0.0,
+                1.0, 1.0,
+                1.0, 0.0,
+            ];
+        }
         const buffer = gl.createBuffer();
 
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
