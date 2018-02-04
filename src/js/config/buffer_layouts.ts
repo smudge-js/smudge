@@ -43,7 +43,10 @@ export type IReadonlyBufferLayout = Readonly<IBufferLayout>;
 
 
 /** @hidden */
-export const bufferLayouts = {
+
+interface IBufferLayouts { [index: string]: IReadonlyBufferLayout; }
+
+export const bufferLayouts: IBufferLayouts = {
     albedo: <IReadonlyBufferLayout>{
         super_sampling: 4,
         depth: 16,

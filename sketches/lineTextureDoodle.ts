@@ -1,11 +1,11 @@
 import { Material2, PBR, bindUI, BlendMode } from '../src/js/index';
-import { Matrix } from '../src/js/draw/matrix';
+// import { Matrix } from '../src/js/draw/matrix';
 
 
 
 export async function draw() {
     // create a pbr instance
-    const pbr = new PBR(undefined, 512, 512);
+    const pbr = new PBR(undefined, 1024, 1024);
 
     // load a texture
     const t = await pbr.loadTexture("images/soft_brush.png");
@@ -13,6 +13,7 @@ export async function draw() {
 
     // show the ui
     bindUI(pbr);
+
 
     // clear the drawing
     pbr.clear();

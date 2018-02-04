@@ -10,6 +10,8 @@
         "strictNullChecks": false,
         "noImplicitThis": true,
         "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "lib": [
             "es2015",
             "es2017",
@@ -18,8 +20,8 @@
     },
     "exclude": [
         "node_modules",
-        "**/js/sketches/*",
-        "**/js/tests/*",
+        "./src/js/sketches/**/*",
+        "./src/js/tests/**/*",
         "**/notes/*"
     ],
     // "include": [

@@ -1,6 +1,6 @@
 declare var require: any;
 
-const _ = require('lodash/core');
+// const _ = require('lodash/core');
 
 import { PBR } from '../pbr2';
 import { bufferLayouts } from '../config/buffer_layouts';
@@ -12,6 +12,9 @@ import { PBRPreview } from './pbr_preview';
 
 import '../../css/pbr5_ui.css';
 import { Framebuffer } from '../private/framebuffer';
+import { consoleError, consoleTrace } from '../logging';
+import { forEach } from 'lodash';
+const _ = { forEach };
 
 
 let pbrPreview: PBRPreview;
@@ -43,7 +46,7 @@ export function updatePBR(pbr: PBR) {
 function getBuffer(pbr: PBR, bufferName: string): Framebuffer {
     const buffer = pbr.buffers[bufferName];
     if (!buffer) {
-        console.error("Could not find buffer named: " + bufferName);
+        consoleError("Could not find buffer named: " + bufferName);
         return;
     }
     return buffer;
@@ -58,16 +61,16 @@ export function bindUI(pbr: PBR) {
 
     document.getElementById("channel-preview").appendChild(pbr.canvas);
 
-    const ui = document.querySelector(".ui");
+    // const ui = document.querySelector(".ui");
 
     // add channel select tabs/button
     const channelButtonsDiv = document.getElementById("channel-buttons");
 
-    _.forEach(bufferLayouts, (bufferLayout: any, bufferName: string) => {
+    _.forEach(bufferLayouts, (_bufferLayout, bufferName) => {
         const b = document.createElement("button");
         b.textContent = bufferName;
         b.addEventListener("click", (e) => {
-            console.log(e.target);
+            consoleTrace(e.target);
 
             // set tab to active
             const children = channelButtonsDiv.childNodes;

@@ -1,24 +1,24 @@
-/* tslint:disable:max-classes-per-file */
-
-import * as _ from 'lodash';
-import { mat4, mat3 } from 'gl-matrix';
+import { forEach, each, defaults } from 'lodash';
+const _ = { forEach, each, defaults };
+import { mat4 } from 'gl-matrix';
 import { saveAs } from 'file-saver';
+const getNormals = require('polyline-normals');
 
 
-import { Material2, MaterialChannel } from './material/material';
 import { consoleTrace, consoleReport, consoleError } from './logging';
-// import { bindUI, showUI } from './ui/pbr2_ui';
-import { bufferLayouts, IBufferLayout } from './config/buffer_layouts';
+
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
 
-// import { IGeometry, UnitSquare, UnitCircle, Quad } from './draw/geometry';
-// import { Matrix } from './draw/matrix';
+import { Material2 } from './material/material';
 import { colorDescriptionToRGBA } from './material/color';
+
+import { bufferLayouts, IReadonlyBufferLayout } from './config/buffer_layouts';
+
 import { Framebuffer } from './private/framebuffer';
 import { Program } from './private/program';
 import { Texture } from './private/texture';
 
-const getNormals = require('polyline-normals');
+
 
 export interface ILineOptions {
     width?: number;
@@ -120,7 +120,8 @@ export class PBR {
     //     bindUI(this);
     // }
 
-    // @todo probably belongs somewhere else, like in texture.
+    // @todo probably belongs somewhere else, like in texture. maybe not. Don't love the idea of having to pass pbr.gl
+
     public async loadTexture(path: string) {
         const name = path.split("/").pop();
         const t = new Texture(name, this.gl);
@@ -140,7 +141,7 @@ export class PBR {
     public clear(material = Material2.clearing): void {
         consoleTrace("clear");
 
-        _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
+        _.forEach(bufferLayouts, (_bufferLayout, bufferName) => {
             // find the materialChannel for the current buffer
             const materialChannel = material[bufferName];
             const { color } = _.defaults(materialChannel, material.default);
@@ -327,17 +328,16 @@ export class PBR {
             options.close = false;
         }
 
-        console.log("" + points);
+
 
         // cap line
         let pointInfo;
         if (options.uvMode === "brush") {
             pointInfo = this.capLine(points, options.width * .5);
-            console.log(pointInfo);
             points = pointInfo.points;
         }
 
-        console.log("" + points);
+
 
         // get the miter offsets
         const miterData = getNormals(points, options.close);
@@ -415,7 +415,6 @@ export class PBR {
             } else if (options.uvMode === "brush") {
                 const xStart = pointInfo.uvXs[i];
                 const xEnd = pointInfo.uvXs[i + 1];
-                console.log(i, "uvXs", xStart, xEnd);
                 const uvs = makeUVs(xStart, xEnd);
                 this.quad(verticies, material, matrix, uvs);
 
@@ -681,7 +680,7 @@ export class PBR {
         mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
         let drawBuffer;
-        _.forEach(bufferLayouts, drawBuffer = (bufferLayout: IBufferLayout, bufferName: string) => {
+        _.forEach(bufferLayouts, drawBuffer = (_bufferLayout: IReadonlyBufferLayout, bufferName: string) => {
             // find the materialChannel for the current buffer
             const materialChannel = material[bufferName];
 

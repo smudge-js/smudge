@@ -1,14 +1,14 @@
 /* tslint:disable:max-classes-per-file */
 
-import * as _ from 'lodash';
-import * as THREE from 'three';
+
+import * as THREE from 'THREE';
 import { Framebuffer } from '../private/framebuffer';
 
 export class PBRPreview {
     private renderer: THREE.WebGLRenderer;
     private cube: THREE.Mesh;
 
-    constructor(targetID: string) {
+    constructor(_targetID: string) {
 
         // init Three renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -52,7 +52,10 @@ export class PBRPreview {
         scene.add(this.cube);
 
         const arcball = new ArcBall(this.renderer.domElement, this.cube);
-
+        // creating ArcBall for side effects but never need to access it again
+        // next lines quite above error. a little silly.
+        // tslint:disable-next-line
+        arcball;
 
         // start render loop
         const render = () => {
@@ -125,17 +128,17 @@ class ArcBall {
 
     constructor(private targetElement: HTMLElement, private targetMesh: THREE.Mesh) {
 
-        targetElement.onmousedown = (e) => {
+        this.targetElement.onmousedown = (_e) => {
             this.isMousePressed = true;
         };
-        targetElement.onmouseup = (e) => {
+        this.targetElement.onmouseup = (_e) => {
             this.isMousePressed = false;
         };
 
-        targetElement.onmousemove = (e) => {
-            const rect = targetElement.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
+        this.targetElement.onmousemove = (_e) => {
+            const rect = this.targetElement.getBoundingClientRect();
+            let x = _e.clientX - rect.left;
+            let y = _e.clientY - rect.top;
 
             // scale mouse position to -1 to 1 range
             x = map(x, 0, rect.width, -1, 1);
@@ -157,7 +160,7 @@ class ArcBall {
         };
     }
 
-    public drag(x: number, y: number, oldX: number, oldY: number) {
+    public drag(x: number, y: number, _oldX: number, _oldY: number) {
 
         // 2D -> 3D point
         const oldV = new THREE.Vector3(this.oldX, this.oldY, 0);

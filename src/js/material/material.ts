@@ -1,7 +1,7 @@
 /* tslint:disable:max-classes-per-file */
 
 import * as gl_constants from 'gl-constants';
-import { strEnum } from '../util';
+
 
 import { ColorDescription } from './color';
 import { Texture } from '../private/texture';

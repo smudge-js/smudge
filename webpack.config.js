@@ -1,5 +1,8 @@
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+
 module.exports = {
-	entry: './sketches/lineTextureDoodle.ts',
+	entry: './sketches/lineTexture.ts',
 
 	output: {
 		filename: 'bundle.js',
@@ -8,6 +11,10 @@ module.exports = {
 
 	resolve: {
 		extensions: [".ts", ".js", ]
+	},
+
+	externals: {
+		THREE: 'THREE'
 	},
 
 	module: {
@@ -44,4 +51,6 @@ module.exports = {
 	},
 
 	devtool: 'inline-source-map',
+
+	plugins: [new BundleAnalyzerPlugin()]
 };

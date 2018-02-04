@@ -1,4 +1,4 @@
-import { consoleTrace, consoleReport, consoleError } from '../logging';
+import { consoleTrace, consoleError } from '../logging';
 
 export class Texture {
     public readonly texture: WebGLTexture;
@@ -10,7 +10,7 @@ export class Texture {
     }
 
     public load(src: string) {
-        return new Promise((resolve, reject) => {
+        return new Promise((_resolve, _reject) => {
             this.image = new Image();
 
             this.image.onload = () => {
@@ -23,13 +23,13 @@ export class Texture {
                 this.gl.generateMipmap(this.gl.TEXTURE_2D);
                 this.gl.bindTexture(this.gl.TEXTURE_2D, null);
                 this.loaded = true;
-                resolve();
+                _resolve();
             };
 
             this.image.onerror = (error) => {
                 consoleError(`${this} Loaded Failed: ${src}`, error);
                 this.loaded = false;
-                resolve(); // image couldn't be found, but carry on anyway
+                _resolve(); // image couldn't be found, but carry on anyway
             };
 
             // this.image.src = "images/a.png";

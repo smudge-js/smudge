@@ -4,17 +4,18 @@
     - [API](#api)
     - [Internal](#internal)
 - [Enhancements + Feature Ideas](#enhancements-feature-ideas)
+    - [Exports](#exports)
     - [UI](#ui)
     - [Material](#material)
     - [Matrix](#matrix)
     - [Development Tools](#development-tools)
     - [Texture Primitive Library](#texture-primitive-library)
+    - [API](#api)
     - [Greg + Justin List](#greg-justin-list)
 - [Docs](#docs)
 
 
 # Next Steps
-
 - [ ] bugs
 - [x] Restore basic API functions under new Material model.
 - [ ] pbr2 is big, can we pull the shape stuff into /geometery ?
@@ -56,6 +57,12 @@
 
 
 # Enhancements + Feature Ideas
+
+
+## Exports
+- [ ] Higher DPI export
+- [ ] Higher Depth (EXR) export
+- [ ] Export 3D View
 
 ## ?
 - [ ] factor this so it can be npm installed and used.
@@ -122,6 +129,11 @@ colorBias
 - [ ] checker
 - [ ] brick
 - [ ] etc.
+
+## API
+
+- [ ] Set canvas size seperately from "logical" size. So you can resize rendering dimensions without altering positions in code.
+
 
 ## Greg + Justin List
 
