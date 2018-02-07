@@ -23,9 +23,10 @@ import { buildLineQuads, ILineOptions } from './draw/line';
 
 export class PBR {
 
+    public readonly gl: WebGLRenderingContext;
+
     public readonly width: number;
     public readonly height: number;
-    public readonly gl: WebGLRenderingContext;
     public readonly buffers: { [key: string]: Framebuffer };
 
     private readonly canvasWidth: number;
@@ -36,9 +37,6 @@ export class PBR {
     private readonly basicProgram: Program;
     private readonly textureProgram: Program;
     private readonly drawProgram: Program;
-
-    private readonly unitSquare: IGeometry;
-    private readonly unitCircle: IGeometry;
 
 
     /**
@@ -85,9 +83,7 @@ export class PBR {
         this.drawProgram = new Program("drawProgram", this.gl, drawVertex, drawFragment);
 
 
-        // build geo
-        this.unitSquare = new UnitSquare(this.gl);
-        this.unitCircle = new UnitCircle(this.gl, 50);
+
 
         // build buffers
         this.buffers = {};
@@ -110,12 +106,15 @@ export class PBR {
 
     }
 
-    // public showUI() {
-    //     bindUI(this);
-    // }
+
 
     // @todo probably belongs somewhere else, like in texture. maybe not. Don't love the idea of having to pass pbr.gl
-
+    /**
+     * Loads an image from a file and creates a texture for the image.
+     * `const t = await pbr.loadTexture("images/a.png");`
+     *
+     * @param path path to image to load
+     */
     public async loadTexture(path: string) {
         const name = path.split("/").pop();
         const t = new Texture(name, this.gl);
@@ -164,22 +163,49 @@ export class PBR {
 
     }
 
-    // public rect(x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
-    //     this.drawGeometry(this.unitSquare, x, y, w, h, material, matrix);
-    // }
+    /**
+     * Draws a rectangle
+     * @param x left side
+     * @param y bottom
+     * @param w width
+     * @param h height
+     * @param material
+     * @param matrix
+     */
+    public rect(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
+        const unitSquare = new UnitSquare(this.gl);
+        this.drawGeometery(unitSquare, x, y, w, h, material, matrix);
+    }
 
 
     /**
-     * Draws a rectangle
+     * Draws an ellipse
+     * @param x left
+     * @param y right
+     * @param w width
+     * @param h height
+     * @param material
+     * @param matrix
+     * @param sides number of sides to draw, auto calculates if `undefined`
      */
-    public rect(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
-        this.drawGeometery(this.unitSquare, x, y, w, h, material, matrix);
+    public ellipse(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix(), sides?: number): void {
+        if (!sides) {
+            // calculate sides based on size of ellipse
+            const radius = Math.max(w, h) / 2;
+            sides = Math.ceil(3.14 * radius / 2);
+        }
+        const unitCircle = new UnitCircle(this.gl, sides);
+
+        this.drawGeometery(unitCircle, x, y, w, h, material, matrix);
     }
 
-    public ellipse(x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
-        this.drawGeometery(this.unitCircle, x, y, w, h, material, matrix);
-    }
-
+    /**
+     * Fills a figure given as four points.
+     * @param verticies array of the quad corners `[[0, 0],[0, 1],[1, 1],[.8, .8]]`
+     * @param material
+     * @param matrix
+     * @param uvs array of the uv coords `[[0, 0],[0, 1],[1, 1],[1, 0]]`
+     */
     public quad(verticies: number[][], material: Material2, matrix = new Matrix(), uvs?: number[][]): void {
         if (verticies.length !== 4) {
             consoleError("pbr.quad(): points array should have length of 4");
@@ -256,7 +282,8 @@ export class PBR {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         // draw rect to screen
-        this.unitSquare.draw(this.textureProgram);
+        const unitSquare = new UnitSquare(this.gl);
+        unitSquare.draw(this.textureProgram);
 
         // clean up
         this.gl.activeTexture(this.gl.TEXTURE0);
@@ -270,6 +297,9 @@ export class PBR {
         // @todo is this the right strat for updating ui?
         // showUI();
     }
+
+    // @todo create IPackingLayout
+
     /**
      * clears target to `clear_color`, then copies/swizzles
      * colors from the channel buffers according to `packing_layout`
@@ -279,10 +309,6 @@ export class PBR {
      * @param packingLayout how values should be packed
      * @param clearColor the intial color value
      */
-
-    // @todo create IPackingLayout
-
-
     public pack(packingLayout = {}, clearColor = [0, 0, 0, 0], targetBuffer: Framebuffer = null): void {
         consoleTrace("pack()", ...Array.from(arguments));
 
@@ -335,108 +361,7 @@ export class PBR {
         });
     }
 
-    // private drawGeometry(geometry: IGeometry, x: number, y: number, w: number, h: number, material = Material.white, matrix = new Matrix()): void {
-    //     // set camera/cursor position
-    //     const mvMatrix = mat4.create();
-    //     mat4.multiply(mvMatrix, mvMatrix, matrix.m);
-    //     mat4.translate(mvMatrix, mvMatrix, [x, y, 0.0]);
-    //     mat4.scale(mvMatrix, mvMatrix, [w, h, 1]);
 
-    //     // set up program
-    //     let program: Program;
-    //     if (!material.textureInfo) {
-    //         program = this.basicProgram;
-    //         program.use();
-    //     } else {
-    //         program = this.drawProgram;
-    //         program.use();
-
-    //         const colorMatrix = mat4.create();
-    //         // program.setUniformMatrix("uSourceColorMatrix", colorMatrix);
-    //         program.setUniformMatrix("uSourceColorMatrix", material.textureInfo.colorMatrix);
-
-    //         program.setUniformInts("uSourceSampler", [0]);
-
-    //         // let uvMatrix = mat3.create();
-    //         // mat3.translate(uvMatrix, uvMatrix, [.5, .5, 0]);
-    //         // mat3.rotate(uvMatrix, uvMatrix, 3.1415 * .2);
-    //         // mat3.scale(uvMatrix, uvMatrix, [5, 5]);
-    //         // mat3.translate(uvMatrix, uvMatrix, [-.5, -.5, 0]);
-    //         // program.setUniformMatrix("uSourceUVMatrix", uvMatrix);
-
-    //         program.setUniformMatrix("uSourceUVMatrix", material.textureInfo.uvMatrix);
-
-
-    //         this.gl.activeTexture(this.gl.TEXTURE0);
-    //         this.gl.bindTexture(this.gl.TEXTURE_2D, material.textureInfo.texture.texture);
-
-
-    //         program.setUniformFloats("uSourceColorBias", material.textureInfo.colorBias);
-
-
-
-    //         // this.gl.generateMipmap(this.gl.TEXTURE_2D);
-
-    //     }
-
-
-
-    //     program.setUniformMatrix("uMVMatrix", mvMatrix);
-    //     program.setUniformMatrix("uPMatrix", this.pMatrix);
-
-
-    //     _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
-    //         const buffer = this.buffers[bufferName];
-
-    //         // blending
-    //         const equation = material[bufferLayout.blend_mode].equation;
-    //         const sFactor = material[bufferLayout.blend_mode].sFactor;
-    //         const dFactor = material[bufferLayout.blend_mode].dFactor;
-
-    //         this.gl.enable(this.gl.BLEND);
-    //         this.gl.blendEquationSeparate(equation, this.gl.FUNC_ADD);
-    //         this.gl.blendFuncSeparate(sFactor, dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
-
-    //         // color
-    //         const colors = [
-    //             material[bufferLayout.channel_materials[0]],
-    //             material[bufferLayout.channel_materials[1]],
-    //             material[bufferLayout.channel_materials[2]],
-    //             material[bufferLayout.channel_materials[3]],
-    //         ];
-
-    //         this.gl.colorMask(
-    //             colors[0] !== undefined,
-    //             colors[1] !== undefined,
-    //             colors[2] !== undefined,
-    //             colors[3] !== undefined,
-    //         );
-
-    //         program.setUniformFloats("uColor", colors);
-    //         // program.setUniformFloats("uColorBias", [0, 0, 0, 0]);
-
-    //         // draw
-    //         buffer.bind();
-    //         this.gl.viewport(0, 0, buffer.width, buffer.height);
-
-
-    //         geometry.draw(program);
-
-    //     });
-
-
-
-
-
-    //     // clean up
-    //     this.gl.disable(this.gl.BLEND);
-    //     this.gl.blendEquation(this.gl.FUNC_ADD);
-    //     this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
-
-    //     this.gl.colorMask(true, true, true, true);
-    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-    //     this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
-    // }
 
     /**
      * Draws unit `geometry` into each pbr.bufferLayout using coresponding `material` materialChannel to configure
@@ -554,15 +479,13 @@ export class PBR {
 
 
 
-
-
-
-
     /**
      * copies `sourceBuffer` to the `targetBuffer`, uses `colorMatrix` to swizzle colors
      *
+     * @param sourceBuffer
+     * @param colorMatrix
+     * @param targetBuffer
      */
-
     private blit(sourceBuffer: Framebuffer, colorMatrix: Float32Array | number[] = mat4.create(), targetBuffer: Framebuffer = null) {
 
         consoleTrace("blit()", ...Array.from(arguments));
@@ -605,7 +528,8 @@ export class PBR {
 
 
         // draw
-        this.unitSquare.draw(this.textureProgram);
+        const unitSquare = new UnitSquare(this.gl);
+        unitSquare.draw(this.textureProgram);
 
 
         // clean up

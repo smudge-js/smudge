@@ -21,6 +21,8 @@ export async function draw() {
     simpleBlue.albedo.color = [0, 0, 1];
     pbr.ellipse(0, 0, 200, 200, simpleBlue);
 
+    pbr.ellipse(0, 300, 200, 200, simpleBlue, undefined, 6);
+
 
 
 
