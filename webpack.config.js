@@ -2,7 +2,7 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 
 
 module.exports = {
-	entry: './sketches/ellipse.ts',
+	entry: './sketches/peek.ts',
 
 	output: {
 		filename: 'bundle.js',

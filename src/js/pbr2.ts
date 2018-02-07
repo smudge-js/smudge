@@ -17,6 +17,7 @@ import { Framebuffer } from './private/framebuffer';
 import { Program } from './private/program';
 import { Texture } from './private/texture';
 import { buildLineQuads, ILineOptions } from './draw/line';
+import { wait } from './util';
 
 
 
@@ -239,7 +240,7 @@ export class PBR {
      * @param buffer the buffer or name of buffer to copy
      */
     // @todo this is a pretty ui-centric operation, maybe ui should have a show("bufferName") command that is public, and calls this internally?
-    public show(bufferOrName: Framebuffer | string = "albedo"): void {
+    public async show(bufferOrName: Framebuffer | string = "albedo") {
         let buffer;
         if (typeof bufferOrName === "string") {
             buffer = this.buffers[bufferOrName];
@@ -294,6 +295,7 @@ export class PBR {
         this.gl.blendEquation(this.gl.FUNC_ADD);
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
 
+        await wait();
         // @todo is this the right strat for updating ui?
         // showUI();
     }

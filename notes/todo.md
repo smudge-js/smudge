@@ -28,8 +28,8 @@
     - [ ] rect
 
 # Bugs
-- [ ] the 3D preview is built right away and if the drawing takes async time (say it waits for an image load) the 3D preview isn't rebuilt, probably should change API so you can tell the 3D preview when to update. This could be tied into the asyc "peek" mode that shows work in progress.
-    - [ ] Probably should OOP the ui add a call for show(packing/channelgroup) and update3D
+- [x] the 3D preview is built right away and if the drawing takes async time (say it waits for an image load) the 3D preview isn't rebuilt, probably should change API so you can tell the 3D preview when to update. This could be tied into the asyc "peek" mode that shows work in progress.
+    - [x] Probably should OOP the ui add a call for show(packing/channelgroup) and update3D
 
 
 - [ ] look into that "bugfix" channel layout and why it is needed. Could it have something to do with "this.gl.viewport"?

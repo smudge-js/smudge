@@ -10,6 +10,7 @@ import '../../css/pbr5_ui.css';
 import { Framebuffer } from '../private/framebuffer';
 
 import { forEach } from 'lodash';
+import { wait } from '../util';
 const _ = { forEach };
 
 
@@ -33,7 +34,7 @@ export class SmudgeUI {
 
     }
 
-    public updatePBR(): void {
+    public async updatePBR() {
         // collect the existing buffers
         const albedo: Framebuffer = this.pbr.getBuffer("albedo");
         const height: Framebuffer = this.pbr.getBuffer("height");
@@ -50,6 +51,8 @@ export class SmudgeUI {
 
         // update buffers in preview
         this.pbrPreview.update(this.pbr.gl, albedo, smoothMetallic, height, emission);
+
+        return wait();
     }
 
     private buildChannelButtons() {
