@@ -1,4 +1,4 @@
-import { Material2, PBR, bindUI } from '../src/js/index';
+import { Material2, PBR, SmudgeUI } from '../src/js/index';
 import { UVMatrix } from '../src/js/draw';
 
 
@@ -11,7 +11,7 @@ export async function draw() {
     const t = await pbr.loadTexture("images/a.png");
 
     // show the ui
-    bindUI(pbr);
+    const ui = new SmudgeUI(pbr);
 
 
     // clear the drawing
@@ -58,6 +58,7 @@ export async function draw() {
 
     // show albedo in ui
     pbr.show();
+    ui.updatePBR();
 }
 
 

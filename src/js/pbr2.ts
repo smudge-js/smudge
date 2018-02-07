@@ -349,6 +349,18 @@ export class PBR {
 
     }
 
+    public getBuffer(bufferName: string): Framebuffer {
+        const buffer = this.buffers[bufferName];
+        if (!buffer) {
+            consoleError("Could not find buffer named: " + bufferName);
+            return;
+        }
+        return buffer;
+    }
+
+
+
+
     /**
      * Saves current canvas to as download file.
      *

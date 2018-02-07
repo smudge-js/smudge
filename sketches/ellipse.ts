@@ -1,17 +1,16 @@
-import { Material2, PBR, bindUI } from '../src/js/index';
+import { Material2, PBR, SmudgeUI } from '../src/js/index';
 
 
 
 export async function draw() {
     // create a pbr instance
     const pbr = new PBR(undefined, 512, 512);
+    const ui = new SmudgeUI(pbr);
 
     // load a texture
     const t = await pbr.loadTexture("images/checkerboard_gray_gray.png");
 
 
-    // show the ui
-    bindUI(pbr);
 
     // clear the drawing
     pbr.clear();
@@ -37,6 +36,7 @@ export async function draw() {
 
     // show albedo in ui
     pbr.show();
+    ui.updatePBR();
 }
 
 

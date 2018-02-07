@@ -1,4 +1,4 @@
-import { Material2, PBR, bindUI, BlendMode } from '../src/js/index';
+import { Material2, PBR, SmudgeUI, BlendMode } from '../src/js/index';
 
 
 
@@ -11,7 +11,7 @@ export async function draw() {
     const t2 = await pbr.loadTexture("images/nose_brush.png");
 
     // show the ui
-    bindUI(pbr);
+    const ui = new SmudgeUI(pbr);
 
     // clear the drawing
     pbr.clear();
@@ -53,6 +53,7 @@ export async function draw() {
 
     // show albedo in ui
     pbr.show();
+    ui.updatePBR();
 }
 
 

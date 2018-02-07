@@ -18,7 +18,7 @@ export class PBRPreview {
 
 
         // inject preview canvas
-        const t = document.getElementById("pbr-preview");
+        const t = document.getElementsByClassName("pbr-preview")[0];
         t.insertBefore(this.renderer.domElement, t.firstChild);
 
         // set up scene

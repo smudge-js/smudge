@@ -1,4 +1,4 @@
-import { Material2, PBR, bindUI, BlendMode } from '../src/js/index';
+import { Material2, PBR, SmudgeUI, BlendMode } from '../src/js/index';
 
 
 
@@ -7,7 +7,7 @@ export async function draw() {
     const pbr = new PBR(undefined, 512, 512);
 
     // show the ui
-    bindUI(pbr);
+    const ui = new SmudgeUI(pbr);
 
     // clear the drawing
     pbr.clear();
@@ -29,6 +29,7 @@ export async function draw() {
 
     // show albedo in ui
     pbr.show();
+    ui.updatePBR();
 }
 
 

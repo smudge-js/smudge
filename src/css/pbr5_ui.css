@@ -8,9 +8,9 @@ body {
     display: inline-block;
 }
 
-#export-buttons,
-#channel-buttons,
-#three-buttons {
+.export-buttons,
+.channel-buttons,
+.three-buttons {
     background-color: #222;
     padding: 5px 0;
 }
@@ -32,13 +32,13 @@ button {
     border-radius: 15px;
 }
 
-#channel-buttons button {
+.channel-buttons button {
     background-color: transparent;
     outline: none;
     border-radius: 0;
 }
 
-#channel-buttons .active {
+.channel-buttons .active {
     background-color: #666;
     outline: none;
 }
@@ -49,8 +49,8 @@ button {
     font-family: system-ui;
 }
 
-#channel-preview,
-#three-preview {
+.channel-preview,
+.three-preview {
     background-image: url('../../images/checkerboard_gray_gray.png');
     background-size: 16px 16px;
 }
