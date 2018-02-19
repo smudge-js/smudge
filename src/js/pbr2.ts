@@ -20,8 +20,6 @@ import { buildLineQuads, ILineOptions } from './draw/line';
 import { wait } from './util';
 
 
-
-
 export class PBR {
 
     public readonly gl: WebGLRenderingContext;
@@ -56,8 +54,6 @@ export class PBR {
         // get context
         canvas.width = this.canvasWidth;
         canvas.height = this.canvasHeight;
-
-
         this.gl = this.initWebGL(canvas);
 
         // configure context
@@ -66,8 +62,6 @@ export class PBR {
 
         // create projection matrix
         this.pMatrix = mat4.create();
-
-
         mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
         // build shader programs
@@ -83,28 +77,17 @@ export class PBR {
         const drawFragment = require("../glsl/draw_fragment.glsl");
         this.drawProgram = new Program("drawProgram", this.gl, drawVertex, drawFragment);
 
-
-
-
         // build buffers
         this.buffers = {};
         _.forEach(bufferLayouts, (bufferLayout, bufferName) => {
-
             const w = this.width * bufferLayout.super_sampling;
             const h = this.height * bufferLayout.super_sampling;
-
             const buffer = new Framebuffer(bufferName, this.gl, w, h, bufferLayout.channels, bufferLayout.depth);
             this.buffers[bufferName] = buffer;
         });
 
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-
-        // set up ui buttons, etc.
-        // bindUI(this);
-
-
-
     }
 
 
@@ -231,7 +214,6 @@ export class PBR {
             this.drawGeometery(quad, 0, 0, 1, 1, material, matrix);
             quad.delete();
         });
-
     }
 
     /**
@@ -296,8 +278,6 @@ export class PBR {
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
 
         await wait();
-        // @todo is this the right strat for updating ui?
-        // showUI();
     }
 
     // @todo create IPackingLayout
@@ -351,6 +331,10 @@ export class PBR {
 
     }
 
+    /**
+     * Get Framebuffer with name.
+     * @param bufferName
+     */
     public getBuffer(bufferName: string): Framebuffer {
         const buffer = this.buffers[bufferName];
         if (!buffer) {
@@ -359,9 +343,6 @@ export class PBR {
         }
         return buffer;
     }
-
-
-
 
     /**
      * Saves current canvas to as download file.
@@ -374,8 +355,6 @@ export class PBR {
             saveAs(blob, fileName);
         });
     }
-
-
 
     /**
      * Draws unit `geometry` into each pbr.bufferLayout using coresponding `material` materialChannel to configure
@@ -391,8 +370,6 @@ export class PBR {
      * @param material material to draw with
      * @param matrix matrix to adjust bounding box
      */
-
-
     private drawGeometery(geometry: IGeometry, x: number, y: number, w: number, h: number, material: Material2, matrix = new Matrix()): void {
         // set camera/cursor position
         const mvMatrix = mat4.create();
@@ -491,8 +468,6 @@ export class PBR {
 
     }
 
-
-
     /**
      * copies `sourceBuffer` to the `targetBuffer`, uses `colorMatrix` to swizzle colors
      *
@@ -553,7 +528,6 @@ export class PBR {
         this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
-
     /**
      * get the a webgl2 rendering context
      * @param canvas
@@ -564,7 +538,6 @@ export class PBR {
         consoleReport("Max Texture Size", gl.getParameter(gl.MAX_TEXTURE_SIZE));
         const ext = gl.getExtension("EXT_color_buffer_float");
         consoleReport("Getting EXT_color_buffer_float", !!ext);
-
         return gl;
     }
 
