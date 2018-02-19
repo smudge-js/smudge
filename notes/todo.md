@@ -32,10 +32,13 @@
     - [x] Probably should OOP the ui add a call for show(packing/channelgroup) and update3D
 
 
-- [ ] look into that "bugfix" channel layout and why it is needed. Could it have something to do with "this.gl.viewport"?
-- [ ] I think this may fixed, but I'm not sure what it means. Take a sec to investigate:
-    - why does the three_pbr packing have to have oversamling at 1 for blit to fill the whole thing.
-    higher oversampilng result in clipped blits. why?!
+- [x] look into that "bugfix" channel layout and why it is needed. Could it have something to do with "this.gl.viewport"?
+    - [ ] commented out bugfix channel appears to be working, leaving commented in for now in case of regression
+    - [ ] take it out completely if it looks okay after a little more experimenting
+
+- [x] I think this may fixed, but I'm not sure what it means. Take a sec to investigate:
+    - why does the three_pbr packing have to have oversamling at 1 for blit to fill the whole thing. higher oversampilng result in clipped blits. why?!
+    - looks fixed
 
 # Refactoring + Style
 

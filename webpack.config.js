@@ -2,7 +2,7 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 
 
 module.exports = {
-	entry: './sketches/peek.ts',
+	entry: './sketches/texture.ts',
 
 	output: {
 		filename: 'bundle.js',
@@ -10,7 +10,7 @@ module.exports = {
 	},
 
 	resolve: {
-		extensions: [".ts", ".js", ]
+		extensions: [".ts", ".js",]
 	},
 
 	externals: {

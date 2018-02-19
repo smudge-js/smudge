@@ -39,6 +39,14 @@ export async function draw() {
     embossedGray.height.color = .1;
     pbr.rect(10, 210, 180, 180, embossedGray);
 
+    embossedGray.albedo.color = .5;
+    embossedGray.height.color = .15;
+    pbr.rect(20, 220, 160, 160, embossedGray);
+
+    embossedGray.albedo.color = .5;
+    embossedGray.height.color = .2;
+    pbr.rect(30, 230, 140, 140, embossedGray);
+
     // emission to make things that glow in the dark
     const redLight = new Material2();
     redLight.albedo.color = 0;
@@ -49,7 +57,7 @@ export async function draw() {
     const defaultDemo = new Material2();
     defaultDemo.default.color = .5;
     defaultDemo.albedo.color = [0, 1, 0, 1];
-    pbr.rect(10, 410, 180, 80, defaultDemo);
+    pbr.rect(10, 410, 180, 20, defaultDemo);
 
     // show albedo in ui
     pbr.show();

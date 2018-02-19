@@ -30,6 +30,7 @@ export async function draw() {
     // draw texture to another material prop
     const smoothnessA = new Material2();
     smoothnessA.smoothness.color = 1;
+
     smoothnessA.smoothness.textureConfig.texture = t;
     pbr.rect(200, 0, 200, 200, smoothnessA);
 
