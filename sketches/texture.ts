@@ -1,4 +1,4 @@
-import { Material2, Smudge, SmudgeUI } from '../src/js/index';
+import { Material2, Smudge, SmudgeUI } from '../src/js';
 import { UVMatrix } from '../src/js/draw';
 
 
@@ -16,8 +16,8 @@ export async function draw() {
 
     // clear the drawing
     const paper = new Material2();
-    paper.albedo.color = .9;
-    smudge.clear();
+    paper.albedo.color = [.2];
+    smudge.clear(paper);
 
 
     // draw textured rect

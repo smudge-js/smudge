@@ -69,7 +69,6 @@ export class PBRPreview {
 
     public update(gl: WebGLRenderingContext, albedo: Framebuffer, smoothMetallic: Framebuffer, height: Framebuffer, emission: Framebuffer) {
 
-
         // create a new PBR material
         const material = this.cube.material as THREE.MeshStandardMaterial;
 
