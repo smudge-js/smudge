@@ -2,8 +2,7 @@
 
 // loading RGBE HDR
 console.log("three", (THREE as any), (THREE as any).RGBELoader);
-let loader = new (THREE as any).RGBELoader();
-
+// let loader = new (THREE as any).RGBELoader();
 
 // add cube env map to material
 let loader = new THREE.CubeTextureLoader();
@@ -17,8 +16,6 @@ let evnCube = loader.load([
   material.needsUpdate = true;
   // cube.material = material;
 });
-
-
 
 // EquirectangularReflectionMapping
 

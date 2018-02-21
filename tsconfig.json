@@ -22,7 +22,7 @@
         "node_modules",
         "./src/js/sketches/**/*",
         "./src/js/tests/**/*",
-        "**/notes/*"
+        "notes/**/*"
     ],
     // "include": [
     //     "src/**/*",

@@ -4,8 +4,6 @@
     "rules": {
         "prefer-const": true,
         "no-var-keyword": true,
-
-
         "prefer-for-of": false,
         "no-consecutive-blank-lines": false,
         "quotemark": false,
