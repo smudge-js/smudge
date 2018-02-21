@@ -1,10 +1,10 @@
-import { PBR, Material2 } from '../../index';
+import { Smudge, Material2 } from '../../index';
 
 // import { Matrix } from '../../draw/matrix';
 
 export async function draw() {
 
-    const pbr = new PBR(undefined, 512, 512);
+    const pbr = new Smudge(undefined, 512, 512);
 
     // const paper = new Material2();
     // paper.albedo.color = [.8, .8, .8];

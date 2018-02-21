@@ -1,7 +1,7 @@
 // import {PBR} from '../pbr2';
 // import {Material, BlendMode} from '../material';
 
-import { PBR, Material, BlendMode } from '../pbr';
+import { PBR, Material, BlendMode } from '../smudge';
 
 export function draw() {
 
@@ -20,9 +20,9 @@ export function draw() {
   pbr.show();
 
   function radialGradient(xVal: number, yVal: number, width: number, height: number, mat: Material) {
-    for (let x = xVal; x < width+xVal; x++) {
-      for (let y = yVal; y < height+yVal; y++) {
-        let d = dist(x, y, width/2 + xVal, height/2 + yVal);
+    for (let x = xVal; x < width + xVal; x++) {
+      for (let y = yVal; y < height + yVal; y++) {
+        let d = dist(x, y, width / 2 + xVal, height / 2 + yVal);
         let t = map(d, 0, height / 2, 1, 0);
         mat.transparency = t;
         pbr.rect(x, y, 1, 1, mat);

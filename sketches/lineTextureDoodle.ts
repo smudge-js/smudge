@@ -1,22 +1,22 @@
-import { Material2, PBR, SmudgeUI, BlendMode } from '../src/js/index';
+import { Material2, Smudge, SmudgeUI, BlendMode } from '../src/js/index';
 // import { Matrix } from '../src/js/draw/matrix';
 
 
 
 export async function draw() {
-    // create a pbr instance
-    const pbr = new PBR(undefined, 1024, 1024);
+    // create a smudge instance
+    const smudge = new Smudge(undefined, 1024, 1024);
 
     // load a texture
-    const t = await pbr.loadTexture("images/soft_brush.png");
-    const t2 = await pbr.loadTexture("images/nose_brush.png");
+    const t = await smudge.loadTexture("images/soft_brush.png");
+    const t2 = await smudge.loadTexture("images/nose_brush.png");
 
     // show the ui
-    const ui = new SmudgeUI(pbr);
+    const ui = new SmudgeUI(smudge);
 
 
     // clear the drawing
-    pbr.clear();
+    smudge.clear();
 
     const gradient = new Material2();
     gradient.albedo.color = [1];
@@ -52,7 +52,7 @@ export async function draw() {
             }
             points.push([x + Math.sin(a) * r, y + Math.cos(a) * r]);
         }
-        pbr.line(points, { width, uvMode: "brush" }, gradient);
+        smudge.line(points, { width, uvMode: "brush" }, gradient);
 
 
     }
@@ -68,7 +68,7 @@ export async function draw() {
 
 
     // show albedo in ui
-    pbr.show();
+    smudge.show();
     ui.updatePBR();
 }
 

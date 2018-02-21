@@ -1,26 +1,26 @@
-import { Material2, PBR, SmudgeUI } from '../src/js/index';
+import { Material2, Smudge, SmudgeUI } from '../src/js/index';
 
 
 
 export async function draw() {
-    // create a pbr instance
-    const pbr = new PBR(undefined, 512, 512);
-    const ui = new SmudgeUI(pbr);
+    // create a smudge instance
+    const smudge = new Smudge(undefined, 512, 512);
+    const ui = new SmudgeUI(smudge);
 
     // load a texture
-    const t = await pbr.loadTexture("images/checkerboard_gray_gray.png");
+    const t = await smudge.loadTexture("images/checkerboard_gray_gray.png");
 
 
 
     // clear the drawing
-    pbr.clear();
+    smudge.clear();
 
     // draw am ellipse
     const simpleBlue = new Material2();
     simpleBlue.albedo.color = [0, 0, 1];
-    pbr.ellipse(0, 0, 200, 200, simpleBlue);
+    smudge.ellipse(0, 0, 200, 200, simpleBlue);
 
-    pbr.ellipse(0, 300, 200, 200, simpleBlue, undefined, 6);
+    smudge.ellipse(0, 300, 200, 200, simpleBlue, undefined, 6);
 
 
 
@@ -30,12 +30,12 @@ export async function draw() {
     const albedoA = new Material2();
     albedoA.albedo.color = 1;
     albedoA.albedo.textureConfig.texture = t;
-    pbr.ellipse(200, 0, 200, 200, albedoA);
+    smudge.ellipse(200, 0, 200, 200, albedoA);
 
 
 
     // show albedo in ui
-    pbr.show();
+    smudge.show();
     ui.updatePBR();
 }
 

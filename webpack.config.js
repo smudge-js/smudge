@@ -1,6 +1,5 @@
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-
 module.exports = {
 	entry: './sketches/texture.ts',
 

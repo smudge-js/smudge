@@ -1,20 +1,20 @@
-import { Material2, PBR, SmudgeUI, BlendMode } from '../src/js/index';
+import { Material2, Smudge, SmudgeUI, BlendMode } from '../src/js/index';
 
 
 
 export async function draw() {
-    // create a pbr instance
-    const pbr = new PBR(undefined, 512, 512);
+    // create a smudge instance
+    const smudge = new Smudge(undefined, 512, 512);
 
     // load a texture
-    const t = await pbr.loadTexture("images/soft_brush.png");
-    const t2 = await pbr.loadTexture("images/nose_brush.png");
+    const t = await smudge.loadTexture("images/soft_brush.png");
+    const t2 = await smudge.loadTexture("images/nose_brush.png");
 
     // show the ui
-    const ui = new SmudgeUI(pbr);
+    const ui = new SmudgeUI(smudge);
 
     // clear the drawing
-    pbr.clear();
+    smudge.clear();
 
     const gradient = new Material2();
     gradient.albedo.color = [1, .9];
@@ -30,7 +30,7 @@ export async function draw() {
     line.push([512 - 50, 50]);
     line.push([50, 300]);
 
-    pbr.line(line, { width: 30, uvMode: "brush" }, gradient);
+    smudge.line(line, { width: 30, uvMode: "brush" }, gradient);
 
     const line2 = [];
     line2.push([50, 400]);
@@ -44,7 +44,7 @@ export async function draw() {
     line2.push([100, 400]);
 
 
-    pbr.line(line2, { width: 30, uvMode: "brush" }, gradient);
+    smudge.line(line2, { width: 30, uvMode: "brush" }, gradient);
 
 
 
@@ -52,7 +52,7 @@ export async function draw() {
 
 
     // show albedo in ui
-    pbr.show();
+    smudge.show();
     ui.updatePBR();
 }
 

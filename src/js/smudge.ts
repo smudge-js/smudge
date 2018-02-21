@@ -20,7 +20,7 @@ import { buildLineQuads, ILineOptions } from './draw/line';
 import { wait } from './util';
 
 
-export class PBR {
+export class Smudge {
 
     public readonly gl: WebGLRenderingContext;
 

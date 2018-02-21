@@ -1,22 +1,22 @@
-import { Material2, PBR, SmudgeUI } from '../src/js/index';
+import { Material2, Smudge, SmudgeUI } from '../src/js/index';
 
 
 
 export async function draw() {
-    // create a pbr instance
-    const pbr = new PBR(undefined, 512, 512);
+    // create a smudge instance
+    const smudge = new Smudge(undefined, 512, 512);
     // show the ui
-    const ui = new SmudgeUI(pbr);
+    const ui = new SmudgeUI(smudge);
 
 
     // clear the drawing
     const paper = new Material2();
     paper.albedo.color = .9;
     paper.smoothness.color = .3;
-    pbr.clear(paper);
+    smudge.clear(paper);
 
     // show albedo in ui
-    pbr.show();
+    smudge.show();
     ui.updatePBR();
 }
 

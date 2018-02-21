@@ -1,6 +1,6 @@
 declare var require: any;
 
-import { PBR } from '../pbr2';
+import { Smudge } from '../smudge';
 import { bufferLayouts } from '../config/buffer_layouts';
 import { exportLayouts } from '../config/export_layouts';
 
@@ -19,7 +19,7 @@ export class SmudgeUI {
     private uiDiv: HTMLDivElement;
     private pbrPreview: PBRPreview;
 
-    constructor(private pbr: PBR) {
+    constructor(private pbr: Smudge) {
         this.uiDiv = document.createElement('div');
         document.body.appendChild(this.uiDiv);
 

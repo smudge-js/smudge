@@ -48,8 +48,8 @@ function step() {
     if (!start) {
         start = new Date();
     }
-    let now = new Date();
-    let ms = <any>now - <any>start + 1;
+    const now = new Date();
+    const ms = <any>now - <any>start + 1;
 
 
     if (frames % 10 === 0) {
