@@ -4,21 +4,21 @@
   "description": "Sketching library for Physically Based Rendering",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run pbr5\" \"npm run blog\"",
+    "start": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
     "smudge": "webpack-dev-server --open",
-    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/pbr5/",
+    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/smudge/",
     "api_doc": "typedoc --theme minimal --out ./api_doc/ src/app.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jbakse/pbr5.git"
+    "url": "git+https://github.com/jbakse/smudge.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/jbakse/pbr5/issues"
+    "url": "https://github.com/jbakse/smudge/issues"
   },
-  "homepage": "https://github.com/jbakse/pbr5#readme",
+  "homepage": "https://github.com/jbakse/smudge#readme",
   "devDependencies": {
     "concurrently": "^3.5.0",
     "css-loader": "^0.28.7",
