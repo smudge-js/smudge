@@ -40,21 +40,21 @@ x.RESEARCH.is alpha special?
 
 
 
-## PBR Object
+## Smudge Class
 [[ Overview]]
 
 - Constructor
-- pbr.clear()
-- pbr.show()
-- pbr.width
-- pbr.height
+- smudge.clear()
+- smudge.show()
+- smudge.width
+- smudge.height
 
 
 ## Drawing Shapes
-- pbr.rect()
-- pbr.ellipse()
-- pbr.quad()
-- pbr.line()
+- smudge.rect()
+- smudge.ellipse()
+- smudge.quad()
+- smudge.line()
     opts: align, width, close
 
 ### Matrices

@@ -127,7 +127,7 @@ export function buildLineQuads(gl: WebGLRenderingContext, points: number[][], _o
 
     // validate input
     if (points.length < 2) {
-        consoleError("pbr.line(): points array should have length > 1");
+        consoleError("line(): points array should have length > 1");
         return;
     }
 

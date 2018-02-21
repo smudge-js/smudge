@@ -46,7 +46,7 @@ var texture = new THREE.CanvasTexture(canvas);
 
 // read ldr data from ldr buffer
 var ldr_data = new Uint8Array(width * height * 4);
-pbr.gl.readPixels(0, 0, width, height, pbr.gl.RGBA, pbr.gl.UNSIGNED_BYTE, ldr_data);
+smudge.gl.readPixels(0, 0, width, height, smudge.gl.RGBA, smudge.gl.UNSIGNED_BYTE, ldr_data);
 
 
 

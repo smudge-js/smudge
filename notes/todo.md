@@ -45,7 +45,7 @@
 ## API
 - [ ] a way to set up the drawing matrix (this is stateful, which we largely avoid, but a once-at-the-top call to set up the logical deminsions would make sense anyway)
 
-- [ ] the texture loader probably shouldn't be in the main pbr class
+- [ ] the texture loader probably shouldn't be in the main smudge class (actually maybe it should, so that it has access to .gl without having to pass it in)
 
 ## Internal
 - [ ] cut down on the fields of PBR, maybe move all the geo stuff into the geo module

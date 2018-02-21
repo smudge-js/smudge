@@ -39,8 +39,8 @@ export class Smudge {
 
 
     /**
-     * Creates the PBR instace.
-     * @param canvas Canvas to draw to. If not specified, PBR will look for #gl-canvas.
+     * Creates the smudge instace.
+     * @param canvas Canvas to draw to. If not specified, smudge will look for #gl-canvas.
      * @param width The width of the drawing.
      * @param height The height of the drawing.
      */
@@ -92,10 +92,11 @@ export class Smudge {
 
 
 
-    // @todo probably belongs somewhere else, like in texture. maybe not. Don't love the idea of having to pass pbr.gl
+    // @todo probably belongs somewhere else, like in texture.
+    // @todo maybe not. Don't love the idea of having to pass smudge.gl to loadTexture, and this way loadTexture has it.
     /**
      * Loads an image from a file and creates a texture for the image.
-     * `const t = await pbr.loadTexture("images/a.png");`
+     * `const t = await smudge.loadTexture("images/a.png");`
      *
      * @param path path to image to load
      */
@@ -192,7 +193,7 @@ export class Smudge {
      */
     public quad(verticies: number[][], material: Material2, matrix = new Matrix(), uvs?: number[][]): void {
         if (verticies.length !== 4) {
-            consoleError("pbr.quad(): points array should have length of 4");
+            consoleError("quad(): points array should have length of 4");
             return;
         }
         const geometry: IGeometry = new Quad(this.gl, verticies, uvs);
@@ -285,9 +286,9 @@ export class Smudge {
     /**
      * clears target to `clear_color`, then copies/swizzles
      * colors from the channel buffers according to `packing_layout`
-     * targets pbr.canvas or provided `targetBuffer`
+     * targets smudge.canvas or provided `targetBuffer`
      *
-     * @param targetBuffer the buffer to copy to, defaults to pbr.canvas
+     * @param targetBuffer the buffer to copy to, defaults to smudge.canvas
      * @param packingLayout how values should be packed
      * @param clearColor the intial color value
      */
@@ -357,7 +358,7 @@ export class Smudge {
     }
 
     /**
-     * Draws unit `geometry` into each pbr.bufferLayout using coresponding `material` materialChannel to configure
+     * Draws unit `geometry` into each smudge.bufferLayout using coresponding `material` materialChannel to configure
      * Unit geometry is assumed to be normalized to fill rectangle 0,0,1,1 and is scaled and translated to fit target area `x`,`y`,`w`,`h`
      * Target area is multiplied by `matrix`
      *

@@ -1,7 +1,6 @@
 import { Material2, Smudge, SmudgeUI } from '../src/js';
 import { UVMatrix } from '../src/js/draw';
 
-
 export async function draw() {
 
     // create a smudge instance
