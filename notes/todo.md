@@ -19,7 +19,7 @@
 - [ ] bugs
 - [x] Restore basic API functions under new Material model.
 - [x] pbr2 is big, can we pull the shape stuff into /geometery ?
-- [ ] Refactor code names pbr->smudge?
+- [x] Refactor code names pbr->smudge?
 - [ ] file by file code review
 - [ ] basic geo classes/types
     - quad would use these, line would use these

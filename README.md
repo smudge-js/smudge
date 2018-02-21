@@ -1,4 +1,4 @@
-# PBR5
+# Smudge
 
 Experimental library for creating procedurally generated texture sets that can be used in a physically based rendering pipeline. Inspired by p5, Substance Designer, and Unity.
 
