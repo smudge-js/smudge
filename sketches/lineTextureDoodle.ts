@@ -20,10 +20,10 @@ export async function draw() {
 
     const gradient = new Material2();
     gradient.albedo.color = [1];
-    gradient.albedo.textureConfig.texture = t;
+    gradient.albedo.textureInfo.texture = t;
     gradient.height.color = [.004, .1];
     gradient.smoothness.color = .7;
-    gradient.height.textureConfig.texture = t2;
+    gradient.height.textureInfo.texture = t2;
     gradient.height.blendMode = BlendMode.Additive;
 
 

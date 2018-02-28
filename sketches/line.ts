@@ -23,12 +23,12 @@ export async function draw() {
 
     const gradient = new Material2();
     gradient.albedo.color = 1;
-    gradient.albedo.textureConfig.texture = t;
+    gradient.albedo.textureInfo.texture = t;
 
     const heightGradient = new Material2();
     // heightGradient.albedo.color = .5;
     heightGradient.smoothness.color = 1;
-    heightGradient.smoothness.textureConfig.texture = t;
+    heightGradient.smoothness.textureInfo.texture = t;
 
 
 

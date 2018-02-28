@@ -46,7 +46,7 @@
 ## Refactoring + Style
 
 ### Internal
-- [ ] "Material->texture_config:TextureInfo" property name doesn't match type name, names are inconsistent
+- [x] "Material->texture_config:TextureInfo" property name doesn't match type name, names are inconsistent
 
 
 ## Enhancements + Feature Ideas

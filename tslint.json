@@ -25,6 +25,12 @@
             "allow-named-functions"
         ],
         "no-angle-bracket-type-assertion": false,
+        "no-unused-variable": [
+            true,
+            {
+                "check-parameters": false
+            }
+        ],
         "whitespace": false
     }
 }

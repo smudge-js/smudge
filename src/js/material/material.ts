@@ -14,8 +14,6 @@ export interface IBlendMode {
 }
 export type IReadonlyBlendMode = Readonly<IBlendMode>;
 
-
-
 export const BlendMode = {
     Blend: <IReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,
@@ -61,116 +59,26 @@ export const BlendMode = {
 };
 
 
-
-
-
-
-
-
-
-
-// type MaterialConfig = Partial<Material>;
-
-// export class Material {
-//     public albedo_blend_mode = BlendMode.Normal;
-//     public metallic_blend_mode = BlendMode.Normal;
-//     public smoothness_blend_mode = BlendMode.Normal;
-//     public height_blend_mode = BlendMode.Normal;
-//     public emission_blend_mode = BlendMode.Normal;
-
-//     public red = 0;
-//     public green = 0;
-//     public blue = 0;
-//     public transparency = 0;
-//     public metallic = 0;
-//     public smoothness = 0;
-//     public height = 0;
-//     public emission_red = 0;
-//     public emission_green = 0;
-//     public emission_blue = 0;
-
-
-//     public textureInfo: TextureInfo;
-
-//     constructor(config: MaterialConfig);
-//     constructor(
-//         red?: number,
-//         green?: number,
-//         blue?: number,
-//         transparency?: number,
-//         metallic?: number,
-//         smoothness?: number,
-//         height?: number,
-//         emission_red?: number,
-//         emission_green?: number,
-//         emission_blue?: number
-//     );
-//     constructor(
-//         config: number | MaterialConfig = 0,
-//         green = 0,
-//         blue = 0,
-//         transparency = 0,
-//         metallic = 0,
-//         smoothness = 0,
-//         height = 0,
-//         emission_red = 0,
-//         emission_green = 0,
-//         emission_blue = 0
-//     ) {
-//         if (typeof config === 'number') {
-//             this.red = config;
-//             this.green = green;
-//             this.blue = blue;
-//             this.transparency = transparency;
-//             this.metallic = metallic;
-//             this.smoothness = smoothness;
-//             this.height = height;
-//             this.emission_red = emission_red;
-//             this.emission_green = emission_green;
-//             this.emission_blue = emission_blue;
-//         } else {
-//             Object.assign(this, config);
-//         } p
-//     };
-
-
-//     toString() {
-//         return `Material(rgba ${this.red} ${this.green} ${this.blue} ${this.transparency} ms ${this.metallic} ${this.smoothness} h ${this.height} ergb ${this.emission_red} ${this.emission_green} ${this.emission_blue})`;
-//     }
-
-//     static clearing = new Material(0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-//     static white = new Material(1.0, 1.0, 1.0, 1.0);
-// }
-
-
-
-
 export class TextureInfo {
     public texture: Texture = undefined;
     public colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
     public colorBias = [0, 0, 0, 0];
     public uvMatrix: Float32Array | number[] = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-
 }
-
-
-
 
 export class MaterialChannel {
     public color: ColorDescription = undefined;
     public blendMode: IBlendMode = undefined;
-    public textureConfig: TextureInfo = new TextureInfo();
+    public textureInfo: TextureInfo = new TextureInfo();
 
     constructor(color?: ColorDescription, blendMode?: IBlendMode, textureConfig?: TextureInfo) {
         this.color = color;
         this.blendMode = blendMode;
         if (textureConfig) {
-            this.textureConfig = textureConfig;
+            this.textureInfo = textureConfig;
         }
     }
 }
-
-
 
 export class Material2 {
     public static clearing = new Material2();
@@ -189,15 +97,3 @@ export class Material2 {
 
 Material2.clearing.default.color = 0;
 
-
-
-
-// export class MaterialChannelMap {
-//     [name: string]: MaterialChannel;
-// }
-
-// // this is a little trick
-// // _Material2 couldn't have the index signature on it, because it has some
-// // specific properties that don't conform
-// // Merging the index sig in this way works though.
-// export type Material2 = _Material2 & MaterialChannelMap;

@@ -25,11 +25,10 @@ export async function draw() {
 
 
 
-
     // draw textured ellipse
     const albedoA = new Material2();
     albedoA.albedo.color = 1;
-    albedoA.albedo.textureConfig.texture = t;
+    albedoA.albedo.textureInfo.texture = t;
     smudge.ellipse(200, 0, 200, 200, albedoA);
 
 

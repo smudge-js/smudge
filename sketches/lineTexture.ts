@@ -18,9 +18,9 @@ export async function draw() {
 
     const gradient = new Material2();
     gradient.albedo.color = [1, .9];
-    gradient.albedo.textureConfig.texture = t;
+    gradient.albedo.textureInfo.texture = t;
     gradient.height.color = [.01, .5];
-    gradient.height.textureConfig.texture = t2;
+    gradient.height.textureInfo.texture = t2;
     gradient.height.blendMode = BlendMode.Additive;
 
 

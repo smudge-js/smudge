@@ -22,7 +22,8 @@
         "node_modules",
         "./src/js/sketches/**/*",
         "./src/js/tests/**/*",
-        "notes/**/*"
+        "notes/**/*",
+        "obsolete_sketches/**/*"
     ],
     // "include": [
     //     "src/**/*",
