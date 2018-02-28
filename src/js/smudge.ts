@@ -2,7 +2,7 @@ import { forEach, each, defaults } from 'lodash';
 const _ = { forEach, each, defaults };
 import { mat4 } from 'gl-matrix';
 import { saveAs } from 'file-saver';
-import { setFloat16 } from "@petamoriken/float16";
+
 
 
 import { consoleTrace, consoleReport, consoleError } from './logging';
@@ -18,6 +18,9 @@ import { Framebuffer } from './private/framebuffer';
 import { Program } from './private/program';
 import { Texture } from './private/texture';
 import { buildLineQuads, ILineOptions } from './draw/line';
+
+import { makeExr } from './exr';
+
 import { wait } from './util';
 
 
@@ -352,223 +355,31 @@ export class Smudge {
      * @param fileName name of download
      */
     public saveCanvasAs(fileName: string) {
-        console.log(fileName);
-        // this.canvas.toBlob((blob) => {
-        //     // console.log(this, fileName, blob);
-        //     saveAs(blob, fileName);
-        // });
 
-        const b = this.getBuffer("albedo");
+        this.canvas.toBlob((blob) => {
+            // console.log(this, fileName, blob);
+            saveAs(blob, fileName);
+        });
+
+
+
+    }
+
+    public saveBufferEXR(fileName: string, buffer: string | Framebuffer = "albedo") {
+        let b: Framebuffer;
+        if (buffer instanceof Framebuffer) {
+            b = buffer;
+        } else {
+            b = this.getBuffer(buffer);
+        }
         b.bind();
         const pixels = new Float32Array(b.width * b.height * 4);
         this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
-        console.log("pixels");
-        console.log(pixels);
-
-
-        this.makeExr(b.width, b.height, pixels);
-
-
+        const exrBlob = makeExr(b.width, b.height, pixels);
+        saveAs(exrBlob, fileName);
     }
 
-    public makeExr(width: number, height: number, pixels: Float32Array) {
-        // https://gist.github.com/fpsunflower/e5c99116ff94114d1cbe
-        // https://github.com/aras-p/miniexr/blob/master/miniexr.cpp
 
-        // exr data starts with a header
-        const headerSize = 313;
-
-        // then a table that lists the offset from file start to each line in image
-        const scanlineTableSize = 8 * height;
-
-        // then image data itself
-        const channels = 3;
-        const pixelRowSize = width * channels * 2;
-        const fullRowSize = pixelRowSize + 8;
-        const dataSize = height * fullRowSize;
-
-        // allocate the space
-        const buffer = new ArrayBuffer(headerSize + scanlineTableSize + dataSize);
-        const bufferView = new DataView(buffer);
-
-        // start writing
-        let i = 0;
-
-        // write the header
-        function write_int8(data: number) {
-            bufferView.setInt8(i++, data);
-        }
-        function write_int32(data: number) {
-            bufferView.setInt32(i, data, true);
-            i += 4;
-        }
-        function write_int8_array(data: number[]) {
-            data.forEach((datum) => write_int8(datum));
-        }
-        function write_string(data: string) {
-            for (let index = 0; index < data.length; index++) {
-                write_int8(data.charCodeAt(index));
-            }
-        }
-
-
-
-        // magic
-        write_int8_array([0x76, 0x2f, 0x31, 0x01]);
-
-
-        // version, scanline
-        write_int8_array([2, 0, 0, 0]);
-
-        // channels
-        write_string('channels');
-        write_int8(0);
-        write_string('chlist');
-        write_int8(0);
-        write_int8_array([55, 0, 0, 0]);
-
-        // B, half
-        write_string('B');
-        write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
-
-        // G, half
-        write_string('G');
-        write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
-
-        // R, half
-        write_string('R');
-        write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
-        write_int8(0);
-
-        // compression - no compression
-        write_string('compression');
-        write_int8(0);
-        write_string('compression');
-        write_int8(0);
-        write_int8_array([1, 0, 0, 0]);
-        write_int8(0);
-
-        // dataWindow - width, height
-        write_string('dataWindow');
-        write_int8(0);
-        write_string('box2i');
-        write_int8(0);
-        write_int8_array([16, 0, 0, 0]);
-        write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-        write_int32(width - 1);
-        write_int32(height - 1);
-
-        // display window - width, height
-        write_string('displayWindow');
-        write_int8(0);
-        write_string('box2i');
-        write_int8(0);
-        write_int8_array([16, 0, 0, 0]);
-        write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-        write_int32(width - 1);
-        write_int32(height - 1);
-
-        // lineOrder - increasing Y
-        write_string('lineOrder');
-        write_int8(0);
-        write_string('lineOrder');
-        write_int8(0);
-        write_int8_array([1, 0, 0, 0]);
-        write_int8(0);
-
-        // pixelAspectRaio - 1.0f
-        write_string('pixelAspectRatio');
-        write_int8(0);
-        write_string('float');
-        write_int8(0);
-        write_int8_array([4, 0, 0, 0]);
-        write_int8_array([0, 0, 0x80, 0x3f]);
-
-        // screenWindowCenter
-        write_string('screenWindowCenter');
-        write_int8(0);
-        write_string('v2f');
-        write_int8(0);
-        write_int8_array([8, 0, 0, 0]);
-        write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-
-
-        // screenWindowWidth
-        write_string('screenWindowWidth');
-        write_int8(0);
-        write_string('float');
-        write_int8(0);
-        write_int8_array([4, 0, 0, 0]);
-        write_int8_array([0, 0, 0x80, 0x3f]);
-        write_int8(0);
-
-
-        // write line offset to scanline table
-        let offset = headerSize + scanlineTableSize;
-        for (let y = 0; y < height; ++y) {
-            write_int32(offset);
-            write_int32(0);
-            offset += fullRowSize;
-        }
-
-        // write data
-
-        for (let y = 0; y < height; y++) {
-            write_int32(y);
-            write_int32(pixelRowSize);
-
-            // b
-            for (let x = 0; x < width; x++) {
-                setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4], true);
-                i += 2;
-            }
-
-            // g
-            for (let x = 0; x < width; x++) {
-                setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 1], true);
-                i += 2;
-            }
-
-            // r
-            for (let x = 0; x < width; x++) {
-                setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 2], true);
-                i += 2;
-            }
-        }
-
-
-
-
-
-        // show as hex dump
-        let output = "";
-        const intArray = new Uint8Array(buffer);
-
-        for (let index = 0; index < 400; index++) {
-            const value = intArray[index];
-            let hex = value.toString(16);
-            if (hex.length < 2) {
-                hex = "0" + hex;
-            }
-            output += hex;
-            if (index % 4 === 3) {
-                output += " ";
-            }
-            if (index % (4 * 14) === (4 * 14) - 1) {
-                output += "\n";
-            }
-
-        }
-
-        console.log(output);
-
-
-        const blob = new Blob([bufferView], { type: "image/exr" });
-
-        saveAs(blob, "download.exr");
-
-
-    }
 
     /**
      * Draws unit `geometry` into each smudge.bufferLayout using coresponding `material` materialChannel to configure

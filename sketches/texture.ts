@@ -8,7 +8,7 @@ export async function draw() {
 
     // load a texture
     const t = await smudge.loadTexture("images/a.png");
-
+    const burst = await smudge.loadTexture("images/burst_white_transparent.png");
     // show the ui
     const ui = new SmudgeUI(smudge);
 
@@ -19,19 +19,20 @@ export async function draw() {
     smudge.clear(paper);
 
 
-    // draw textured rect
+    // draw a basic textured rect
     const albedoA = new Material2();
     albedoA.albedo.color = 1;
     albedoA.albedo.textureInfo.texture = t;
     smudge.rect(0, 0, 200, 200, albedoA);
 
 
-    // draw texture to another material prop
-    const smoothnessA = new Material2();
-    smoothnessA.smoothness.color = 1;
-
-    smoothnessA.smoothness.textureInfo.texture = t;
-    smudge.rect(200, 0, 200, 200, smoothnessA);
+    // draw texture to other channels
+    const channelA = new Material2();
+    channelA.smoothness.color = 1;
+    channelA.smoothness.textureInfo.texture = t;
+    channelA.height.color = 10;
+    channelA.height.textureInfo.texture = burst;
+    smudge.rect(200, 0, 200, 200, channelA);
 
 
     // manipulate texture colors
