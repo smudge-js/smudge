@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../../index';
+import { PBR, Material, BlendMode } from '../../src/js/index';
 
 let pbr: PBR;
 

@@ -1,4 +1,4 @@
-import { Smudge, Material2 } from '../../index';
+import { Smudge, Material2 } from '../../src/js/index';
 
 // import { Matrix } from '../../draw/matrix';
 

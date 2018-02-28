@@ -1,7 +1,7 @@
 // import {PBR} from '../pbr2';
 // import {Material, BlendMode} from '../material';
 
-import { PBR, Material, BlendMode } from '../../index';
+import { PBR, Material, BlendMode } from '../../src/js/index';
 
 import { mat4 } from 'gl-matrix';
 export function draw() {

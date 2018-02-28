@@ -1,4 +1,4 @@
-import { PBR, Material, BlendMode } from '../../index';
+import { PBR, Material, BlendMode } from '../../src/js/index';
 import { mat4 } from 'gl-matrix';
 import * as voronoi from 'voronoi-diagram';
 
