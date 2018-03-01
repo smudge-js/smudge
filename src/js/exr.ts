@@ -192,11 +192,11 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
             setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 1], true);
             i += 2;
 
-            if (x === 1) {
+            // if (x === 1) {
 
-                console.log(y, pixels[((height - y - 1) * width + x) * 4 + 1]);
+            //     console.log(y, pixels[((height - y - 1) * width + x) * 4 + 1]);
 
-            }
+            // }
         }
 
         // r
