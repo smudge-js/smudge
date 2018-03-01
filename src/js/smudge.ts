@@ -374,6 +374,7 @@ export class Smudge {
         }
         b.bind();
         const pixels = new Float32Array(b.width * b.height * 4);
+
         this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
         const exrBlob = makeExr(b.width, b.height, pixels);
         saveAs(exrBlob, fileName);

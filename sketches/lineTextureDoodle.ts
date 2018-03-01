@@ -16,7 +16,9 @@ export async function draw() {
 
 
     // clear the drawing
-    smudge.clear();
+    const c = new Material2();
+    c.albedo.color = [1, 0, 0, .5];
+    smudge.clear(c);
 
     const gradient = new Material2();
     gradient.albedo.color = [1];
@@ -28,7 +30,7 @@ export async function draw() {
 
 
 
-    for (let line = 0; line < 50; line++) {
+    for (let line = 0; line < 5; line++) {
         gradient.albedo.color = [Math.random(), Math.random(), Math.random(), 1];
 
         if (Math.random() < .1) {
@@ -48,10 +50,11 @@ export async function draw() {
             a += .1;
             r += dR;
             if (r < width) {
-                break;
+                r = width;
             }
             points.push([x + Math.sin(a) * r, y + Math.cos(a) * r]);
         }
+        console.log(segments, points);
         smudge.line(points, { width, uvMode: "brush" }, gradient);
 
 

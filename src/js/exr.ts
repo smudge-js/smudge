@@ -73,7 +73,7 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
     write_string('B');
     write_int8(0);
     write_int8_array([1, 0, 0, 0]); // pixel type 1 = HALF
-    write_int8(0); // linear
+    write_int8(0); // linear = 0
     write_int8_array([0, 0, 0]); // reserved
     write_int8_array([1, 0, 0, 0, 1, 0, 0, 0]); // xSampling, ySampling
 
@@ -172,24 +172,6 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
         write_int32(y);
         write_int32(pixelRowSize);
 
-        // b
-        for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4], true);
-            i += 2;
-        }
-
-        // g
-        for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 1], true);
-            i += 2;
-        }
-
-        // r
-        for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 2], true);
-            i += 2;
-        }
-
         // a
         if (channels === 4) {
             for (let x = 0; x < width; x++) {
@@ -197,6 +179,35 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
                 i += 2;
             }
         }
+
+
+        // b
+        for (let x = 0; x < width; x++) {
+            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 2], true);
+            i += 2;
+        }
+
+        // g
+        for (let x = 0; x < width; x++) {
+            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 1], true);
+            i += 2;
+
+            if (x === 1) {
+
+                console.log(y, pixels[((height - y - 1) * width + x) * 4 + 1]);
+
+            }
+        }
+
+        // r
+        for (let x = 0; x < width; x++) {
+            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 0], true);
+            i += 2;
+        }
+
+
+
+
     }
 
 
