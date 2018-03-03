@@ -94,7 +94,7 @@ export class SmudgeUI {
                 this.smudge.saveCanvasAs(`${name}.png`);
 
 
-                const packBuffer = new Framebuffer("pack_buffer", this.smudge.gl, 256, 256, 4, 16);
+                const packBuffer = new Framebuffer("pack_buffer", this.smudge.gl, 1024, 1024, 4, 16);
                 this.smudge.pack(layout.layout, layout.clear, packBuffer);
                 this.smudge.saveBufferEXR(`${name}.exr`, packBuffer);
 

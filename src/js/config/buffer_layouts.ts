@@ -47,7 +47,7 @@ export const bufferLayouts: IBufferLayouts = {
     channels: 4,
   },
   metallic: <IReadonlyBufferLayout>{
-    super_sampling: 1,
+    super_sampling: 4,
     depth: 16,
     channels: 1,
   },

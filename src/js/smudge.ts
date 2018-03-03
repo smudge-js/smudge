@@ -280,7 +280,7 @@ export class Smudge {
 
         this.gl.disable(this.gl.BLEND);
         this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
         await wait();
     }
@@ -332,7 +332,7 @@ export class Smudge {
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
         this.gl.disable(this.gl.BLEND);
         this.gl.blendEquation(this.gl.FUNC_ADD);
-        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
     }
 
@@ -374,10 +374,12 @@ export class Smudge {
         }
         b.bind();
         const pixels = new Float32Array(b.width * b.height * 4);
+        console.log(pixels.slice(0, 16));
 
         this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
         const exrBlob = makeExr(b.width, b.height, pixels);
         saveAs(exrBlob, fileName);
+
     }
 
 
@@ -461,8 +463,9 @@ export class Smudge {
 
             // blending
             this.gl.enable(this.gl.BLEND);
+
             this.gl.blendEquationSeparate(blendMode.equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(blendMode.sFactor, blendMode.dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
+            this.gl.blendFuncSeparate(blendMode.sFactor, blendMode.dFactor, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
             // color
             this.gl.colorMask(
@@ -484,7 +487,7 @@ export class Smudge {
             program.done();
             this.gl.disable(this.gl.BLEND);
             this.gl.blendEquation(this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE);
+            this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
             this.gl.colorMask(true, true, true, true);
             this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);

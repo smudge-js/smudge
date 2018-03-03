@@ -10,7 +10,7 @@
         "strictNullChecks": false,
         "noImplicitThis": true,
         "alwaysStrict": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "noUnusedParameters": true,
         "lib": [
             "es2015",

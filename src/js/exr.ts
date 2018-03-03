@@ -1,6 +1,6 @@
 import { setFloat16 } from "@petamoriken/float16";
 
-export function makeExr(width: number, height: number, pixels: Float32Array): Blob {
+export function makeExr(width: number, height: number, pixels: Float32Array, gamma = 2.2): Blob {
     // http://www.openexr.com/TechnicalIntroduction.pdf
     // http://www.openexr.com/openexrfilelayout.pdf
     // https://gist.github.com/fpsunflower/e5c99116ff94114d1cbe
@@ -175,7 +175,9 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
         // a
         if (channels === 4) {
             for (let x = 0; x < width; x++) {
-                setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 3], true);
+                const value = pixels[((height - y - 1) * width + x) * 4 + 3];
+                const gammaValue = Math.pow(value, gamma);
+                setFloat16(bufferView, i, gammaValue, true);
                 i += 2;
             }
         }
@@ -183,25 +185,27 @@ export function makeExr(width: number, height: number, pixels: Float32Array): Bl
 
         // b
         for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 2], true);
+            const value = pixels[((height - y - 1) * width + x) * 4 + 2];
+            const gammaValue = Math.pow(value, gamma);
+            setFloat16(bufferView, i, gammaValue, true);
             i += 2;
         }
 
         // g
         for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 1], true);
+            const value = pixels[((height - y - 1) * width + x) * 4 + 1];
+            const gammaValue = Math.pow(value, gamma);
+            setFloat16(bufferView, i, gammaValue, true);
             i += 2;
 
-            // if (x === 1) {
 
-            //     console.log(y, pixels[((height - y - 1) * width + x) * 4 + 1]);
-
-            // }
         }
 
         // r
         for (let x = 0; x < width; x++) {
-            setFloat16(bufferView, i, pixels[((height - y - 1) * width + x) * 4 + 0], true);
+            const value = pixels[((height - y - 1) * width + x) * 4 + 0];
+            const gammaValue = Math.pow(value, gamma);
+            setFloat16(bufferView, i, gammaValue, true);
             i += 2;
         }
 

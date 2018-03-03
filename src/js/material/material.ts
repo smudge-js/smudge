@@ -39,17 +39,17 @@ export const BlendMode = {
         dFactor: gl_constants.ONE,
     },
 
-    Darkest: <IReadonlyBlendMode>{
-        equation: gl_constants.MIN,
-        sFactor: gl_constants.SRC_ALPHA,
-        dFactor: gl_constants.ONE,
-    },
+    // Darkest: <IReadonlyBlendMode>{
+    //     equation: gl_constants.MIN,
+    //     sFactor: gl_constants.SRC_ALPHA,
+    //     dFactor: gl_constants.ONE,
+    // },
 
-    Lightest: <IReadonlyBlendMode>{
-        equation: gl_constants.MAX,
-        sFactor: gl_constants.SRC_ALPHA,
-        dFactor: gl_constants.ONE,
-    },
+    // Lightest: <IReadonlyBlendMode>{
+    //     equation: gl_constants.MAX,
+    //     sFactor: gl_constants.SRC_ALPHA,
+    //     dFactor: gl_constants.ONE,
+    // },
 
     Multiply: <IReadonlyBlendMode>{
         equation: gl_constants.FUNC_ADD,

@@ -21,7 +21,7 @@ export async function draw() {
 
     const addRed = new Material2();
     addRed.albedo.color = [1, .5, .5, 1];
-    addRed.albedo.blendMode = BlendMode.Lightest;
+    // addRed.albedo.blendMode = BlendMode.Lightest;
     addRed.height.color = .02;
     addRed.height.blendMode = BlendMode.Additive;
     smudge.rect(100, 100, 200, 200, addRed);

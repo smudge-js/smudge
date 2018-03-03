@@ -93,6 +93,9 @@ export async function draw() {
     gradientMaterial.albedo.color = [0, 0, .1, 1];
     smudge.rect(0, 110, 256, 10, gradientMaterial);
 
+    const swatchMat = new Material2();
+    swatchMat.albedo.color = [.5, 1, 2, 1];
+    smudge.rect(0, 0, 10, 10, swatchMat);
 
 
     // show albedo in ui
