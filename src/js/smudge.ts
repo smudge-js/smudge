@@ -25,6 +25,8 @@ import { wait } from './util';
 import { IExportLayout } from './config/export_layouts';
 
 
+
+
 export class Smudge {
 
     public readonly gl: WebGLRenderingContext;
@@ -419,13 +421,78 @@ export class Smudge {
 
     }
 
+
+    // started down this route, but was getting corrupted 16 bit exports with pngjs. 8 bit was working fine.
+    // also, it looks like pngjs or png wants full apacity to be 65535, so you'd have a high depth LDR image.
+    // not sure how to do HDR png then...
+
+    // const PNG = require('pngjs').PNG;
+    // public saveBufferPNG2(fileName: string, buffer: string | Framebuffer = "albedo") {
+    //     let b: Framebuffer;
+    //     if (buffer instanceof Framebuffer) {
+    //         b = buffer;
+    //     } else {
+    //         b = this.getBuffer(buffer);
+    //     }
+
+    //     // read pixels
+    //     b.bind();
+    //     const pixels = new Uint8Array(b.width * b.height * 4);
+    //     this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels);
+    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+    //     const png = new PNG({ width: b.width, height: b.height });
+    //     for (let index = 0; index < pixels.length; index++) {
+    //         png.data[index] = pixels[index];
+    //     }
+
+    //     const pngBuffer = PNG.sync.write(png, { colorType: 6 });
+    //     const pngBlob = new Blob([pngBuffer], { type: "image/png" });
+    //     saveAs(pngBlob, fileName);
+    //     // let png = PNG.sync.read(pixels);
+    // }
+
+    // public saveBufferPNG16(fileName: string, buffer: string | Framebuffer = "albedo") {
+    //     let b: Framebuffer;
+    //     if (buffer instanceof Framebuffer) {
+    //         b = buffer;
+    //     } else {
+    //         b = this.getBuffer(buffer);
+    //     }
+
+    //     // read pixels
+    //     b.bind();
+    //     const pixels = new Float32Array(b.width * b.height * 4);
+    //     this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
+    //     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+
+    //     const pixelsInt = new Uint16Array(b.width * b.height * 4);
+    //     for (let index = 0; index < pixels.length; index++) {
+    //         pixelsInt[index] = pixels[index] * 65535;
+    //     }
+
+
+    //     const png = new PNG({ width: b.width, height: b.height, bitDepth: 16, colorType: 6, inputHasAlpha: true });
+    //     png.data = pixelsInt;
+    //     console.log("png", png, pixels);
+
+    //     const pngBuffer = PNG.sync.write(png, { width: b.width, height: b.height, colorType: 6, inputHasAlpha: true });
+    //     const pngBlob = new Blob([pngBuffer], { type: "image/png" });
+    //     saveAs(pngBlob, fileName);
+    //     // let png = PNG.sync.read(pixels);
+    // }
+
     public export(layout: IExportLayout, exportName = `custom_${this.name}`) {
         const depth = layout.type === "png" ? 8 : 16;
         const packBuffer = new Framebuffer("pack_buffer", this.gl, layout.size, layout.size, 4, depth);
         this.pack(layout.layout, layout.clear, packBuffer);
 
+
         if (layout.type === "png") {
             this.saveBufferPNG(`${exportName}.png`, packBuffer);
+            // this.saveBufferPNG2(`${exportName}2.png`, packBuffer8);
+            // this.saveBufferPNG16(`${exportName}16.png`, packBuffer16);
         } else {
             this.saveBufferEXR(`${exportName}.exr`, packBuffer, layout.gamma);
         }

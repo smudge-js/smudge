@@ -60,12 +60,9 @@
 ### UI/API - Exports
 - [x] Higher DPI export
 - [x] Higher Depth (EXR) export
-- [ ] Named Export
-- [ ] Full Set Export as .zip
-- [ ] Export 3D View
-- [ ] download full texture set at once? .JSZip https://github.com/Stuk/jszip
-- [ ] ability to name material downloads
-    - [ ] posible format [project]\_[version]_[property].png
+- [x] Named Export
+- [ ] low.Export 3D View
+- [ ] low.download full texture set at once? .JSZip https://github.com/Stuk/jszip
 
 
 
