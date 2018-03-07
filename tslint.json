@@ -9,6 +9,7 @@
         "quotemark": false,
         "ordered-imports": false,
         "no-var-requires": false,
+        "no-bitwise": false,
         "variable-name": [
             true,
             "ban-keywords",

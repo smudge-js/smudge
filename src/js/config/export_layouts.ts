@@ -1,6 +1,26 @@
 /** @hidden */
+
+type exportSize = 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096;
+
+export interface IExportLayout {
+    type: "png" | "exr";
+    size: exportSize;
+    gamma?: number;
+    clear: number[];
+    layout: {
+        [index: string]: number[],
+    };
+    // channel_materials: ChannelKey[];
+    // blend_mode: BlendModeKey;
+}
+
+
+export type IReadonlyExportLayout = Readonly<IExportLayout>;
+
 const exportLayoutsUnity = {
-    albedo: {
+    albedo: <IReadonlyExportLayout>{
+        type: "png",
+        size: 1024,
         clear: [0, 0, 0, 0],
         layout: {
             albedo: [1, 0, 0, 0, // s.r -> d.r
@@ -9,20 +29,27 @@ const exportLayoutsUnity = {
                 0, 0, 0, 1], // s.a -> d.a
         },
     },
-    metallic_smooth: {
+    metallic_smooth: <IReadonlyExportLayout>{
+        type: "png",
+        size: 1024,
         clear: [0, 0, 0, 0],
         layout: {
             metallic: [1, 0, 0, 0], // s.r -> d.r
             smoothness: [0, 0, 0, 1], // s.r -> d.a
         },
     },
-    height: {
+    height: <IReadonlyExportLayout>{
+        type: "exr",
+        size: 1024,
+        gamma: 1.0,
         clear: [0, 0, 0, 1],
         layout: {
             height: [1, 1, 1, 0], // s.r -> d.rgb
         },
     },
-    emission: {
+    emission: <IReadonlyExportLayout>{
+        type: "png",
+        size: 1024,
         clear: [0, 0, 0, 1],
         layout: {
             emission: [1, 0, 0, 0, // s.r -> d.r

@@ -90,15 +90,17 @@ export class SmudgeUI {
             let downloadExport;
             b.addEventListener("click", downloadExport = (event: MouseEvent) => {
                 event.preventDefault();
-                this.smudge.pack(layout.layout, layout.clear);
-                this.smudge.saveCanvasAs(`${this.smudge.name}_${name}.png`);
+                // this.smudge.pack(layout.layout, layout.clear);
+                // this.smudge.saveCanvasAs(`${this.smudge.name}_${name}.png`);
 
 
-                const packBuffer = new Framebuffer("pack_buffer", this.smudge.gl, 1024, 1024, 4, 16);
-                this.smudge.pack(layout.layout, layout.clear, packBuffer);
-                this.smudge.saveBufferEXR(`${name}.exr`, packBuffer);
+                // const packBuffer = new Framebuffer("pack_buffer", this.smudge.gl, 1024, 1024, 4, 16);
+                // this.smudge.pack(layout.layout, layout.clear, packBuffer);
+                // this.smudge.saveBufferEXR(`${name}.exr`, packBuffer);
 
-                this.smudge.show(packBuffer);
+                // this.smudge.show(packBuffer);
+
+                this.smudge.export(layout, `${this.smudge.name}_${name}`);
 
             });
         });

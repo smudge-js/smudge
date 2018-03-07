@@ -22,6 +22,7 @@ import { buildLineQuads, ILineOptions } from './draw/line';
 import { makeExr } from './exr';
 
 import { wait } from './util';
+import { IExportLayout } from './config/export_layouts';
 
 
 export class Smudge {
@@ -356,28 +357,79 @@ export class Smudge {
      * @param fileName name of download
      */
     public saveCanvasAs(fileName: string) {
-
         this.canvas.toBlob((blob) => {
             // console.log(this, fileName, blob);
             saveAs(blob, fileName);
         });
-
-
-
     }
 
-    public saveBufferEXR(fileName: string, buffer: string | Framebuffer = "albedo") {
+    public saveBufferEXR(fileName: string, buffer: string | Framebuffer = "albedo", gamma = 1.0) {
         let b: Framebuffer;
         if (buffer instanceof Framebuffer) {
             b = buffer;
         } else {
             b = this.getBuffer(buffer);
         }
+
+        // read pixels
         b.bind();
         const pixels = new Float32Array(b.width * b.height * 4);
         this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
-        const exrBlob = makeExr(b.width, b.height, pixels);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        // export exr
+        const exrBlob = makeExr(b.width, b.height, pixels, gamma);
         saveAs(exrBlob, fileName);
+    }
+
+    public saveBufferPNG(fileName: string, buffer: string | Framebuffer = "albedo") {
+        let b: Framebuffer;
+        if (buffer instanceof Framebuffer) {
+            b = buffer;
+        } else {
+            b = this.getBuffer(buffer);
+        }
+
+        // read pixels
+        b.bind();
+        const pixels = new Uint8Array(b.width * b.height * 4);
+        this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels);
+        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+
+        // write to canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = b.width;
+        canvas.height = b.height;
+        const context = canvas.getContext('2d');
+        const imageData = context.createImageData(b.width, b.height);
+        imageData.data.set(pixels);
+        context.putImageData(imageData, 0, 0);
+
+        // flip it
+        context.translate(0, b.height);
+        context.scale(1, -1);
+        context.drawImage(canvas, 0, 0);
+
+
+        // export canvas
+        canvas.toBlob((blob) => {
+            saveAs(blob, fileName);
+        });
+
+
+    }
+
+    public export(layout: IExportLayout, exportName = `custom_${this.name}`) {
+        const depth = layout.type === "png" ? 8 : 16;
+        const packBuffer = new Framebuffer("pack_buffer", this.gl, layout.size, layout.size, 4, depth);
+        this.pack(layout.layout, layout.clear, packBuffer);
+
+        if (layout.type === "png") {
+            this.saveBufferPNG(`${exportName}.png`, packBuffer);
+        } else {
+            this.saveBufferEXR(`${exportName}.exr`, packBuffer, layout.gamma);
+        }
+
 
     }
 

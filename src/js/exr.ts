@@ -1,36 +1,39 @@
 import { setFloat16 } from "@petamoriken/float16";
 
+/**
+ * Exports an float-half OpenEXR RGBA image
+ * http://www.openexr.com/TechnicalIntroduction.pdf
+ * http://www.openexr.com/openexrfilelayout.pdf
+ *
+ * Partially based on miniexr
+ * https://github.com/aras-p/miniexr/blob/master/miniexr.cpp
+ *
+ * @pixels: Float32Array RGBA data, should be width*height*4 long
+ */
+
+
 export function makeExr(width: number, height: number, pixels: Float32Array, gamma = 2.2): Blob {
-    // http://www.openexr.com/TechnicalIntroduction.pdf
-    // http://www.openexr.com/openexrfilelayout.pdf
-    // https://gist.github.com/fpsunflower/e5c99116ff94114d1cbe
-    // https://github.com/aras-p/miniexr/blob/master/miniexr.cpp
-    const channels: number = 4;
+    const channels = 4; // rgba
+
+    const bytesPerChannel = 2; // half float
 
     // exr data starts with a header
-    let headerSize = 313;
-
-    if (channels === 4) {
-        headerSize += 18;
-    }
+    const headerSize = 331;
 
     // then a table that lists the offset from file start to each line in image
     const scanlineTableSize = 8 * height;
 
     // then image data itself
-
-    const pixelRowSize = width * channels * 2;
+    const pixelRowSize = width * channels * bytesPerChannel;
     const fullRowSize = pixelRowSize + 8;
     const dataSize = height * fullRowSize;
 
     // allocate the space
     const buffer = new ArrayBuffer(headerSize + scanlineTableSize + dataSize);
     const bufferView = new DataView(buffer);
-
-    // start writing
     let i = 0;
 
-    // write the header
+    // data writers
     function write_int8(data: number) {
         bufferView.setInt8(i++, data);
     }
@@ -41,124 +44,66 @@ export function makeExr(width: number, height: number, pixels: Float32Array, gam
     function write_int8_array(data: number[]) {
         data.forEach((datum) => write_int8(datum));
     }
-    function write_string(data: string) {
-        for (let index = 0; index < data.length; index++) {
-            write_int8(data.charCodeAt(index));
-        }
+    function write_string(s: string) {
+        write_int8_array(string_to_codeArray(s));
+        write_int8(0);
+    }
+
+    function write_attribute(name: string, type: string, value: number[]) {
+        write_string(name); // attribute name
+        write_string(type); // attribute type
+        write_int32(value.length); // attribute size
+        write_int8_array(value); // attribute value
     }
 
 
+    ////////////////////////////////////////////
+    // HEADER
 
     // magic exr identifier
     write_int8_array([0x76, 0x2f, 0x31, 0x01]);
 
-
     // version, boolean flags (all set false)
     write_int8_array([2, 0, 0, 0]);
 
-    // channels
-    write_string('channels'); // attribute name
-    write_int8(0);
-    write_string('chlist'); // attribute type
-    write_int8(0);
-
-    // attribute size length of following data, including final 0
-    if (channels === 3) {
-        write_int8_array([55, 0, 0, 0]);
-    } else {
-        write_int8_array([73, 0, 0, 0]);
-    }
-
-    // B, half
-    write_string('B');
-    write_int8(0);
-    write_int8_array([1, 0, 0, 0]); // pixel type 1 = HALF
-    write_int8(0); // linear = 0
-    write_int8_array([0, 0, 0]); // reserved
-    write_int8_array([1, 0, 0, 0, 1, 0, 0, 0]); // xSampling, ySampling
-
-    // G, half
-    write_string('G');
-    write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]); // short version of above
-
-    // R, half
-    write_string('R');
-    write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]); // short version of above
-
-    // A, half
-    if (channels === 4) {
-        write_string('A');
-        write_int8_array([0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]); // short version of above
-    }
-
-    write_int8(0);
+    // channel data
+    let channelData: number[] = [];
+    channelData = channelData.concat(channel('B', 'half', true));
+    channelData = channelData.concat(channel('G', 'half', true));
+    channelData = channelData.concat(channel('R', 'half', true));
+    channelData = channelData.concat(channel('A', 'half', true));
+    channelData.push(0);
+    write_attribute('channels', 'chlist', channelData);
 
     // compression - no compression
-    write_string('compression');
-    write_int8(0);
-    write_string('compression');
-    write_int8(0);
-    write_int8_array([1, 0, 0, 0]);
-    write_int8(0);
+    write_attribute('compression', 'compression', [0]);
 
-    // dataWindow - width, height
-    write_string('dataWindow');
-    write_int8(0);
-    write_string('box2i');
-    write_int8(0);
-    write_int8_array([16, 0, 0, 0]);
-    write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-    write_int32(width - 1);
-    write_int32(height - 1);
+    // dataWindow
+    write_attribute('dataWindow', 'box2i', box2i(0, 0, width - 1, height - 1));
 
-    // display window - width, height
-    write_string('displayWindow');
-    write_int8(0);
-    write_string('box2i');
-    write_int8(0);
-    write_int8_array([16, 0, 0, 0]);
-    write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-    write_int32(width - 1);
-    write_int32(height - 1);
+    // display window
+    write_attribute('displayWindow', 'box2i', box2i(0, 0, width - 1, height - 1));
 
     // lineOrder - increasing Y
-    write_string('lineOrder');
-    write_int8(0);
-    write_string('lineOrder');
-    write_int8(0);
-    write_int8_array([1, 0, 0, 0]);
-    write_int8(0);
+    write_attribute('lineOrder', 'lineOrder', [0]);
 
     // pixelAspectRaio - 1.0f
-    write_string('pixelAspectRatio');
-    write_int8(0);
-    write_string('float');
-    write_int8(0);
-    write_int8_array([4, 0, 0, 0]);
-    write_int8_array([0, 0, 0x80, 0x3f]);
+    write_attribute('pixelAspectRatio', 'float', [0, 0, 0x80, 0x3f]);
 
     // screenWindowCenter
-    write_string('screenWindowCenter');
-    write_int8(0);
-    write_string('v2f');
-    write_int8(0);
-    write_int8_array([8, 0, 0, 0]);
-    write_int8_array([0, 0, 0, 0, 0, 0, 0, 0]);
-
+    write_attribute('screenWindowCenter', 'v2f', [0, 0, 0, 0, 0, 0, 0, 0]);
 
     // screenWindowWidth
-    write_string('screenWindowWidth');
-    write_int8(0);
-    write_string('float');
-    write_int8(0);
-    write_int8_array([4, 0, 0, 0]);
-    write_int8_array([0, 0, 0x80, 0x3f]);
+    write_attribute('screenWindowWidth', 'float', [0, 0, 0x80, 0x3f]);
 
-    //
+    // header terminator
     write_int8(0);
 
 
-    // write line offset to scanline table
+
+    ////////////////////////////////////////////
+    // LINE OFFSET TABLE
+
     let offset = headerSize + scanlineTableSize;
     for (let y = 0; y < height; ++y) {
         write_int32(offset);
@@ -166,22 +111,20 @@ export function makeExr(width: number, height: number, pixels: Float32Array, gam
         offset += fullRowSize;
     }
 
-    // write data
+    ////////////////////////////////////////////
+    // SCANLINE DATA
 
     for (let y = 0; y < height; y++) {
-        write_int32(y);
-        write_int32(pixelRowSize);
+        write_int32(y); // row
+        write_int32(pixelRowSize); // size
 
         // a
-        if (channels === 4) {
-            for (let x = 0; x < width; x++) {
-                const value = pixels[((height - y - 1) * width + x) * 4 + 3];
-                const gammaValue = Math.pow(value, gamma);
-                setFloat16(bufferView, i, gammaValue, true);
-                i += 2;
-            }
+        for (let x = 0; x < width; x++) {
+            const value = pixels[((height - y - 1) * width + x) * 4 + 3];
+            const gammaValue = Math.pow(value, gamma);
+            setFloat16(bufferView, i, gammaValue, true);
+            i += 2;
         }
-
 
         // b
         for (let x = 0; x < width; x++) {
@@ -197,8 +140,6 @@ export function makeExr(width: number, height: number, pixels: Float32Array, gam
             const gammaValue = Math.pow(value, gamma);
             setFloat16(bufferView, i, gammaValue, true);
             i += 2;
-
-
         }
 
         // r
@@ -208,42 +149,60 @@ export function makeExr(width: number, height: number, pixels: Float32Array, gam
             setFloat16(bufferView, i, gammaValue, true);
             i += 2;
         }
-
-
-
-
     }
 
 
-
-
-
-    // show start of file as  hex dump
-    // let output = "";
-    // const intArray = new Uint8Array(buffer);
-
-    // for (let index = 0; index < 400; index++) {
-    //     const value = intArray[index];
-    //     let hex = value.toString(16);
-    //     if (hex.length < 2) {
-    //         hex = "0" + hex;
-    //     }
-    //     output += hex;
-    //     if (index % 4 === 3) {
-    //         output += " ";
-    //     }
-    //     if (index % (4 * 14) === (4 * 14) - 1) {
-    //         output += "\n";
-    //     }
-
-    // }
-
-    // console.log(output);
-
+    ////////////////////////////////////////////
+    // CONVERT TO BLOB
 
     const blob = new Blob([bufferView], { type: "image/exr" });
-
     return blob;
-
-
 }
+
+
+function string_to_codeArray(s: string): number[] {
+    const data = [];
+    for (let index = 0; index < s.length; index++) {
+        data.push(s.charCodeAt(index));
+    }
+    return data;
+}
+
+function channel(name: string, pixelType: "uint" | "half" | "float", linear: boolean): number[] {
+    let data: number[] = [];
+    data = data.concat(string_to_codeArray(name));
+    data.push(0);
+    if (pixelType === "uint") {
+        data = data.concat([0, 0, 0, 0]);
+    }
+    if (pixelType === "half") {
+        data = data.concat([1, 0, 0, 0]);
+    }
+    if (pixelType === "float") {
+        data = data.concat([2, 0, 0, 0]);
+    }
+    data.push(linear ? 1 : 0);
+    data = data.concat([0, 0, 0]); // reserved
+    data = data.concat([1, 0, 0, 0]); // x sampling
+    data = data.concat([1, 0, 0, 0]); // y sampling
+    return data;
+}
+
+function smallEndian(value: number): number[] {
+    const data: number[] = [];
+    data.push(value & 0xFF);
+    data.push((value >> 8) & 0xFF);
+    data.push((value >> 16) & 0xFF);
+    data.push((value >> 24) & 0xFF);
+    return data;
+}
+
+function box2i(minX: number, minY: number, maxX: number, maxY: number) {
+    let data: number[] = [];
+    data = data.concat(smallEndian(minX));
+    data = data.concat(smallEndian(minY));
+    data = data.concat(smallEndian(maxX));
+    data = data.concat(smallEndian(maxY));
+    return data;
+}
+
