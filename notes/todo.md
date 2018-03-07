@@ -30,6 +30,7 @@
 - [x] Restore basic API functions under new Material model.
 - [x] pbr2 is big, can we pull the shape stuff into /geometery ?
 - [x] Refactor code names pbr->smudge?
+- [ ] EXR cleanup, EXR API cleanup (type, size, depth channel packing, etc, just a file that takes a packing, add res, depth, type to packing format)
 - [ ] file by file code review
 - [ ] basic geo classes/types
     - quad would use these, line would use these
@@ -57,8 +58,8 @@
 
 
 ### UI/API - Exports
-- [ ] Higher DPI export
-- [ ] Higher Depth (EXR) export
+- [x] Higher DPI export
+- [x] Higher Depth (EXR) export
 - [ ] Named Export
 - [ ] Full Set Export as .zip
 - [ ] Export 3D View
