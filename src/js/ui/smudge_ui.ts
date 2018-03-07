@@ -91,7 +91,7 @@ export class SmudgeUI {
             b.addEventListener("click", downloadExport = (event: MouseEvent) => {
                 event.preventDefault();
                 this.smudge.pack(layout.layout, layout.clear);
-                this.smudge.saveCanvasAs(`${name}.png`);
+                this.smudge.saveCanvasAs(`${this.smudge.name}_${name}.png`);
 
 
                 const packBuffer = new Framebuffer("pack_buffer", this.smudge.gl, 1024, 1024, 4, 16);

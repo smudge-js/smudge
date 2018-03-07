@@ -5,10 +5,9 @@ import { Material2, Smudge, SmudgeUI, BlendMode } from '../src/js/index';
 
 export async function draw() {
     // create a smudge instance
-    const smudge = new Smudge(undefined, 512, 512);
+    const smudge = new Smudge("arcs", 512, 512);
 
     // load a texture
-
     const circleBrush = await smudge.loadTexture("images/circle_brush.png");
 
     // show the ui

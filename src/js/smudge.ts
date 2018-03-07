@@ -28,6 +28,7 @@ export class Smudge {
 
     public readonly gl: WebGLRenderingContext;
 
+    public readonly canvas: HTMLCanvasElement;
     public readonly width: number;
     public readonly height: number;
     public readonly buffers: { [key: string]: Framebuffer };
@@ -48,17 +49,17 @@ export class Smudge {
      * @param width The width of the drawing.
      * @param height The height of the drawing.
      */
-    constructor(readonly canvas?: HTMLCanvasElement, width?: number, height?: number) {
-        this.canvas = canvas = canvas || document.getElementById("channel-canvas") as HTMLCanvasElement || document.createElement('canvas');
-        this.width = width || canvas.width;
-        this.height = height || canvas.height;
+    constructor(public name = "untitled", width?: number, height?: number) {
+        this.canvas = document.createElement('canvas');
+        this.width = width || this.canvas.width;
+        this.height = height || this.canvas.height;
         this.canvasWidth = this.width;
         this.canvasHeight = this.height;
 
         // get context
-        canvas.width = this.canvasWidth;
-        canvas.height = this.canvasHeight;
-        this.gl = this.initWebGL(canvas);
+        this.canvas.width = this.canvasWidth;
+        this.canvas.height = this.canvasHeight;
+        this.gl = this.initWebGL(this.canvas);
 
         // configure context
         this.gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
@@ -374,8 +375,6 @@ export class Smudge {
         }
         b.bind();
         const pixels = new Float32Array(b.width * b.height * 4);
-        console.log(pixels.slice(0, 16));
-
         this.gl.readPixels(0, 0, b.width, b.height, this.gl.RGBA, this.gl.FLOAT, pixels);
         const exrBlob = makeExr(b.width, b.height, pixels);
         saveAs(exrBlob, fileName);
