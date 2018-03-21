@@ -10,8 +10,9 @@ import '../../css/smudge_ui.css';
 import { Framebuffer } from '../private/framebuffer';
 
 import { forEach } from 'lodash';
-import { wait } from '../util';
 const _ = { forEach };
+
+import { wait } from '../util';
 
 
 

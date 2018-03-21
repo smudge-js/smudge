@@ -17,7 +17,6 @@ export async function draw() {
     smudge.rect(0, 0, 200, 200, simpleBlue);
 
 
-
     // show albedo in ui
     smudge.show();
     ui.updatePBR();

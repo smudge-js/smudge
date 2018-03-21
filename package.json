@@ -6,6 +6,7 @@
   "scripts": {
     "start": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
     "smudge": "webpack-dev-server --open",
+    "smudge-build": "webpack",
     "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/smudge/",
     "api_doc": "typedoc --theme minimal --out ./api_doc/ src/app.ts"
   },
@@ -15,40 +16,45 @@
   },
   "author": "",
   "license": "UNLICENSED",
+  "private": true,
   "bugs": {
     "url": "https://github.com/jbakse/smudge/issues"
   },
+  "module": "src/js/index.ts",
+  "sideEffects": false,
   "homepage": "https://github.com/jbakse/smudge#readme",
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "css-loader": "^0.28.7",
+    "concurrently": "^3.5.1",
+    "css-loader": "^0.28.11",
     "file-loader": "^0.11.2",
     "gl-matrix": "^2.4.0",
     "glslify-loader": "^1.0.2",
     "html-loader": "^0.5.5",
     "raw-loader": "^0.5.1",
-    "script-loader": "^0.7.0",
-    "source-map-loader": "^0.2.1",
+    "script-loader": "^0.7.2",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.18.2",
-    "ts-loader": "^2.3.4",
-    "typescript": "^2.6.2",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.7.2",
     "url-loader": "^0.5.9",
-    "webpack": "^2.7.0",
-    "webpack-bundle-analyzer": "^2.10.0",
-    "webpack-dev-server": "^2.7.1"
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
     "@petamoriken/float16": "^1.0.6",
     "@types/file-saver": "0.0.1",
-    "@types/gl-matrix": "^2.2.34",
-    "@types/lodash": "^4.14.66",
-    "@types/three": "^0.84.20",
+    "@types/gl-matrix": "^2.4.0",
+    "@types/lodash": "^4.14.105",
+    "@types/three": "^0.84.37",
     "@types/voronoi-diagram": "^1.0.0",
-    "file-saver": "^1.3.3",
+    "clean-webpack-plugin": "^0.1.19",
+    "file-saver": "^1.3.4",
     "gl-constants": "^1.0.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "polyline-normals": "^2.0.2",
     "three": "^0.87.1",
-    "voronoi-diagram": "^1.0.1"
+    "voronoi-diagram": "^1.0.1",
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }
