@@ -1,27 +1,35 @@
-body {
-    background-color: #444;
-    margin: 0;
+.smudge-ui
+{
+    position: relative;
 }
 
-#panel {
+.smudge-ui .smudge-2d,
+.smudge-ui .smudge-3d
+{
     border: 10px solid #222;
+    background: #553;
     display: inline-block;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    vertical-align: top;
 }
 
-.export-buttons,
-.channel-buttons,
-.three-buttons {
-    background-color: #222;
-    padding: 5px 0;
-}
 
-canvas {
+
+.smudge-ui canvas
+{
     display: block;
     max-width: 512px;
     max-height: 512px;
 }
 
-button {
+.smudge-ui .button-row
+{
+    background-color: #222;
+    padding: 5px 0;
+}
+
+.smudge-ui .button-row button {
     background-color: #666;
     color: white;
     border: none;
@@ -32,25 +40,26 @@ button {
     border-radius: 15px;
 }
 
-.channel-buttons button {
+.smudge-ui .channel-buttons button {
     background-color: transparent;
     outline: none;
     border-radius: 0;
 }
 
-.channel-buttons .active {
+.smudge-ui .channel-buttons .active {
     background-color: #666;
     outline: none;
 }
 
-.label {
+.smudge-ui .label {
     color: white;
     font-size: 11px;
     font-family: system-ui;
 }
 
-.channel-preview,
-.three-preview {
+.smudge-ui .preview
+{
+    display: block;
     background-image: url('../../images/checkerboard_gray_gray.png');
     background-size: 16px 16px;
 }

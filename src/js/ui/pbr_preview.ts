@@ -5,9 +5,9 @@ import * as THREE from 'THREE';
 import { Framebuffer } from '../private/framebuffer';
 
 export class PBRPreview {
+    public canvas: HTMLCanvasElement;
     private renderer: THREE.WebGLRenderer;
     private cube: THREE.Mesh;
-
     constructor(_targetID: string) {
 
         // init Three renderer
@@ -18,8 +18,9 @@ export class PBRPreview {
 
 
         // inject preview canvas
-        const t = document.getElementsByClassName("pbr-preview")[0];
-        t.insertBefore(this.renderer.domElement, t.firstChild);
+        // const t = document.getElementsByClassName("smudge-3d")[0];
+        // t.insertBefore(this.renderer.domElement, t.firstChild);
+        this.canvas = this.renderer.domElement;
 
         // set up scene
         const scene = new THREE.Scene();

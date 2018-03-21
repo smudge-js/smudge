@@ -22,12 +22,15 @@ export class SmudgeUI {
 
     constructor(private smudge: Smudge) {
         this.uiDiv = document.createElement('div');
+        this.uiDiv.classList.add("smudge-ui");
         document.body.appendChild(this.uiDiv);
 
-        const uiHTML = require("./ui.html");
-        this.uiDiv.innerHTML = uiHTML;
+        const ui2d = require("./ui.html");
+        const ui3d = require("./ui_3d.html");
+        this.uiDiv.innerHTML = ui2d + ui3d;
 
-        document.getElementsByClassName("channel-preview")[0].appendChild(smudge.canvas);
+        const target = this.uiDiv.querySelector(".smudge-2d .preview");
+        target.appendChild(smudge.canvas);
 
         this.buildChannelButtons();
         this.buildExportButtons();
@@ -57,7 +60,9 @@ export class SmudgeUI {
     }
 
     private buildChannelButtons() {
-        const channelButtonsDiv = this.uiDiv.getElementsByClassName("channel-buttons")[0];
+
+        const channelButtonsDiv = this.uiDiv.querySelector(".smudge-2d .channel-buttons");
+
 
         _.forEach(bufferLayouts, (_bufferLayout, bufferName) => {
             const b = document.createElement("button");
@@ -67,11 +72,11 @@ export class SmudgeUI {
             let showBuffer;
             b.addEventListener("click", showBuffer = (event: MouseEvent) => {
                 // set tab to active
-                const children = channelButtonsDiv.childNodes;
+                const children = channelButtonsDiv.querySelectorAll("button");
                 for (let i = 0; i < children.length; ++i) {
-                    (children[i] as HTMLButtonElement).className = '';
+                    children[i].classList.remove('active');
                 }
-                (event.target as HTMLButtonElement).className = "active";
+                (event.target as HTMLButtonElement).classList.add('active');
 
                 // show it
                 this.smudge.show(bufferName);
@@ -80,7 +85,7 @@ export class SmudgeUI {
     }
 
     private buildExportButtons() {
-        const exportButtonsDiv = document.getElementsByClassName("export-buttons")[0];
+        const exportButtonsDiv = this.uiDiv.querySelector(".smudge-2d .export-buttons");
 
         _.forEach(exportLayouts, (layout: any, name: string) => {
             const b = document.createElement("button");
@@ -109,6 +114,11 @@ export class SmudgeUI {
 
     private buildPBRPreview() {
         this.pbrPreview = new PBRPreview('pbr-preview');
+
+        const target = this.uiDiv.querySelector(".smudge-3d .preview");
+        target.appendChild(this.pbrPreview.canvas);
+
+
     }
 }
 
