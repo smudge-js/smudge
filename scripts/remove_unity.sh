@@ -9,7 +9,7 @@
 
 TARGET=images/environment_studio.rgbe
 
-git filter-branch --index-filter 'git rm -rf --cached --ignore-unmatch $TARGET' --prune-empty --tag-name-filter cat -- --all
+git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch $TARGET" --prune-empty --tag-name-filter cat -- --all
 
 # git for-each-ref --format="%(refname)" refs/original/ \ # find all refs matching refs/orignal
 # | \ # pipe them to xargs
