@@ -15,7 +15,7 @@ git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch $TARGET" 
 # | \ # pipe them to xargs
 # xargs -n 1 git update-ref -d
 
-git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 echo git update-ref -d
+git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
 
 
 # Ensure all old refs are fully removed
@@ -23,8 +23,9 @@ rm -Rf .git/logs .git/refs/original
 
 
 # Perform a garbage collection to remove commits with no refs
+git count-objects -vH
 git gc --prune=all --aggressive
-
+git count-objects -vH
 
 #git push origin --all --force
 #git push origin --tags --force
