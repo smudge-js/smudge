@@ -8,7 +8,7 @@
 
 // Font Family
 @import url('https://fonts.googleapis.com/css?family=Lora');
-$font-family: "Lora", serif;
+$font-family: "Lora", sans, serif;
 
 // Base Font for HTML
 $base-font-size: 16px;
@@ -53,10 +53,10 @@ $border-color: #DADADA;
 *, html, body {
     font-size: $base-font-size;
     font-family: $font-family;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
+    // -webkit-font-smoothing: antialiased;
+    // -moz-osx-font-smoothing: grayscale;
+    // -webkit-text-size-adjust: 100%;
+    // -ms-text-size-adjust: 100%;
 }
 
 

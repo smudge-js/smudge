@@ -20,11 +20,14 @@ export class SmudgeUI {
     private uiDiv: HTMLDivElement;
     private pbrPreview: PBRPreview;
 
-    constructor(private smudge: Smudge) {
+    constructor(private smudge: Smudge, targetElement?: HTMLElement) {
         this.uiDiv = document.createElement('div');
         this.uiDiv.classList.add("smudge-ui");
-        document.body.appendChild(this.uiDiv);
-
+        if (targetElement) {
+            targetElement.appendChild(this.uiDiv);
+        } else {
+            document.body.appendChild(this.uiDiv);
+        }
         const ui2d = require("./ui.html");
         const ui3d = require("./ui_3d.html");
         this.uiDiv.innerHTML = ui2d + ui3d;

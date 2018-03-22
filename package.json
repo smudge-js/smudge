@@ -6,8 +6,9 @@
   "scripts": {
     "start": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
     "smudge": "webpack-dev-server --open",
-    "smudge-build": "webpack",
-    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload & sleep 2 && open http://127.0.0.1:4000/smudge/",
+    "smudge_build": "webpack",
+    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload",
+    "open_blog": "sleep 2 && open http: //127.0.0.1:4000/smudge/",
     "api_doc": "typedoc --theme minimal --out ./api_doc/ src/app.ts"
   },
   "repository": {

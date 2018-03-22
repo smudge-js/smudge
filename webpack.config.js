@@ -44,7 +44,7 @@ const rules = [
 
 module.exports = [
 	{
-		entry: './sketches/basic.ts',
+		entry: './sketches/index.ts',
 		output: {
 			filename: 'sketch.js',
 			path: path.resolve(__dirname, 'dist')
