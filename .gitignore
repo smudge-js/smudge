@@ -1,7 +1,7 @@
 .DS_Store
-node_modules
-/api_doc
-npm-debug.log
-test_doc
-bundle.js
+node_modules/
+api_doc/
+test_doc/
 dist/
+npm-debug.log
+bundle.js
