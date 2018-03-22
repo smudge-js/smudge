@@ -7,8 +7,9 @@
 # -- \ # this -- seperates the following options from the previous ones. following options are for the rev-list
 # --all # revise all 
 
+TARGET=images/environment_studio.rgbe
 
-git filter-branch --index-filter 'git rm -rf --cached --ignore-unmatch unity/' --prune-empty --tag-name-filter cat -- --all
+git filter-branch --index-filter 'git rm -rf --cached --ignore-unmatch $TARGET' --prune-empty --tag-name-filter cat -- --all
 
 # git for-each-ref --format="%(refname)" refs/original/ \ # find all refs matching refs/orignal
 # | \ # pipe them to xargs
@@ -24,4 +25,6 @@ rm -Rf .git/logs .git/refs/original
 # Perform a garbage collection to remove commits with no refs
 git gc --prune=all --aggressive
 
-git push origin --all
+
+#git push origin --all --force
+#git push origin --tags --force
