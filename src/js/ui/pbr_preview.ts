@@ -2,12 +2,16 @@
 
 
 import * as THREE from 'THREE';
+
+
 import { Framebuffer } from '../private/framebuffer';
 
 export class PBRPreview {
     public canvas: HTMLCanvasElement;
     private renderer: THREE.WebGLRenderer;
     private cube: THREE.Mesh;
+    private dirty = false;
+
     constructor(_targetID: string) {
 
         // init Three renderer
@@ -50,7 +54,13 @@ export class PBRPreview {
         const material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
 
         this.cube = new THREE.Mesh(geometry, material);
+        this.cube.rotateX(Math.PI * -.25);
+        this.cube.rotateZ(Math.PI * .2);
+
+        // this.cube.rotateY(.5);
         scene.add(this.cube);
+
+
 
         const arcball = new ArcBall(this.renderer.domElement, this.cube);
         // creating ArcBall for side effects but never need to access it again
@@ -59,9 +69,15 @@ export class PBRPreview {
         arcball;
 
         // start render loop
+        let oldMatrix: THREE.Matrix4;
+
         const render = () => {
             requestAnimationFrame(render);
-            this.renderer.render(scene, camera);
+            if (this.dirty || !oldMatrix || !this.cube.matrix.equals(oldMatrix)) {
+                this.renderer.render(scene, camera);
+            }
+            oldMatrix = this.cube.matrix.clone();
+            this.dirty = false;
         };
         render();
 
@@ -92,6 +108,8 @@ export class PBRPreview {
             envMap.mapping = THREE.EquirectangularReflectionMapping;
             material.envMap = envMap;
             material.needsUpdate = true;
+
+            this.dirty = true;
         });
 
         ///////////////////////////////////

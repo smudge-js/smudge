@@ -27,6 +27,7 @@ import { IExportLayout } from './config/export_layouts';
 
 
 
+
 export class Smudge {
 
     public readonly gl: WebGLRenderingContext;
@@ -231,13 +232,18 @@ export class Smudge {
      * @param buffer the buffer or name of buffer to copy
      */
     // @todo this is a pretty ui-centric operation, maybe ui should have a show("bufferName") command that is public, and calls this internally?
-    public async show(bufferOrName: Framebuffer | string = "albedo") {
-        let buffer;
+    public async bufferToCanvas(bufferOrName: Framebuffer | string = "albedo") {
+        let buffer: Framebuffer;
         if (typeof bufferOrName === "string") {
             buffer = this.buffers[bufferOrName];
+            if (!buffer) {
+                consoleError(`bufferToCanvas: no such buffer: ${bufferOrName}`);
+                return;
+            }
         } else {
             buffer = bufferOrName;
         }
+
 
         // position rect
         const mvMatrix = mat4.create();
@@ -287,6 +293,11 @@ export class Smudge {
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
         await wait();
+    }
+
+    public async show(bufferOrName: Framebuffer | string = "albedo") {
+        consoleError("show is deprecated, use bufferToCanvas() or smudge_ui.showChannel()");
+        this.bufferToCanvas(bufferOrName);
     }
 
     // @todo create IPackingLayout

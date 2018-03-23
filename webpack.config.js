@@ -2,8 +2,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const rules = [
-	{
+const rules = [{
 		test: /\.js$/,
 		enforce: 'pre',
 		loader: "source-map-loader"
@@ -39,21 +38,23 @@ const rules = [
 	{
 		test: /\.(html)$/,
 		loader: 'html-loader',
-	}];
+	}
+];
 
 
-module.exports = [
-	{
+module.exports = [{
 		entry: './sketches/index.ts',
 		output: {
 			filename: 'sketch.js',
 			path: path.resolve(__dirname, 'dist')
 		},
 		externals: {
-			"../src/js/index": "smudge",
+			THREE: 'THREE',
+			lodash: '_',
+			// 	"../src/js/index": "smudge",
 		},
 		resolve: {
-			extensions: [".ts", ".js",]
+			extensions: [".ts", ".js", ]
 		},
 		module: {
 			rules
@@ -61,8 +62,7 @@ module.exports = [
 		devtool: 'inline-source-map',
 		mode: 'development',
 
-	}
-	,
+	},
 	{
 		entry: {
 			smudge: './src/js/index',
@@ -77,7 +77,7 @@ module.exports = [
 		},
 
 		resolve: {
-			extensions: [".ts", ".js",]
+			extensions: [".ts", ".js", ]
 		},
 
 		externals: {
@@ -105,4 +105,5 @@ module.exports = [
 
 		mode: "development",
 
-	}];
+	}
+];

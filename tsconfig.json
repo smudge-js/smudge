@@ -18,6 +18,9 @@
             "dom"
         ]
     },
+    "types": [
+        "THREE"
+    ],
     "exclude": [
         "node_modules",
         "./src/js/sketches/**/*",

@@ -26,7 +26,7 @@ export async function draw2() {
     // create a smudge instance
     const smudge = new Smudge(undefined, 512, 512);
     // show the ui
-    const ui = new SmudgeUI(smudge, document.getElementById("ui-target"));
+    const ui = new SmudgeUI(smudge, { targetElement: document.getElementById("ui-target") });
 
     // clear the drawing
     smudge.clear();
