@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver';
 
 
 
-import { consoleTrace, consoleReport, consoleError } from './logging';
+import { setLoggingLevel, consoleTrace, consoleReport, consoleError } from './logging';
 
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
 
@@ -29,6 +29,10 @@ import { IExportLayout } from './config/export_layouts';
 
 
 export class Smudge {
+    public static setLoggingLevel(level: "trace" | "info" | "report" | "log" | "warn" | "error") {
+        setLoggingLevel(level);
+    }
+
 
     public readonly gl: WebGLRenderingContext;
 
@@ -36,6 +40,8 @@ export class Smudge {
     public readonly width: number;
     public readonly height: number;
     public readonly buffers: { [key: string]: Framebuffer };
+
+
 
     private readonly canvasWidth: number;
     private readonly canvasHeight: number;
@@ -45,6 +51,9 @@ export class Smudge {
     private readonly basicProgram: Program;
     private readonly textureProgram: Program;
     private readonly drawProgram: Program;
+
+
+
 
 
     /**
@@ -98,6 +107,8 @@ export class Smudge {
         // clean up
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
+
+
 
 
 

@@ -4,7 +4,9 @@ import { Material2, Smudge, SmudgeUI } from '../src/js/index';
 
 export async function draw() {
     // create a smudge instance
+    Smudge.setLoggingLevel("warn");
     const smudge = new Smudge(undefined, 512, 512);
+
     // show the ui
     const ui = new SmudgeUI(smudge, {
         show2D: true,
