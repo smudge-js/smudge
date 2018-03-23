@@ -21,14 +21,14 @@ export async function draw() {
 
         if (i % 100 === 0) {
             await smudge.show();
-            await ui.updatePBR();
+            await ui.update3D();
         }
     }
 
 
     // show albedo in ui
     smudge.show();
-    ui.updatePBR();
+    ui.update3D();
 }
 
 

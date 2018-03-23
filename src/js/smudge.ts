@@ -296,7 +296,7 @@ export class Smudge {
     }
 
     public async show(bufferOrName: Framebuffer | string = "albedo") {
-        consoleError("show is deprecated, use bufferToCanvas() or smudge_ui.showChannel()");
+        consoleError("show is deprecated, use bufferToCanvas() or smudge_ui.update2D()");
         this.bufferToCanvas(bufferOrName);
     }
 

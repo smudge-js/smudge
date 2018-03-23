@@ -8,8 +8,8 @@ export async function draw() {
     // show the ui
     const ui = new SmudgeUI(smudge, {
         show2D: true,
-        show3D: false,
-        combine2D3D: true,
+        show3D: true,
+        combine2D3D: false,
         showChannelButtons: true,
         showExportButtons: true,
         targetElement: document.getElementById("ui-target1"),
@@ -30,8 +30,9 @@ export async function draw() {
 
 
     // show albedo in ui
-    ui.showChannel('albedo');
-    ui.updatePBR();
+    ui.update2D('albedo');
+    ui.update3D();
+    ui.show3D();
 }
 
 

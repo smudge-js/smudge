@@ -89,7 +89,7 @@ export class SmudgeUI {
 
     }
 
-    public async updatePBR() {
+    public async update3D() {
         // collect the existing buffers
         const albedo: Framebuffer = this.smudge.getBuffer('albedo');
         const height: Framebuffer = this.smudge.getBuffer('height');
@@ -110,7 +110,7 @@ export class SmudgeUI {
         return wait();
     }
 
-    public async showChannel(bufferOrName: Framebuffer | string = "albedo") {
+    public async update2D(bufferOrName: Framebuffer | string = "albedo") {
         const channelButtonsDiv = this.uiDiv.querySelector('.channel-buttons');
         const channelButtons = channelButtonsDiv.querySelectorAll('.channel-button');
         for (let i = 0; i < channelButtons.length; ++i) {
@@ -123,10 +123,27 @@ export class SmudgeUI {
                 activeButton.classList.add('active');
             }
         }
-
-
-
         this.smudge.bufferToCanvas(bufferOrName);
+    }
+
+    public show3D() {
+        const preview3d = this.uiDiv.querySelector('.preview-3d');
+        const show2DButton = this.uiDiv.querySelector('.show-2d');
+        const show3DButton = this.uiDiv.querySelector('.show-3d');
+
+        if (preview3d) { preview3d.classList.add('show'); }
+        if (show2DButton) { show2DButton.classList.remove('active'); }
+        if (show3DButton) { show3DButton.classList.add('active'); }
+
+    }
+    public show2D() {
+        const preview3d = this.uiDiv.querySelector('.preview-3d');
+        const show2DButton = this.uiDiv.querySelector('.show-2d');
+        const show3DButton = this.uiDiv.querySelector('.show-3d');
+
+        if (preview3d) { preview3d.classList.remove('show'); }
+        if (show2DButton) { show2DButton.classList.add('active'); }
+        if (show3DButton) { show3DButton.classList.remove('active'); }
     }
 
     private buildChannelButtons() {
@@ -144,19 +161,9 @@ export class SmudgeUI {
             b.textContent = bufferName;
 
             const showBuffer = () => {
-                this.showChannel(bufferName);
+                this.update2D(bufferName);
             };
 
-            // const activateChannelTab = (event: MouseEvent) => {
-            //     // set tab to active
-            //     const children = channelButtonsDiv.querySelectorAll('.channel-button');
-            //     for (let i = 0; i < children.length; ++i) {
-            //         children[i].classList.remove('active');
-            //     }
-            //     (event.target as HTMLButtonElement).classList.add('active');
-            // };
-
-            // b.addEventListener('click', activateChannelTab);
             b.addEventListener('click', showBuffer);
         });
 
@@ -166,23 +173,22 @@ export class SmudgeUI {
 
             const show2DButton = document.createElement('button');
             channelButtonsDiv.appendChild(show2DButton);
-            show2DButton.classList.add('active');
+            show2DButton.classList.add('active', 'show-2d');
             show2DButton.textContent = '2D';
 
             const show3DButton = document.createElement('button');
             channelButtonsDiv.appendChild(show3DButton);
+            show3DButton.classList.add('show-3d');
             show3DButton.textContent = '3D';
 
 
             show3DButton.addEventListener('click', () => {
-                preview3d.classList.add('show');
-                show2DButton.classList.remove('active');
-                show3DButton.classList.add('active');
+                this.show3D();
+
             });
             show2DButton.addEventListener('click', () => {
-                preview3d.classList.remove('show');
-                show2DButton.classList.add('active');
-                show3DButton.classList.remove('active');
+                this.show2D();
+
             });
         }
     }

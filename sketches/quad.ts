@@ -27,7 +27,7 @@ export async function draw() {
 
     // show albedo in ui
     smudge.show();
-    ui.updatePBR();
+    ui.update3D();
 }
 
 
