@@ -101,11 +101,11 @@
     - [ ] low.control height strength
     - [ ] low.maybe adjust strength of metallic/smoothness
     - [ ] low.a few lighting + env map settings
-    - [ ] .auto rotate model
-    - [ ] .zoom
-    - [ ] .pan
-    - [ ] sphere in addition to box model
-    - [ ] tiling?: defer until tiled drawing exists
+    - [ ] low.auto rotate model
+    - [x] .zoom
+    - [x] .pan
+    - [ ] low.sphere in addition to box model
+    - [ ] low.tiling?: defer until tiled drawing exists
 
 ### Material
 - [ ] add second texture for "paper" this texture gets UVs based on position of paper can be used for texturing drawing in a way that lines up between calls.
