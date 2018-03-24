@@ -37,8 +37,8 @@ export class SmudgeUI {
         this.options = _.defaults(opts,
             {
                 show2D: true,
-                show3D: false,
-                combine2D3D: true,
+                show3D: true,
+                combine2D3D: false,
                 showChannelButtons: true,
                 showExportButtons: true,
                 targetElement: undefined,

@@ -1,6 +1,7 @@
 import { Material2, Smudge, SmudgeUI } from '../src/js/index';
 
 
+// demonstrates how to show work in progress on a long rendering sketch
 
 
 export async function draw() {

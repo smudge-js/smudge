@@ -1,6 +1,6 @@
-import { forEach, each, defaults } from 'lodash';
-const _ = { forEach, each, defaults };
-import { mat4 } from 'gl-matrix';
+import { forEach, each, defaults, defaultsDeep } from 'lodash';
+const _ = { forEach, each, defaults, defaultsDeep };
+import { mat4, mat3 } from 'gl-matrix';
 import { saveAs } from 'file-saver';
 
 
@@ -142,7 +142,7 @@ export class Smudge {
         _.forEach(bufferLayouts, (_bufferLayout, bufferName) => {
             // find the materialChannel for the current buffer
             const materialChannel = material[bufferName];
-            const { color } = _.defaults(materialChannel, material.default);
+            const { color } = _.defaultsDeep({}, materialChannel, material.default);
             const colorRGBA = colorDescriptionToRGBA(color);
             if (colorRGBA === undefined) {
                 consoleTrace(`Skipping ${bufferName} because color === undefined`);
@@ -553,7 +553,9 @@ export class Smudge {
 
             // fall back on material's defaults if needed
             // @todo test deepDefaults with textures...
-            const { color, blendMode, textureInfo } = _.defaults(materialChannel, material.default);
+            const { color, blendMode, textureInfo } = _.defaultsDeep({}, materialChannel, material.default);
+
+            // console.log("textureInfo", bufferName, textureInfo, materialChannel, material.default);
             const colorRGBA = colorDescriptionToRGBA(color);
             if (colorRGBA === undefined) {
                 consoleTrace(`Skipping ${bufferName} because color === undefined`);
@@ -594,6 +596,19 @@ export class Smudge {
 
                 this.gl.activeTexture(this.gl.TEXTURE0);
                 this.gl.bindTexture(this.gl.TEXTURE_2D, textureInfo.texture.texture);
+
+                // @todo this might be a hack, want to think about it.
+                // if we have an default identity matrix then clamp to prevent wraping
+                // if a special matrix has been set then repeat
+                // this probably is what you want most of the time, but might be better to expose
+                // what kind of wraping you want
+                if (mat3.equals(mat3.create(), textureInfo.uvMatrix as mat3)) {
+                    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+                    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+                } else {
+                    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.REPEAT);
+                    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.REPEAT);
+                }
             }
 
 
@@ -603,9 +618,8 @@ export class Smudge {
 
             // blending
             this.gl.enable(this.gl.BLEND);
-
             this.gl.blendEquationSeparate(blendMode.equation, this.gl.FUNC_ADD);
-            this.gl.blendFuncSeparate(blendMode.sFactor, blendMode.dFactor, this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+            this.gl.blendFuncSeparate(blendMode.sFactor, blendMode.dFactor, this.gl.SRC_ALPHA, this.gl.ONE);
 
             // color
             this.gl.colorMask(

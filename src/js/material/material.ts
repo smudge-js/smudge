@@ -58,32 +58,38 @@ export const BlendMode = {
     },
 };
 
+// @todo could make types for colorMatrix, bias, etc.
 
 export class TextureInfo {
+    public static makeDefault() {
+        const t = new TextureInfo();
+        t.colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        t.colorBias = [0, 0, 0, 0];
+        t.uvMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+        return t;
+    }
     public texture: Texture = undefined;
-    public colorMatrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-    public colorBias = [0, 0, 0, 0];
-    public uvMatrix: Float32Array | number[] = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    public colorMatrix: number[] = undefined;
+    public colorBias: number[] = undefined;
+    public uvMatrix: Float32Array | number[] = undefined;
 }
 
 export class MaterialChannel {
     public color: ColorDescription = undefined;
     public blendMode: IBlendMode = undefined;
-    public textureInfo: TextureInfo = new TextureInfo();
+    public textureInfo: TextureInfo = undefined;
 
     constructor(color?: ColorDescription, blendMode?: IBlendMode, textureConfig?: TextureInfo) {
         this.color = color;
         this.blendMode = blendMode;
-        if (textureConfig) {
-            this.textureInfo = textureConfig;
-        }
+        this.textureInfo = textureConfig || new TextureInfo();
     }
 }
 
 export class Material2 {
     public static clearing = new Material2();
 
-    public default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Blend, undefined);
+    public default: MaterialChannel = new MaterialChannel(undefined, BlendMode.Blend, TextureInfo.makeDefault());
     public albedo: MaterialChannel = new MaterialChannel();
     public metallic: MaterialChannel = new MaterialChannel();
     public smoothness: MaterialChannel = new MaterialChannel();
