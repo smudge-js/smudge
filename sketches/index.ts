@@ -1,4 +1,4 @@
-import * as sketch from './test_env';
+import * as sketch from './sketch_brick';
 
 
 // reference sketch to prevent it from being discarded by bundler

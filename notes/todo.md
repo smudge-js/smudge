@@ -43,6 +43,8 @@
 # Phase I
 
 ## Sketching Discoveries
+
+### from sketch_bricks
 // @todo x.need to offer control/rethink texture wrap vs clamp (clamp unless matrix provided?)
 // @todo x.looks like alpha'd albedo isn't working right
 // @todo x.export (matrix classes) on smudge
@@ -73,37 +75,37 @@
 - [x] Higher DPI export
 - [x] Higher Depth (EXR) export
 - [x] Named Export
-- [ ] low.Export 3D View
+- [x] low.Export 3D View
 - [ ] low.download full texture set at once? .JSZip https://github.com/Stuk/jszip
 
-
-
 ### Deployment
-- [ ] export smudge.js so you can just include the compiled js and use it in a js project
+- [x] export smudge.js so you can just include the compiled js and use it in a js project
 - [ ] also factor this so it can be npm installed and used.
 
 ### UI - API
-- [ ] A function to create a 2D UI
-- [ ] A function to create a 3D UI
-- [ ] an API call to update the 3D view
-- [ ] these functions might take some settings and return a dom object, probably insert the object as well
-- [ ] you might not want a UI, maybe you just want the script to run, render off screen and download the result or something, make example of this
+- [x] A function to create a 2D UI
+- [x] A function to create a 3D UI
+- [x] an API call to update the 3D view
+- [x] take a target element to insert at, optional
+- [ ] low.these functions might take some settings and return a dom object, probably insert the object as well
+- [x] you might not want a UI, maybe you just want the script to run, render off screen and download the result or something, make example of this
 
 ### UI - UI
-- [ ] visual design update
-- [ ] would be nice if live preview remembered which channel you were previewing on refresh
-- [ ] show single channel channels as grayscale, not redscale: pack and blit maybe useful to achive this
+- [x] visual design update
+- [ ] low.would be nice if live preview remembered which channel you were previewing on refresh
+- [ ] low.show single channel channels as grayscale, not redscale: pack and blit maybe useful to achive this
+    - [ ] mid.also adjust contrast on height (and what is a good height range here, because the height values are too small to work with?...
 
 ### UI - 3D
 - [ ] 3D
-    - [ ] control height strength
-    - [ ] maybe adjust strength of metallic/smoothness
-    - [ ] a few lighting + env map settings
-    - [ ] auto rotate model
-    - [ ] zoom
-    - [ ] pan
+    - [ ] low.control height strength
+    - [ ] low.maybe adjust strength of metallic/smoothness
+    - [ ] low.a few lighting + env map settings
+    - [ ] .auto rotate model
+    - [ ] .zoom
+    - [ ] .pan
     - [ ] sphere in addition to box model
-    - [ ] tiling?
+    - [ ] tiling?: defer until tiled drawing exists
 
 ### Material
 - [ ] add second texture for "paper" this texture gets UVs based on position of paper can be used for texturing drawing in a way that lines up between calls.

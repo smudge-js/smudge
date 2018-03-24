@@ -53,6 +53,7 @@ export class PBRPreview {
 
         // cube
         const geometry = new THREE.BoxGeometry(1, 1, 1);
+        // const geometry = new THREE.SphereGeometry(.5, 30, 30)
         const material = new THREE.MeshStandardMaterial({ color: "#FFFFFF" });
 
         this.cube = new THREE.Mesh(geometry, material);
@@ -62,6 +63,27 @@ export class PBRPreview {
         // this.cube.rotateY(.5);
         scene.add(this.cube);
 
+
+        this.renderer.domElement.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const scrollAmount = 1.1;
+            if (e.deltaY > 0) {
+                camera.position.z *= scrollAmount;
+            } else {
+                camera.position.z *= 1 / scrollAmount;
+            }
+            this.dirty = true;
+
+        });
+
+        const mouseDragger = new MouseDragger(this.renderer.domElement, true, (e) => {
+            const dragSpeed = .01;
+            camera.position.x -= e.dX * dragSpeed;
+            camera.position.y += e.dY * dragSpeed;
+            this.dirty = true;
+        });
+        // tslint:disable-next-line
+        mouseDragger;
 
 
         const arcball = new ArcBall(this.renderer.domElement, this.cube);
@@ -93,7 +115,6 @@ export class PBRPreview {
         const envMap = loader.load(
             path,
             () => {
-                // console.log(envMap);
                 envMap.magFilter = THREE.LinearFilter;
                 envMap.minFilter = THREE.LinearMipMapLinearFilter;
                 envMap.generateMipmaps = true;
@@ -152,6 +173,47 @@ export class PBRPreview {
 
 }
 
+class MouseDragger {
+    private oldX = 0;
+    private oldY = 0;
+    private isMousePressed = false;
+
+    constructor(private targetElement: HTMLElement, private requireAlt: boolean, private cb: (e: { x: number, y: number, dX: number, dY: number }) => void) {
+        this.targetElement.addEventListener("mousedown", (_e) => {
+            if (this.requireAlt && !_e.altKey) {
+                return;
+            }
+            this.isMousePressed = true;
+        });
+        this.targetElement.addEventListener("mouseup", (_e) => {
+            this.isMousePressed = false;
+        });
+
+        this.targetElement.addEventListener("mousemove", (_e) => {
+            const rect = this.targetElement.getBoundingClientRect();
+            const x = _e.clientX - rect.left;
+            const y = _e.clientY - rect.top;
+
+            if (this.isMousePressed && cb) {
+                cb({
+                    x,
+                    y,
+                    dX: x - this.oldX,
+                    dY: y - this.oldY,
+                });
+            }
+
+            this.oldX = x;
+            this.oldY = y;
+        });
+
+    }
+
+
+}
+
+
+
 function map(x: number, inMin: number, inMax: number, outMin: number, outMax: number) {
     return ((x - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
 }
@@ -163,14 +225,18 @@ class ArcBall {
 
     constructor(private targetElement: HTMLElement, private targetMesh: THREE.Mesh) {
 
-        this.targetElement.onmousedown = (_e) => {
+        this.targetElement.addEventListener('mousedown', (_e) => {
+            _e = _e as MouseEvent;
+            if (_e.altKey || _e.ctrlKey) {
+                return;
+            }
             this.isMousePressed = true;
-        };
-        this.targetElement.onmouseup = (_e) => {
+        });
+        this.targetElement.addEventListener('mouseup', (_e) => {
             this.isMousePressed = false;
-        };
+        });
 
-        this.targetElement.onmousemove = (_e) => {
+        this.targetElement.addEventListener('mousemove', (_e) => {
             const rect = this.targetElement.getBoundingClientRect();
             let x = _e.clientX - rect.left;
             let y = _e.clientY - rect.top;
@@ -192,7 +258,7 @@ class ArcBall {
 
             this.oldX = x;
             this.oldY = y;
-        };
+        });
     }
 
     public drag(x: number, y: number, _oldX: number, _oldY: number) {

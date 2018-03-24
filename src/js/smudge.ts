@@ -22,7 +22,7 @@ import { buildLineQuads, ILineOptions } from './draw/line';
 import { makeExr } from './exr';
 
 import { wait } from './util';
-import { IExportLayout } from './config/export_layouts';
+import { IExportLayout, exportLayouts } from './config/export_layouts';
 
 
 
@@ -412,7 +412,12 @@ export class Smudge {
             b = buffer;
         } else {
             b = this.getBuffer(buffer);
+            if (!b) {
+                consoleError(`Could not find buffer: ${buffer}`);
+            }
         }
+
+
 
         // read pixels
         b.bind();
@@ -505,7 +510,15 @@ export class Smudge {
     //     // let png = PNG.sync.read(pixels);
     // }
 
-    public export(layout: IExportLayout, exportName = `custom_${this.name}`) {
+    public export(layout: IExportLayout | string = exportLayouts.albedo, exportName = `custom_${this.name}`) {
+        if (typeof layout === 'string') {
+            const layoutName = layout;
+            layout = exportLayouts[layoutName];
+            if (!layout) {
+                consoleError(`unknown export layout: ${layoutName}`);
+            }
+        }
+
         const depth = layout.type === "png" ? 8 : 16;
         const packBuffer = new Framebuffer("pack_buffer", this.gl, layout.size, layout.size, 4, depth);
         this.pack(layout.layout, layout.clear, packBuffer);

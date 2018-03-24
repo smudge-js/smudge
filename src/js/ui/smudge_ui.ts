@@ -208,7 +208,6 @@ export class SmudgeUI {
             const downloadExport = (event: MouseEvent) => {
                 event.preventDefault();
                 this.smudge.export(layout, `${this.smudge.name}_${name}`);
-
             };
 
             b.addEventListener('click', downloadExport);

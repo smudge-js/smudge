@@ -14,10 +14,14 @@ export interface IExportLayout {
     // blend_mode: BlendModeKey;
 }
 
+export interface IExportLayouts {
+    [index: string]: IExportLayout;
+}
+
 
 export type IReadonlyExportLayout = Readonly<IExportLayout>;
 
-const exportLayoutsUnity = {
+const exportLayoutsUnity: IExportLayouts = {
     albedo: <IReadonlyExportLayout>{
         type: "png",
         size: 1024,
