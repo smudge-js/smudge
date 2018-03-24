@@ -58,6 +58,9 @@
 
 ## Bugs
 
+- [ ] warn GLProgram "basicProgram" Shader program attribute not found: aUV
+
+
 ## Refactoring + Style
 
 ### Internal
@@ -108,7 +111,7 @@
     - [ ] low.tiling?: defer until tiled drawing exists
 
 ### Material
-- [ ] add second texture for "paper" this texture gets UVs based on position of paper can be used for texturing drawing in a way that lines up between calls.
+- [ ] mid.add second texture for "paper" this texture gets UVs based on position of paper can be used for texturing drawing in a way that lines up between calls.
 ```javascript
 sourceColorMatrix * sourceSample(sourceUV • sourceUVMatrix) + sourceColorBias
 *
@@ -118,11 +121,12 @@ color
 +
 colorBias
 ```
-- [ ] example using default texture. This would maybe be a common case (maybe not). A bumpy texture that modulates color + height, for example. Does it work right?
-
+- [ ] low.actually it would be pretty good to have two source textures (multiplied) it would be helpful for combining say a textue and a mask. (screened) would be good too, but with too many options its starting to sound like you want to make your own shader... Offscreen rendering might help with this, you could combine textures that way. actually texture1.combine(texture2, "screen") would be hot.
+- [ ] make simple mat.default.textureInfo demo (sketch brick uses but too complex)
+    - [ ] example using default texture. This would maybe be a common case (maybe not). A bumpy texture that modulates color + height, for example. 
+        - [x] Does it work right?:Yes now it odes
 
 ### Matrix
-- [ ] currently two types of matrix (for 3d and 2d) one is a UVMatrix. can these be one, with somesort of autopromotion/demotion as needed?
 
 ### Development Tools
 - [ ] Doc building
@@ -138,14 +142,20 @@ colorBias
 - [ ] etc.
 
 
-
-
 ## Docs
 - [] gen docs with typedocs?
     this is looking like it might need more manual intervention...
         - typedoc is documenting to many needless files.
-        - documentation is to tied to code, not high level enough.
+        - documentation structure is to tied to code, not high level enough on its own.
         - some types etc are just not clearly presented through generated docs
+
+
+
+
+
+
+
+
 
 
 # Phase II
@@ -153,8 +163,7 @@ colorBias
 ## Refactoring 
 
 ### Internal
-- [ ] ?switch enums to real enums?
-- [ ] generally audit the draw pathway/relationship between geo/material/programming 
+- [ ] low.generally audit the draw pathway/relationship between geo/material/programming 
 - [ ] shaders
     - [ ] common names for uniforms and attribs
     - [ ] are all three being used? should there be multiple shaders, or one to rule them all?
