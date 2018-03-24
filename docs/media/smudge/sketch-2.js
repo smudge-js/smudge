@@ -4,7 +4,10 @@ let { Material2, Smudge, SmudgeUI } = smudge;
 const s = new Smudge(undefined, 512, 512);
 
 // show the ui
-const ui = new SmudgeUI(s, document.getElementById('example-2'));
+const uiTarget = document.getElementById(document.currentScript.dataset.uiTarget);
+const ui = new SmudgeUI(s, { targetElement: uiTarget });
+
+
 
 // clear the drawing
 s.clear();

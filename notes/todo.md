@@ -42,6 +42,18 @@
 
 # Phase I
 
+## Sketching Discoveries
+// @todo x.need to offer control/rethink texture wrap vs clamp (clamp unless matrix provided?)
+// @todo x.looks like alpha'd albedo isn't working right
+// @todo x.export (matrix classes) on smudge
+// @todo i don't think the 4 item matrix is working right
+// @todo can't i just set .uvMatrix to a UVMatrix, don't want to .get();
+// @todo material2 -> material
+// @todo smudge -> canvas? texture? sketch? context? (whats a good name?);
+// @todo need an easy way to convert grayscale to alpha, some matrix presets
+// @todo can't see height, needs more contrast
+
+
 ## Bugs
 
 ## Refactoring + Style
@@ -53,7 +65,7 @@
 ## Enhancements + Feature Ideas
 
 ### API
-- [ ] a way to set up the drawing matrix (this is stateful, which we largely avoid, but a once-at-the-top call to set up the logical dimensions would make sense anyway)
+- [ ] a way to set up the drawing matrix to specify a coordinate system you want to work with independent of the canvas size (this is stateful, which we largely avoid, but a once-at-the-top call to set up the logical dimensions would make sense anyway)
     - [ ] Set canvas size seperately from "logical" size. So you can resize rendering dimensions without altering positions in code.
 
 

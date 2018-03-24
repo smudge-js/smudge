@@ -1,27 +1,19 @@
-import { Material2, Smudge, SmudgeUI, BlendMode } from '../src/js/index';
-import { UVMatrix, Matrix } from '../src/js/draw';
+import { Material2, Smudge, SmudgeUI, BlendMode, UVMatrix, Matrix } from '../src/js/index';
 
-// @todo x.need to offer control/rethink texture wrap vs clamp (clamp unless matrix provided?)
-// @todo x.looks like alpha'd albedo isn't working right
-// @todo i don't think the 4 item matrix is working right
-// @todo can't i just set .uvMatrix to a UVMatrix, don't want to .get();
-// @todo export everything on smudge (matrix classes)
-// @todo material2 -> material
-// @todo smudge -> canvas? texture? sketch? context? (whats a good name?);
-// @todo need an easy way to convert grayscale to alpha, some matrix presets
+
 
 
 export async function draw() {
     // create a smudge instance
     Smudge.setLoggingLevel("warn");
-    const smudge = new Smudge(undefined, 512, 512);
+    const smudge = new Smudge("brick", 512, 512);
 
     // load a texture
-    const brickHeight = await smudge.loadTexture("images/blur_box.png");
-    const noise = await smudge.loadTexture("images/gaussian_noise.png");
-    const clouds = await smudge.loadTexture("images/clouds.png");
-    const circleRough = await smudge.loadTexture("images/circle_rough.png");
-    const letterA = await smudge.loadTexture("images/letter_a.png");
+    const brickHeight = await smudge.loadTexture("/images/blur_box.png");
+    const noise = await smudge.loadTexture("/images/gaussian_noise.png");
+    const clouds = await smudge.loadTexture("/images/clouds.png");
+    const circleRough = await smudge.loadTexture("/images/circle_rough.png");
+    const letterA = await smudge.loadTexture("/images/letter_a.png");
 
     // show the ui
     const ui = new SmudgeUI(smudge);
@@ -70,7 +62,7 @@ export async function draw() {
     brickOverlay.smoothness.textureInfo.uvMatrix = new UVMatrix().scale(.6, .3).get();
     brickOverlay.smoothness.blendMode = BlendMode.Additive;
 
-    for (let row = 0; row < 7; row++) {
+    for (let row = 1; row < 8; row++) {
         for (let col = 0; col < 5; col++) {
             brickBase.albedo.color = [Math.random() * .1 + .6, Math.random() * .1, Math.random() * .1];
             brickOverlay.albedo.textureInfo.uvMatrix = new UVMatrix().rotate(Math.random() * Math.PI).scale(.4, .2).get();
@@ -101,7 +93,7 @@ export async function draw() {
     paint.albedo.color = [0, .8, 0, 1];
     paint.metallic.color = 0;
     paint.smoothness.color = [.2, .9];
-    paint.height.color = .002;
+    paint.height.color = .001;
     paint.height.blendMode = BlendMode.Additive;
 
     paint.default.textureInfo.texture = circleRough;
@@ -114,6 +106,7 @@ export async function draw() {
     ];
 
     smudge.ellipse(32, 32, 256, 256, paint);
+
 
     // draw dirt
     // const dirt = new Material2();

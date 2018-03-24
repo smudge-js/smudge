@@ -1,17 +1,16 @@
 declare var require: any;
 
-import { Smudge } from '../smudge';
-import { bufferLayouts } from '../config/buffer_layouts';
-import { exportLayouts } from '../config/export_layouts';
-
-import { PBRPreview } from './pbr_preview';
-
-import './smudge_ui.css';
-import { Framebuffer } from '../private/framebuffer';
-
 import { forEach, defaults } from 'lodash';
 const _ = { forEach, defaults };
 
+import { saveAs } from 'file-saver';
+
+import { Smudge } from '../smudge';
+import { bufferLayouts } from '../config/buffer_layouts';
+import { exportLayouts } from '../config/export_layouts';
+import { PBRPreview } from './pbr_preview';
+import './smudge_ui.css';
+import { Framebuffer } from '../private/framebuffer';
 import { wait } from '../util';
 import { consoleError, consoleWarn } from '../logging';
 
@@ -24,6 +23,7 @@ export interface ISmudgeUIOptions {
     showChannelButtons?: boolean;
     showExportButtons?: boolean;
     targetElement?: HTMLElement;
+    environmentMapPath?: string;
 }
 
 
@@ -42,6 +42,7 @@ export class SmudgeUI {
                 showChannelButtons: true,
                 showExportButtons: true,
                 targetElement: undefined,
+                environmentMapPath: '/images/environment_studio.jpg',
             });
 
         if (this.options.combine2D3D) {
@@ -204,27 +205,35 @@ export class SmudgeUI {
             b.textContent = name;
 
 
-            let downloadExport;
-            b.addEventListener('click', downloadExport = (event: MouseEvent) => {
+            const downloadExport = (event: MouseEvent) => {
                 event.preventDefault();
-                // this.smudge.pack(layout.layout, layout.clear);
-                // this.smudge.saveCanvasAs(`${this.smudge.name}_${name}.png`);
-
-
-                // const packBuffer = new Framebuffer('pack_buffer', this.smudge.gl, 1024, 1024, 4, 16);
-                // this.smudge.pack(layout.layout, layout.clear, packBuffer);
-                // this.smudge.saveBufferEXR(`${name}.exr`, packBuffer);
-
-                // this.smudge.show(packBuffer);
-
                 this.smudge.export(layout, `${this.smudge.name}_${name}`);
 
-            });
+            };
+
+            b.addEventListener('click', downloadExport);
         });
+
+
+        if (this.options.show3D) {
+            const b = document.createElement('button');
+            exportButtonsDiv.appendChild(b);
+            b.textContent = "3D";
+            const download3D = (event: MouseEvent) => {
+                event.preventDefault();
+                const fileName = `${this.smudge.name}_render.png`;
+                this.pbrPreview.canvas.toBlob((blob) => {
+                    saveAs(blob, fileName);
+                });
+
+            };
+            b.addEventListener('click', download3D);
+        }
     }
 
     private buildPBRPreview() {
         this.pbrPreview = new PBRPreview('pbr-preview');
+        this.pbrPreview.loadEnvironmentMap(this.options.environmentMapPath);
         const target = this.uiDiv.querySelector('.preview-3d');
         target.appendChild(this.pbrPreview.canvas);
     }

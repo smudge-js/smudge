@@ -12,12 +12,14 @@ export class PBRPreview {
     private cube: THREE.Mesh;
     private dirty = false;
 
+    private envMap: THREE.Texture;
+
     constructor(_targetID: string) {
 
         // init Three renderer
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
         this.renderer.setClearColor("#000", 0);
-        this.renderer.setSize(512, 512);
+        this.renderer.setSize(1024, 1024);
         this.renderer.setPixelRatio(2);
 
 
@@ -84,6 +86,29 @@ export class PBRPreview {
 
     }
 
+    public loadEnvironmentMap(path: string) {
+        const material = this.cube.material as THREE.MeshStandardMaterial;
+
+        const loader = new THREE.TextureLoader();
+        const envMap = loader.load(
+            path,
+            () => {
+                // console.log(envMap);
+                envMap.magFilter = THREE.LinearFilter;
+                envMap.minFilter = THREE.LinearMipMapLinearFilter;
+                envMap.generateMipmaps = true;
+                envMap.mapping = THREE.EquirectangularReflectionMapping;
+                material.envMap = envMap;
+                material.needsUpdate = true;
+                this.dirty = true;
+            },
+            undefined,
+            () => {
+                this.dirty = true;
+            },
+        );
+    }
+
     public update(gl: WebGLRenderingContext, albedo: Framebuffer, smoothMetallic: Framebuffer, height: Framebuffer, emission: Framebuffer) {
 
         // create a new PBR material
@@ -99,18 +124,8 @@ export class PBRPreview {
 
         ///////////////////////////////////
         ///// Environment Map
-        const loader = new THREE.TextureLoader();
-        const envMap = loader.load("./images/environment_studio.jpg", () => {
-            // console.log(envMap);
-            envMap.magFilter = THREE.LinearFilter;
-            envMap.minFilter = THREE.LinearMipMapLinearFilter;
-            envMap.generateMipmaps = true;
-            envMap.mapping = THREE.EquirectangularReflectionMapping;
-            material.envMap = envMap;
-            material.needsUpdate = true;
+        // @todo, texture loading shouldn't be in update, its reloading the env texture on every update
 
-            this.dirty = true;
-        });
 
         ///////////////////////////////////
         ///// PBR Settings
@@ -124,6 +139,8 @@ export class PBRPreview {
         ///////////////////////////////////
         ///// Update Material
         material.needsUpdate = true;
+
+        this.dirty = true;
 
         ///////////////////////////////////
         ///// Clean up
