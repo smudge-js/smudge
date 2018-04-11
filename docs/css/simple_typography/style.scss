@@ -7,8 +7,8 @@
 \*------------------------------------*/
 
 // Font Family
-@import url('https://fonts.googleapis.com/css?family=Lora');
-$font-family: "Lora", sans, serif;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+$font-family: "Roboto", sans, serif;
 
 // Base Font for HTML
 $base-font-size: 16px;
@@ -53,6 +53,7 @@ $border-color: #DADADA;
 *, html, body {
     font-size: $base-font-size;
     font-family: $font-family;
+    font-weight: 100;
     // -webkit-font-smoothing: antialiased;
     // -moz-osx-font-smoothing: grayscale;
     // -webkit-text-size-adjust: 100%;
