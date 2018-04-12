@@ -4,7 +4,7 @@ title:  "Smudge Jam"
 date:   2018-04-11 00:01:01 -0500
 categories: smudge
 author: Justin Bakse
-poster_image: 
+poster_image: /media/jam/jam_render.png
 ---
 
 Smudge Jam will be small, informal, invite-only code jam held to collect feedback on **Smudge**.

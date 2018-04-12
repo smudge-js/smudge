@@ -4,7 +4,7 @@ title:  "Brick Test"
 date:   2018-03-21 00:01:01 -0500
 categories: smudge
 author: Justin Bakse
-poster_image: 
+poster_image: /media/brick/brick_render.png
 ---
 
 I just finished a major refactoring pass on smudge. There are still some things that really want to do, but I'm going to do some user testing before the next round of refactoring and feature additions.
