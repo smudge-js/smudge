@@ -10,10 +10,10 @@ poster_image:
 Smudge Jam will be small, informal, invite-only code jam held to collect feedback on **Smudge**.
 
 Smudge Jam will be held on:<br/>
-**Saturday April 21, 2pm to 10pm.**
+**Saturday April 21, 2pm to 8pm+**
 
 Smudge Jam will be held at:<br/>
-**Parsons Design + Technology Studios, Room D1210, 6 East 16th Street, Manhattan**
+**Parsons Design + Technology Studios, Room D1208, 6 East 16th Street, Manhattan**
 
 
 ## What is Smudge?
@@ -43,7 +43,9 @@ smudge.ellipse(50, 50, 412, 412, goldLeaf);
 
 Here is [all of the code](/smudge/media/brick/brick.js).
 
+Here is [a brick wall](/smudge/media/brick/brick.js).
 
+Here is [the Smudge Blog](/smudge/), but its a bit of a mess.
 
 ## What is Smudge Jam?
 
@@ -52,7 +54,6 @@ Smudge Jam will be small, informal code jam held to collect feedback on **Smudge
 I want to learn what works and what doesn't and learn how people might use it. This will help me to decide how (and whether) to move forward with this project.
 
 <span style="font-size: 2em; line-height: 2;">Cheap food and drinks will be provided!<br/>Music will be provided!<br/>Stupid, worthless prizes will be provided!<br/>Computers will **not** be provided. Bring your own laptop.</span>
-
 
 
 
