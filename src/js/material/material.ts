@@ -12,6 +12,8 @@ export interface IBlendMode {
     sFactor: GLenum;
     dFactor: GLenum;
 }
+
+/** @hidden */
 export type IReadonlyBlendMode = Readonly<IBlendMode>;
 
 export const BlendMode = {

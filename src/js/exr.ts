@@ -11,7 +11,7 @@ import { setFloat16 } from "@petamoriken/float16";
  * @pixels: Float32Array RGBA data, should be width*height*4 long
  */
 
-
+/** @hidden */
 export function makeExr(width: number, height: number, pixels: Float32Array, gamma = 2.2): Blob {
     const channels = 4; // rgba
 

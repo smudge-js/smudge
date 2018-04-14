@@ -7,8 +7,6 @@ import { Quad } from './quad';
 const _ = { defaults, each };
 
 
-
-
 export interface ILineOptions {
     width?: number;
     align?: 'center' | 'left' | 'right';
@@ -122,6 +120,7 @@ function capLine(points: number[][], capDistance = 0) {
     return { points: cappedPoints, startCapIndex, endCapIndex, uvXs };
 }
 
+/** @hidden */
 export function buildLineQuads(gl: WebGLRenderingContext, points: number[][], _options: number | ILineOptions = 1): Quad[] {
     const quads: Quad[] = [];
 

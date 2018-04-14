@@ -40,6 +40,7 @@ export interface IBufferLayouts {
   [index: string]: IReadonlyBufferLayout;
 }
 
+/** @hidden */
 export const bufferLayouts: IBufferLayouts = {
   albedo: <IReadonlyBufferLayout>{
     super_sampling: 4,

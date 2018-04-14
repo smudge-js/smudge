@@ -1,14 +1,10 @@
-
-
 export type Gray = number | [number];
 export type GrayA = [number, number];
 export type RGB = [number, number, number];
 export type RGBA = [number, number, number, number];
 export type ColorDescription = Gray | GrayA | RGB | RGBA;
 
-
-
-
+/** @hidden */
 export function colorDescriptionToRGBA(color: ColorDescription): RGBA {
     const rgba: RGBA = [0, 0, 0, 0];
 

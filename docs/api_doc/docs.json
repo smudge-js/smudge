@@ -52,7 +52,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 93,
+							"line": 95,
 							"character": 17
 						}
 					],
@@ -75,7 +75,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 92,
+							"line": 94,
 							"character": 18
 						}
 					],
@@ -98,7 +98,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 97,
+							"line": 99,
 							"character": 19
 						}
 					],
@@ -121,7 +121,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 96,
+							"line": 98,
 							"character": 17
 						}
 					],
@@ -144,7 +144,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 94,
+							"line": 96,
 							"character": 19
 						}
 					],
@@ -167,7 +167,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 95,
+							"line": 97,
 							"character": 21
 						}
 					],
@@ -191,7 +191,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 90,
+							"line": 92,
 							"character": 26
 						}
 					],
@@ -221,7 +221,7 @@
 			"sources": [
 				{
 					"fileName": "material/material.ts",
-					"line": 89,
+					"line": 91,
 					"character": 22
 				}
 			]
@@ -304,7 +304,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 80,
+							"line": 82,
 							"character": 48
 						}
 					]
@@ -321,7 +321,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 79,
+							"line": 81,
 							"character": 20
 						}
 					],
@@ -344,7 +344,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 78,
+							"line": 80,
 							"character": 16
 						}
 					],
@@ -367,7 +367,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 80,
+							"line": 82,
 							"character": 22
 						}
 					],
@@ -400,7 +400,7 @@
 			"sources": [
 				{
 					"fileName": "material/material.ts",
-					"line": 77,
+					"line": 79,
 					"character": 28
 				}
 			]
@@ -726,566 +726,6 @@
 					"fileName": "draw/matrix.ts",
 					"line": 42,
 					"character": 19
-				}
-			]
-		},
-		{
-			"id": 291,
-			"name": "PBRPreview",
-			"kind": 128,
-			"kindString": "Class",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 293,
-					"name": "constructor",
-					"kind": 512,
-					"kindString": "Constructor",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 294,
-							"name": "new PBRPreview",
-							"kind": 16384,
-							"kindString": "Constructor signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 295,
-									"name": "_targetID",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "PBRPreview",
-								"id": 291
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "ui/pbr_preview.ts",
-							"line": 15,
-							"character": 34
-						}
-					]
-				},
-				{
-					"id": 292,
-					"name": "canvas",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "ui/pbr_preview.ts",
-							"line": 10,
-							"character": 17
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "HTMLCanvasElement"
-					}
-				},
-				{
-					"id": 296,
-					"name": "loadEnvironmentMap",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 297,
-							"name": "loadEnvironmentMap",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 298,
-									"name": "path",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "ui/pbr_preview.ts",
-							"line": 111,
-							"character": 29
-						}
-					]
-				},
-				{
-					"id": 299,
-					"name": "update",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 300,
-							"name": "update",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 301,
-									"name": "gl",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "WebGLRenderingContext"
-									}
-								},
-								{
-									"id": 302,
-									"name": "albedo",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Framebuffer"
-									}
-								},
-								{
-									"id": 303,
-									"name": "smoothMetallic",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Framebuffer"
-									}
-								},
-								{
-									"id": 304,
-									"name": "height",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Framebuffer"
-									}
-								},
-								{
-									"id": 305,
-									"name": "emission",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Framebuffer"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "ui/pbr_preview.ts",
-							"line": 133,
-							"character": 17
-						}
-					]
-				}
-			],
-			"groups": [
-				{
-					"title": "Constructors",
-					"kind": 512,
-					"children": [
-						293
-					]
-				},
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						292
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						296,
-						299
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "ui/pbr_preview.ts",
-					"line": 9,
-					"character": 23
-				}
-			]
-		},
-		{
-			"id": 72,
-			"name": "Quad",
-			"kind": 128,
-			"kindString": "Class",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 76,
-					"name": "constructor",
-					"kind": 512,
-					"kindString": "Constructor",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 78,
-							"name": "new Quad",
-							"kind": 16384,
-							"kindString": "Constructor signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 79,
-									"name": "gl",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "WebGLRenderingContext"
-									}
-								},
-								{
-									"id": 80,
-									"name": "verticies",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "array",
-										"elementType": {
-											"type": "array",
-											"elementType": {
-												"type": "intrinsic",
-												"name": "number"
-											}
-										}
-									}
-								},
-								{
-									"id": 81,
-									"name": "uvs",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isOptional": true
-									},
-									"type": {
-										"type": "array",
-										"elementType": {
-											"type": "array",
-											"elementType": {
-												"type": "intrinsic",
-												"name": "number"
-											}
-										}
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "Quad",
-								"id": 72
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 7,
-							"character": 36
-						}
-					]
-				},
-				{
-					"id": 77,
-					"name": "gl",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isConstructorProperty": true,
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 10,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLRenderingContext"
-					}
-				},
-				{
-					"id": 75,
-					"name": "indexBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 7,
-							"character": 22
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.indexBuffer",
-						"id": 90
-					}
-				},
-				{
-					"id": 73,
-					"name": "positionBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 5,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.positionBuffer",
-						"id": 88
-					}
-				},
-				{
-					"id": 74,
-					"name": "uvBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 6,
-							"character": 19
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.uvBuffer",
-						"id": 89
-					}
-				},
-				{
-					"id": 85,
-					"name": "delete",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 86,
-							"name": "delete",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.delete",
-								"id": 95
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 24,
-							"character": 17
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.delete",
-						"id": 94
-					}
-				},
-				{
-					"id": 82,
-					"name": "draw",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 83,
-							"name": "draw",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 84,
-									"name": "program",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Program"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.draw",
-								"id": 92
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/quad.ts",
-							"line": 16,
-							"character": 15
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.draw",
-						"id": 91
-					}
-				}
-			],
-			"groups": [
-				{
-					"title": "Constructors",
-					"kind": 512,
-					"children": [
-						76
-					]
-				},
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						77,
-						75,
-						73,
-						74
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						85,
-						82
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "draw/quad.ts",
-					"line": 4,
-					"character": 17
-				}
-			],
-			"implementedTypes": [
-				{
-					"type": "reference",
-					"name": "IGeometry",
-					"id": 87
 				}
 			]
 		},
@@ -1821,8 +1261,7 @@
 										"types": [
 											{
 												"type": "reference",
-												"name": "IExportLayout",
-												"id": 20
+												"name": "IExportLayout"
 											},
 											{
 												"type": "intrinsic",
@@ -3024,7 +2463,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 73,
+							"line": 75,
 							"character": 20
 						}
 					],
@@ -3049,7 +2488,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 72,
+							"line": 74,
 							"character": 22
 						}
 					],
@@ -3074,7 +2513,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 71,
+							"line": 73,
 							"character": 18
 						}
 					],
@@ -3096,7 +2535,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 74,
+							"line": 76,
 							"character": 19
 						}
 					],
@@ -3145,7 +2584,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 64,
+							"line": 66,
 							"character": 29
 						}
 					]
@@ -3173,7 +2612,7 @@
 			"sources": [
 				{
 					"fileName": "material/material.ts",
-					"line": 63,
+					"line": 65,
 					"character": 24
 				}
 			]
@@ -3463,617 +2902,6 @@
 			]
 		},
 		{
-			"id": 57,
-			"name": "UnitCircle",
-			"kind": 128,
-			"kindString": "Class",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 61,
-					"name": "constructor",
-					"kind": 512,
-					"kindString": "Constructor",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 64,
-							"name": "new UnitCircle",
-							"kind": 16384,
-							"kindString": "Constructor signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 65,
-									"name": "gl",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "WebGLRenderingContext"
-									}
-								},
-								{
-									"id": 66,
-									"name": "segments",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "number"
-									},
-									"defaultValue": "5"
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "UnitCircle",
-								"id": 57
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 7,
-							"character": 36
-						}
-					]
-				},
-				{
-					"id": 62,
-					"name": "gl",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isConstructorProperty": true,
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 9,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLRenderingContext"
-					}
-				},
-				{
-					"id": 60,
-					"name": "indexBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 7,
-							"character": 22
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.indexBuffer",
-						"id": 90
-					}
-				},
-				{
-					"id": 58,
-					"name": "positionBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 5,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.positionBuffer",
-						"id": 88
-					}
-				},
-				{
-					"id": 63,
-					"name": "segments",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isConstructorProperty": true,
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 9,
-							"character": 65
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "number"
-					}
-				},
-				{
-					"id": 59,
-					"name": "uvBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 6,
-							"character": 19
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.uvBuffer",
-						"id": 89
-					}
-				},
-				{
-					"id": 70,
-					"name": "delete",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 71,
-							"name": "delete",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.delete",
-								"id": 95
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 53,
-							"character": 17
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.delete",
-						"id": 94
-					}
-				},
-				{
-					"id": 67,
-					"name": "draw",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 68,
-							"name": "draw",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 69,
-									"name": "program",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Program"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.draw",
-								"id": 92
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitCircle.ts",
-							"line": 46,
-							"character": 15
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.draw",
-						"id": 91
-					}
-				}
-			],
-			"groups": [
-				{
-					"title": "Constructors",
-					"kind": 512,
-					"children": [
-						61
-					]
-				},
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						62,
-						60,
-						58,
-						63,
-						59
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						70,
-						67
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "draw/unitCircle.ts",
-					"line": 4,
-					"character": 23
-				}
-			],
-			"implementedTypes": [
-				{
-					"type": "reference",
-					"name": "IGeometry",
-					"id": 87
-				}
-			]
-		},
-		{
-			"id": 44,
-			"name": "UnitSquare",
-			"kind": 128,
-			"kindString": "Class",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 48,
-					"name": "constructor",
-					"kind": 512,
-					"kindString": "Constructor",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 50,
-							"name": "new UnitSquare",
-							"kind": 16384,
-							"kindString": "Constructor signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 51,
-									"name": "gl",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "WebGLRenderingContext"
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "UnitSquare",
-								"id": 44
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 7,
-							"character": 36
-						}
-					]
-				},
-				{
-					"id": 49,
-					"name": "gl",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isConstructorProperty": true,
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 9,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLRenderingContext"
-					}
-				},
-				{
-					"id": 47,
-					"name": "indexBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 7,
-							"character": 22
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.indexBuffer",
-						"id": 90
-					}
-				},
-				{
-					"id": 45,
-					"name": "positionBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 5,
-							"character": 25
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.positionBuffer",
-						"id": 88
-					}
-				},
-				{
-					"id": 46,
-					"name": "uvBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 6,
-							"character": 19
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					},
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.uvBuffer",
-						"id": 89
-					}
-				},
-				{
-					"id": 55,
-					"name": "delete",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 56,
-							"name": "delete",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.delete",
-								"id": 95
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 23,
-							"character": 17
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.delete",
-						"id": 94
-					}
-				},
-				{
-					"id": 52,
-					"name": "draw",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true,
-						"isPublic": true
-					},
-					"signatures": [
-						{
-							"id": 53,
-							"name": "draw",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 54,
-									"name": "program",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Program"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							},
-							"implementationOf": {
-								"type": "reference",
-								"name": "IGeometry.draw",
-								"id": 92
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/unitSquare.ts",
-							"line": 15,
-							"character": 15
-						}
-					],
-					"implementationOf": {
-						"type": "reference",
-						"name": "IGeometry.draw",
-						"id": 91
-					}
-				}
-			],
-			"groups": [
-				{
-					"title": "Constructors",
-					"kind": 512,
-					"children": [
-						48
-					]
-				},
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						49,
-						47,
-						45,
-						46
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						55,
-						52
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "draw/unitSquare.ts",
-					"line": 4,
-					"character": 23
-				}
-			],
-			"implementedTypes": [
-				{
-					"type": "reference",
-					"name": "IGeometry",
-					"id": 87
-				}
-			]
-		},
-		{
 			"id": 157,
 			"name": "IBlendMode",
 			"kind": 256,
@@ -4163,420 +2991,6 @@
 			]
 		},
 		{
-			"id": 20,
-			"name": "IExportLayout",
-			"kind": 256,
-			"kindString": "Interface",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 24,
-					"name": "clear",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/export_layouts.ts",
-							"line": 9,
-							"character": 9
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "intrinsic",
-							"name": "number"
-						}
-					}
-				},
-				{
-					"id": 23,
-					"name": "gamma",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true,
-						"isOptional": true
-					},
-					"sources": [
-						{
-							"fileName": "config/export_layouts.ts",
-							"line": 8,
-							"character": 9
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "number"
-					}
-				},
-				{
-					"id": 25,
-					"name": "layout",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/export_layouts.ts",
-							"line": 10,
-							"character": 10
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 26,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {},
-							"indexSignature": [
-								{
-									"id": 27,
-									"name": "__index",
-									"kind": 8192,
-									"kindString": "Index signature",
-									"flags": {},
-									"parameters": [
-										{
-											"id": 28,
-											"name": "index",
-											"kind": 32768,
-											"kindString": "Parameter",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "string"
-											}
-										}
-									],
-									"type": {
-										"type": "array",
-										"elementType": {
-											"type": "intrinsic",
-											"name": "number"
-										}
-									}
-								}
-							],
-							"sources": [
-								{
-									"fileName": "config/export_layouts.ts",
-									"line": 10,
-									"character": 11
-								}
-							]
-						}
-					}
-				},
-				{
-					"id": 22,
-					"name": "size",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/export_layouts.ts",
-							"line": 7,
-							"character": 8
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "exportSize"
-					}
-				},
-				{
-					"id": 21,
-					"name": "type",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/export_layouts.ts",
-							"line": 6,
-							"character": 8
-						}
-					],
-					"type": {
-						"type": "union",
-						"types": [
-							{
-								"type": "stringLiteral",
-								"value": "png"
-							},
-							{
-								"type": "stringLiteral",
-								"value": "exr"
-							}
-						]
-					}
-				}
-			],
-			"groups": [
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						24,
-						23,
-						25,
-						22,
-						21
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "config/export_layouts.ts",
-					"line": 5,
-					"character": 30
-				}
-			]
-		},
-		{
-			"id": 29,
-			"name": "IExportLayouts",
-			"kind": 256,
-			"kindString": "Interface",
-			"flags": {
-				"isExported": true
-			},
-			"indexSignature": [
-				{
-					"id": 30,
-					"name": "__index",
-					"kind": 8192,
-					"kindString": "Index signature",
-					"flags": {},
-					"parameters": [
-						{
-							"id": 31,
-							"name": "index",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "IExportLayout",
-						"id": 20
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "config/export_layouts.ts",
-					"line": 17,
-					"character": 31
-				}
-			]
-		},
-		{
-			"id": 87,
-			"name": "IGeometry",
-			"kind": 256,
-			"kindString": "Interface",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 90,
-					"name": "indexBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/geometry.ts",
-							"line": 12,
-							"character": 15
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					}
-				},
-				{
-					"id": 88,
-					"name": "positionBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/geometry.ts",
-							"line": 10,
-							"character": 18
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					}
-				},
-				{
-					"id": 89,
-					"name": "uvBuffer",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "draw/geometry.ts",
-							"line": 11,
-							"character": 12
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "WebGLBuffer"
-					}
-				},
-				{
-					"id": 94,
-					"name": "delete",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 95,
-							"name": "delete",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/geometry.ts",
-							"line": 15,
-							"character": 10
-						}
-					]
-				},
-				{
-					"id": 91,
-					"name": "draw",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 92,
-							"name": "draw",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 93,
-									"name": "program",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "Program"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "void"
-							}
-						}
-					],
-					"sources": [
-						{
-							"fileName": "draw/geometry.ts",
-							"line": 14,
-							"character": 8
-						}
-					]
-				}
-			],
-			"groups": [
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						90,
-						88,
-						89
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						94,
-						91
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "draw/geometry.ts",
-					"line": 9,
-					"character": 26
-				}
-			],
-			"implementedBy": [
-				{
-					"type": "reference",
-					"name": "Quad",
-					"id": 72
-				},
-				{
-					"type": "reference",
-					"name": "UnitCircle",
-					"id": 57
-				},
-				{
-					"type": "reference",
-					"name": "UnitSquare",
-					"id": 44
-				}
-			]
-		},
-		{
 			"id": 133,
 			"name": "ILineOptions",
 			"kind": 256,
@@ -4597,7 +3011,7 @@
 					"sources": [
 						{
 							"fileName": "draw/line.ts",
-							"line": 14,
+							"line": 12,
 							"character": 9
 						}
 					],
@@ -4631,7 +3045,7 @@
 					"sources": [
 						{
 							"fileName": "draw/line.ts",
-							"line": 15,
+							"line": 13,
 							"character": 9
 						}
 					],
@@ -4652,7 +3066,7 @@
 					"sources": [
 						{
 							"fileName": "draw/line.ts",
-							"line": 16,
+							"line": 14,
 							"character": 10
 						}
 					],
@@ -4686,7 +3100,7 @@
 					"sources": [
 						{
 							"fileName": "draw/line.ts",
-							"line": 13,
+							"line": 11,
 							"character": 9
 						}
 					],
@@ -4711,7 +3125,7 @@
 			"sources": [
 				{
 					"fileName": "draw/line.ts",
-					"line": 12,
+					"line": 10,
 					"character": 29
 				}
 			]
@@ -4907,7 +3321,7 @@
 			"sources": [
 				{
 					"fileName": "material/color.ts",
-					"line": 7,
+					"line": 5,
 					"character": 28
 				}
 			],
@@ -4948,7 +3362,7 @@
 			"sources": [
 				{
 					"fileName": "material/color.ts",
-					"line": 3,
+					"line": 1,
 					"character": 16
 				}
 			],
@@ -4982,7 +3396,7 @@
 			"sources": [
 				{
 					"fileName": "material/color.ts",
-					"line": 4,
+					"line": 2,
 					"character": 17
 				}
 			],
@@ -5001,60 +3415,6 @@
 			}
 		},
 		{
-			"id": 187,
-			"name": "IReadonlyBlendMode",
-			"kind": 4194304,
-			"kindString": "Type alias",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "material/material.ts",
-					"line": 15,
-					"character": 30
-				}
-			],
-			"type": {
-				"type": "reference",
-				"name": "Readonly",
-				"typeArguments": [
-					{
-						"type": "reference",
-						"name": "IBlendMode",
-						"id": 157
-					}
-				]
-			}
-		},
-		{
-			"id": 33,
-			"name": "IReadonlyExportLayout",
-			"kind": 4194304,
-			"kindString": "Type alias",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "config/export_layouts.ts",
-					"line": 22,
-					"character": 33
-				}
-			],
-			"type": {
-				"type": "reference",
-				"name": "Readonly",
-				"typeArguments": [
-					{
-						"type": "reference",
-						"name": "IExportLayout",
-						"id": 20
-					}
-				]
-			}
-		},
-		{
 			"id": 151,
 			"name": "RGB",
 			"kind": 4194304,
@@ -5065,7 +3425,7 @@
 			"sources": [
 				{
 					"fileName": "material/color.ts",
-					"line": 5,
+					"line": 3,
 					"character": 15
 				}
 			],
@@ -5098,7 +3458,7 @@
 			"sources": [
 				{
 					"fileName": "material/color.ts",
-					"line": 6,
+					"line": 4,
 					"character": 16
 				}
 			],
@@ -5125,463 +3485,6 @@
 			}
 		},
 		{
-			"id": 40,
-			"name": "consoleError",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 20,
-					"character": 23
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleError"
-		},
-		{
-			"id": 36,
-			"name": "consoleInfo",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 14,
-					"character": 22
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleInfo"
-		},
-		{
-			"id": 38,
-			"name": "consoleLog",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 17,
-					"character": 21
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleLog"
-		},
-		{
-			"id": 37,
-			"name": "consoleReport",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 16,
-					"character": 24
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleReport"
-		},
-		{
-			"id": 35,
-			"name": "consoleTrace",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 13,
-					"character": 23
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleTrace"
-		},
-		{
-			"id": 39,
-			"name": "consoleWarn",
-			"kind": 32,
-			"kindString": "Variable",
-			"flags": {
-				"isExported": true
-			},
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 19,
-					"character": 22
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "any"
-			},
-			"defaultValue": " _consoleWarn"
-		},
-		{
-			"id": 138,
-			"name": "buildLineQuads",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {
-				"isExported": true
-			},
-			"signatures": [
-				{
-					"id": 139,
-					"name": "buildLineQuads",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"parameters": [
-						{
-							"id": 140,
-							"name": "gl",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "reference",
-								"name": "WebGLRenderingContext"
-							}
-						},
-						{
-							"id": 141,
-							"name": "points",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "array",
-									"elementType": {
-										"type": "intrinsic",
-										"name": "number"
-									}
-								}
-							}
-						},
-						{
-							"id": 142,
-							"name": "_options",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "number"
-									},
-									{
-										"type": "reference",
-										"name": "ILineOptions",
-										"id": 133
-									}
-								]
-							},
-							"defaultValue": "1"
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"name": "Quad",
-							"id": 72
-						}
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "draw/line.ts",
-					"line": 125,
-					"character": 30
-				}
-			]
-		},
-		{
-			"id": 154,
-			"name": "colorDescriptionToRGBA",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {
-				"isExported": true
-			},
-			"signatures": [
-				{
-					"id": 155,
-					"name": "colorDescriptionToRGBA",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"parameters": [
-						{
-							"id": 156,
-							"name": "color",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "reference",
-								"name": "ColorDescription",
-								"id": 153
-							}
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "RGBA",
-						"id": 152
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "material/color.ts",
-					"line": 12,
-					"character": 38
-				}
-			]
-		},
-		{
-			"id": 143,
-			"name": "makeExr",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {
-				"isExported": true
-			},
-			"signatures": [
-				{
-					"id": 144,
-					"name": "makeExr",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"comment": {
-						"shortText": "Exports an float-half OpenEXR RGBA image\nhttp://www.openexr.com/TechnicalIntroduction.pdf\nhttp://www.openexr.com/openexrfilelayout.pdf",
-						"text": "Partially based on miniexr\nhttps://github.com/aras-p/miniexr/blob/master/miniexr.cpp\n",
-						"tags": [
-							{
-								"tag": "pixels:",
-								"text": "Float32Array RGBA data, should be width*height*4 long\n"
-							}
-						]
-					},
-					"parameters": [
-						{
-							"id": 145,
-							"name": "width",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 146,
-							"name": "height",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 147,
-							"name": "pixels",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "reference",
-								"name": "Float32Array"
-							}
-						},
-						{
-							"id": 148,
-							"name": "gamma",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"defaultValue": "2.2"
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "Blob"
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "exr.ts",
-					"line": 15,
-					"character": 23
-				}
-			]
-		},
-		{
-			"id": 41,
-			"name": "setLoggingLevel",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {
-				"isExported": true
-			},
-			"signatures": [
-				{
-					"id": 42,
-					"name": "setLoggingLevel",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"parameters": [
-						{
-							"id": 43,
-							"name": "level",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "stringLiteral",
-										"value": "trace"
-									},
-									{
-										"type": "stringLiteral",
-										"value": "info"
-									},
-									{
-										"type": "stringLiteral",
-										"value": "report"
-									},
-									{
-										"type": "stringLiteral",
-										"value": "log"
-									},
-									{
-										"type": "stringLiteral",
-										"value": "warn"
-									},
-									{
-										"type": "stringLiteral",
-										"value": "error"
-									}
-								]
-							}
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "void"
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "logging.ts",
-					"line": 24,
-					"character": 28
-				}
-			]
-		},
-		{
-			"id": 199,
-			"name": "wait",
-			"kind": 64,
-			"kindString": "Function",
-			"flags": {
-				"isExported": true
-			},
-			"signatures": [
-				{
-					"id": 200,
-					"name": "wait",
-					"kind": 4096,
-					"kindString": "Call signature",
-					"flags": {},
-					"parameters": [
-						{
-							"id": 201,
-							"name": "ms",
-							"kind": 32768,
-							"kindString": "Parameter",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"defaultValue": "0"
-						}
-					],
-					"type": {
-						"type": "reference",
-						"name": "Promise",
-						"typeArguments": [
-							{
-								"type": "intrinsic",
-								"name": "Object"
-							}
-						]
-					}
-				}
-			],
-			"sources": [
-				{
-					"fileName": "util.ts",
-					"line": 2,
-					"character": 26
-				}
-			]
-		},
-		{
 			"id": 188,
 			"name": "BlendMode",
 			"kind": 2097152,
@@ -5601,7 +3504,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 30,
+							"line": 32,
 							"character": 12
 						}
 					],
@@ -5628,7 +3531,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 18,
+							"line": 20,
 							"character": 9
 						}
 					],
@@ -5655,7 +3558,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 54,
+							"line": 56,
 							"character": 12
 						}
 					],
@@ -5682,7 +3585,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 24,
+							"line": 26,
 							"character": 11
 						}
 					],
@@ -5709,7 +3612,7 @@
 					"sources": [
 						{
 							"fileName": "material/material.ts",
-							"line": 36,
+							"line": 38,
 							"character": 15
 						}
 					],
@@ -5742,178 +3645,8 @@
 			"sources": [
 				{
 					"fileName": "material/material.ts",
-					"line": 17,
+					"line": 19,
 					"character": 22
-				}
-			],
-			"type": {
-				"type": "intrinsic",
-				"name": "object"
-			}
-		},
-		{
-			"id": 9,
-			"name": "bufferLayouts",
-			"kind": 2097152,
-			"kindString": "Object literal",
-			"flags": {
-				"isExported": true
-			},
-			"children": [
-				{
-					"id": 10,
-					"name": "albedo",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/buffer_layouts.ts",
-							"line": 44,
-							"character": 8
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 11,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {}
-						}
-					},
-					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 4,\n  }"
-				},
-				{
-					"id": 18,
-					"name": "emission",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/buffer_layouts.ts",
-							"line": 64,
-							"character": 10
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 19,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {}
-						}
-					},
-					"defaultValue": " {\n    super_sampling: 4,\n    depth: 16,\n    channels: 4,\n  } as IReadonlyBufferLayout"
-				},
-				{
-					"id": 16,
-					"name": "height",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/buffer_layouts.ts",
-							"line": 59,
-							"character": 8
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 17,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {}
-						}
-					},
-					"defaultValue": " {\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  } as IReadonlyBufferLayout"
-				},
-				{
-					"id": 12,
-					"name": "metallic",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/buffer_layouts.ts",
-							"line": 49,
-							"character": 10
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 13,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {}
-						}
-					},
-					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  }"
-				},
-				{
-					"id": 14,
-					"name": "smoothness",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"sources": [
-						{
-							"fileName": "config/buffer_layouts.ts",
-							"line": 54,
-							"character": 12
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 15,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {}
-						}
-					},
-					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  }"
-				}
-			],
-			"groups": [
-				{
-					"title": "Variables",
-					"kind": 32,
-					"children": [
-						10,
-						18,
-						16,
-						12,
-						14
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "config/buffer_layouts.ts",
-					"line": 43,
-					"character": 26
 				}
 			],
 			"type": {
@@ -5930,14 +3663,10 @@
 				177,
 				168,
 				113,
-				291,
-				72,
 				207,
 				314,
 				161,
-				96,
-				57,
-				44
+				96
 			]
 		},
 		{
@@ -5945,9 +3674,6 @@
 			"kind": 256,
 			"children": [
 				157,
-				20,
-				29,
-				87,
 				133,
 				306
 			]
@@ -5959,41 +3685,15 @@
 				153,
 				149,
 				150,
-				187,
-				33,
 				151,
 				152
-			]
-		},
-		{
-			"title": "Variables",
-			"kind": 32,
-			"children": [
-				40,
-				36,
-				38,
-				37,
-				35,
-				39
-			]
-		},
-		{
-			"title": "Functions",
-			"kind": 64,
-			"children": [
-				138,
-				154,
-				143,
-				41,
-				199
 			]
 		},
 		{
 			"title": "Object literals",
 			"kind": 2097152,
 			"children": [
-				188,
-				9
+				188
 			]
 		}
 	]
