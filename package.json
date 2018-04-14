@@ -1,6 +1,6 @@
 {
   "name": "smudge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sketching library for Physically Based Rendering",
   "main": "index.js",
   "scripts": {
