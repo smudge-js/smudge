@@ -7,7 +7,7 @@ export async function draw() {
     const smudge = new Smudge(undefined, 512, 512);
 
     // load a texture
-    const t = await smudge.loadTexture("images/a.png");
+    const t = await smudge.loadTexture("images/letter_a.png");
     const burst = await smudge.loadTexture("images/burst_white_transparent.png");
     // show the ui
     const ui = new SmudgeUI(smudge);
@@ -58,7 +58,7 @@ export async function draw() {
 
 
     // show albedo in ui
-    smudge.show();
+    ui.update3D();
     ui.update3D();
 }
 

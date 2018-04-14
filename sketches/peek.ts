@@ -21,14 +21,14 @@ export async function draw() {
         smudge.rect(Math.random() * 412, Math.random() * 412, 100, 100, simpleMaterial);
 
         if (i % 100 === 0) {
-            await smudge.show();
+            await ui.update3D();
             await ui.update3D();
         }
     }
 
 
     // show albedo in ui
-    smudge.show();
+    ui.update3D();
     ui.update3D();
 }
 

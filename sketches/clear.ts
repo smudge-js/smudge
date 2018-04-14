@@ -16,7 +16,7 @@ export async function draw() {
     smudge.clear(paper);
 
     // show albedo in ui
-    smudge.show();
+    ui.update2D();
     ui.update3D();
 }
 

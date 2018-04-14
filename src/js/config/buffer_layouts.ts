@@ -36,7 +36,7 @@ export type IReadonlyBufferLayout = Readonly<IBufferLayout>;
 
 /** @hidden */
 
-interface IBufferLayouts {
+export interface IBufferLayouts {
   [index: string]: IReadonlyBufferLayout;
 }
 

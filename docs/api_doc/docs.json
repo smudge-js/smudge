@@ -1,0 +1,6000 @@
+{
+	"id": 0,
+	"name": "smudge",
+	"kind": 0,
+	"flags": {},
+	"children": [
+		{
+			"id": 177,
+			"name": "Material2",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"indexSignature": [
+				{
+					"id": 185,
+					"name": "__index",
+					"kind": 8192,
+					"kindString": "Index signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 186,
+							"name": "key",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					}
+				}
+			],
+			"children": [
+				{
+					"id": 180,
+					"name": "albedo",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 93,
+							"character": 17
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel()"
+				},
+				{
+					"id": 179,
+					"name": "default",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 92,
+							"character": 18
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel(undefined, BlendMode.Blend, TextureInfo.makeDefault())"
+				},
+				{
+					"id": 184,
+					"name": "emission",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 97,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel()"
+				},
+				{
+					"id": 183,
+					"name": "height",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 96,
+							"character": 17
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel()"
+				},
+				{
+					"id": 181,
+					"name": "metallic",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 94,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel()"
+				},
+				{
+					"id": 182,
+					"name": "smoothness",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 95,
+							"character": 21
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "MaterialChannel",
+						"id": 168
+					},
+					"defaultValue": " new MaterialChannel()"
+				},
+				{
+					"id": 178,
+					"name": "clearing",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isStatic": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 90,
+							"character": 26
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Material2",
+						"id": 177
+					},
+					"defaultValue": " new Material2()"
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						180,
+						179,
+						184,
+						183,
+						181,
+						182,
+						178
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 89,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 168,
+			"name": "MaterialChannel",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 172,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 173,
+							"name": "new MaterialChannel",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 174,
+									"name": "color",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"name": "ColorDescription",
+										"id": 153
+									}
+								},
+								{
+									"id": 175,
+									"name": "blendMode",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"name": "IBlendMode",
+										"id": 157
+									}
+								},
+								{
+									"id": 176,
+									"name": "textureConfig",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"name": "TextureInfo",
+										"id": 161
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "MaterialChannel",
+								"id": 168
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 80,
+							"character": 48
+						}
+					]
+				},
+				{
+					"id": 170,
+					"name": "blendMode",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 79,
+							"character": 20
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "IBlendMode",
+						"id": 157
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 169,
+					"name": "color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 78,
+							"character": 16
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "ColorDescription",
+						"id": 153
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 171,
+					"name": "textureInfo",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 80,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "TextureInfo",
+						"id": 161
+					},
+					"defaultValue": " undefined"
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						172
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						170,
+						169,
+						171
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 77,
+					"character": 28
+				}
+			]
+		},
+		{
+			"id": 113,
+			"name": "Matrix",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 115,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 116,
+							"name": "new Matrix",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Matrix",
+								"id": 113
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 43,
+							"character": 19
+						}
+					]
+				},
+				{
+					"id": 114,
+					"name": "m",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 43,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "mat4"
+					}
+				},
+				{
+					"id": 131,
+					"name": "get",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 132,
+							"name": "get",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "mat4"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 74,
+							"character": 14
+						}
+					]
+				},
+				{
+					"id": 122,
+					"name": "rotate",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 123,
+							"name": "rotate",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 124,
+									"name": "r",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								},
+								{
+									"id": 125,
+									"name": "axis",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									"defaultValue": " [0, 0, 1]"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Matrix",
+								"id": 113
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 56,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 126,
+					"name": "scale",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 127,
+							"name": "scale",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 128,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 129,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 130,
+									"name": "z",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Matrix",
+								"id": 113
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 64,
+							"character": 16
+						}
+					]
+				},
+				{
+					"id": 117,
+					"name": "translate",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 118,
+							"name": "translate",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 119,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								},
+								{
+									"id": 120,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								},
+								{
+									"id": 121,
+									"name": "z",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Matrix",
+								"id": 113
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 49,
+							"character": 20
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						115
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						114
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						131,
+						122,
+						126,
+						117
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/matrix.ts",
+					"line": 42,
+					"character": 19
+				}
+			]
+		},
+		{
+			"id": 291,
+			"name": "PBRPreview",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 293,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 294,
+							"name": "new PBRPreview",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 295,
+									"name": "_targetID",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "PBRPreview",
+								"id": 291
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/pbr_preview.ts",
+							"line": 15,
+							"character": 34
+						}
+					]
+				},
+				{
+					"id": 292,
+					"name": "canvas",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/pbr_preview.ts",
+							"line": 10,
+							"character": 17
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "HTMLCanvasElement"
+					}
+				},
+				{
+					"id": 296,
+					"name": "loadEnvironmentMap",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 297,
+							"name": "loadEnvironmentMap",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 298,
+									"name": "path",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/pbr_preview.ts",
+							"line": 111,
+							"character": 29
+						}
+					]
+				},
+				{
+					"id": 299,
+					"name": "update",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 300,
+							"name": "update",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 301,
+									"name": "gl",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "WebGLRenderingContext"
+									}
+								},
+								{
+									"id": 302,
+									"name": "albedo",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									}
+								},
+								{
+									"id": 303,
+									"name": "smoothMetallic",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									}
+								},
+								{
+									"id": 304,
+									"name": "height",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									}
+								},
+								{
+									"id": 305,
+									"name": "emission",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/pbr_preview.ts",
+							"line": 133,
+							"character": 17
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						293
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						292
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						296,
+						299
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "ui/pbr_preview.ts",
+					"line": 9,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 72,
+			"name": "Quad",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 76,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 78,
+							"name": "new Quad",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 79,
+									"name": "gl",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "WebGLRenderingContext"
+									}
+								},
+								{
+									"id": 80,
+									"name": "verticies",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "array",
+											"elementType": {
+												"type": "intrinsic",
+												"name": "number"
+											}
+										}
+									}
+								},
+								{
+									"id": 81,
+									"name": "uvs",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "array",
+											"elementType": {
+												"type": "intrinsic",
+												"name": "number"
+											}
+										}
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Quad",
+								"id": 72
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 7,
+							"character": 36
+						}
+					]
+				},
+				{
+					"id": 77,
+					"name": "gl",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isConstructorProperty": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 10,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLRenderingContext"
+					}
+				},
+				{
+					"id": 75,
+					"name": "indexBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 7,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.indexBuffer",
+						"id": 90
+					}
+				},
+				{
+					"id": 73,
+					"name": "positionBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 5,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.positionBuffer",
+						"id": 88
+					}
+				},
+				{
+					"id": 74,
+					"name": "uvBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 6,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.uvBuffer",
+						"id": 89
+					}
+				},
+				{
+					"id": 85,
+					"name": "delete",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 86,
+							"name": "delete",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.delete",
+								"id": 95
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 24,
+							"character": 17
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.delete",
+						"id": 94
+					}
+				},
+				{
+					"id": 82,
+					"name": "draw",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 83,
+							"name": "draw",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 84,
+									"name": "program",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Program"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.draw",
+								"id": 92
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/quad.ts",
+							"line": 16,
+							"character": 15
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.draw",
+						"id": 91
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						76
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						77,
+						75,
+						73,
+						74
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						85,
+						82
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/quad.ts",
+					"line": 4,
+					"character": 17
+				}
+			],
+			"implementedTypes": [
+				{
+					"type": "reference",
+					"name": "IGeometry",
+					"id": 87
+				}
+			]
+		},
+		{
+			"id": 207,
+			"name": "Smudge",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 219,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"comment": {
+						"shortText": "Creates the smudge instace."
+					},
+					"signatures": [
+						{
+							"id": 221,
+							"name": "new Smudge",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Creates the smudge instace."
+							},
+							"parameters": [
+								{
+									"id": 222,
+									"name": "name",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									},
+									"defaultValue": "\"untitled\""
+								},
+								{
+									"id": 223,
+									"name": "width",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"shortText": "The width of the drawing."
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 224,
+									"name": "height",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"shortText": "The height of the drawing.\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Smudge",
+								"id": 207
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 53,
+							"character": 42
+						}
+					]
+				},
+				{
+					"id": 215,
+					"name": "buffers",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 42,
+							"character": 27
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 216,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"indexSignature": [
+								{
+									"id": 217,
+									"name": "__index",
+									"kind": 8192,
+									"kindString": "Index signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 218,
+											"name": "key",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "smudge.ts",
+									"line": 42,
+									"character": 28
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 212,
+					"name": "canvas",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 39,
+							"character": 26
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "HTMLCanvasElement"
+					}
+				},
+				{
+					"id": 211,
+					"name": "gl",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 37,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLRenderingContext"
+					}
+				},
+				{
+					"id": 214,
+					"name": "height",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 41,
+							"character": 26
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				},
+				{
+					"id": 220,
+					"name": "name",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isConstructorProperty": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 65,
+							"character": 27
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 213,
+					"name": "width",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 40,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				},
+				{
+					"id": 260,
+					"name": "bufferToCanvas",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 261,
+							"name": "bufferToCanvas",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Copies the provided buffer to the canvas"
+							},
+							"parameters": [
+								{
+									"id": 262,
+									"name": "bufferOrName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"name": "Framebuffer"
+											},
+											{
+												"type": "intrinsic",
+												"name": "string"
+											}
+										]
+									},
+									"defaultValue": "\"albedo\""
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Promise",
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								]
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 246,
+							"character": 31
+						}
+					]
+				},
+				{
+					"id": 228,
+					"name": "clear",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 229,
+							"name": "clear",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Clears buffers using provided material color values\nIgnores material blend modes and texture settings"
+							},
+							"parameters": [
+								{
+									"id": 230,
+									"name": "material",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "material to clear to\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Material2",
+										"id": 177
+									},
+									"defaultValue": " Material2.clearing"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 139,
+							"character": 16
+						}
+					]
+				},
+				{
+					"id": 239,
+					"name": "ellipse",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 240,
+							"name": "ellipse",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Draws an ellipse"
+							},
+							"parameters": [
+								{
+									"id": 241,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "left"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 242,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "right"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 243,
+									"name": "w",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "width"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 244,
+									"name": "h",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "height"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 245,
+									"name": "material",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Material2",
+										"id": 177
+									}
+								},
+								{
+									"id": 246,
+									"name": "matrix",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Matrix",
+										"id": 113
+									},
+									"defaultValue": " new Matrix()"
+								},
+								{
+									"id": 247,
+									"name": "sides",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"text": "number of sides to draw, auto calculates if `undefined`\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 196,
+							"character": 18
+						}
+					]
+				},
+				{
+					"id": 287,
+					"name": "export",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 288,
+							"name": "export",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 289,
+									"name": "layout",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"name": "IExportLayout",
+												"id": 20
+											},
+											{
+												"type": "intrinsic",
+												"name": "string"
+											}
+										]
+									},
+									"defaultValue": " exportLayouts.albedo"
+								},
+								{
+									"id": 290,
+									"name": "exportName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									},
+									"defaultValue": " `custom_${this.name}`"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 513,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 272,
+					"name": "getBuffer",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 273,
+							"name": "getBuffer",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Get Framebuffer with name."
+							},
+							"parameters": [
+								{
+									"id": 274,
+									"name": "bufferName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Framebuffer"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 369,
+							"character": 20
+						}
+					]
+				},
+				{
+					"id": 254,
+					"name": "line",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 255,
+							"name": "line",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Strokes a provided path as configured in options"
+							},
+							"parameters": [
+								{
+									"id": 256,
+									"name": "points",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "array of points `[[0,0],[1,1],...]`"
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "array",
+											"elementType": {
+												"type": "intrinsic",
+												"name": "number"
+											}
+										}
+									}
+								},
+								{
+									"id": 257,
+									"name": "options",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "ILineOptions"
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "number"
+											},
+											{
+												"type": "reference",
+												"name": "ILineOptions",
+												"id": 133
+											}
+										]
+									},
+									"defaultValue": "1"
+								},
+								{
+									"id": 258,
+									"name": "material",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Material2",
+										"id": 177
+									}
+								},
+								{
+									"id": 259,
+									"name": "matrix",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Matrix",
+										"id": 113
+									},
+									"defaultValue": " new Matrix()"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 232,
+							"character": 15
+						}
+					]
+				},
+				{
+					"id": 225,
+					"name": "loadTexture",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 226,
+							"name": "loadTexture",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Loads an image from a file and creates a texture for the image.\n`const t = await smudge.loadTexture(\"images/a.png\");`"
+							},
+							"parameters": [
+								{
+									"id": 227,
+									"name": "path",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "path to image to load\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Promise",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"name": "Texture"
+									}
+								]
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 123,
+							"character": 28
+						}
+					]
+				},
+				{
+					"id": 266,
+					"name": "pack",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 267,
+							"name": "pack",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "clears target to `clear_color`, then copies/swizzles\ncolors from the channel buffers according to `packing_layout`\ntargets smudge.canvas or provided `targetBuffer`"
+							},
+							"parameters": [
+								{
+									"id": 268,
+									"name": "packingLayout",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "how values should be packed"
+									},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 269,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {}
+										}
+									},
+									"defaultValue": " {}"
+								},
+								{
+									"id": 270,
+									"name": "clearColor",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "the intial color value\n"
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									"defaultValue": " [0, 0, 0, 0]"
+								},
+								{
+									"id": 271,
+									"name": "targetBuffer",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "the buffer to copy to, defaults to smudge.canvas"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Framebuffer"
+									},
+									"defaultValue": " null"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 325,
+							"character": 15
+						}
+					]
+				},
+				{
+					"id": 248,
+					"name": "quad",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 249,
+							"name": "quad",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Fills a figure given as four points."
+							},
+							"parameters": [
+								{
+									"id": 250,
+									"name": "verticies",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "array of the quad corners `[[0, 0],[0, 1],[1, 1],[.8, .8]]`"
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "array",
+											"elementType": {
+												"type": "intrinsic",
+												"name": "number"
+											}
+										}
+									}
+								},
+								{
+									"id": 251,
+									"name": "material",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Material2",
+										"id": 177
+									}
+								},
+								{
+									"id": 252,
+									"name": "matrix",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Matrix",
+										"id": 113
+									},
+									"defaultValue": " new Matrix()"
+								},
+								{
+									"id": 253,
+									"name": "uvs",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"text": "array of the uv coords `[[0, 0],[0, 1],[1, 1],[1, 0]]`\n"
+									},
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "array",
+											"elementType": {
+												"type": "intrinsic",
+												"name": "number"
+											}
+										}
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 214,
+							"character": 15
+						}
+					]
+				},
+				{
+					"id": 231,
+					"name": "rect",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 232,
+							"name": "rect",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Draws a rectangle"
+							},
+							"parameters": [
+								{
+									"id": 233,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "left side"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 234,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "bottom"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 235,
+									"name": "w",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "width"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 236,
+									"name": "h",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "height"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 237,
+									"name": "material",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {},
+									"type": {
+										"type": "reference",
+										"name": "Material2",
+										"id": 177
+									}
+								},
+								{
+									"id": 238,
+									"name": "matrix",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "\n"
+									},
+									"type": {
+										"type": "reference",
+										"name": "Matrix",
+										"id": 113
+									},
+									"defaultValue": " new Matrix()"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 180,
+							"character": 15
+						}
+					]
+				},
+				{
+					"id": 278,
+					"name": "saveBufferEXR",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 279,
+							"name": "saveBufferEXR",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 280,
+									"name": "fileName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 281,
+									"name": "buffer",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "reference",
+												"name": "Framebuffer"
+											}
+										]
+									},
+									"defaultValue": "\"albedo\""
+								},
+								{
+									"id": 282,
+									"name": "gamma",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "1"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 390,
+							"character": 24
+						}
+					]
+				},
+				{
+					"id": 283,
+					"name": "saveBufferPNG",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 284,
+							"name": "saveBufferPNG",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 285,
+									"name": "fileName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								},
+								{
+									"id": 286,
+									"name": "buffer",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "intrinsic",
+												"name": "string"
+											},
+											{
+												"type": "reference",
+												"name": "Framebuffer"
+											}
+										]
+									},
+									"defaultValue": "\"albedo\""
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 409,
+							"character": 24
+						}
+					]
+				},
+				{
+					"id": 275,
+					"name": "saveCanvasAs",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 276,
+							"name": "saveCanvasAs",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Saves current canvas to as download file."
+							},
+							"parameters": [
+								{
+									"id": 277,
+									"name": "fileName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "name of download\n"
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 383,
+							"character": 23
+						}
+					]
+				},
+				{
+					"id": 263,
+					"name": "show",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 264,
+							"name": "show",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 265,
+									"name": "bufferOrName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"name": "Framebuffer"
+											},
+											{
+												"type": "intrinsic",
+												"name": "string"
+											}
+										]
+									},
+									"defaultValue": "\"albedo\""
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Promise",
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								]
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 309,
+							"character": 21
+						}
+					]
+				},
+				{
+					"id": 208,
+					"name": "setLoggingLevel",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 209,
+							"name": "setLoggingLevel",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 210,
+									"name": "level",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "stringLiteral",
+												"value": "trace"
+											},
+											{
+												"type": "stringLiteral",
+												"value": "info"
+											},
+											{
+												"type": "stringLiteral",
+												"value": "report"
+											},
+											{
+												"type": "stringLiteral",
+												"value": "log"
+											},
+											{
+												"type": "stringLiteral",
+												"value": "warn"
+											},
+											{
+												"type": "stringLiteral",
+												"value": "error"
+											}
+										]
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "smudge.ts",
+							"line": 32,
+							"character": 33
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						219
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						215,
+						212,
+						211,
+						214,
+						220,
+						213
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						260,
+						228,
+						239,
+						287,
+						272,
+						254,
+						225,
+						266,
+						248,
+						231,
+						278,
+						283,
+						275,
+						263,
+						208
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "smudge.ts",
+					"line": 31,
+					"character": 19
+				}
+			]
+		},
+		{
+			"id": 314,
+			"name": "SmudgeUI",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 315,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 316,
+							"name": "new SmudgeUI",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 317,
+									"name": "smudge",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Smudge",
+										"id": 207
+									}
+								},
+								{
+									"id": 318,
+									"name": "opts",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "reference",
+										"name": "ISmudgeUIOptions",
+										"id": 306
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "SmudgeUI",
+								"id": 314
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 33,
+							"character": 38
+						}
+					]
+				},
+				{
+					"id": 326,
+					"name": "show2D",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 327,
+							"name": "show2D",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 140,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 324,
+					"name": "show3D",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 325,
+							"name": "show3D",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 130,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 321,
+					"name": "update2D",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 322,
+							"name": "update2D",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 323,
+									"name": "bufferOrName",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"name": "Framebuffer"
+											},
+											{
+												"type": "intrinsic",
+												"name": "string"
+											}
+										]
+									},
+									"defaultValue": "\"albedo\""
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Promise",
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "void"
+									}
+								]
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 114,
+							"character": 25
+						}
+					]
+				},
+				{
+					"id": 319,
+					"name": "update3D",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 320,
+							"name": "update3D",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Promise",
+								"typeArguments": [
+									{
+										"type": "intrinsic",
+										"name": "Object"
+									}
+								]
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 93,
+							"character": 25
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						315
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						326,
+						324,
+						321,
+						319
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "ui/smudge_ui.ts",
+					"line": 30,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 161,
+			"name": "TextureInfo",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 166,
+					"name": "colorBias",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 73,
+							"character": 20
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 165,
+					"name": "colorMatrix",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 72,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 164,
+					"name": "texture",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 71,
+							"character": 18
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Texture"
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 167,
+					"name": "uvMatrix",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 74,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "reference",
+								"name": "Float32Array"
+							},
+							{
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "number"
+								}
+							}
+						]
+					},
+					"defaultValue": " undefined"
+				},
+				{
+					"id": 162,
+					"name": "makeDefault",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isStatic": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 163,
+							"name": "makeDefault",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "TextureInfo",
+								"id": 161
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 64,
+							"character": 29
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						166,
+						165,
+						164,
+						167
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						162
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 63,
+					"character": 24
+				}
+			]
+		},
+		{
+			"id": 96,
+			"name": "UVMatrix",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 98,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 99,
+							"name": "new UVMatrix",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "UVMatrix",
+								"id": 96
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 6,
+							"character": 19
+						}
+					]
+				},
+				{
+					"id": 97,
+					"name": "m",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 6,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "mat3"
+					}
+				},
+				{
+					"id": 111,
+					"name": "get",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 112,
+							"name": "get",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "mat3"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 34,
+							"character": 14
+						}
+					]
+				},
+				{
+					"id": 104,
+					"name": "rotate",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 105,
+							"name": "rotate",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 106,
+									"name": "r",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "UVMatrix",
+								"id": 96
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 18,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 107,
+					"name": "scale",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 108,
+							"name": "scale",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 109,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								},
+								{
+									"id": 110,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "UVMatrix",
+								"id": 96
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 26,
+							"character": 16
+						}
+					]
+				},
+				{
+					"id": 100,
+					"name": "translate",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 101,
+							"name": "translate",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 102,
+									"name": "x",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								},
+								{
+									"id": 103,
+									"name": "y",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "0"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "UVMatrix",
+								"id": 96
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/matrix.ts",
+							"line": 12,
+							"character": 20
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						98
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						97
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						111,
+						104,
+						107,
+						100
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/matrix.ts",
+					"line": 5,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 57,
+			"name": "UnitCircle",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 61,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 64,
+							"name": "new UnitCircle",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 65,
+									"name": "gl",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "WebGLRenderingContext"
+									}
+								},
+								{
+									"id": 66,
+									"name": "segments",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									},
+									"defaultValue": "5"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "UnitCircle",
+								"id": 57
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 7,
+							"character": 36
+						}
+					]
+				},
+				{
+					"id": 62,
+					"name": "gl",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isConstructorProperty": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 9,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLRenderingContext"
+					}
+				},
+				{
+					"id": 60,
+					"name": "indexBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 7,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.indexBuffer",
+						"id": 90
+					}
+				},
+				{
+					"id": 58,
+					"name": "positionBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 5,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.positionBuffer",
+						"id": 88
+					}
+				},
+				{
+					"id": 63,
+					"name": "segments",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isConstructorProperty": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 9,
+							"character": 65
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				},
+				{
+					"id": 59,
+					"name": "uvBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 6,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.uvBuffer",
+						"id": 89
+					}
+				},
+				{
+					"id": 70,
+					"name": "delete",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 71,
+							"name": "delete",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.delete",
+								"id": 95
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 53,
+							"character": 17
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.delete",
+						"id": 94
+					}
+				},
+				{
+					"id": 67,
+					"name": "draw",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 68,
+							"name": "draw",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 69,
+									"name": "program",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Program"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.draw",
+								"id": 92
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitCircle.ts",
+							"line": 46,
+							"character": 15
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.draw",
+						"id": 91
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						61
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						62,
+						60,
+						58,
+						63,
+						59
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						70,
+						67
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/unitCircle.ts",
+					"line": 4,
+					"character": 23
+				}
+			],
+			"implementedTypes": [
+				{
+					"type": "reference",
+					"name": "IGeometry",
+					"id": 87
+				}
+			]
+		},
+		{
+			"id": 44,
+			"name": "UnitSquare",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 48,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 50,
+							"name": "new UnitSquare",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 51,
+									"name": "gl",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "WebGLRenderingContext"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "UnitSquare",
+								"id": 44
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 7,
+							"character": 36
+						}
+					]
+				},
+				{
+					"id": 49,
+					"name": "gl",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isConstructorProperty": true,
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 9,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLRenderingContext"
+					}
+				},
+				{
+					"id": 47,
+					"name": "indexBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 7,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.indexBuffer",
+						"id": 90
+					}
+				},
+				{
+					"id": 45,
+					"name": "positionBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 5,
+							"character": 25
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.positionBuffer",
+						"id": 88
+					}
+				},
+				{
+					"id": 46,
+					"name": "uvBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 6,
+							"character": 19
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					},
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.uvBuffer",
+						"id": 89
+					}
+				},
+				{
+					"id": 55,
+					"name": "delete",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 56,
+							"name": "delete",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.delete",
+								"id": 95
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 23,
+							"character": 17
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.delete",
+						"id": 94
+					}
+				},
+				{
+					"id": 52,
+					"name": "draw",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true,
+						"isPublic": true
+					},
+					"signatures": [
+						{
+							"id": 53,
+							"name": "draw",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 54,
+									"name": "program",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Program"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							},
+							"implementationOf": {
+								"type": "reference",
+								"name": "IGeometry.draw",
+								"id": 92
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/unitSquare.ts",
+							"line": 15,
+							"character": 15
+						}
+					],
+					"implementationOf": {
+						"type": "reference",
+						"name": "IGeometry.draw",
+						"id": 91
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						48
+					]
+				},
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						49,
+						47,
+						45,
+						46
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						55,
+						52
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/unitSquare.ts",
+					"line": 4,
+					"character": 23
+				}
+			],
+			"implementedTypes": [
+				{
+					"type": "reference",
+					"name": "IGeometry",
+					"id": 87
+				}
+			]
+		},
+		{
+			"id": 157,
+			"name": "IBlendMode",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 160,
+					"name": "dFactor",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 13,
+							"character": 11
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "GLenum"
+					}
+				},
+				{
+					"id": 158,
+					"name": "equation",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 11,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "GLenum"
+					}
+				},
+				{
+					"id": 159,
+					"name": "sFactor",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 12,
+							"character": 11
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "GLenum"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						160,
+						158,
+						159
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 10,
+					"character": 27
+				}
+			]
+		},
+		{
+			"id": 20,
+			"name": "IExportLayout",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 24,
+					"name": "clear",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/export_layouts.ts",
+							"line": 9,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					}
+				},
+				{
+					"id": 23,
+					"name": "gamma",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "config/export_layouts.ts",
+							"line": 8,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				},
+				{
+					"id": 25,
+					"name": "layout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/export_layouts.ts",
+							"line": 10,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 26,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"indexSignature": [
+								{
+									"id": 27,
+									"name": "__index",
+									"kind": 8192,
+									"kindString": "Index signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 28,
+											"name": "index",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											}
+										}
+									],
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "config/export_layouts.ts",
+									"line": 10,
+									"character": 11
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 22,
+					"name": "size",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/export_layouts.ts",
+							"line": 7,
+							"character": 8
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "exportSize"
+					}
+				},
+				{
+					"id": 21,
+					"name": "type",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/export_layouts.ts",
+							"line": 6,
+							"character": 8
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "png"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "exr"
+							}
+						]
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						24,
+						23,
+						25,
+						22,
+						21
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "config/export_layouts.ts",
+					"line": 5,
+					"character": 30
+				}
+			]
+		},
+		{
+			"id": 29,
+			"name": "IExportLayouts",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"indexSignature": [
+				{
+					"id": 30,
+					"name": "__index",
+					"kind": 8192,
+					"kindString": "Index signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 31,
+							"name": "index",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "IExportLayout",
+						"id": 20
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "config/export_layouts.ts",
+					"line": 17,
+					"character": 31
+				}
+			]
+		},
+		{
+			"id": 87,
+			"name": "IGeometry",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 90,
+					"name": "indexBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/geometry.ts",
+							"line": 12,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					}
+				},
+				{
+					"id": 88,
+					"name": "positionBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/geometry.ts",
+							"line": 10,
+							"character": 18
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					}
+				},
+				{
+					"id": 89,
+					"name": "uvBuffer",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/geometry.ts",
+							"line": 11,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "WebGLBuffer"
+					}
+				},
+				{
+					"id": 94,
+					"name": "delete",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 95,
+							"name": "delete",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/geometry.ts",
+							"line": 15,
+							"character": 10
+						}
+					]
+				},
+				{
+					"id": 91,
+					"name": "draw",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 92,
+							"name": "draw",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 93,
+									"name": "program",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "Program"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					],
+					"sources": [
+						{
+							"fileName": "draw/geometry.ts",
+							"line": 14,
+							"character": 8
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						90,
+						88,
+						89
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						94,
+						91
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/geometry.ts",
+					"line": 9,
+					"character": 26
+				}
+			],
+			"implementedBy": [
+				{
+					"type": "reference",
+					"name": "Quad",
+					"id": 72
+				},
+				{
+					"type": "reference",
+					"name": "UnitCircle",
+					"id": 57
+				},
+				{
+					"type": "reference",
+					"name": "UnitSquare",
+					"id": 44
+				}
+			]
+		},
+		{
+			"id": 133,
+			"name": "ILineOptions",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 135,
+					"name": "align",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/line.ts",
+							"line": 14,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "center"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "left"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "right"
+							}
+						]
+					}
+				},
+				{
+					"id": 136,
+					"name": "close",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/line.ts",
+							"line": 15,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 137,
+					"name": "uvMode",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/line.ts",
+							"line": 16,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "segment"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "stretch_points"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "brush"
+							}
+						]
+					}
+				},
+				{
+					"id": 134,
+					"name": "width",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "draw/line.ts",
+							"line": 13,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						135,
+						136,
+						137,
+						134
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/line.ts",
+					"line": 12,
+					"character": 29
+				}
+			]
+		},
+		{
+			"id": 306,
+			"name": "ISmudgeUIOptions",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 309,
+					"name": "combine2D3D",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 22,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 313,
+					"name": "environmentMapPath",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 26,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 307,
+					"name": "show2D",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 20,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 308,
+					"name": "show3D",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 21,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 310,
+					"name": "showChannelButtons",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 23,
+							"character": 22
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 311,
+					"name": "showExportButtons",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 24,
+							"character": 21
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 312,
+					"name": "targetElement",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "ui/smudge_ui.ts",
+							"line": 25,
+							"character": 17
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "HTMLElement"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						309,
+						313,
+						307,
+						308,
+						310,
+						311,
+						312
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "ui/smudge_ui.ts",
+					"line": 19,
+					"character": 33
+				}
+			]
+		},
+		{
+			"id": 153,
+			"name": "ColorDescription",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 7,
+					"character": 28
+				}
+			],
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "reference",
+						"name": "Gray",
+						"id": 149
+					},
+					{
+						"type": "reference",
+						"name": "GrayA",
+						"id": 150
+					},
+					{
+						"type": "reference",
+						"name": "RGB",
+						"id": 151
+					},
+					{
+						"type": "reference",
+						"name": "RGBA",
+						"id": 152
+					}
+				]
+			}
+		},
+		{
+			"id": 149,
+			"name": "Gray",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 3,
+					"character": 16
+				}
+			],
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "tuple",
+						"elements": [
+							{
+								"type": "intrinsic",
+								"name": "number"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": 150,
+			"name": "GrayA",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 4,
+					"character": 17
+				}
+			],
+			"type": {
+				"type": "tuple",
+				"elements": [
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					}
+				]
+			}
+		},
+		{
+			"id": 187,
+			"name": "IReadonlyBlendMode",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 15,
+					"character": 30
+				}
+			],
+			"type": {
+				"type": "reference",
+				"name": "Readonly",
+				"typeArguments": [
+					{
+						"type": "reference",
+						"name": "IBlendMode",
+						"id": 157
+					}
+				]
+			}
+		},
+		{
+			"id": 33,
+			"name": "IReadonlyExportLayout",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "config/export_layouts.ts",
+					"line": 22,
+					"character": 33
+				}
+			],
+			"type": {
+				"type": "reference",
+				"name": "Readonly",
+				"typeArguments": [
+					{
+						"type": "reference",
+						"name": "IExportLayout",
+						"id": 20
+					}
+				]
+			}
+		},
+		{
+			"id": 151,
+			"name": "RGB",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 5,
+					"character": 15
+				}
+			],
+			"type": {
+				"type": "tuple",
+				"elements": [
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					}
+				]
+			}
+		},
+		{
+			"id": 152,
+			"name": "RGBA",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 6,
+					"character": 16
+				}
+			],
+			"type": {
+				"type": "tuple",
+				"elements": [
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					},
+					{
+						"type": "intrinsic",
+						"name": "number"
+					}
+				]
+			}
+		},
+		{
+			"id": 40,
+			"name": "consoleError",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 20,
+					"character": 23
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleError"
+		},
+		{
+			"id": 36,
+			"name": "consoleInfo",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 14,
+					"character": 22
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleInfo"
+		},
+		{
+			"id": 38,
+			"name": "consoleLog",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 17,
+					"character": 21
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleLog"
+		},
+		{
+			"id": 37,
+			"name": "consoleReport",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 16,
+					"character": 24
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleReport"
+		},
+		{
+			"id": 35,
+			"name": "consoleTrace",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 13,
+					"character": 23
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleTrace"
+		},
+		{
+			"id": 39,
+			"name": "consoleWarn",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isExported": true
+			},
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 19,
+					"character": 22
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "any"
+			},
+			"defaultValue": " _consoleWarn"
+		},
+		{
+			"id": 138,
+			"name": "buildLineQuads",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true
+			},
+			"signatures": [
+				{
+					"id": 139,
+					"name": "buildLineQuads",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 140,
+							"name": "gl",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "WebGLRenderingContext"
+							}
+						},
+						{
+							"id": 141,
+							"name": "points",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "array",
+									"elementType": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							}
+						},
+						{
+							"id": 142,
+							"name": "_options",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "number"
+									},
+									{
+										"type": "reference",
+										"name": "ILineOptions",
+										"id": 133
+									}
+								]
+							},
+							"defaultValue": "1"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"name": "Quad",
+							"id": 72
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "draw/line.ts",
+					"line": 125,
+					"character": 30
+				}
+			]
+		},
+		{
+			"id": 154,
+			"name": "colorDescriptionToRGBA",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true
+			},
+			"signatures": [
+				{
+					"id": 155,
+					"name": "colorDescriptionToRGBA",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 156,
+							"name": "color",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "ColorDescription",
+								"id": 153
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "RGBA",
+						"id": 152
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/color.ts",
+					"line": 12,
+					"character": 38
+				}
+			]
+		},
+		{
+			"id": 143,
+			"name": "makeExr",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true
+			},
+			"signatures": [
+				{
+					"id": 144,
+					"name": "makeExr",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "Exports an float-half OpenEXR RGBA image\nhttp://www.openexr.com/TechnicalIntroduction.pdf\nhttp://www.openexr.com/openexrfilelayout.pdf",
+						"text": "Partially based on miniexr\nhttps://github.com/aras-p/miniexr/blob/master/miniexr.cpp\n",
+						"tags": [
+							{
+								"tag": "pixels:",
+								"text": "Float32Array RGBA data, should be width*height*4 long\n"
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 145,
+							"name": "width",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 146,
+							"name": "height",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 147,
+							"name": "pixels",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Float32Array"
+							}
+						},
+						{
+							"id": 148,
+							"name": "gamma",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "2.2"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Blob"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "exr.ts",
+					"line": 15,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 41,
+			"name": "setLoggingLevel",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true
+			},
+			"signatures": [
+				{
+					"id": 42,
+					"name": "setLoggingLevel",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 43,
+							"name": "level",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "stringLiteral",
+										"value": "trace"
+									},
+									{
+										"type": "stringLiteral",
+										"value": "info"
+									},
+									{
+										"type": "stringLiteral",
+										"value": "report"
+									},
+									{
+										"type": "stringLiteral",
+										"value": "log"
+									},
+									{
+										"type": "stringLiteral",
+										"value": "warn"
+									},
+									{
+										"type": "stringLiteral",
+										"value": "error"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "void"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "logging.ts",
+					"line": 24,
+					"character": 28
+				}
+			]
+		},
+		{
+			"id": 199,
+			"name": "wait",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true
+			},
+			"signatures": [
+				{
+					"id": 200,
+					"name": "wait",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 201,
+							"name": "ms",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "0"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Promise",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "Object"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "util.ts",
+					"line": 2,
+					"character": 26
+				}
+			]
+		},
+		{
+			"id": 188,
+			"name": "BlendMode",
+			"kind": 2097152,
+			"kindString": "Object literal",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 193,
+					"name": "Additive",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 30,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 194,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBlendMode>{\n        equation: gl_constants.FUNC_ADD,\n        sFactor: gl_constants.SRC_ALPHA,\n        dFactor: gl_constants.ONE,\n    }"
+				},
+				{
+					"id": 189,
+					"name": "Blend",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 18,
+							"character": 9
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 190,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBlendMode>{\n        equation: gl_constants.FUNC_ADD,\n        sFactor: gl_constants.SRC_ALPHA,\n        dFactor: gl_constants.ONE_MINUS_SRC_ALPHA,\n    }"
+				},
+				{
+					"id": 197,
+					"name": "Multiply",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 54,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 198,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBlendMode>{\n        equation: gl_constants.FUNC_ADD,\n        sFactor: gl_constants.DST_COLOR,\n        dFactor: gl_constants.ZERO,\n    }"
+				},
+				{
+					"id": 191,
+					"name": "Replace",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 24,
+							"character": 11
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 192,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBlendMode>{\n        equation: gl_constants.FUNC_ADD,\n        sFactor: gl_constants.ONE,\n        dFactor: gl_constants.ZERO,\n    }"
+				},
+				{
+					"id": 195,
+					"name": "Subtractive",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "material/material.ts",
+							"line": 36,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 196,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBlendMode>{\n        equation: gl_constants.FUNC_REVERSE_SUBTRACT,\n        sFactor: gl_constants.SRC_ALPHA,\n        dFactor: gl_constants.ONE,\n    }"
+				}
+			],
+			"groups": [
+				{
+					"title": "Variables",
+					"kind": 32,
+					"children": [
+						193,
+						189,
+						197,
+						191,
+						195
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "material/material.ts",
+					"line": 17,
+					"character": 22
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "object"
+			}
+		},
+		{
+			"id": 9,
+			"name": "bufferLayouts",
+			"kind": 2097152,
+			"kindString": "Object literal",
+			"flags": {
+				"isExported": true
+			},
+			"children": [
+				{
+					"id": 10,
+					"name": "albedo",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/buffer_layouts.ts",
+							"line": 44,
+							"character": 8
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 11,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 4,\n  }"
+				},
+				{
+					"id": 18,
+					"name": "emission",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/buffer_layouts.ts",
+							"line": 64,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 19,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " {\n    super_sampling: 4,\n    depth: 16,\n    channels: 4,\n  } as IReadonlyBufferLayout"
+				},
+				{
+					"id": 16,
+					"name": "height",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/buffer_layouts.ts",
+							"line": 59,
+							"character": 8
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 17,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " {\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  } as IReadonlyBufferLayout"
+				},
+				{
+					"id": 12,
+					"name": "metallic",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/buffer_layouts.ts",
+							"line": 49,
+							"character": 10
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 13,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  }"
+				},
+				{
+					"id": 14,
+					"name": "smoothness",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"sources": [
+						{
+							"fileName": "config/buffer_layouts.ts",
+							"line": 54,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 15,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {}
+						}
+					},
+					"defaultValue": " <IReadonlyBufferLayout>{\n    super_sampling: 4,\n    depth: 16,\n    channels: 1,\n  }"
+				}
+			],
+			"groups": [
+				{
+					"title": "Variables",
+					"kind": 32,
+					"children": [
+						10,
+						18,
+						16,
+						12,
+						14
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "config/buffer_layouts.ts",
+					"line": 43,
+					"character": 26
+				}
+			],
+			"type": {
+				"type": "intrinsic",
+				"name": "object"
+			}
+		}
+	],
+	"groups": [
+		{
+			"title": "Classes",
+			"kind": 128,
+			"children": [
+				177,
+				168,
+				113,
+				291,
+				72,
+				207,
+				314,
+				161,
+				96,
+				57,
+				44
+			]
+		},
+		{
+			"title": "Interfaces",
+			"kind": 256,
+			"children": [
+				157,
+				20,
+				29,
+				87,
+				133,
+				306
+			]
+		},
+		{
+			"title": "Type aliases",
+			"kind": 4194304,
+			"children": [
+				153,
+				149,
+				150,
+				187,
+				33,
+				151,
+				152
+			]
+		},
+		{
+			"title": "Variables",
+			"kind": 32,
+			"children": [
+				40,
+				36,
+				38,
+				37,
+				35,
+				39
+			]
+		},
+		{
+			"title": "Functions",
+			"kind": 64,
+			"children": [
+				138,
+				154,
+				143,
+				41,
+				199
+			]
+		},
+		{
+			"title": "Object literals",
+			"kind": 2097152,
+			"children": [
+				188,
+				9
+			]
+		}
+	]
+}

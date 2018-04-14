@@ -13,7 +13,7 @@ I wanted to build out a more complicated example after the refactoring to make s
 <br/><br/>
 
 <div id="sketch_brick" class="smudge-wrap"></div>
-<script src="/smudge/media/brick/brick.js" data-ui-target="sketch_brick"></script>
+<script src="/smudge/media/sketches_2/brick.js" data-ui-target="sketch_brick"></script>
 
 This texture set touches most of the API. It uses all of the material channels except emission. It uses a number of input textures, including the features for color and UV mapping. It also shows that the API needs some work.  For example, `Material2` should just be renamed to `Material`.
 

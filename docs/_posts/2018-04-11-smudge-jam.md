@@ -28,7 +28,7 @@ An interactive demo is worth a 1000 words. You can drag the cube below to rotate
 
 
 <div id="sketch_jam" class="smudge-wrap"></div>
-<script src="/smudge/media/jam/jam.js" data-ui-target="sketch_jam"></script>
+<script src="/smudge/media/sketches_2/jam.js" data-ui-target="sketch_jam"></script>
 
 Here is the code that draws that golden circle.
 

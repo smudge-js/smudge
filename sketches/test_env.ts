@@ -9,7 +9,6 @@ export async function draw() {
 
     // load resources
 
-
     // show the ui
     const ui = new SmudgeUI(smudge, { environmentMapPath: "/images/environment_studio.jpg" });
 
@@ -23,6 +22,7 @@ export async function draw() {
     mat.albedo.color = 1;
     mat.smoothness.color = 1;
     mat.metallic.color = 1;
+
 
     smudge.rect(10, 10, 492, 250, mat);
 

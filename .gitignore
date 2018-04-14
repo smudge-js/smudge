@@ -1,7 +1,8 @@
 .DS_Store
 node_modules/
-api_doc/
+/api_doc/
 test_doc/
 dist/
 npm-debug.log
 bundle.js
+/jam
