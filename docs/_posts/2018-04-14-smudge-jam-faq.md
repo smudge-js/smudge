@@ -22,6 +22,20 @@ poster_image:
 4. Look at the [Smudge Jam FAQ](https://jbakse.github.io/smudge/posts/smudge-jam-faq.html)
 5. Copy one of the examples and start hacking.
 
+## What is PBR
+## Creating a material
+## Drawing shapes
+    rects
+    line
+    quad
+    ellipse
+## Using a texture
+## Prompts
+## Award Categories
+    robot face
+    subway wall
+
+
 
 ## Coordinates
 
@@ -83,6 +97,12 @@ Materials also have a `default` MaterialChannel. If a property channel is undefi
     - this is used to rotate/scale the texture on the shape being drawn
 
 
+### Material Tips
+
+To make a deep clone of a material, you can use lodash, which is already loaded in the jamp pack index:
+```javascript
+cloneMat = _.cloneDeep(material);
+```
 
 
 

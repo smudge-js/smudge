@@ -4,7 +4,7 @@ export async function draw() {
     // create a smudge instance
     const smudge = new Smudge(undefined, 512, 512);
 
-    const clouds = await smudge.loadTexture("images/clouds.png");
+    const clouds = await smudge.loadTexture("images/clouds_highres.png");
 
     // show the ui
     const ui = new SmudgeUI(smudge);
@@ -16,7 +16,7 @@ export async function draw() {
     const testMaterial = new Material2();
     testMaterial.albedo.color = .8;
     testMaterial.height.textureInfo.texture = clouds;
-    testMaterial.height.color = .1;
+    testMaterial.height.color = .01;
     smudge.rect(0, 0, 512, 512, testMaterial);
 
     // show albedo in ui
