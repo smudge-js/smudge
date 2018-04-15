@@ -66,3 +66,12 @@ We'll get each other set up and started with the Smudge library. We'll hang out 
 - **3:00** Coding, Coding, Coding
 - **6:00** Show off, Voting, Awards
 - **7:00+** Food, Social
+
+
+### Smudge Jam Pack
+
+Download the [Smudge Jam Pack](/smudge/smudge_jam_pack.zip) to get the library and some examples.
+
+
+### Smudge Jam FAQ
+I'll (maybe) be posting answers to questions on the [Smudge Jam FAQ](/smudge/posts/smudge-jam-faq.html) during the event.

@@ -1,4 +1,4 @@
-import * as sketch from './jam_1';
+import * as sketch from './height_texture';
 
 
 // reference sketch to prevent it from being discarded by bundler
