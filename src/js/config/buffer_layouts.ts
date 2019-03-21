@@ -45,28 +45,28 @@ export const bufferLayouts: IBufferLayouts = {
   albedo: <IReadonlyBufferLayout>{
     super_sampling: 4,
     depth: 16,
-    channels: 4,
+    channels: 4
   },
   metallic: <IReadonlyBufferLayout>{
     super_sampling: 4,
     depth: 16,
-    channels: 1,
+    channels: 1
   },
   smoothness: <IReadonlyBufferLayout>{
     super_sampling: 4,
     depth: 16,
-    channels: 1,
+    channels: 1
   },
   height: {
     super_sampling: 4,
     depth: 16,
-    channels: 1,
+    channels: 1
   } as IReadonlyBufferLayout,
   emission: {
     super_sampling: 4,
     depth: 16,
-    channels: 4,
-  } as IReadonlyBufferLayout,
+    channels: 4
+  } as IReadonlyBufferLayout
   // bugfix: {
   //   // @todo fix this
   //   // for some reason, if the last buffer_layout has a super_sampling > 1 it throws off the
@@ -78,4 +78,3 @@ export const bufferLayouts: IBufferLayouts = {
   //   // blend_mode: "emission_blend_mode",
   // } as IReadonlyBufferLayout,
 };
-
