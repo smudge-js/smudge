@@ -7,7 +7,7 @@ author: Justin Bakse
 poster_image: /media/brick/brick_render.png
 ---
 
-I just finished a major refactoring pass on smudge. There are still some things that really want to do, but I'm going to do some user testing before the next round of refactoring and feature additions.
+I just finished a major refactoring pass on smudge. There are still some things that I really want to do, but I'm going to do some user testing before the next round of refactoring and feature additions.
 
 I wanted to build out a more complicated example after the refactoring to make sure things work together and to identify any major pain points in the API, so I built this brick wall.
 <br/><br/>
