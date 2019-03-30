@@ -16,7 +16,7 @@ poster_image: /media/jam/arcs_render.jpg
 
 ## Now What?
 
-1. Try some different examples by changing editing the last `<script>` tag in `index.html`
+1. Try some different examples by changing or editing the last `<script>` tag in `index.html`
 2. Look at the [Smudge Blog](https://jbakse.github.io/smudge/) for some more info about Smudge, including a [general introduction](https://jbakse.github.io/smudge/)
 3. Look at the [Smudge API Documentation](https://jbakse.github.io/smudge/api_doc/)
 4. Look at the [Smudge Jam FAQ](https://jbakse.github.io/smudge/posts/smudge-jam-faq.html)
@@ -69,7 +69,7 @@ Material
     emission: MaterialChannel = undefined
 ```
 
-Materials have 5 physical property MaterialChannels: albedo (base color), matallic, smoothness, height, emission (glow)
+Materials have 5 physical property MaterialChannels: albedo (base color), metallic, smoothness, height, emission (glow)
 
 Materials also have a `default` MaterialChannel. If a property channel is undefined, values from `default` are used.
 
