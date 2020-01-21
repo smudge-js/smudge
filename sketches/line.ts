@@ -44,31 +44,7 @@ export async function draw() {
   line.push([10, 210]);
   line.push([100, 400]);
   line.push([190, 210]);
-  smudge.line(
-    line,
-    { width: 20, close: false, align: "left", uvMode: "segment" },
-    gradient
-  );
-
-  line = [];
-  line.push([10, 260]);
-  line.push([100, 450]);
-  line.push([190, 260]);
-  smudge.line(
-    line,
-    { width: 20, close: false, align: "left", uvMode: "brush" },
-    gradient
-  );
-
-  line = [];
-  line.push([10, 310]);
-  line.push([100, 500]);
-  line.push([190, 310]);
-  smudge.line(
-    line,
-    { width: 20, close: false, align: "left", uvMode: "stretch_points" },
-    gradient
-  );
+  smudge.line(line, 30, gradient);
 
   line = [];
   line.push([210, 210]);
@@ -77,7 +53,7 @@ export async function draw() {
   smudge.line(line, 50, heightGradient);
 
   // show albedo in ui
-  smudge.show();
+  ui.update3D();
   ui.update3D();
 }
 

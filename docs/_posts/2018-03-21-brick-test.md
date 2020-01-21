@@ -7,13 +7,13 @@ author: Justin Bakse
 poster_image: /media/brick/brick_render.png
 ---
 
-I just finished a major refactoring pass on smudge. There are still some things that really want to do, but I'm going to do some user testing before the next round of refactoring and feature additions.
+I just finished a major refactoring pass on smudge. There are still some things that I really want to do, but I'm going to do some user testing before the next round of refactoring and feature additions.
 
 I wanted to build out a more complicated example after the refactoring to make sure things work together and to identify any major pain points in the API, so I built this brick wall.
 <br/><br/>
 
 <div id="sketch_brick" class="smudge-wrap"></div>
-<script src="/smudge/media/brick/brick.js" data-ui-target="sketch_brick"></script>
+<script src="/smudge/media/sketches_2/brick.js" data-ui-target="sketch_brick"></script>
 
 This texture set touches most of the API. It uses all of the material channels except emission. It uses a number of input textures, including the features for color and UV mapping. It also shows that the API needs some work.  For example, `Material2` should just be renamed to `Material`.
 

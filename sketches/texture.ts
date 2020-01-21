@@ -6,7 +6,7 @@ export async function draw() {
   const smudge = new Smudge(undefined, 512, 512);
 
   // load a texture
-  const texture_a = await smudge.loadTexture("images/letter_a.png");
+  const t = await smudge.loadTexture("images/letter_a.png");
   const burst = await smudge.loadTexture("images/burst_white_transparent.png");
   // show the ui
   const ui = new SmudgeUI(smudge);
@@ -17,40 +17,58 @@ export async function draw() {
   smudge.clear(paper);
 
   // draw a basic textured rect
-  const basic_material = new Material2();
-  basic_material.albedo.color = 1;
-  basic_material.albedo.textureInfo.texture = texture_a;
-  smudge.rect(0, 0, 200, 200, basic_material);
+  const albedoA = new Material2();
+  albedoA.albedo.color = 1;
+  albedoA.albedo.textureInfo.texture = t;
+  smudge.rect(0, 0, 200, 200, albedoA);
 
   // draw texture to other channels
-  const smooth_material = new Material2();
-  smooth_material.albedo.color = [0.3, 0.3, 0];
-  smooth_material.smoothness.color = 1;
-  smooth_material.smoothness.textureInfo.texture = texture_a;
-  smudge.rect(200, 0, 200, 200, smooth_material);
+  const channelA = new Material2();
+  channelA.smoothness.color = 1;
+  channelA.smoothness.textureInfo.texture = t;
+  channelA.height.color = 10;
+  channelA.height.textureInfo.texture = burst;
+  smudge.rect(200, 0, 200, 200, channelA);
 
   // manipulate texture colors
-  const colorized_material = new Material2();
-  colorized_material.albedo.color = 1;
-  colorized_material.albedo.textureInfo.texture = texture_a;
-  colorized_material.albedo.textureInfo.colorBias = [1, 1, 1, 0];
-  colorized_material.albedo.textureInfo.colorMatrix = [
-    -1, 0, 0, 0,
-    0, -.5, 0, 0,
-    0, 0, -1, 0,
-    0, 0, 0, 1,
+  const albedoColorize = new Material2();
+  albedoColorize.albedo.color = 1;
+  albedoColorize.albedo.textureInfo.texture = t;
+  albedoColorize.albedo.textureInfo.colorBias = [1, 1, 1, 0];
+  albedoColorize.albedo.textureInfo.colorMatrix = [
+    -1,
+    0,
+    0,
+    0,
+    0,
+    -0.5,
+    0,
+    0,
+    0,
+    0,
+    -1,
+    0,
+    0,
+    0,
+    0,
+    1
   ];
-  smudge.rect(0, 200, 200, 200, colorized_material);
+  smudge.rect(0, 200, 200, 200, albedoColorize);
 
   // transform texture
-  const transformed_texture = new Material2();
-  transformed_texture.albedo.color = 1;
-  transformed_texture.albedo.textureInfo.texture = texture_a;
-  transformed_texture.albedo.textureInfo.uvMatrix = new UVMatrix().translate(.5, .5).rotate(3.14 * .25).scale(2).translate(-.5, -.5).get();
-  smudge.rect(200, 200, 200, 200, transformed_texture);
+  const transformA = new Material2();
+  transformA.albedo.color = 1;
+  transformA.albedo.textureInfo.texture = t;
+  transformA.albedo.textureInfo.uvMatrix = new UVMatrix()
+    .translate(0.5, 0.5)
+    .rotate(3.14 * 0.25)
+    .scale(2)
+    .translate(-0.5, -0.5)
+    .get();
+  smudge.rect(200, 200, 200, 200, transformA);
 
   // show albedo in ui
-
+  ui.update3D();
   ui.update3D();
 }
 

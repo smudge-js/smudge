@@ -1,6 +1,6 @@
 {
   "name": "smudge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sketching library for Physically Based Rendering",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "smudge": "webpack-dev-server --open",
     "smudge_build": "webpack",
     "blog": "cd docs && bundle exec jekyll serve --drafts --livereload",
-    "open_blog": "sleep 2 && open http: //127.0.0.1:4000/smudge/",
-    "api_doc": "typedoc --theme minimal --out ./api_doc/ src/app.ts"
+    "open_blog": "sleep 2 && open http://127.0.0.1:4000/smudge/",
+    "api_doc": "typedoc --theme minimal --out ./api_doc/ src/js/index.ts"
   },
   "repository": {
     "type": "git",

@@ -6,6 +6,7 @@ export * from "./quad";
 
 /* tslint:enable:max-classes-per-file */
 
+/** @hidden */
 export interface IGeometry {
     positionBuffer: WebGLBuffer;
     uvBuffer: WebGLBuffer;

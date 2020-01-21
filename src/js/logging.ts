@@ -10,17 +10,22 @@ const _consoleLog = console.log.bind(window.console, "%clog", "background-color:
 const _consoleWarn = console.warn.bind(window.console, "%cwarn", "background-color: black; color: yellow;");
 const _consoleError = console.error.bind(window.console, "%cerror", "background-color: black; color: red;");
 
+
+/** @hidden */
 export let consoleTrace = _consoleTrace;
+/** @hidden */
 export let consoleInfo = _consoleInfo;
-
+/** @hidden */
 export let consoleReport = _consoleReport;
+/** @hidden */
 export let consoleLog = _consoleLog;
-
+/** @hidden */
 export let consoleWarn = _consoleWarn;
+/** @hidden */
 export let consoleError = _consoleError;
 
 
-
+/** @hidden */
 export const setLoggingLevel = (level: "trace" | "info" | "report" | "log" | "warn" | "error") => {
     const levelNum = ["trace", "info", "report", "log", "warn", "error"].indexOf(level);
     if (levelNum === -1) {
@@ -52,6 +57,7 @@ export const setLoggingLevel = (level: "trace" | "info" | "report" | "log" | "wa
     }
 
 };
+
 
 function nothing() {
     // nothing

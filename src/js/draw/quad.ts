@@ -1,6 +1,7 @@
 import { Program } from "../private/program";
 import { IGeometry } from "./geometry";
 
+/** @hidden */
 export class Quad implements IGeometry {
     public positionBuffer: WebGLBuffer;
     public uvBuffer: WebGLBuffer;

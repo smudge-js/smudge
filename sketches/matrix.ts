@@ -21,7 +21,7 @@ export async function draw() {
     smudge.rect(-256, -256, 512, 512, red, myMatrix);
 
     // show albedo in ui
-    smudge.show();
+    ui.update3D();
     ui.update3D();
 }
 

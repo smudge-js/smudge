@@ -1,39 +1,26 @@
 <html>
-
-
-
-<body>
-
+  <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
     <script src="smudge.js"></script>
 
-
-
     <script>
+      // create a smudge instance
+      const s = new smudge.Smudge(undefined, 512, 512);
+      // show the ui
+      const ui = new smudge.SmudgeUI(s);
 
-        // create a smudge instance
-        const s = new smudge.Smudge(undefined, 512, 512);
-        // show the ui
-        const ui = new smudge.SmudgeUI(s);
+      // clear the drawing
+      s.clear();
 
-        // clear the drawing
-        s.clear();
+      // draw a rect
+      const simpleRed = new smudge.Material2();
+      simpleRed.albedo.color = [1, 0, 0];
+      s.rect(0, 0, 200, 200, simpleRed);
 
-        // draw a rect
-        const simpleRed = new smudge.Material2();
-        simpleRed.albedo.color = [1, 0, 0];
-        s.rect(0, 0, 200, 200, simpleRed);
-
-
-
-        // show albedo in ui
-        s.show();
-        ui.updatePBR();
-
-
-
+      // show albedo in ui
+      s.show();
+      ui.updatePBR();
     </script>
-</body>
-
+  </body>
 </html>

@@ -4,6 +4,7 @@
         "target": "es5",
         "outDir": "./dist/",
         "jsx": "react",
+        "declaration": false,
         "allowJs": true,
         "sourceMap": true,
         "noImplicitAny": true,
@@ -27,9 +28,5 @@
         "./src/js/tests/**/*",
         "notes/**/*",
         "obsolete_sketches/**/*"
-    ],
-    // "include": [
-    //     "src/**/*",
-    //     "sketches/**/*"
-    // ]
+    ]
 }

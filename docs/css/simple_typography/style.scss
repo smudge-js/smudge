@@ -7,262 +7,258 @@
 \*------------------------------------*/
 
 // Font Family
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");
 $font-family: "Roboto", sans, serif;
 
 // Base Font for HTML
 $base-font-size: 16px;
 
 // Paragraph Styles
-$paragraph-color      : #335;
-$paragraph-size       : rem(20px);
+$paragraph-color: #000;
+$paragraph-size: rem(20px);
 $paragraph-line-height: 1.75em;
-$paragraph-margin     : 20px;
+$paragraph-margin: 20px;
 
 // Header Styles
-$header-color      : #115;
-$header-size       : rem(40px);
+$header-color: #024;
+$header-size: rem(40px);
 $header-line-height: 1.25em;
-$header-margin     : $paragraph-margin * 1.2;
+$header-margin: $paragraph-margin * 1.2;
 
 // Blockquote Styles
-$blockquote-color      : #505050;
-$blockquote-size       : rem(23px);
+$blockquote-color: #505050;
+$blockquote-size: rem(23px);
 $blockquote-line-height: 1.5em;
-$blockquote-margin     : $paragraph-margin * 1.5;
+$blockquote-margin: $paragraph-margin * 1.5;
 
 // Links
-$link-color: #66C;
+$link-color: #06c;
 
 // hr
 $hr-margin: 30px;
 
 // Type Misc
 $font-weight-bold: 800;
-$border-color: #DADADA;
-
-
-
-
+$border-color: #dadada;
 
 /*------------------------------------*\
     # Type
 \*------------------------------------*/
 
 // Make type normal across browsers
-*, html, body {
-    font-size: $base-font-size;
-    font-family: $font-family;
-    font-weight: 100;
-    // -webkit-font-smoothing: antialiased;
-    // -moz-osx-font-smoothing: grayscale;
-    // -webkit-text-size-adjust: 100%;
-    // -ms-text-size-adjust: 100%;
+*,
+html,
+body {
+  font-size: $base-font-size;
+  font-family: $font-family;
+  font-weight: 100;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  // -webkit-text-size-adjust: 100%;
+  // -ms-text-size-adjust: 100%;
 }
 
-
 // Headers
-h1, h2, h3, h4, h5, h6 {
-    margin: $header-margin * 1.5 0 $header-margin 0;
-    color: $header-color;
-    line-height: $header-line-height;
-    font-weight: 400;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: $header-margin * 1.5 0 $header-margin 0;
+  color: $header-color;
+  line-height: $header-line-height;
+  font-weight: 400;
 }
 
 h1 {
-    font-size: $header-size;
+  font-size: $header-size;
 }
 
 h2 {
-    font-size: $header-size / 1.3;
+  font-size: $header-size / 1.3;
 }
 
 h3 {
-    font-size: $header-size / 1.5;
+  font-size: $header-size / 1.5;
 }
 
 h4 {
-    font-size: $header-size / 1.7;
+  font-size: $header-size / 1.7;
 }
 
 h5 {
-    font-size: $header-size / 1.8;
+  font-size: $header-size / 1.8;
 }
 
 h6 {
-    font-size: $header-size / 2;
+  font-size: $header-size / 2;
 }
-
-
 
 // Paragraphs
 p {
-    margin-top: $paragraph-margin;
-    font-size: $paragraph-size;
-    line-height: $paragraph-line-height;
-    color: $paragraph-color;
+  margin-top: $paragraph-margin;
+  font-size: $paragraph-size;
+  line-height: $paragraph-line-height;
+  color: $paragraph-color;
 
-    &:first-of-type {
-        margin-top: 0;
-    }
+  &:first-of-type {
+    margin-top: 0;
+  }
 }
-
-
 
 // Links
 a {
-    color: $link-color;
-    text-decoration: none;
-    // @include transition(all .2s ease);
+  color: $link-color;
+  text-decoration: none;
+  // @include transition(all .2s ease);
 
-    &:hover {
-        color: darken($link-color, 10%);
-    }
+  &:hover {
+    color: darken($link-color, 10%);
+  }
 }
 
-
 // Lists
-ul, ol {
-    margin: $paragraph-margin 0 0 20px;
+ul,
+ol {
+  margin: $paragraph-margin 0 0 20px;
 
-    li {
-        margin-top: 10px;
-        line-height: $paragraph-line-height;
-        color: $paragraph-color;
-    }
+  li {
+    margin-top: 10px;
+    line-height: $paragraph-line-height;
+    color: $paragraph-color;
+  }
 
-    ul, ol {
-        margin-top: 0;
-    }
+  ul,
+  ol {
+    margin-top: 0;
+  }
 }
 
 ul {
+  li {
+    list-style: disc;
+  }
 
+  ul {
     li {
-        list-style: disc;
+      list-style: circle;
     }
-
-    ul {
-
-        li {
-            list-style: circle;
-        }
-    }
+  }
 }
 
 ol {
-
-    li {
-        list-style: decimal;
-    }
+  li {
+    list-style: decimal;
+  }
 }
-
 
 // hr
 hr {
-    height: 1px;
-    margin: $hr-margin 0;
-    border: none;
-    background-color: $border-color;
+  height: 1px;
+  margin: $hr-margin 0;
+  border: none;
+  background-color: $border-color;
 }
-
 
 // Blockquote
 blockquote {
-    margin: $blockquote-margin 0;
-    font-size: $blockquote-size;
-    line-height: $blockquote-line-height;
-    color: $blockquote-color;
-    text-align: center;
-    font-style: italic;
+  margin: $blockquote-margin 0;
+  font-size: $blockquote-size;
+  line-height: $blockquote-line-height;
+  color: $blockquote-color;
+  text-align: center;
+  font-style: italic;
 }
-
 
 // Tables
 table {
-    width: 100%;
-    margin: $blockquote-margin 0;
-    border-collapse: collapse;
+  width: 100%;
+  margin: $blockquote-margin 0;
+  border-collapse: collapse;
 }
 
-table, td, th {
-    border: 1px solid $border-color;
-    text-align: left;
+table,
+td,
+th {
+  border: 1px solid $border-color;
+  text-align: left;
 }
 
 th {
-    font-weight: $font-weight-bold;
+  font-weight: $font-weight-bold;
 }
 
-th, td {
-    padding: 15px;
+th,
+td {
+  padding: 15px;
 }
-
 
 // Figure
 figure {
-    margin: $blockquote-margin 0;
+  margin: $blockquote-margin 0;
 
-    img {
-        margin: 0;
-    }
+  img {
+    margin: 0;
+  }
 }
 
 figcaption {
-    margin-top: 10px;
-    color: lighten($paragraph-color, 10%);
-    font-size: $paragraph-margin * 0.8;
+  margin-top: 10px;
+  color: lighten($paragraph-color, 10%);
+  font-size: $paragraph-margin * 0.8;
 }
-
 
 // Code
 pre {
-    display: block;
-    margin: 0 0 40px 0;
-    padding: 20px;
-    background-color: lighten($border-color, 12%);
-    border: 1px solid $border-color;
-    overflow: auto;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+  display: block;
+  margin: 0 0 40px 0;
+  padding: 20px;
+  background-color: lighten($border-color, 12%);
+  border: 1px solid $border-color;
+  overflow: auto;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 
-    code {
-        position: static;
-        padding: 0;
-        border: none;
-        line-height: 1.5em;
-    }
+  code {
+    position: static;
+    padding: 0;
+    border: none;
+    line-height: 1.5em;
+  }
 }
 
 code {
-    position: relative;
-    top: -0.2em;
-    padding: 3px;
-    font-family: Courier New, Courier, monospace;
-    font-size: $paragraph-size / 1.4;
-    // color: $paragraph-color;
-    line-height: 1em;
-    pointer-events: none;
-    border: 1px solid $border-color;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+  position: relative;
+  top: -0.2em;
+  padding: 3px;
+  font-family: Courier New, Courier, monospace;
+  font-size: $paragraph-size / 1.4;
+  // color: $paragraph-color;
+  line-height: 1em;
+  pointer-events: none;
+  border: 1px solid $border-color;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
-
-
 
 // Misc Styles
-em, i, .italic {
-    font-style: italic;
+em,
+i,
+.italic {
+  font-style: italic;
 }
 
-strong, b, .bold {
-    font-weight: $font-weight-bold;
+strong,
+b,
+.bold {
+  font-weight: $font-weight-bold;
 }
 
 img {
-    display: block;
-    max-width: 100%;
-    margin: $blockquote-margin 0;
+  display: block;
+  max-width: 100%;
+  margin: $blockquote-margin 0;
 }

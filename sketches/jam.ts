@@ -1,7 +1,5 @@
 import { Material2, Smudge, SmudgeUI, BlendMode } from '../src/js/index';
 
-
-
 export async function draw() {
     // create a smudge instance
     const smudge = new Smudge(undefined, 512, 512);
@@ -47,6 +45,5 @@ export async function draw() {
     ui.update2D();
     ui.update3D();
 }
-
 
 draw();

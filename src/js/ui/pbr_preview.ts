@@ -6,6 +6,7 @@ import * as THREE from 'THREE';
 
 import { Framebuffer } from '../private/framebuffer';
 
+/** @hidden */
 export class PBRPreview {
     public canvas: HTMLCanvasElement;
     private renderer: THREE.WebGLRenderer;
