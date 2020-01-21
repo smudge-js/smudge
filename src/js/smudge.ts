@@ -568,6 +568,7 @@ export class Smudge {
             // @todo test deepDefaults with textures...
             const { color, blendMode, textureInfo } = _.defaultsDeep({}, materialChannel, material.default);
 
+
             // console.log("textureInfo", bufferName, textureInfo, materialChannel, material.default);
             const colorRGBA = colorDescriptionToRGBA(color);
             if (colorRGBA === undefined) {
