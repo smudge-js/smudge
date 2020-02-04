@@ -29,7 +29,8 @@
     "removeComments": true
   },
   "types": ["THREE"],
-  "files": ["src/js/index.ts"]
+  "files": ["src/js/index.ts"],
+  "include": ["src/types/*"]
   //   "include": ["src/js/**/*"],
   //   "exclude": [
   //     "node_modules",
