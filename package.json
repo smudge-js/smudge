@@ -58,6 +58,6 @@
     "polyline-normals": "^2.0.2",
     "three": "^0.87.1",
     "voronoi-diagram": "^1.0.1",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
