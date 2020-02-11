@@ -10,6 +10,7 @@ const _consoleLog = console.log.bind(window.console, "%clog", "background-color:
 const _consoleWarn = console.warn.bind(window.console, "%cwarn", "background-color: black; color: yellow;");
 const _consoleError = console.error.bind(window.console, "%cerror", "background-color: black; color: red;");
 
+const _friendlyError = console.error.bind(window.console, "%cSmudge Error", "background-color: #ff8888; color: white; padding: 5px 10px; border-radius: 4px;"
 
 /** @hidden */
 export let consoleTrace = _consoleTrace;
@@ -23,6 +24,8 @@ export let consoleLog = _consoleLog;
 export let consoleWarn = _consoleWarn;
 /** @hidden */
 export let consoleError = _consoleError;
+
+export let friendlyError = _friendlyError;
 
 
 /** @hidden */

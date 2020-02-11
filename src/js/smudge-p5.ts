@@ -1,5 +1,11 @@
 import { Material2, Smudge, SmudgeUI } from "./index";
-import { ColorDescription } from "./material/color";
+import {
+  setLoggingLevel,
+  consoleTrace,
+  consoleReport,
+  consoleError,
+  friendlyError
+} from "./logging";
 
 console.log("hello smudge-p5");
 
@@ -12,20 +18,23 @@ let state = {
 };
 
 export function createCanvas(h = 512, w = 512) {
-  Smudge.setLoggingLevel("warn");
+  setLoggingLevel("warn");
   smudge = new Smudge("p5 canvas", h, w);
 
   ui = new SmudgeUI(smudge);
   smudge.clear();
 
-  unpackScope();
+  unpackExports();
   setTimeout(update, 0);
+
+  return exports;
 }
 
 export function noColor() {
   state.material.albedo.color = undefined;
   return state.material.albedo.color;
 }
+
 export function color(a: number, b: number, c: number, d: number) {
   if (arguments.length === 0) {
     state.material.albedo.color = undefined;
@@ -37,21 +46,21 @@ export function color(a: number, b: number, c: number, d: number) {
     state.material.albedo.color = [a, b, c];
   } else if (arguments.length === 4) {
     state.material.albedo.color = [a, b, c, d];
+  } else {
+    friendlyError("Too many parameters passed to color()");
   }
 
   return state.material.albedo.color;
-  // @todo clean up console, use the log library in -p5, turn off noise
 }
 
 export function rect(l: number, t: number, w: number, h: number) {
   smudge.rect(l, t, w, h, state.material);
 }
 
-function unpackScope() {
-  // @todo can we enumerate "exports" to make this auto?
-  (window as any).color = color;
-  (window as any).noColor = noColor;
-  (window as any).rect = rect;
+function unpackExports() {
+  for (let e in exports) {
+    (window as any)[e] = exports[e];
+  }
 }
 
 function update() {
