@@ -8,9 +8,10 @@
     "dist"
   ],
   "scripts": {
-    "start": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
+    "start": "webpack-dev-server --open",
+    "all": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
     "smudge": "webpack-dev-server --open",
-    "smudge_build": "webpack",
+    "smudge_build": "webpack --watch",
     "tsc": "tsc",
     "blog": "cd docs && bundle exec jekyll serve --drafts --livereload",
     "open_blog": "sleep 2 && open http://127.0.0.1:4000/smudge/",
