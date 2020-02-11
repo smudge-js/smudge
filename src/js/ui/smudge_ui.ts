@@ -25,15 +25,15 @@ export interface ISmudgeUIOptions {
 }
 
 let scripts = document.getElementsByTagName("script");
-console.log("scripts", scripts);
+// console.log("scripts", scripts);
 let path = scripts[scripts.length - 1].src.split("?")[0]; // remove any ?query
-console.log(`Script path ${path}`);
+// console.log(`Script path ${path}`);
 let mydir =
   path
     .split("/")
     .slice(0, -1)
     .join("/") + "/";
-console.log(`Script served from ${mydir}`);
+// console.log(`Script served from ${mydir}`);
 
 export class SmudgeUI {
   private uiDiv: HTMLDivElement;
