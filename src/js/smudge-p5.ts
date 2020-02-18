@@ -32,7 +32,6 @@ export function createCanvas(h = 512, w = 512) {
 
 export function noColor() {
   state.material.albedo.color = undefined;
-  return state.material.albedo.color;
 }
 
 export function color(a: number, b: number, c: number, d: number) {
