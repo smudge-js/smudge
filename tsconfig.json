@@ -1,32 +1,42 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "outDir": "./dist/",
-        "jsx": "react",
-        "declaration": false,
-        "allowJs": true,
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "strictNullChecks": false,
-        "noImplicitThis": true,
-        "alwaysStrict": true,
-        "noUnusedLocals": false,
-        "noUnusedParameters": true,
-        "lib": [
-            "es2015",
-            "es2017",
-            "dom"
-        ]
-    },
-    "types": [
-        "THREE"
-    ],
-    "exclude": [
-        "node_modules",
-        "./src/js/sketches/**/*",
-        "./src/js/tests/**/*",
-        "notes/**/*",
-        "obsolete_sketches/**/*"
-    ]
+  "compilerOptions": {
+    /* general */
+    "target": "es5",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    /* "declarationMap": true,*/
+    "sourceMap": true,
+    /* "incremental": true,*/
+
+    "outDir": "./lib/",
+    /* "rootDir": "./src/js", */
+
+    /* strict */
+    /* "strict": true */
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "noImplicitThis": true,
+    // "forceConsistentCasingInFileNames": true,
+
+    "lib": ["es2015", "es2017", "dom"],
+
+    /* style */
+    "removeComments": true
+  },
+  "types": ["THREE"],
+  "files": ["src/js/index.ts"],
+  "include": ["src/types/*"]
+  //   "include": ["src/js/**/*"],
+  //   "exclude": [
+  //     "node_modules",
+  //     "./src/js/sketches/**/*",
+  //     "./src/js/tests/**/*",
+  //     "notes/**/*",
+  //     "obsolete_sketches/**/*"
+  //   ]
 }

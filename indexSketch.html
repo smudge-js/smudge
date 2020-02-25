@@ -2,7 +2,7 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
-    <script src="smudge.js"></script>
+    <script src="dist/smudge.js"></script>
 
     <script>
       // create a smudge instance
@@ -19,8 +19,10 @@
       s.rect(0, 0, 200, 200, simpleRed);
 
       // show albedo in ui
-      s.show();
-      ui.updatePBR();
+      // s.show();
+      ui.update2D();
+      ui.update3D();
+      // ui.updatePBR();
     </script>
   </body>
 </html>

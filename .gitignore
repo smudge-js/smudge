@@ -1,8 +1,9 @@
-.DS_Store
+/smudge_jam_pack
 node_modules/
 /api_doc/
 test_doc/
 dist/
+lib/
+.DS_Store
 npm-debug.log
 bundle.js
-/smudge_jam_pack
