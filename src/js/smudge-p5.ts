@@ -6,10 +6,11 @@ import {
   consoleError,
   friendlyError,
 } from './logging';
+import { ColorDescription } from './material/color';
 
 let smudge: Smudge;
 let ui: SmudgeUI;
-let state = {
+const state = {
   material: new Material2(),
 };
 
@@ -28,8 +29,19 @@ export function createCanvas(h = 512, w = 512) {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Materials
-
-export function albedo(a: number, b: number, c: number, d: number) {
+/**
+ * Set the color used for the albedo of the current material.
+ * @param  {number} a
+ * @param  {number} b
+ * @param  {number} c
+ * @param  {number} d
+ */
+export function albedo(
+  a: number,
+  b: number,
+  c: number,
+  d: number
+): ColorDescription {
   if (arguments.length === 0) {
     state.material.albedo.color = undefined;
   } else if (arguments.length === 1) {
@@ -206,7 +218,7 @@ export function noStroke() {
 // Private
 
 function unpackExports() {
-  for (let e in exports) {
+  for (const e in exports) {
     (window as any)[e] = exports[e];
   }
 }
