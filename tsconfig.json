@@ -29,8 +29,8 @@
     "removeComments": true
   },
   "types": ["THREE"],
-  "files": ["src/js/index.ts"],
-  "include": ["src/types/*"]
+  "files": ["src/js/smudge-p5.ts"],
+  "include": ["src/types/**/*"]
   //   "include": ["src/js/**/*"],
   //   "exclude": [
   //     "node_modules",
