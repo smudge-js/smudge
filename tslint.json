@@ -20,11 +20,7 @@
     "object-literal-sort-keys": false,
     "max-line-length": false,
     "no-console": true,
-    "only-arrow-functions": [
-      true,
-      "allow-declarations",
-      "allow-named-functions"
-    ],
+    "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
     "no-angle-bracket-type-assertion": false,
     "no-unused-variable": [
       true,
@@ -33,6 +29,7 @@
       }
     ],
     "whitespace": false,
+    "unified-signatures": false,
     "trailing-comma": [
       true,
       {

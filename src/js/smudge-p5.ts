@@ -29,19 +29,25 @@ export function createCanvas(h = 512, w = 512) {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Materials
+
 /**
- * Set the color used for the albedo of the current material.
- * @param  {number} a
- * @param  {number} b
- * @param  {number} c
- * @param  {number} d
+ * Sets the color drawn to the **Albedo** channel when filling shapes.
+ *
+ * @param r The intensity of the red component, 0 to 1
+ * @param g The intensity of the green component, 0 to 1
+ * @param b The intensity of the blue component, 0 to 1
+ * @param a The alpha value used for compositing, 0 to 1
+ * @returns The newly set albedo color.
+ * @category Materials
  */
-export function albedo(
-  a: number,
-  b: number,
-  c: number,
-  d: number
-): ColorDescription {
+
+export function albedo(r: number, g: number, b: number, a: number): ColorDescription;
+export function albedo(r: number, g: number, b: number): ColorDescription;
+export function albedo(gray: number, a: number): ColorDescription;
+export function albedo(gray: number): ColorDescription;
+export function albedo(color: ColorDescription): ColorDescription;
+export function albedo(): ColorDescription;
+export function albedo(a?: number, b?: number, c?: number, d?: number): ColorDescription {
   if (arguments.length === 0) {
     state.material.albedo.color = undefined;
   } else if (arguments.length === 1) {
@@ -58,45 +64,94 @@ export function albedo(
 
   return state.material.albedo.color;
 }
+
+/**
+ * Disables drawing to the **Albedo** channel when filling shapes.
+ * @category Materials
+ */
 export function noAlbedo() {
   state.material.albedo.color = undefined;
 }
 
-export function metallic(v: number, a: number) {
+/**
+ * Sets the value drawn to the **Metallic** channel when filling shapes.
+ * @param m The intensity of the metalic component, 0 to 1
+ * @param a The alpha value used for compositing, 0 to 1
+ * @category Materials
+ */
+export function metallic(m: number): ColorDescription;
+export function metallic(color: ColorDescription): ColorDescription;
+export function metallic(): ColorDescription;
+export function metallic(m?: number, a?: number): ColorDescription {
   if (arguments.length === 0) {
     state.material.metallic.color = undefined;
   } else if (arguments.length === 1) {
-    state.material.metallic.color = v;
+    state.material.metallic.color = m;
   } else if (arguments.length === 2) {
-    state.material.metallic.color = [v, a];
+    state.material.metallic.color = [m, a];
   } else {
     friendlyError('Too many parameters passed to metallic()');
   }
   return state.material.metallic.color;
 }
 
+/**
+ * Disables drawing to the **Metallic** channel when filling shapes.
+ * @category Materials
+ */
 export function noMetallic() {
   state.material.metallic.color = undefined;
 }
 
-export function smoothness(v: number, a: number) {
+/**
+ * Sets the value drawn to the **Height** channel when filling shapes.
+ * @param m The intensity of the height component, 0 to 1
+ * @param a The alpha value used for compositing, 0 to 1
+ * @category Materials
+ */
+export function smoothness(s: number): ColorDescription;
+export function smoothness(color: ColorDescription): ColorDescription;
+export function smoothness(): ColorDescription;
+export function smoothness(s?: number, a?: number) {
   if (arguments.length === 0) {
     state.material.smoothness.color = undefined;
   } else if (arguments.length === 1) {
-    state.material.smoothness.color = v;
+    state.material.smoothness.color = s;
   } else if (arguments.length === 2) {
-    state.material.smoothness.color = [v, a];
+    state.material.smoothness.color = [s, a];
   } else {
     friendlyError('Too many parameters passed to smoothness()');
   }
   return state.material.smoothness.color;
 }
 
+/**
+ * Disables drawing to the **Smoothness** channel when filling shapes.
+ * @category Materials
+ */
 export function noSmoothness() {
   state.material.smoothness.color = undefined;
 }
 
-export function emission(a: number, b: number, c: number, d: number) {
+/**
+ * Sets the color drawn to the **Emission** channel when filling shapes.
+ *
+ * @param r The intensity of the red component, 0 to 1
+ * @param g The intensity of the green component, 0 to 1
+ * @param b The intensity of the blue component, 0 to 1
+ * @param a The alpha value used for compositing, 0 to 1
+ * @returns The newly set emission color.
+ * @category Materials
+ */
+
+export function emission(r: number, g: number, b: number, a: number): ColorDescription;
+export function emission(r: number, g: number, b: number): ColorDescription;
+export function emission(gray: number, a: number): ColorDescription;
+export function emission(gray: number): ColorDescription;
+export function emission(color: ColorDescription): ColorDescription;
+export function emission(): ColorDescription;
+
+export function emission(a?: number, b?: number, c?: number, d?: number) {
   if (arguments.length === 0) {
     state.material.emission.color = undefined;
   } else if (arguments.length === 1) {
@@ -114,23 +169,40 @@ export function emission(a: number, b: number, c: number, d: number) {
   return state.material.emission.color;
 }
 
+/**
+ * Disables drawing to the **Emission** channel when filling shapes.
+ * @category Materials
+ */
 export function noEmission() {
   state.material.emission.color = undefined;
 }
 
-export function height(v: number, a: number) {
+/**
+ * Sets the value drawn to the **Height** channel when filling shapes.
+ * @param m The intensity of the height component, 0 to 1
+ * @param a The alpha value used for compositing, 0 to 1
+ * @category Materials
+ */
+export function height(h: number): ColorDescription;
+export function height(color: ColorDescription): ColorDescription;
+export function height(): ColorDescription;
+export function height(h?: number, a?: number) {
   if (arguments.length === 0) {
     state.material.height.color = undefined;
   } else if (arguments.length === 1) {
-    state.material.height.color = v;
+    state.material.height.color = h;
   } else if (arguments.length === 2) {
-    state.material.height.color = [v, a];
+    state.material.height.color = [h, a];
   } else {
     friendlyError('Too many parameters passed to height()');
   }
   return state.material.height.color;
 }
 
+/**
+ * Disables drawing to the **Height** channel when filling shapes.
+ * @category Materials
+ */
 export function noHeight() {
   state.material.height.color = undefined;
 }
@@ -179,14 +251,7 @@ export function quad(
   );
 }
 
-export function triangle(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  x3: number,
-  y3: number
-) {
+export function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
   smudge.quad(
     [
       [x1, y1],
@@ -218,6 +283,7 @@ export function noStroke() {
 // Private
 
 function unpackExports() {
+  // tslint:disable-next-line:forin
   for (const e in exports) {
     (window as any)[e] = exports[e];
   }

@@ -1,1 +1,3 @@
 - clean up webpack/build
+- break up p5.js into files https://www.typescriptlang.org/docs/handbook/namespaces.html
+- make the build smaller
