@@ -17,7 +17,7 @@
     "blog": "cd docs && bundle exec jekyll serve --drafts --livereload",
     "open_blog": "sleep 2 && open http://127.0.0.1:4000/smudge/",
     "api_doc": "typedoc --theme minimal --out ./api_doc/ src/js/index.ts",
-    "api_doc_p5": "typedoc --out ./docs/api_doc_p5/ --exclude **/node_modules/** --mode modules --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --stripInternal --theme minimal ./src/types ./src/js/smudge-p5.ts",
+    "api_doc_p5": "typedoc --mode modules --exclude **/node_modules/** --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --stripInternal --out ./docs/api_doc_p5/ --theme minimal --readme none --includeVersion --categoryOrder 'Setup' --categoryOrder 'Materials' --categoryOrder 'Shapes' --categoryOrder 'Unsupported' --categoryOrder '*' ./src/types ./src/js/smudge-p5.ts",
     "np": "np"
   },
   "repository": {

@@ -14,6 +14,19 @@ const state = {
   material: new Material2(),
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// Setup
+
+/**
+ * Create a new canvas to draw into.
+ *
+ * It is generally a good idea to set `h` and `w` to the same power of 2 value
+ * (e.g. 512x512, 1024x1024)
+ *
+ * @param h The height of canvas in pixels.
+ * @param w The width of the canvas in pixels.
+ * @category Setup
+ */
 export function createCanvas(h = 512, w = 512) {
   setLoggingLevel('warn');
   smudge = new Smudge('p5 canvas', h, w);
@@ -209,27 +222,73 @@ export function noHeight() {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Shapes
-
+/**
+ * Clears all channels of the full canvas to the values in the current material.
+ * @category Shapes
+ */
 export function background() {
   smudge.clear(state.material);
 }
 
+/**
+ * Fills a rectangle with the current material.
+ * @param x The horizonal position
+ * @param y The vertial position
+ * @param w The width
+ * @param h The Height
+ * @category Shapes
+ */
 export function rect(x: number, y: number, w: number, h: number) {
   smudge.rect(x, y, w, h, state.material);
 }
 
+/**
+ * Fills a square with the current material.
+ * @param x The horizonal position
+ * @param y The vertial position
+ * @param w The width and height
+ * @category Shapes
+ */
 export function square(x: number, y: number, w: number) {
   rect(x, y, w, w);
 }
 
+/**
+ * Fills an ellipse with the current material.
+ * @param x The horizonal position
+ * @param y The vertial position
+ * @param w The width
+ * @param h The Height
+ * @category Shapes
+ */
 export function ellipse(x: number, y: number, w: number, h: number) {
   smudge.ellipse(x, y, w, h, state.material);
 }
 
+/**
+ * Fills a circle with the current material.
+ * @param x The horizonal position
+ * @param y The vertial position
+ * @param d The diameter
+ * @category Shapes
+ */
 export function circle(x: number, y: number, d: number) {
   ellipse(x, y, d, d);
 }
 
+/**
+ * Fills a arbitrary quadrilateral with the current material.
+ * Takes the x and y coordinates of each corner.
+ * @param  {number} x1
+ * @param  {number} y1
+ * @param  {number} x2
+ * @param  {number} y2
+ * @param  {number} x3
+ * @param  {number} y3
+ * @param  {number} x4
+ * @param  {number} y4
+ * @category Shapes
+ */
 export function quad(
   x1: number,
   y1: number,
@@ -251,6 +310,17 @@ export function quad(
   );
 }
 
+/**
+ * Fills a arbitrary triangle with the current material.
+ * Takes the x and y coordinates of each corner.
+ * @param  {number} x1
+ * @param  {number} y1
+ * @param  {number} x2
+ * @param  {number} y2
+ * @param  {number} x3
+ * @param  {number} y3
+ * @category Shapes
+ */
 export function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
   smudge.quad(
     [
@@ -266,15 +336,31 @@ export function triangle(x1: number, y1: number, x2: number, y2: number, x3: num
 ///////////////////////////////////////////////////////////////////////////////
 // Unsupported p5
 
+/**
+ * This function exists in p5 but is not supported in smudge.
+ * @category Unsupported
+ */
 export function fill() {
   friendlyError('fill() is not supported.');
 }
+/**
+ * This function exists in p5 but is not supported in smudge.
+ * @category Unsupported
+ */
 export function noFill() {
   friendlyError('noFill() is not supported.');
 }
+/**
+ * This function exists in p5 but is not supported in smudge.
+ * @category Unsupported
+ */
 export function stroke() {
   friendlyError('stroke() is not supported.');
 }
+/**
+ * This function exists in p5 but is not supported in smudge.
+ * @category Unsupported
+ */
 export function noStroke() {
   friendlyError('noStroke() is not supported.');
 }
