@@ -71,16 +71,16 @@ export class Smudge {
     mat4.ortho(this.pMatrix, 0, this.width, 0, this.height, -1, 1);
 
     // build shader programs
-    const basicVertex = require('../glsl/basic_vertex.glsl');
-    const basicFragment = require('../glsl/basic_fragment.glsl');
+    const basicVertex = require('../glsl/basic_vertex.glsl').default;
+    const basicFragment = require('../glsl/basic_fragment.glsl').default;
     this.basicProgram = new Program('basicProgram', this.gl, basicVertex, basicFragment);
 
-    const textureVertex = require('../glsl/texture_vertex.glsl');
-    const textureFragment = require('../glsl/texture_fragment.glsl');
+    const textureVertex = require('../glsl/texture_vertex.glsl').default;
+    const textureFragment = require('../glsl/texture_fragment.glsl').default;
     this.textureProgram = new Program('textureProgram', this.gl, textureVertex, textureFragment);
 
-    const drawVertex = require('../glsl/draw_vertex.glsl');
-    const drawFragment = require('../glsl/draw_fragment.glsl');
+    const drawVertex = require('../glsl/draw_vertex.glsl').default;
+    const drawFragment = require('../glsl/draw_fragment.glsl').default;
     this.drawProgram = new Program('drawProgram', this.gl, drawVertex, drawFragment);
 
     // build buffers
