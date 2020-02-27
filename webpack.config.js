@@ -1,5 +1,4 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -114,9 +113,6 @@ module.exports = [
     },
     devtool: 'inline-source-map',
     mode: 'development',
-    plugins: [
-      new CleanWebpackPlugin(['dist']),
-      // new BundleAnalyzerPlugin(),
-    ],
+    plugins: [new CleanWebpackPlugin(['dist']), new BundleAnalyzerPlugin()],
   },
 ];

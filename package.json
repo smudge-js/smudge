@@ -38,6 +38,7 @@
   ],
   "homepage": "https://github.com/jbakse/smudge#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.11",
     "file-loader": "^0.11.2",
@@ -53,10 +54,10 @@
     "typescript": "^2.7.2",
     "url-loader": "^0.5.9",
     "webpack": "^4.1.1",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@petamoriken/float16": "^1.0.6",

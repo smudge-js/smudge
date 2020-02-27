@@ -1,6 +1,7 @@
 - clean up webpack/build/configs/npm scripts
 - clean up linter/formatter configs
 - document build scripts and linter/formatter tools
+- upgrade npm packages
 - make the build smaller 353/1130
   - replace gl-matrix 174/219
   - replace lodash with native or try es-lodash 25/27
