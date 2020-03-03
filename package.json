@@ -1,11 +1,28 @@
 {
   "name": "smudgejs",
   "version": "0.0.7",
-  "description": "Sketching library for Physically Based Rendering",
+  "description": "Library for creating computational graphics with physically based materials",
+  "author": "Justin Bakse",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/jbakse/smudge#readme",
   "main": "./dist/smudge.js",
   "types": "./dist/lib/index.d.ts",
   "files": [
     "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbakse/smudge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jbakse/smudge/issues"
+  },
+  "module": "src/js/index.ts",
+  "sideEffects": [
+    "./src/js/smudge-p5.ts"
   ],
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -15,23 +32,6 @@
     "doc": "typedoc",
     "np": "np"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jbakse/smudge.git"
-  },
-  "author": "",
-  "license": "UNLICENSED",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bugs": {
-    "url": "https://github.com/jbakse/smudge/issues"
-  },
-  "module": "src/js/index.ts",
-  "sideEffects": [
-    "./src/js/smudge-p5.ts"
-  ],
-  "homepage": "https://github.com/jbakse/smudge#readme",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
