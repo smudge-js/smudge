@@ -335,6 +335,21 @@ export function triangle(x1: number, y1: number, x2: number, y2: number, x3: num
 
 ///////////////////////////////////////////////////////////////////////////////
 // Unsupported p5
+// export interface ILineOptions {
+//   width?: number;
+//   align?: 'center' | 'left' | 'right';
+//   close?: boolean;
+//   uvMode?: 'segment' | 'stretch_points' | 'brush';
+// }
+
+// lineWidth()
+// lineAlign()
+// lineClose()
+// line(x1, y1, x2, y2);
+// line(points[][]);
+
+///////////////////////////////////////////////////////////////////////////////
+// Unsupported p5
 
 /**
  * This function exists in p5 but is not supported in smudge.
