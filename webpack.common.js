@@ -1,5 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const rules = [
   {
@@ -57,5 +58,5 @@ module.exports = {
   module: {
     rules,
   },
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [new CleanWebpackPlugin(), new CopyPlugin([{ from: 'images', to: 'images' }])],
 };

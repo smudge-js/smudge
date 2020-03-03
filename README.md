@@ -19,3 +19,15 @@ Inspired by p5, Substance Designer, and Unity.
 `npm run doc` Builds the docs with typedoc.
 
 `npm run np` Publishes to npm
+
+## Tools
+
+This project is set up to use prettier + tslint for code formatting + liniting.
+
+You should run the Prettier extension when working on this code to make sure it is formatted correctly.
+
+You probably want to enable format on save in your settings file.
+
+```
+"editor.formatOnSave": true
+```
