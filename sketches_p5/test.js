@@ -1,14 +1,13 @@
 console.log('Hello P5 Smudge HTML');
 const c = createCanvas(512, 512);
-console.log('c', c);
 
 albedo(0.1);
 background();
 
-fill(1);
-
 albedo(1, 0, 0);
 height(0.01, 0.5);
+metallic(1);
+smoothness(1);
 
 rect(10, 10, 10, 20);
 square(30, 10, 10);
