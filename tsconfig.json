@@ -1,42 +1,46 @@
 {
+  // https://www.typescriptlang.org/v2/en/tsconfig
+
+  // File Inclusion
+  "files": ["src/js/smudge-p5.ts"],
+  "include": ["src/types/**/*"],
+
+  // Module Resolution
+  "esModuleInterop": true,
+
   "compilerOptions": {
     /* general */
-    "target": "es5",
+    "incremental": true,
+    "target": "es6",
     "module": "commonjs",
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "declaration": true,
-    /* "declarationMap": true,*/
-    "sourceMap": true,
-    /* "incremental": true,*/
-
-    "outDir": "./lib/",
-    /* "rootDir": "./src/js", */
-
-    /* strict */
-    /* "strict": true */
-    "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
-    "noImplicitAny": true,
-    "strictNullChecks": false,
-    "noImplicitThis": true,
-    // "forceConsistentCasingInFileNames": true,
-
     "lib": ["es2015", "es2017", "dom"],
 
-    /* style */
-    "removeComments": true
-  },
-  "types": ["THREE"],
-  "files": ["src/js/smudge-p5.ts"],
-  "include": ["src/types/**/*"]
-  //   "include": ["src/js/**/*"],
-  //   "exclude": [
-  //     "node_modules",
-  //     "./src/js/sketches/**/*",
-  //     "./src/js/tests/**/*",
-  //     "notes/**/*",
-  //     "obsolete_sketches/**/*"
-  //   ]
+    /* generate */
+    "declaration": true,
+    "declarationMap": false,
+    "sourceMap": true,
+    "outDir": "dist",
+
+    /* strict checks */
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    /* Linter Checks */
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Style */
+    "removeComments": true,
+
+    /* Advanced */
+    "forceConsistentCasingInFileNames": true
+  }
 }

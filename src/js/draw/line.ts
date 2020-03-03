@@ -1,16 +1,16 @@
-const getNormals = require("polyline-normals");
-import { defaults, each } from "lodash";
+const getNormals = require('polyline-normals');
+import { defaults, each } from 'lodash';
 
-import { consoleError } from "../logging";
+import { consoleError } from '../logging';
 
-import { Quad } from "./quad";
+import { Quad } from './quad';
 const _ = { defaults, each };
 
 export interface ILineOptions {
   width?: number;
-  align?: "center" | "left" | "right";
+  align?: 'center' | 'left' | 'right';
   close?: boolean;
-  uvMode?: "segment" | "stretch_points" | "brush";
+  uvMode?: 'segment' | 'stretch_points' | 'brush';
 }
 
 /**
@@ -25,7 +25,7 @@ function capLine(points: number[][], capDistance = 0) {
   //     return { points, startCapIndex: 0, endCapIndex: points.length };
   // }
   if (points.length < 2) {
-    consoleError("capLine requires line with at least two points");
+    consoleError('capLine requires line with at least two points');
     return undefined;
   }
 
@@ -65,8 +65,7 @@ function capLine(points: number[][], capDistance = 0) {
       const uvX = (walkedLength / capDistance) * 0.5;
       uvXs.push(uvX);
     } else if (walkedLength > lineLength - capDistance) {
-      const uvX =
-        ((walkedLength - (lineLength - capDistance)) / capDistance) * 0.5 + 0.5;
+      const uvX = ((walkedLength - (lineLength - capDistance)) / capDistance) * 0.5 + 0.5;
       uvXs.push(uvX);
     } else {
       uvXs.push(0.5);
@@ -126,24 +125,24 @@ export function buildLineQuads(
 
   // validate input
   if (points.length < 2) {
-    consoleError("line(): points array should have length > 1");
-    return;
+    consoleError('line(): points array should have length > 1');
+    return [];
   }
 
   // process options
   let options: ILineOptions = {};
-  if (typeof _options === "number") {
+  if (typeof _options === 'number') {
     options = {
-      width: _options
+      width: _options,
     };
   } else {
     options = _options;
   }
   options = _.defaults(options, {
     width: 1,
-    align: "center",
+    align: 'center',
     close: false,
-    uvMode: "brush"
+    uvMode: 'brush',
   });
 
   if (points.length === 2) {
@@ -152,7 +151,7 @@ export function buildLineQuads(
 
   // cap line
   let pointInfo;
-  if (options.uvMode === "brush") {
+  if (options.uvMode === 'brush') {
     pointInfo = capLine(points, options.width * 0.5);
     points = pointInfo.points;
   }
@@ -160,20 +159,20 @@ export function buildLineQuads(
   // get the miter offsets
   const miterData = getNormals(points, options.close);
   const offsets: number[][] = [];
-  _.each(miterData, miterDatum => {
+  _.each(miterData, (miterDatum) => {
     const offset = [
       miterDatum[0][0] * miterDatum[1] * options.width,
-      miterDatum[0][1] * miterDatum[1] * options.width
+      miterDatum[0][1] * miterDatum[1] * options.width,
     ];
     offsets.push(offset);
   });
 
   // calculate alignment center|left|right
   let offsetBias = [0.5, 0.5];
-  if (options.align === "left") {
+  if (options.align === 'left') {
     offsetBias = [1, 0];
   }
-  if (options.align === "right") {
+  if (options.align === 'right') {
     offsetBias = [0, 1];
   }
 
@@ -188,20 +187,20 @@ export function buildLineQuads(
     const verticies: number[][] = [
       [
         points[i + 0][0] + offsets[i + 0][0] * offsetBias[1],
-        points[i + 0][1] + offsets[i + 0][1] * offsetBias[1]
+        points[i + 0][1] + offsets[i + 0][1] * offsetBias[1],
       ],
       [
         points[i + 1][0] + offsets[i + 1][0] * offsetBias[1],
-        points[i + 1][1] + offsets[i + 1][1] * offsetBias[1]
+        points[i + 1][1] + offsets[i + 1][1] * offsetBias[1],
       ],
       [
         points[i + 1][0] - offsets[i + 1][0] * offsetBias[0],
-        points[i + 1][1] - offsets[i + 1][1] * offsetBias[0]
+        points[i + 1][1] - offsets[i + 1][1] * offsetBias[0],
       ],
       [
         points[i + 0][0] - offsets[i + 0][0] * offsetBias[0],
-        points[i + 0][1] - offsets[i + 0][1] * offsetBias[0]
-      ]
+        points[i + 0][1] - offsets[i + 0][1] * offsetBias[0],
+      ],
     ];
 
     // build uvs
@@ -210,11 +209,11 @@ export function buildLineQuads(
         [xStart, 0.0],
         [xEnd, 0.0],
         [xEnd, 1.0],
-        [xStart, 1.0]
+        [xStart, 1.0],
       ];
     };
 
-    if (options.uvMode === "stretch_points") {
+    if (options.uvMode === 'stretch_points') {
       const xStart = i / (points.length - 1);
       const xEnd = (i + 1) / (points.length - 1);
       const uvs = makeUVs(xStart, xEnd);
@@ -240,7 +239,7 @@ export function buildLineQuads(
       //         uvs = makeUVs(xStart, xEnd);
       //     }
       //     this.quad(verticies, material, matrix, uvs);
-    } else if (options.uvMode === "brush") {
+    } else if (options.uvMode === 'brush') {
       const xStart = pointInfo.uvXs[i];
       const xEnd = pointInfo.uvXs[i + 1];
       const uvs = makeUVs(xStart, xEnd);

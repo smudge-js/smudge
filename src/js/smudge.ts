@@ -385,7 +385,7 @@ export class Smudge {
     const buffer = this.buffers[bufferName];
     if (!buffer) {
       consoleError('Could not find buffer named: ' + bufferName);
-      return;
+      return null;
     }
     return buffer;
   }
