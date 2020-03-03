@@ -8,19 +8,12 @@
     "dist"
   ],
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.prod.js",
-    "np": "np",
-    "_all": "concurrently --kill-others -p \"[{name}]\" -n \"smudge,blog\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run smudge\" \"npm run blog\"",
-    "_smudge": "webpack-dev-server --open",
-    "_smudge_build": "webpack ",
-    "_smudge_watch": "webpack --watch",
-    "_tsc": "tsc",
-    "_blog": "cd docs && bundle exec jekyll serve --drafts --livereload",
-    "_open_blog": "sleep 2 && open http://127.0.0.1:4000/smudge/",
-    "_api_doc": "typedoc --theme minimal --out ./api_doc/ src/js/index.ts",
-    "_api_doc_p5": "typedoc --mode modules --exclude **/node_modules/** --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --stripInternal --out ./docs/api_doc_p5/ --theme minimal --readme none --includeVersion --categoryOrder 'Setup' --categoryOrder 'Materials' --categoryOrder 'Shapes' --categoryOrder 'Unsupported' --categoryOrder '*' ./src/types ./src/js/smudge-p5.ts"
+    "watch": "webpack --watch --config webpack.dev.js",
+    "serve": "webpack-dev-server --open --config webpack.dev.js",
+    "blog": "cd docs && bundle exec jekyll serve --drafts --livereload && sleep 2 && open http://127.0.0.1:4000/smudge/",
+    "doc": "typedoc",
+    "np": "np"
   },
   "repository": {
     "type": "git",
@@ -41,7 +34,6 @@
   "homepage": "https://github.com/jbakse/smudge#readme",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
-    "concurrently": "^5.1.0",
     "css-loader": "^3.4.2",
     "file-loader": "^5.1.0",
     "glslify-loader": "^2.0.0",

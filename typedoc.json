@@ -1,0 +1,20 @@
+{
+  "inputFiles": ["./src/types", "./src/js/smudge-p5.ts"],
+  "mode": "modules",
+  "out": "./docs/api_doc_p5/",
+
+  "includeDeclarations": false,
+  "exclude": "**/node_modules/**",
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "ignoreCompilerErrors": false,
+
+  "theme": "minimal",
+  "name": "Smudge JS",
+  "includeVersion": true,
+  "stripInternal": true,
+  "readme": "none",
+  "categoryOrder": ["Setup", "Materials", "Shapes", "Unsupported", "*"]
+}
