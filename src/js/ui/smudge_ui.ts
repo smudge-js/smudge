@@ -24,11 +24,11 @@ export interface ISmudgeUIOptions {
   environmentMapPath?: string;
 }
 
-let scripts = document.getElementsByTagName('script');
+const scripts = document.getElementsByTagName('script');
 // console.log("scripts", scripts);
-let path = scripts[scripts.length - 1].src.split('?')[0]; // remove any ?query
+const path = scripts[scripts.length - 1].src.split('?')[0]; // remove any ?query
 // console.log(`Script path ${path}`);
-let mydir =
+const mydir =
   path
     .split('/')
     .slice(0, -1)
@@ -48,7 +48,7 @@ export class SmudgeUI {
       showChannelButtons: true,
       showExportButtons: true,
       targetElement: undefined,
-      environmentMapPath: mydir + '/images/environment_studio.jpg',
+      environmentMapPath: mydir + 'images/environment_studio.jpg',
     });
 
     if (this.options.combine2D3D) {
