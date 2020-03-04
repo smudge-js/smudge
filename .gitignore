@@ -1,9 +1,15 @@
-/smudge_jam_pack
+# dependencies
 node_modules/
-/api_doc/
-test_doc/
+
+# compiled output
 dist/
 lib/
-.DS_Store
+tmp/
+
+# logs
+*.log
 npm-debug.log
-bundle.js
+dependencygraph.svg
+
+# System Files
+.DS_Store
