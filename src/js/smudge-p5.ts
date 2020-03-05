@@ -10,6 +10,7 @@ import { ColorDescription } from './material/color';
 import { ILineOptions } from './draw/line';
 import { Matrix } from './draw';
 import { cloneDeep } from 'lodash';
+import { BlendModeName, BlendMode } from './material/material';
 
 let smudge: Smudge;
 let ui: SmudgeUI;
@@ -245,6 +246,42 @@ export function height(h?: number, a?: number) {
  */
 export function noHeight() {
   state.material.height.color = undefined;
+}
+
+export const Blend = 'Blend';
+export const Replace = 'Replace';
+export const Additive = 'Additive';
+export const Subtractive = 'Subtractive';
+export const Multiply = 'Multiply';
+
+export const Albedo = 'albedo';
+export const Emission = 'emission';
+export const Height = 'height';
+export const Metallic = 'metallic';
+export const Smoothness = 'smoothness';
+
+/**
+ * Sets the blend mode used for compositing when drawing.
+ * @param mode One of the blend mode constants: Blend | Replace | Additive | Subtractive | Multiply
+ * @param channel? One of the material channels constants: Albedo | Emission | Height | Metallic | Smoothness
+ * @returns void
+ */
+export function blendMode(mode: BlendModeName, channel?: string): void {
+  if (channel === undefined) {
+    // state.material.default.blendMode = BlendMode[mode];
+    state.material.albedo.blendMode = BlendMode[mode];
+    state.material.emission.blendMode = BlendMode[mode];
+    state.material.height.blendMode = BlendMode[mode];
+    state.material.metallic.blendMode = BlendMode[mode];
+    state.material.smoothness.blendMode = BlendMode[mode];
+    return;
+  }
+
+  if (!['albedo', 'emission', 'height', 'metallic', 'smoothness'].includes(channel)) {
+    return friendlyError(`blendMode() channel parameter should be a material channel constant.`);
+  }
+
+  state.material[channel].blendMode = BlendMode[mode];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
