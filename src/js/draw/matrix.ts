@@ -64,6 +64,7 @@ export class Matrix {
       z = 1;
     }
     mat4.scale(this.m, this.m, [x, y, z]);
+
     return this;
   }
 

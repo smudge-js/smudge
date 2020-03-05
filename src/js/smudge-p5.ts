@@ -8,15 +8,25 @@ import {
 } from './logging';
 import { ColorDescription } from './material/color';
 import { ILineOptions } from './draw/line';
+import { Matrix } from './draw';
+import { cloneDeep } from 'lodash';
 
 let smudge: Smudge;
 let ui: SmudgeUI;
 
+/** The width of the canvas */
+export let canvasWidth = 0;
+
+/** The height of the canvas */
+export let canvasHeight = 0;
+
 interface IStateLayout {
   material: Material2;
   lineOptions: ILineOptions;
+  matrix: Matrix;
 }
-const state: IStateLayout = {
+
+let state: IStateLayout = {
   material: new Material2(),
   lineOptions: {
     width: 1.0,
@@ -24,7 +34,10 @@ const state: IStateLayout = {
     close: false,
     uvMode: 'brush',
   },
+  matrix: new Matrix(),
 };
+
+const states: IStateLayout[] = [];
 
 ///////////////////////////////////////////////////////////////////////////////
 // Setup
@@ -42,8 +55,10 @@ const state: IStateLayout = {
 export function createCanvas(h = 512, w = 512) {
   setLoggingLevel('warn');
   smudge = new Smudge('p5 canvas', h, w);
-
   ui = new SmudgeUI(smudge);
+
+  canvasWidth = w;
+  canvasHeight = h;
   smudge.clear();
 
   unpackExports();
@@ -251,7 +266,7 @@ export function background() {
  * @category Shapes
  */
 export function rect(x: number, y: number, w: number, h: number) {
-  smudge.rect(x, y, w, h, state.material);
+  smudge.rect(x, y, w, h, state.material, state.matrix);
 }
 
 /**
@@ -274,7 +289,7 @@ export function square(x: number, y: number, w: number) {
  * @category Shapes
  */
 export function ellipse(x: number, y: number, w: number, h: number) {
-  smudge.ellipse(x, y, w, h, state.material);
+  smudge.ellipse(x, y, w, h, state.material, state.matrix);
 }
 
 /**
@@ -318,7 +333,8 @@ export function quad(
       [x3, y3],
       [x4, y4],
     ],
-    state.material
+    state.material,
+    state.matrix
   );
 }
 
@@ -341,7 +357,8 @@ export function triangle(x1: number, y1: number, x2: number, y2: number, x3: num
       [x2, y2],
       [x3, y3],
     ],
-    state.material
+    state.material,
+    state.matrix
   );
 }
 
@@ -366,7 +383,7 @@ export function lineWidth(w: number) {
 
 export function lineAlign(value: 'center' | 'left' | 'right') {
   if (!['center', 'left', 'right'].includes(value)) {
-    friendlyError("Line Align should be one of 'center', 'left', or 'right'");
+    friendlyError("lineAlign parameter should be one of 'center', 'left', or 'right'");
   }
   state.lineOptions.align = value;
 }
@@ -400,7 +417,7 @@ export function line(points: number[][]): void;
 
 export function line(a: number[][] | number, y1?: number, x2?: number, y2?: number): void {
   if (Array.isArray(a)) {
-    smudge.line(a, state.lineOptions, state.material);
+    smudge.line(a, state.lineOptions, state.material, state.matrix);
   }
   if (typeof a === 'number') {
     smudge.line(
@@ -409,9 +426,72 @@ export function line(a: number[][] | number, y1?: number, x2?: number, y2?: numb
         [x2, y2],
       ],
       state.lineOptions,
-      state.material
+      state.material,
+      state.matrix
     );
   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Matrix
+/**
+ * Rotates the coordinate system used for drawing.
+ * @param angle amount to roate in radians
+ */
+export function rotate(angle: number) {
+  state.matrix.rotate(angle);
+}
+
+/**
+ * Translates the coordinate system used for drawing.
+ * @param x horizontal translation
+ * @param y vertical translation
+ */
+export function translate(x: number, y: number) {
+  state.matrix.translate(x, y, 0);
+}
+
+/**
+ * Scales the coordinate system used for drawing.
+ * @param x horizontal scalse
+ * @param y vertical scalse
+ */
+export function scale(x: number, y?: number) {
+  state.matrix.scale(x, y, 1);
+}
+
+/**
+ * Resets the coordinate system used for drawing to the default.
+ * @param x horizontal scalse
+ * @param y vertical scalse
+ */
+export function resetMatrix() {
+  state.matrix = new Matrix();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Push Pop
+
+/**
+ * Saves the current configuration state, so you can easily return to it with pop().
+ *
+ * The configuration state inclues the current coordinate matrix, the material settings, and the line settings.
+ */
+export function push() {
+  states.push(cloneDeep(state));
+}
+
+/**
+ * Restores the configuration state saved using push().
+ *
+ * The configuration state inclues the current coordinate matrix, the material settings, and the line settings.
+ */
+export function pop() {
+  if (!states.length) {
+    friendlyError('pop() called too many times. Are you pops and pushes ballanced?');
+    return;
+  }
+  state = states.pop();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

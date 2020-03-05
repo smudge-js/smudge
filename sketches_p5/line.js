@@ -9,7 +9,7 @@ height(0.01);
 metallic(0.1);
 smoothness(0.5);
 
-line(10, 10, 500, 500);
+line(10, 10, canvasWidth - 10, canvasHeight - 10);
 
 lineWidth(10);
 line(10, 100, 100, 10);
