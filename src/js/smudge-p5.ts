@@ -7,11 +7,23 @@ import {
   friendlyError,
 } from './logging';
 import { ColorDescription } from './material/color';
+import { ILineOptions } from './draw/line';
 
 let smudge: Smudge;
 let ui: SmudgeUI;
-const state = {
+
+interface IStateLayout {
+  material: Material2;
+  lineOptions: ILineOptions;
+}
+const state: IStateLayout = {
   material: new Material2(),
+  lineOptions: {
+    width: 1.0,
+    align: 'center',
+    close: false,
+    uvMode: 'brush',
+  },
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -279,14 +291,14 @@ export function circle(x: number, y: number, d: number) {
 /**
  * Fills a arbitrary quadrilateral with the current material.
  * Takes the x and y coordinates of each corner.
- * @param  {number} x1
- * @param  {number} y1
- * @param  {number} x2
- * @param  {number} y2
- * @param  {number} x3
- * @param  {number} y3
- * @param  {number} x4
- * @param  {number} y4
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @param x3
+ * @param y3
+ * @param x4
+ * @param y4
  * @category Shapes
  */
 export function quad(
@@ -313,12 +325,12 @@ export function quad(
 /**
  * Fills a arbitrary triangle with the current material.
  * Takes the x and y coordinates of each corner.
- * @param  {number} x1
- * @param  {number} y1
- * @param  {number} x2
- * @param  {number} y2
- * @param  {number} x3
- * @param  {number} y3
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @param x3
+ * @param y3
  * @category Shapes
  */
 export function triangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
@@ -334,19 +346,73 @@ export function triangle(x1: number, y1: number, x2: number, y2: number, x3: num
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Unsupported p5
-// export interface ILineOptions {
-//   width?: number;
-//   align?: 'center' | 'left' | 'right';
-//   close?: boolean;
-//   uvMode?: 'segment' | 'stretch_points' | 'brush';
-// }
+// Line
 
-// lineWidth()
-// lineAlign()
-// lineClose()
-// line(x1, y1, x2, y2);
-// line(points[][]);
+/**
+ * Sets the width used for drawing lines
+ * @param w the new width in pixels
+ * @category Shapes
+ */
+
+export function lineWidth(w: number) {
+  state.lineOptions.width = w;
+}
+
+/**
+ * Determines if the width of the line should fall to the left, right, or center of the provided coordinates.
+ * @param value 'center' | 'left' | 'right'
+ * @category Shapes
+ */
+
+export function lineAlign(value: 'center' | 'left' | 'right') {
+  if (!['center', 'left', 'right'].includes(value)) {
+    friendlyError("Line Align should be one of 'center', 'left', or 'right'");
+  }
+  state.lineOptions.align = value;
+}
+
+/**
+ * Determines if the last point in a multi-point line should connect with the first to create a closed shape.
+ * @param value boolean
+ * @category Shapes
+ */
+
+export function lineClose(value: boolean) {
+  state.lineOptions.close = value;
+}
+
+/**
+ * Draws a line between two points
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @category Shapes
+ */
+export function line(x1: number, y1: number, x2: number, y2: number): void;
+
+/**
+ * Draws a line connecting all the points given as an array.
+ * @param a
+ * @category Shapes
+ */
+export function line(points: number[][]): void;
+
+export function line(a: number[][] | number, y1?: number, x2?: number, y2?: number): void {
+  if (Array.isArray(a)) {
+    smudge.line(a, state.lineOptions, state.material);
+  }
+  if (typeof a === 'number') {
+    smudge.line(
+      [
+        [a, y1],
+        [x2, y2],
+      ],
+      state.lineOptions,
+      state.material
+    );
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Unsupported p5
