@@ -4,7 +4,7 @@ import { mat4, mat3 } from 'gl-matrix';
 
 import { saveAs } from 'file-saver';
 
-import { setLoggingLevel, consoleTrace, consoleReport, consoleError } from './logging';
+import { setLoggingLevel, consoleTrace, consoleReport, consoleError, consoleLog } from './logging';
 
 import { IGeometry, UnitSquare, UnitCircle, Quad, Matrix } from './draw';
 
@@ -580,13 +580,13 @@ export class Smudge {
 
         // fall back on material's defaults if needed
         // @todo test deepDefaults with textures...
+
         const { color, blendMode, textureInfo } = _.defaultsDeep(
           {},
           materialChannel,
           material.default
         );
 
-        // console.log("textureInfo", bufferName, textureInfo, materialChannel, material.default);
         const colorRGBA = colorDescriptionToRGBA(color);
         if (colorRGBA === undefined) {
           consoleTrace(`Skipping ${bufferName} because color === undefined`);

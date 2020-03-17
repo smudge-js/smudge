@@ -42,39 +42,29 @@ export interface IBufferLayouts {
 
 /** @hidden */
 export const bufferLayouts: IBufferLayouts = {
-  albedo: <IReadonlyBufferLayout>{
+  albedo: {
     super_sampling: 4,
     depth: 16,
-    channels: 4
+    channels: 4,
   },
-  metallic: <IReadonlyBufferLayout>{
+  metallic: {
     super_sampling: 4,
     depth: 16,
-    channels: 1
+    channels: 1,
   },
-  smoothness: <IReadonlyBufferLayout>{
+  smoothness: {
     super_sampling: 4,
     depth: 16,
-    channels: 1
+    channels: 1,
   },
   height: {
     super_sampling: 4,
     depth: 16,
-    channels: 1
-  } as IReadonlyBufferLayout,
+    channels: 1,
+  },
   emission: {
     super_sampling: 4,
     depth: 16,
-    channels: 4
-  } as IReadonlyBufferLayout
-  // bugfix: {
-  //   // @todo fix this
-  //   // for some reason, if the last buffer_layout has a super_sampling > 1 it throws off the
-  //   // show() drawing size. this is a placeholder fix
-  //   super_sampling: 4,
-  //   depth: 16,
-  //   channels: 4,
-  //   // channel_materials: ["emission_red", "emission_green", "emission_blue", "transparency"],
-  //   // blend_mode: "emission_blend_mode",
-  // } as IReadonlyBufferLayout,
+    channels: 4,
+  },
 };

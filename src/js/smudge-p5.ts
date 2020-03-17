@@ -5,12 +5,14 @@ import {
   consoleReport,
   consoleError,
   friendlyError,
+  consoleWarn,
 } from './logging';
 import { ColorDescription } from './material/color';
 import { ILineOptions } from './draw/line';
 import { Matrix } from './draw';
 import { cloneDeep } from 'lodash';
 import { BlendModeName, BlendMode } from './material/material';
+import { Texture } from './private/texture';
 
 let smudge: Smudge;
 let ui: SmudgeUI;
@@ -53,8 +55,9 @@ const states: IStateLayout[] = [];
  * @param w The width of the canvas in pixels.
  * @category Setup
  */
-export function createCanvas(h = 512, w = 512) {
-  setLoggingLevel('warn');
+
+export async function createCanvas(h = 512, w = 512) {
+  setLoggingLevel('report');
   smudge = new Smudge('p5 canvas', h, w);
   ui = new SmudgeUI(smudge);
 
@@ -63,9 +66,17 @@ export function createCanvas(h = 512, w = 512) {
   smudge.clear();
 
   unpackExports();
-  setTimeout(update, 0);
 
+  setTimeout(_draw, 0);
+  // setTimeout(update, 0);
   return exports;
+}
+
+async function _draw() {
+  if ((window as any).draw) {
+    await (window as any).draw();
+  }
+  update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -285,6 +296,31 @@ export function blendMode(mode: BlendModeName, channel?: string): void {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// Textures
+
+export async function loadTexture(path: string) {
+  return smudge.loadTexture(path);
+}
+
+export function useTexture(texture: Texture, channel?: string): void {
+  if (channel === undefined) {
+    // state.material.default.blendMode = BlendMode[mode];
+    state.material.albedo.textureInfo.texture = texture;
+    state.material.emission.textureInfo.texture = texture;
+    state.material.height.textureInfo.texture = texture;
+    state.material.metallic.textureInfo.texture = texture;
+    state.material.smoothness.textureInfo.texture = texture;
+    return;
+  }
+
+  if (!['albedo', 'emission', 'height', 'metallic', 'smoothness'].includes(channel)) {
+    return friendlyError(`useTexture() channel parameter should be a material channel constant.`);
+  }
+
+  state.material[channel].textureInfo.texture = texture;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // Shapes
 /**
  * Clears all channels of the full canvas to the values in the current material.
@@ -457,6 +493,7 @@ export function line(a: number[][] | number, y1?: number, x2?: number, y2?: numb
     smudge.line(a, state.lineOptions, state.material, state.matrix);
   }
   if (typeof a === 'number') {
+    consoleTrace(state.lineOptions);
     smudge.line(
       [
         [a, y1],

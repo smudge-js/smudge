@@ -58,5 +58,5 @@ module.exports = {
   module: {
     rules,
   },
-  plugins: [new CleanWebpackPlugin(), new CopyPlugin([{ from: 'images', to: 'images' }])],
+  plugins: [/*new CleanWebpackPlugin(),*/ new CopyPlugin([{ from: 'images', to: 'images' }])],
 };

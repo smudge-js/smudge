@@ -16,7 +16,7 @@ export type IReadonlyBlendMode = Readonly<IBlendMode>;
 
 export type BlendModeName = 'Blend' | 'Replace' | 'Additive' | 'Subtractive' | 'Multiply';
 
-export const BlendMode: { [key: string]: IReadonlyBlendMode } = {
+export const BlendMode = {
   Blend: {
     equation: gl_constants.FUNC_ADD,
     sFactor: gl_constants.SRC_ALPHA,
