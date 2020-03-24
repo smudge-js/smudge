@@ -8,7 +8,7 @@ async function draw() {
   background();
 
   albedo(0.8, 0.8, 0.8);
-  height(0.001);
+  height(0.1);
   metallic(0.1);
   smoothness(0.5);
 
@@ -37,6 +37,6 @@ async function draw() {
   lineWidth(6);
   line(points);
 
-  height(0.05);
+  height(1.0);
   rect(10, 10, 100, 100);
 }

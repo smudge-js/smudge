@@ -95,7 +95,7 @@ export class SmudgeUI {
     }
 
     this.showChannel = localStorage.getItem('showChannel') || 'albedo';
-    this.showView = localStorage.getItem('showView') || '2d';
+    this.showView = localStorage.getItem('showView') || '3d';
     this.update2D(this.showChannel);
     if (this.showView === '3d') {
       this.show3D();
@@ -227,6 +227,9 @@ export class SmudgeUI {
       show3DButton.addEventListener('click', () => {
         localStorage.setItem('showView', '3d');
         this.show3D();
+      });
+      show3DButton.addEventListener('dblclick', () => {
+        this.pbrPreview.resetView();
       });
       // show2DButton.addEventListener('click', () => {
       //   this.show2D();

@@ -10,7 +10,7 @@ export class PBRPreview {
   private renderer: THREE.WebGLRenderer;
   private cube: THREE.Mesh;
   private dirty = false;
-
+  private camera: THREE.Camera;
   private envMap: THREE.Texture;
 
   constructor(_targetID: string) {
@@ -33,8 +33,11 @@ export class PBRPreview {
     const scene = new THREE.Scene();
 
     // camera
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 1.5;
+    const fov = 75;
+    this.camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 1000);
+    const half_fov = 75 * 0.5;
+
+    this.camera.position.z = 0.5 / Math.tan((half_fov / 180) * 3.14) + 0.5;
 
     // lighting
     const ambient = new THREE.AmbientLight(0x111111);
@@ -58,8 +61,8 @@ export class PBRPreview {
     const material = new THREE.MeshStandardMaterial({ color: '#FFFFFF' });
 
     this.cube = new THREE.Mesh(geometry, material);
-    this.cube.rotateX(Math.PI * -0.25);
-    this.cube.rotateZ(Math.PI * 0.2);
+    // this.cube.rotateX(Math.PI * -0.25);
+    // this.cube.rotateZ(Math.PI * 0.2);
 
     // this.cube.rotateY(.5);
     scene.add(this.cube);
@@ -68,19 +71,19 @@ export class PBRPreview {
       e.preventDefault();
       const scrollAmount = 1.1;
       if (e.deltaY > 0) {
-        camera.position.z *= scrollAmount;
+        this.camera.position.z *= scrollAmount;
       } else {
-        camera.position.z *= 1 / scrollAmount;
+        this.camera.position.z *= 1 / scrollAmount;
       }
-      localStorage.setItem('camera.position', JSON.stringify(camera.position));
+      localStorage.setItem('camera.position', JSON.stringify(this.camera.position));
       this.dirty = true;
     });
 
     const mouseDragger = new MouseDragger(this.renderer.domElement, true, (e) => {
       const dragSpeed = 0.01;
-      camera.position.x -= e.dX * dragSpeed;
-      camera.position.y += e.dY * dragSpeed;
-      localStorage.setItem('camera.position', JSON.stringify(camera.position));
+      this.camera.position.x -= e.dX * dragSpeed;
+      this.camera.position.y += e.dY * dragSpeed;
+      localStorage.setItem('camera.position', JSON.stringify(this.camera.position));
       this.dirty = true;
     });
 
@@ -90,7 +93,7 @@ export class PBRPreview {
 
     if (localStorage.getItem('camera.position')) {
       const p = JSON.parse(localStorage.getItem('camera.position'));
-      camera.position.set(p.x, p.y, p.z);
+      this.camera.position.set(p.x, p.y, p.z);
     }
 
     let cubeMatrixString = localStorage.getItem('cube.matrix');
@@ -106,12 +109,21 @@ export class PBRPreview {
     const render = () => {
       requestAnimationFrame(render);
       if (this.dirty || !oldMatrix || !this.cube.matrix.equals(oldMatrix)) {
-        this.renderer.render(scene, camera);
+        this.renderer.render(scene, this.camera);
       }
       oldMatrix = this.cube.matrix.clone();
       this.dirty = false;
     };
     render();
+  }
+
+  public resetView() {
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    const half_fov = 75 * 0.5;
+    this.camera.position.z = 0.5 / Math.tan((half_fov / 180) * 3.14) + 0.5;
+    this.cube.matrix.identity();
+    this.dirty = true;
   }
 
   public loadEnvironmentMap(path: string) {
@@ -151,6 +163,7 @@ export class PBRPreview {
     material.map = getThreeTextureForBuffer(gl, albedo);
     material.roughnessMap = material.metalnessMap = getThreeTextureForBuffer(gl, smoothMetallic);
     material.bumpMap = getThreeTextureForBuffer(gl, height);
+    material.bumpScale = 0.01;
     material.emissiveMap = getThreeTextureForBuffer(gl, emission);
 
     ///////////////////////////////////
