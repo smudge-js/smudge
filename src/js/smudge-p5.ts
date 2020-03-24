@@ -17,6 +17,16 @@ import { Texture } from './private/texture';
 let smudge: Smudge;
 let ui: SmudgeUI;
 
+// find the dir of the current script.
+// current script will be the last script when it is loaded because later scripts won't be on the dom yet
+const scripts = document.getElementsByTagName('script');
+const path = scripts[scripts.length - 1].src.split('?')[0]; // remove any ?query
+const mydir =
+  path
+    .split('/')
+    .slice(0, -1)
+    .join('/') + '/';
+
 /** The width of the canvas */
 export let canvasWidth = 0;
 
@@ -300,6 +310,10 @@ export function blendMode(mode: BlendModeName, channel?: string): void {
 
 export async function loadTexture(path: string) {
   return smudge.loadTexture(path);
+}
+
+export async function loadBundledTexture(path: string) {
+  return smudge.loadTexture(mydir + 'images/' + path);
 }
 
 export function useTexture(texture: Texture, channel?: string): void {
