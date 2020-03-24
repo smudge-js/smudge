@@ -313,6 +313,7 @@ export async function loadTexture(path: string) {
 }
 
 export async function loadBundledTexture(path: string) {
+  console.log(mydir);
   return smudge.loadTexture(mydir + 'images/' + path);
 }
 
