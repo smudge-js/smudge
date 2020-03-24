@@ -24,21 +24,22 @@ export interface ISmudgeUIOptions {
   environmentMapPath?: string;
 }
 
+// find the dir of the current script.
+// current script will be the last script when it is loaded because later scripts won't be on the dom yet
 const scripts = document.getElementsByTagName('script');
-// console.log("scripts", scripts);
 const path = scripts[scripts.length - 1].src.split('?')[0]; // remove any ?query
-// console.log(`Script path ${path}`);
 const mydir =
   path
     .split('/')
     .slice(0, -1)
     .join('/') + '/';
-// console.log(`Script served from ${mydir}`);
 
 export class SmudgeUI {
   private uiDiv: HTMLDivElement;
   private pbrPreview: PBRPreview;
   private options: ISmudgeUIOptions;
+  private showChannel: string;
+  private showView: string;
 
   constructor(private smudge: Smudge, opts?: ISmudgeUIOptions) {
     this.options = _.defaults(opts, {
@@ -53,7 +54,9 @@ export class SmudgeUI {
 
     if (this.options.combine2D3D) {
       if (!this.options.show2D || !this.options.show3D) {
-        consoleWarn('SmudgeUI: comine2D3D requires show2D and show3D, enabling.');
+        consoleWarn(
+          'SmudgeUI: comine2D3D requires show2D and show3D, so they will be enabled automatically.'
+        );
       }
       this.options.show2D = true;
       this.options.show3D = true;
@@ -90,6 +93,15 @@ export class SmudgeUI {
     if (this.options.showExportButtons) {
       this.buildExportButtons();
     }
+
+    this.showChannel = localStorage.getItem('showChannel') || 'albedo';
+    this.showView = localStorage.getItem('showView') || '2d';
+    this.update2D(this.showChannel);
+    if (this.showView === '3d') {
+      this.show3D();
+    } else {
+      this.show2D();
+    }
   }
 
   public async update3D() {
@@ -120,14 +132,15 @@ export class SmudgeUI {
     return wait();
   }
 
-  public async update2D(bufferOrName: Framebuffer | string = 'albedo') {
+  public async update2D(bufferOrName: Framebuffer | string = this.showChannel) {
+    // console.error('update2D', bufferOrName);
     const channelButtonsDiv = this.uiDiv.querySelector('.channel-buttons');
     const channelButtons = channelButtonsDiv.querySelectorAll('.channel-button');
     for (let i = 0; i < channelButtons.length; ++i) {
       channelButtons[i].classList.remove('active');
     }
 
-    if (typeof bufferOrName === 'string') {
+    if (this.showView === '2d' && typeof bufferOrName === 'string') {
       const activeButton = channelButtonsDiv.querySelector(`.${bufferOrName}`);
       if (activeButton) {
         activeButton.classList.add('active');
@@ -141,6 +154,12 @@ export class SmudgeUI {
     const show2DButton = this.uiDiv.querySelector('.show-2d');
     const show3DButton = this.uiDiv.querySelector('.show-3d');
 
+    const channelButtonsDiv = this.uiDiv.querySelector('.channel-buttons');
+    const channelButtons = channelButtonsDiv.querySelectorAll('.channel-button');
+    for (let i = 0; i < channelButtons.length; ++i) {
+      channelButtons[i].classList.remove('active');
+    }
+
     if (preview3d) {
       preview3d.classList.add('show');
     }
@@ -151,6 +170,7 @@ export class SmudgeUI {
       show3DButton.classList.add('active');
     }
   }
+
   public show2D() {
     const preview3d = this.uiDiv.querySelector('.preview-3d');
     const show2DButton = this.uiDiv.querySelector('.show-2d');
@@ -181,7 +201,10 @@ export class SmudgeUI {
       b.textContent = bufferName;
 
       const showBuffer = () => {
+        localStorage.setItem('showChannel', bufferName);
+        localStorage.setItem('showView', '2d');
         this.update2D(bufferName);
+        this.show2D();
       };
 
       b.addEventListener('click', showBuffer);
@@ -191,10 +214,10 @@ export class SmudgeUI {
       const preview3d = this.uiDiv.querySelector('.preview-3d');
       preview3d.classList.add('overlay');
 
-      const show2DButton = document.createElement('button');
-      channelButtonsDiv.appendChild(show2DButton);
-      show2DButton.classList.add('active', 'show-2d');
-      show2DButton.textContent = '2D';
+      // const show2DButton = document.createElement('button');
+      // channelButtonsDiv.appendChild(show2DButton);
+      // show2DButton.classList.add('active', 'show-2d');
+      // show2DButton.textContent = '2D';
 
       const show3DButton = document.createElement('button');
       channelButtonsDiv.appendChild(show3DButton);
@@ -202,11 +225,12 @@ export class SmudgeUI {
       show3DButton.textContent = '3D';
 
       show3DButton.addEventListener('click', () => {
+        localStorage.setItem('showView', '3d');
         this.show3D();
       });
-      show2DButton.addEventListener('click', () => {
-        this.show2D();
-      });
+      // show2DButton.addEventListener('click', () => {
+      //   this.show2D();
+      // });
     }
   }
 

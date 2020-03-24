@@ -59,7 +59,7 @@ const states: IStateLayout[] = [];
 export async function createCanvas(h = 512, w = 512) {
   setLoggingLevel('report');
   smudge = new Smudge('p5 canvas', h, w);
-  ui = new SmudgeUI(smudge);
+  ui = new SmudgeUI(smudge, { combine2D3D: true });
 
   canvasWidth = w;
   canvasHeight = h;
