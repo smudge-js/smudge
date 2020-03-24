@@ -3,10 +3,12 @@ const c = createCanvas(512, 512);
 
 async function draw() {
   albedo(0.3);
+  smoothness(1.0);
+
   background();
 
   albedo(0.8, 0.8, 0.8);
-  height(0.00001);
+  height(0.001);
   metallic(0.1);
   smoothness(0.5);
 
