@@ -12,9 +12,9 @@ async function draw() {
   metallic(0.1);
   smoothness(0.5);
 
-  const circle = await loadBundledTexture('circle.png');
+  const circle = await loadBundledTexture('circle_margin.png');
   useTexture(circle);
-  const noseBrush = await loadBundledTexture('nose_brush.png');
+  const noseBrush = await loadBundledTexture('nose_brush_16.png');
   useTexture(noseBrush, Height);
   blendMode(Additive, Height);
 

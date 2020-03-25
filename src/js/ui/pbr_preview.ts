@@ -34,7 +34,7 @@ export class PBRPreview {
 
     // camera
     const fov = 75;
-    this.camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(fov, 1, 0.001, 1000);
     const half_fov = 75 * 0.5;
 
     this.camera.position.z = 0.5 / Math.tan((half_fov / 180) * 3.14) + 0.5;
@@ -123,6 +123,10 @@ export class PBRPreview {
     const half_fov = 75 * 0.5;
     this.camera.position.z = 0.5 / Math.tan((half_fov / 180) * 3.14) + 0.5;
     this.cube.matrix.identity();
+
+    localStorage.setItem('camera.position', JSON.stringify(this.camera.position));
+    localStorage.setItem('cube.matrix', JSON.stringify(this.cube.matrix.toArray()));
+
     this.dirty = true;
   }
 
