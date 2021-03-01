@@ -67,7 +67,7 @@
     "gl-matrix": "^3.2.1",
     "lodash": "^4.17.15",
     "polyline-normals": "^2.0.2",
-    "three": "^0.113.2",
+    "three": "^0.125.0",
     "voronoi-diagram": "^1.0.1"
   }
 }
